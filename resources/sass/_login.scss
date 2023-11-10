@@ -1,0 +1,29 @@
+.login-page {
+   height: 100vh !important;
+   overflow: hidden;
+
+   & .log-container {
+      height: inherit;
+
+      & .log-right-image {
+         height: inherit;
+         width: 100%;
+         background-position: center bottom;
+         background-repeat: no-repeat;
+         background-size: cover;
+      }
+
+      & .form-container {
+         margin: 20px 100px;
+         padding: 0 20px;
+      }
+   }
+}
+
+
+// Responsive parte
+@media only screen and (max-width: 1200px) {
+   .log-right-image {
+     display: none;
+   }
+ }

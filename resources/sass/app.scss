@@ -1,0 +1,19 @@
+// Variables
+@import 'variables';
+
+// Bootstrap Fontawasome
+@import "admin-lte/plugins/fontawesome-free/css/all.min.css";
+@import 'admin-lte/dist/css/adminlte.css';
+
+// Calendar importation
+@import "https://cdn.jsdelivr.net/npm/@uvarov.frontend/vanilla-calendar/build/vanilla-calendar.min.css";
+@import "https://cdn.jsdelivr.net/npm/@uvarov.frontend/vanilla-calendar/build/themes/light.min.css";
+@import "https://cdn.jsdelivr.net/npm/@uvarov.frontend/vanilla-calendar/build/themes/dark.min.css";
+
+// Mes login css
+@import 'login';
+
+// Mes css global
+.sub-log-btn {
+   border-radius: $btn-rad;
+}
