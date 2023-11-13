@@ -24,7 +24,8 @@ class EtudiantFactory extends Factory
             'telephone1' => fake()->phoneNumber(),
             'adresse' => fake()->address(),
             'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
+            'numCarte' => fake()->unique()->randomNumber(),
+            'user_id' => rand(1, 3),
         ];
     }
 }

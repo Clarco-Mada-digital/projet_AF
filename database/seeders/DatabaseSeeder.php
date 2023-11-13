@@ -14,9 +14,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(permissionTableSeeder::class);
         
-        // \App\Models\User::factory(3)->create();
-        \App\Models\Etudiant::factory(3)->create();
-        // \App\Models\Professeur::factory(5)-> create();
+        \App\Models\User::factory(3)->create();
+        \App\Models\Etudiant::factory(5)->create();
+        \App\Models\Professeur::factory(3)-> create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

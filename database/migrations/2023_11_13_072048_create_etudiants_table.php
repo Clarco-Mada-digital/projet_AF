@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('etudiants', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
             $table->string('prenom');
@@ -21,13 +22,11 @@ return new class extends Migration
             $table->string('telephone2')->nullable();
             $table->string('adresse');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('profil');
-            $table->rememberToken();
+            $table->integer('numCarte');
+            $table->string('profil')->nullable();
             $table->timestamps();
 
-            $table->foreignId("permission_id")->constrained();
+            $table->foreignIdFor(User::class)->constrained();
         });
 
         Schema::enableForeignKeyConstraints();
@@ -38,9 +37,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function(Blueprint $table) {
-            $table->dropForeign('permission_id');
+        Schema::table('etudiants', function (Blueprint $table) {
+            $table->dropColumn('user_id');
         });
-        Schema::dropIfExists('users');
+
+        Schema::dropIfExists('etudiants');
     }
 };

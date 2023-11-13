@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('etudiants', function (Blueprint $table) {
+        Schema::create('professeurs', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
             $table->string('prenom');
@@ -21,13 +21,9 @@ return new class extends Migration
             $table->string('telephone2')->nullable();
             $table->string('adresse');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('profil')->nullable();
             $table->timestamps();
-
-            $table->foreignId("user_id")->constrained();
         });
-
-        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -35,9 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('etudiants', function(Blueprint $table) {
-            $table->dropForeign('user_id');
-        });
-        Schema::dropIfExists('etudiants');
+        Schema::dropIfExists('professeurs');
     }
 };

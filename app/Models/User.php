@@ -43,11 +43,4 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function permissions(){
-        return $this->belongsTo(Permission::class, 'permission_id', 'id');
-    }
-
-    public function etudiants(){
-        return $this->hasMany(Etudiant::class);
-    }
 }
