@@ -1,5 +1,10 @@
 <?php
 
+use App\Livewire\Etudiants;
+use App\Models\Etudiant;
+use App\Models\Permission;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -16,8 +21,33 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/mada-contact', function () {
+    return view('pages.mada-contact');
+})->name('mada-contact');
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// group des route crée par bryan
+Route::group([
+    'prefix' => 'etudiants',
+    'as' => 'etudiants-'
+], function(){
+    Route::get('/list', Etudiants::class)->name('list');
+    Route::get('/nouveau', [App\Http\Controllers\HomeController::class, 'nouveauEtudiant'])->name('nouveau');
+});
+
+// Route::get('/list-etudiant', [App\Http\Controllers\HomeController::class, 'listEtudiant'])->name('list-etudiant');
+
+
+// Route test pour les datas
+Route::get('/users', function(){
+    return User::with(['role', 'etudiants'])->get();
+} );
+
+Route::get('/roles', function(){
+    return Role::with('users')->get();
+} );
+
+Route::get('/etudiants', function(){
+    return Etudiant::with(['user', 'cours'])->get();
+} );

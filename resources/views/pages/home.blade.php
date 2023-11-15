@@ -52,18 +52,18 @@
 
         </div>
     </div>
-    <h3 class="mt-5">Vos actions</h3>
+    <h3 class="mt-3">Vos actions</h3>
     <span>Que souhaiteriez-vous faire ?</span>
     <div class="row mt-3">
         <div class="col-md-4 col-sm-6 col-12">
-            <div class="info-box">
+            <a href="{{ route("etudiants-nouveau") }}" class="info-box text-secondary">
                 <span class="info-box-icon bg-gradient-warning"><i class="fa fa-edit" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Allez au formulaire de nouveau étudient</span>
                     <span class="info-box-number">Inscrits nouveaux étudiants</span>
                 </div>
 
-            </div>
+            </a>
         </div>
         <div class="col-md-4 col-sm-6 col-12">
             <div class="info-box">
@@ -86,28 +86,28 @@
             </div>
         </div>
 
-        <div class="col-md-6 mt-4">
+        <div class="col-md-6 mt-3">
             <div class="card ">
                 <div class="card-header border-0">
                     <h3 class="card-title">
                         <i class="far fa-calendar-alt"></i>
-                        Calendar
+                        Calendrier
                     </h3>
 
                     <div class="card-tools">
 
-                        {{-- <div class="btn-group">
+                        <div class="btn-group">
                             <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown"
                                 data-offset="-52">
                                 <i class="fas fa-bars"></i>
                             </button>
                             <div class="dropdown-menu" role="menu">
-                                <a href="#" class="dropdown-item">Add new event</a>
-                                <a href="#" class="dropdown-item">Clear events</a>
+                                <a href="#" class="dropdown-item">Ajouter nouvel événement</a>
+                                <a href="#" class="dropdown-item">Effacer les événements</a>
                                 <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item">View calendar</a>
+                                <a href="#" class="dropdown-item">Voir calendrier</a>
                             </div>
-                        </div> --}}
+                        </div>
                         <button type="button" class="btn btn-info btn-sm" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
                         </button>
@@ -118,17 +118,17 @@
 
                 </div>
 
-                <div class="card-body pt-0">
+                <div class="card-body pt-0 pb-0">
 
                     <div id="calendar" style="width: 100%"></div>
                 </div>
 
             </div>
         </div>
-        <div class="col-md-6 mt-4">
+        <div class="col-md-6 mt-3">
             <h4>Aides & Astuces</h4>
             <span>Toutes nos ressources pour vous aider dans votre gestion de cours</span>
-            <div class="info-box">
+            <div class="info-box text-secondary">
                 <span class="info-box-icon bg-gradient-info"><i class="fa fa-info" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text"> Info </span>
@@ -136,14 +136,13 @@
                 </div>
 
             </div>
-            <div class="info-box">
+            <a class="info-box text-secondary" href="{{ route('mada-contact')}}">
                 <span class="info-box-icon bg-gradient-info"><i class="fa fa-comments" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text"> Contact </span>
                     <span class="info-box-number">Contactez MADA-Digital</span>
                 </div>
-
-            </div>
+            </a>
         </div>
     </div>
 

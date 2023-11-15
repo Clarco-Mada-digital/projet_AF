@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
     <div class="logo text-center">
-        <img src="images/logo/alliance-francaise-d-antsiranana-logo.png" alt="AF_logo" class="w-75">
+        <img src="{{ asset('images/logo/alliance-francaise-d-antsiranana-logo.png')}}" alt="AF_logo" class="w-75">
     </div>
     <hr style="border-color: #a2a2a2" />
 
@@ -45,7 +45,8 @@
 
                 </li>
                 <li @class(['nav-item', 'menu-open' => contains(request()->route()->getName(), 'etudiant') ]) >
-                    <a href="#" class="nav-link d-flex align-items-center">
+                    <a href="{{ route('etudiants-list')}}" 
+                        @class(["nav-link d-flex align-items-center", 'active'=> contains(request()->route()->getName(), 'etudiants') ])>
                         <i class="fa fa-users nav-icon" aria-hidden="true"></i>
                         <p>
                             ÉTUDIANTS
@@ -54,14 +55,16 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('etudiants-nouveau') }}" 
+                                @class(['nav-link', 'active'=> request()->url() == route('etudiants-nouveau') ])>
                                 <ion-icon class="nav-icon" name="pencil"></ion-icon>
                                 <p>Inscription</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <ion-icon class="nav-icon" name="people-circle"></ion-icon>
+                            <a href="{{ route('etudiants-list')}}"
+                                @class(['nav-link', 'active'=> request()->url() == route('etudiants-list') ])>
+                                <ion-icon class="nav-icon" name="people"></ion-icon>
                                 <p>Tous les membres</p>
                             </a>
                         </li>
@@ -90,6 +93,14 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link d-flex align-items-center">
+                        <ion-icon class="nav-icon" name="card"></ion-icon>
+                        <p>
+                            PAIEMENTS
+                        </p>
+                    </a>                    
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link d-flex align-items-center">

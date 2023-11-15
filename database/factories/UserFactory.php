@@ -23,7 +23,7 @@ class UserFactory extends Factory
         return [
             'nom' => fake()->lastName(),
             'prenom' => fake()->firstName(),
-            'sexe' => array_rand(["M", "F"], 1),
+            'sexe' => fake()->randomElement(["M", "F"]),
             'nationalite' => fake()->country(),
             'telephone1' => fake()->phoneNumber(),
             'adresse' => fake()->address(),
@@ -32,7 +32,7 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'profil' => fake()->imageUrl(),
             'remember_token' => Str::random(10),
-            'permission_id' => rand(1,3)
+            'role_id' => rand(1,3)
         ];
     }
 

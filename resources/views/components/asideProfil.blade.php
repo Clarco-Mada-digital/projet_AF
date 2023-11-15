@@ -12,7 +12,7 @@
                 </div>
 
                 <h3 class="widget-user-username fs-3">{{ userFullName() }}</h3>
-                <h5 class="widget-user-desc fs-4">Admin</h5>
+                <h5 class="widget-user-desc fs-4">{{ Auth::user()->role->nom }}</h5>
 
             </div>
             <div class="card-body p-0 bg-secondary">

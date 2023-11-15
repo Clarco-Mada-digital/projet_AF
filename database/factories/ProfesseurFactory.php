@@ -19,7 +19,7 @@ class ProfesseurFactory extends Factory
         return [
             'nom' => fake()->lastName(),
             'prenom' => fake()->firstName(),
-            'sexe' => array_rand(["M", "F"], 1),
+            'sexe' => fake()->randomElement(["M", "F"]),
             'nationalite' => fake()->country(),
             'telephone1' => fake()->phoneNumber(),
             'adresse' => fake()->address(),

@@ -23,7 +23,7 @@
                         <label class="form-label text-muted">Identifiant</label>
                         <div class="input-group mb-3">
                             <input type="email" class="form-control @error('email') is-invalid @enderror" name="email"
-                                value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email">
+                                value="{{ old('email')? old('email'):'jhon@doe.com' }}" required autocomplete="email" autofocus placeholder="jhon@doe.com">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-envelope"></span>
@@ -42,7 +42,7 @@
                         <label class="form-label text-muted">Mot de passe</label>
                         <div class="input-group mb-3">
                             <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                name="password" required autocomplete="current-password" placeholder="Mot de passe">
+                                name="password" value="password" required autocomplete="current-password" placeholder="Mot de passe">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>

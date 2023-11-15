@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nom');
             $table->string('categorie');
             $table->string('sale');
-            $table->json('horaire');
+            $table->string('horaire');
             $table->timestamps();
 
             $table->foreignIdFor(Professeur::class)->constrained();

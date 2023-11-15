@@ -2,20 +2,21 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PermissionTableSeeder extends Seeder
+class NiveauxTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('permissions')->insert([
-            ["nom"=>'SuperAdmin'],
-            ["nom"=>'Admin'],
-            ["nom"=>'Manager'],
+        DB::table('niveaux')->insert([
+            [
+                "nom"=>'Debutant',
+            ],
         ]);
     }
 }
