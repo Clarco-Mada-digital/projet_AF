@@ -17,4 +17,8 @@ class Etudiant extends Model
         return $this->belongsToMany(Cour::class,"etudiant_cours", 'etudiant_id', 'cour_id');
     }
 
+    public function level(){
+        return $this->belongsTo(Level::class);
+    }
+
 }

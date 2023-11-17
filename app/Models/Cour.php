@@ -9,7 +9,15 @@ class Cour extends Model
 {
     use HasFactory;
 
+    public function professeur(){
+        return $this->belongsTo(Professeur::class);
+    }
+
+    public function level(){
+        return $this->belongsTo(Level::class);
+    }
+
     public function etudiants(){
-        return $this->belongsToMany(etudiants::class,"etudiant_cours", 'cour_id', 'etudiant_id');
+        return $this->belongsToMany(Etudiant::class,"etudiant_cours", 'cour_id', 'etudiant_id');
     }
 }

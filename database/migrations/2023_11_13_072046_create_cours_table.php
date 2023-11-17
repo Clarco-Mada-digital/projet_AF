@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Niveaux;
+use App\Models\Level;
 use App\Models\Professeur;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreignIdFor(Professeur::class)->constrained();
-            $table->foreignIdFor(Niveaux::class)->references('id')->on('niveaux')->constrained();
+            $table->foreignIdFor(Level::class)->constrained();
         });
 
         Schema::enableForeignKeyConstraints();
@@ -34,7 +34,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('cours', function (Blueprint $table) {
-            $table->dropColumn(['professeur_id','niveaux_id' ]);
+            $table->dropColumn(['professeur_id','level_id' ]);
         });
 
         Schema::dropIfExists('cours');

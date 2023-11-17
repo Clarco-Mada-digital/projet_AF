@@ -6,17 +6,17 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class NiveauxTableSeeder extends Seeder
+class LevelsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('niveaux')->insert([
-            [
-                "nom"=>'Debutant',
-            ],
+        DB::table('levels')->insert([
+            ["nom"=>'Debutant'],
+            ["nom"=>'Intermediaire'],
+            ["nom"=>'Avancé'],
         ]);
     }
 }

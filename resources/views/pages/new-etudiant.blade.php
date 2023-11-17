@@ -44,7 +44,7 @@
                                 <button type="button" class="step-trigger" role="tab" aria-controls="cour-part"
                                     id="information-part-trigger">
                                     <span class="bs-stepper-circle bg-gradient-info">2</span>
-                                    <span class="bs-stepper-label text-info">Choie de cour</span>
+                                    <span class="bs-stepper-label text-info">Choie des cours</span>
                                 </button>
                             </div>
                             <div class="line"></div>

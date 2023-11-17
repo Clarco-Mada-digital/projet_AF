@@ -1,8 +1,9 @@
 <?php
 
 use App\Livewire\Etudiants;
+use App\Models\Cour;
 use App\Models\Etudiant;
-use App\Models\Permission;
+use App\Models\Level;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -49,5 +50,14 @@ Route::get('/roles', function(){
 } );
 
 Route::get('/etudiants', function(){
-    return Etudiant::with(['user', 'cours'])->get();
+    return Etudiant::with(['user', 'cours', 'level'])->get();
 } );
+
+Route::get('/cours', function(){
+    return Cour::with(['level', 'etudiants', 'professeur'])->get();
+} );
+
+Route::get('/niveaux', function(){
+    return Level::with(['etudiants'])->get();
+} );
+

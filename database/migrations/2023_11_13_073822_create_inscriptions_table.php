@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->integer('montant');
             $table->date('dateInscription');
+            $table->string('moyentPaiement');
             $table->string('statue');
             $table->integer('numRecue')->nullable();
             $table->longText('remarque');

@@ -26,6 +26,7 @@ class EtudiantFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'numCarte' => fake()->unique()->randomNumber(),
             'user_id' => rand(1, 3),
+            'level_id' => rand(1, 3),
         ];
     }
 }

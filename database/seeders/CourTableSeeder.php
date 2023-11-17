@@ -20,7 +20,7 @@ class CourTableSeeder extends Seeder
                 "sale"=>'S 001',
                 "horaire"=> "Mercredi-14h-15h, Vendredi-14h-15h",
                 "professeur_id"=>1,
-                "niveaux_id"=>1,
+                "level_id"=>1,
             ],
             [
                 "nom"=>'Cour malagasy', 
@@ -28,7 +28,7 @@ class CourTableSeeder extends Seeder
                 "sale"=>'S 002',
                 "horaire"=> "Mercredi-14h-15h, Vendredi-14h-15h",
                 "professeur_id"=>2,
-                "niveaux_id"=>1,
+                "level_id"=>1,
             ],
         ]);
     }
