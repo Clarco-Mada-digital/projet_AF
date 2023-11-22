@@ -1,10 +1,10 @@
-<aside class="control-sidebar control-sidebar-dark">
+<aside class="control-sidebar control-sidebar-light">
 
     <div class="pt-5">
 
         <div class="card card-widget widget-user-2">
 
-            <div class="widget-user-header bg-info">
+            <div class="widget-user-header bg-primary">
                 <div class="widget-user-image">
                     <img class="img-rounded elevation-2 mt-2"
                         src="{{ Auth::user()->profil ? Auth::user()->profil : asset('images/profil/Avatar BC.png') }}"
@@ -15,7 +15,7 @@
                 <h5 class="widget-user-desc fs-4">{{ Auth::user()->role->nom }}</h5>
 
             </div>
-            <div class="card-body p-0 bg-secondary">
+            <div class="card-body p-0 bg-light">
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a href="#" class="nav-link">

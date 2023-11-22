@@ -1,11 +1,11 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar elevation-4">
 
-    <div class="logo text-center">
+    <div class="logo text-center " style="height: 15vh;">
         <img src="{{ asset('images/logo/alliance-francaise-d-antsiranana-logo.png')}}" alt="AF_logo" class="w-75">
     </div>
-    <hr style="border-color: #a2a2a2" />
+    
 
-    <div class="sidebar">
+    <div class="sidebar sidebar-menu">
 
         {{-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
@@ -45,7 +45,7 @@
 
                 </li>
                 <li @class(['nav-item', 'menu-open' => contains(request()->route()->getName(), 'etudiant') ]) >
-                    <a href="{{ route('etudiants-list')}}" 
+                    <a href="#" 
                         @class(["nav-link d-flex align-items-center", 'active'=> contains(request()->route()->getName(), 'etudiants') ])>
                         <i class="fa fa-users nav-icon" aria-hidden="true"></i>
                         <p>

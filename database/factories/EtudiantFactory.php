@@ -19,8 +19,10 @@ class EtudiantFactory extends Factory
         return [
             'nom' => fake()->lastName(),
             'prenom' => fake()->firstName(),
+            'dateNaissance' => fake()->date(),
             'sexe' => fake()->randomElement(["M", "F"]),
             'nationalite' => fake()->country(),
+            'profession' => fake()->jobTitle(),
             'telephone1' => fake()->phoneNumber(),
             'adresse' => fake()->address(),
             'email' => fake()->unique()->safeEmail(),

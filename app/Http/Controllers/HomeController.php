@@ -29,6 +29,8 @@ class HomeController extends Controller
 
     public function nouveauEtudiant()
     {
+
         return view('pages.new-etudiant');
     }
+
 }

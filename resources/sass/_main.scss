@@ -1,0 +1,35 @@
+.sidebar-menu{
+  background-color: $primary;
+  height: 85vh;
+  padding: 0;
+  padding-top: 10px;
+  border-radius: 0 50px 0 0;
+  
+  .nav-item:hover{
+    .nav-link{
+      color: white;
+      &.active{
+        color: $primary;
+      }
+    }
+  }
+  .nav-link {
+    color: white;
+
+    & p{
+      transition: all .3s ease-in-out;
+    }
+    & :hover{
+      
+      letter-spacing: .10rem;
+    }
+    &.active {
+      background-color: white;
+      border-radius: 0 20px 20px 0;
+      color: $primary;
+      & :hover{
+        color: $primary;
+      }
+    }
+  }
+}

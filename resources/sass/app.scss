@@ -13,8 +13,12 @@
 // bs-stepper css
 @import "https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css";
 
+// swal import
+@import 'sweetalert2/src/sweetalert2.scss';
+
 // Mes login css
 @import 'login';
+@import 'main';
 
 // Mes css global
 .sub-log-btn {

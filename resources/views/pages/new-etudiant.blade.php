@@ -44,7 +44,7 @@
                                 <button type="button" class="step-trigger" role="tab" aria-controls="cour-part"
                                     id="information-part-trigger">
                                     <span class="bs-stepper-circle bg-gradient-info">2</span>
-                                    <span class="bs-stepper-label text-info">Choie des cours</span>
+                                    <span class="bs-stepper-label text-info">Choix des cours</span>
                                 </button>
                             </div>
                             <div class="line"></div>
@@ -86,7 +86,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="etudiantNom">Nom</label>
-                                                <input type="text" class="form-control" id="etudiantNom">
+                                                <input type="text" class="form-control" id="etudiantNom" wire:model='newEtudiant.nom'>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -224,7 +224,7 @@
                                                 <div class="custom-control custom-radio col-md-3">
                                                     <input class="custom-control-input" type="radio" id="cheque"
                                                         name="paiementPar">
-                                                    <label for="cheque" class="custom-control-label"> Chècque</label>
+                                                    <label for="cheque" class="custom-control-label"> Chèque</label>
                                                 </div>
                                                 <div class="custom-control custom-radio col-md-3">
                                                     <input class="custom-control-input" type="radio" id="carte"

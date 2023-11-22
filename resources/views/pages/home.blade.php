@@ -22,7 +22,7 @@
         </div>
         <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box">
-                <span class="info-box-icon bg-gradient-info"><i class="fa fa-user-plus" aria-hidden="true"></i></span>
+                <span class="info-box-icon bg-gradient-primary"><i class="fa fa-user-plus" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Nouveaux étudiants</span>
                     <span class="info-box-number">500</span>
@@ -42,7 +42,7 @@
         </div>
         <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box">
-                <span class="info-box-icon bg-gradient-info"><i class="fa fa-address-book" aria-hidden="true"></i></span>
+                <span class="info-box-icon bg-gradient-primary"><i class="fa fa-address-book" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Nouveaux cours</span>
                     <span class="info-box-number">3</span>
@@ -59,18 +59,18 @@
             <a href="{{ route("etudiants-nouveau") }}" class="info-box text-secondary">
                 <span class="info-box-icon bg-gradient-warning"><i class="fa fa-edit" aria-hidden="true"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Allez au formulaire de nouveau étudient</span>
-                    <span class="info-box-number">Inscrits nouveaux étudiants</span>
+                    <span class="info-box-text">Allez au formulaire de nouveau étudiant</span>
+                    <span class="info-box-number">Inscrire un nouvel étudiant</span>
                 </div>
 
             </a>
         </div>
         <div class="col-md-4 col-sm-6 col-12">
             <div class="info-box">
-                <span class="info-box-icon bg-gradient-info"><i class="fa fa-user-plus" aria-hidden="true"></i></span>
+                <span class="info-box-icon bg-gradient-primary"><i class="fa fa-user-plus" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Allez au formulaire de nouveau membre</span>
-                    <span class="info-box-number">Inscrit nouvel membre</span>
+                    <span class="info-box-number">Inscrire un nouvel membre</span>
                 </div>
 
             </div>
@@ -80,7 +80,7 @@
                 <span class="info-box-icon bg-gradient-warning"><i class="fa fa-book" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Allez au formulaire des nouveaux cours</span>
-                    <span class="info-box-number">Inscrit nouveaux cours</span>
+                    <span class="info-box-number">Inscrire nouvel cours</span>
                 </div>
 
             </div>
@@ -129,7 +129,7 @@
             <h4>Aides & Astuces</h4>
             <span>Toutes nos ressources pour vous aider dans votre gestion de cours</span>
             <div class="info-box text-secondary">
-                <span class="info-box-icon bg-gradient-info"><i class="fa fa-info" aria-hidden="true"></i></span>
+                <span class="info-box-icon bg-gradient-primary"><i class="fa fa-info" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text"> Info </span>
                     <span class="info-box-number">Besoins d'aide</span>
@@ -137,7 +137,7 @@
 
             </div>
             <a class="info-box text-secondary" href="{{ route('mada-contact')}}">
-                <span class="info-box-icon bg-gradient-info"><i class="fa fa-comments" aria-hidden="true"></i></span>
+                <span class="info-box-icon bg-gradient-primary"><i class="fa fa-comments" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text"> Contact </span>
                     <span class="info-box-number">Contactez MADA-Digital</span>

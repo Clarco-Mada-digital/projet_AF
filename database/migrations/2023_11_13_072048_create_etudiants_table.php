@@ -18,8 +18,10 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->string('prenom');
+            $table->date('dateNaissance');
             $table->char('sexe');
             $table->string('nationalite');
+            $table->string('profession');
             $table->string('telephone1');
             $table->string('telephone2')->nullable();
             $table->string('adresse');

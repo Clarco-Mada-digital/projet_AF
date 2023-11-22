@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
+define("LISTPAGE", 'list');
+define("VIEWPAGE", 'view');
+define("EDITPAGE", 'edit');
+
 function userFullName(){
    $fullname = Auth::user()->prenom." ".Auth::user()->nom;
    return $fullname;
