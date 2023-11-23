@@ -10,9 +10,12 @@ class Etudiant extends Model
     use HasFactory;
 
     protected $fillable = [
+        'numCarte',
+        'profil',
         'nom',
         'prenom',
         'sexe',
+        'dateNaissance',
         'nationalite',
         'profession',
         'adresse',

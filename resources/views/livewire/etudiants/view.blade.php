@@ -21,7 +21,7 @@
                 <div class="card-body box-profile">
                     <div class="text-center">
                         <img class="profile-user-img img-fluid img-circle"
-                            src="{{ $etudiant->profil != '' ? $etudiant->profil : 'https://eu.ui-avatars.com/api/?name=' . $etudiant->nom . '&background=random' }}"
+                            src="{{ $etudiant->profil != '' ? asset('storage/'.$etudiant->profil) : 'https://eu.ui-avatars.com/api/?name=' . $etudiant->nom . '&background=random' }}"
                             alt="Etudiant profile picture">
                     </div>
                     <h3 class="profile-username text-center">{{ $etudiant->sexe == 'F' ? 'Mme/Mlle' : 'Mr' }} {{ $etudiant->nom }} {{ $etudiant->prenom }}</h3>

@@ -9,8 +9,8 @@
                         <h3 class="card-title d-flex align-items-center"> <i class="fa fa-users fa-2x mr-2"></i> Liste des
                             étudiants</h3>
                         <div class="card-tools d-flex align-items-center">
-                            <a href="{{ route('etudiants-nouveau')}}" class="btn btn-link text-light mr-4" > 
-                                <i class="fa fa-user-plus"></i> Nouvel étudiant</a>
+                            <button class="btn btn-link text-light mr-4" wire:click="toogleStateName('new')">
+                                <i class="fa fa-user-plus"></i> Nouvel étudiant</button>
                             <div class="input-group input-group-md" style="width: 250px;">
                                 <input type="search" name="table_search" class="form-control float-right"
                                     placeholder="Search" wire:model.live.debounce.500ms="search">
@@ -23,7 +23,7 @@
                         </div>
                     </div>
 
-                    <div class="card-body table-responsive p-0 table-striped" style="height: 370px;">
+                    <div class="card-body table-responsive p-0 table-striped" >
                         <table class="table table-head-fixed text-nowrap">
                             <thead>
                                 <tr>
@@ -40,13 +40,14 @@
                                 @foreach ($etudiants as $etudiant)
                                     <tr>
                                         <td>
-                                            @if ($etudiant->sexe == 'F')
-                                                <img src="{{ asset('images/profil/woman.png') }}" width='24'
+                                            @if ($etudiant->profil != '')
+                                                <img class="img-circle" src="{{ asset('storage/' . $etudiant->profil) }}" width='50'
                                                     alt="profil etudiant">
                                             @else
-                                                <img src="{{ asset('images/profil/man.png') }}" width='24'
-                                                    alt="profil etudiant">
+                                                <img class="img-circle" src="{{ 'https://eu.ui-avatars.com/api/?name=' . $etudiant->nom . '&background=random' }}"
+                                                    width='50' alt="profil etudiant">
                                             @endif
+
                                         </td>
                                         <td class="text-center">{{ $etudiant->numCarte }}</td>
                                         <td>{{ $etudiant->nom }}</td>
@@ -57,8 +58,9 @@
                                             <button class="btn btn-link" data-toggle="modal"
                                                 data-target="#view-etudiant{{ $etudiant->id }}" spellcheck="false"> <i
                                                     class="fa fa-eye"></i></button>
-                                            <button class="btn btn-link" wire:click='initDataEtudiant({{ $etudiant->id }})'
-                                                spellcheck="false"> <i class="fa fa-edit"></i></button>
+                                            <button class="btn btn-link"
+                                                wire:click='initDataEtudiant({{ $etudiant->id }})' spellcheck="false">
+                                                <i class="fa fa-edit"></i></button>
                                         </td>
                                     </tr>
 
