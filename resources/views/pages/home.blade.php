@@ -7,7 +7,7 @@
 @section('content')
 
 
-    <h3 class="mb-5 pt-3">Bienvenue {{ userFullName() }} !</h3>
+    <h3 class="mb-5 pt-3">Bienvenue {{ Auth::user()->prenom." ".Auth::user()->nom }} !</h3>
     <div class="row">
         <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box">

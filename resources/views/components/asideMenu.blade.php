@@ -44,9 +44,9 @@
                     </a>
 
                 </li>
-                <li @class(['nav-item', 'menu-open' => contains(request()->route()->getName(), 'etudiant') ]) >
+                <li @class(['nav-item', 'menu-open' => Str::contains(request()->route()->getName(), 'etudiant')]) >
                     <a href="#" 
-                        @class(["nav-link d-flex align-items-center", 'active'=> contains(request()->route()->getName(), 'etudiants') ])>
+                        @class(["nav-link d-flex align-items-center", 'active'=> Str::contains(request()->route()->getName(), 'etudiant') ])>
                         <i class="fa fa-users nav-icon" aria-hidden="true"></i>
                         <p>
                             ÉTUDIANTS

@@ -11,7 +11,7 @@
                         alt="User Avatar">
                 </div>
 
-                <h3 class="widget-user-username fs-3">{{ userFullName() }}</h3>
+                <h3 class="widget-user-username fs-3">{{ Auth::user()->prenom." ".Auth::user()->nom }}</h3>
                 <h5 class="widget-user-desc fs-4">{{ Auth::user()->role->nom }}</h5>
 
             </div>
