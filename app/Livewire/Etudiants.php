@@ -22,30 +22,34 @@ class Etudiants extends Component
     protected $paginationTheme = "bootstrap";
 
     public string $search = "";
-    public string $orderField ='nom';
-    public string $orderDirection ='ASC';
+    public string $orderField = 'nom';
+    public string $orderDirection = 'ASC';
     public $state = 'view';
     public $editEtudiant = [];
-    public $newEtudiant = ['profil'=>''];
+    public $newEtudiant = ['profil' => ''];
     public $photo;
     public int $bsSteepActive = 1;
 
     public $allLevel;
-    public $nscList = ["cours"=>[],"level"=>[]];
-    
+    public $nscList = ["cours" => [], "level" => []];
 
-     
+
+
     protected $queryString = [
         'search' => ['except' => '']
     ];
-    public function bsSteepPrevNext($crement){
-        if ($crement == 'next'){
-            $this->bsSteepActive +=1;
-        }else{$this->bsSteepActive -=1;}
+    public function bsSteepPrevNext($crement)
+    {
+        if ($crement == 'next') {
+            $this->bsSteepActive += 1;
+        } else {
+            $this->bsSteepActive -= 1;
+        }
     }
 
-    protected function rules(){
-        if ($this->state == 'new'){
+    protected function rules()
+    {
+        if ($this->state == 'new') {
             $rule = [
                 'newEtudiant.profil' => [''],
                 'newEtudiant.nom' => ['required'],
@@ -54,16 +58,17 @@ class Etudiants extends Component
                 'newEtudiant.nationalite' => ['required'],
                 'newEtudiant.dateNaissance' => ['required'],
                 'newEtudiant.profession' => [''],
-                'newEtudiant.email' => ['required','email', Rule::unique('etudiants', 'email')],
+                'newEtudiant.email' => ['required', 'email', Rule::unique('etudiants', 'email')],
                 'newEtudiant.telephone1' => ['required'],
                 'newEtudiant.telephone2' => [''],
                 'newEtudiant.adresse' => ['required'],
                 'newEtudiant.numCarte' => [Rule::unique('etudiants', 'numCarte')],
                 'newEtudiant.user_id' => [''],
                 'newEtudiant.level_id' => [''],
-                
+
             ];
-        }if ($this->state == 'edit'){
+        }
+        if ($this->state == 'edit') {
             $rule = [
                 'editEtudiant.profil' => [''],
                 'editEtudiant.nom' => ['required'],
@@ -72,36 +77,42 @@ class Etudiants extends Component
                 'editEtudiant.nationalite' => ['required'],
                 'editEtudiant.dateNaissance' => ['required'],
                 'editEtudiant.profession' => [''],
-                'editEtudiant.email' => ['required','email', Rule::unique('etudiants', 'email')->ignore($this->editEtudiant['id'])],
+                'editEtudiant.email' => ['required', 'email', Rule::unique('etudiants', 'email')->ignore($this->editEtudiant['id'])],
                 'editEtudiant.telephone1' => ['required'],
                 'editEtudiant.telephone2' => [''],
                 'editEtudiant.adresse' => ['required'],
                 'editEtudiant.numCarte' => [Rule::unique('etudiants', 'numCarte')->ignore($this->editEtudiant['id'])],
                 'editEtudiant.user_id' => [''],
                 'editEtudiant.level_id' => [''],
-                
+
             ];
         }
         return $rule;
-    } 
+    }
 
-    public function toogleStateName($stateName){
-        if ($stateName == 'view'){            
-            $this->nscList = ["cours"=>[],"level"=>[]];
+    public function toogleStateName($stateName)
+    {
+        if ($stateName == 'view') {
+            $this->nscList = ["cours" => [], "level" => []];
             $this->state = 'view';
         }
-        if ($stateName == 'edit'){
+        if ($stateName == 'edit') {
             $this->state = 'edit';
             $this->populateNscList();
         }
-        if ($stateName == 'new'){
+        if ($stateName == 'new') {
             $this->state = 'new';
-        }     
+            foreach (Cour::all() as $cour) {
+                array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_nom' => $cour->nom, 'cour_horaire' => $cour->horaire, 'active' => false]);
+            }
+            // dd($this->nscList['cours'][0]->nom);
+        }
     }
 
-    public function populateNscList(){
+    public function populateNscList()
+    {
         // metre la liste de nos cours dans un variable          
-        $mapData = function($value){
+        $mapData = function ($value) {
             return $value['id'];
         };
 
@@ -109,40 +120,51 @@ class Etudiants extends Component
 
         $this->editEtudiant['level_id'] = Etudiant::find($this->editEtudiant['id'])->level->id;
 
-        foreach(Cour::all() as $cour){
-            if(in_array($cour->id, $cours)){
-                array_push($this->nscList['cours'], ['cour_id'=>$cour->id, 'cour_nom'=>$cour->nom, 'cour_horaire'=>$cour->horaire, 'active'=>true]);
-            }else{
-                array_push($this->nscList['cours'], ['cour_id'=>$cour->id, 'cour_nom'=>$cour->nom, 'cour_horaire'=>$cour->horaire, 'active'=>false]);
+        foreach (Cour::all() as $cour) {
+            if (in_array($cour->id, $cours)) {
+                array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_nom' => $cour->nom, 'cour_horaire' => $cour->horaire, 'active' => true]);
+            } else {
+                array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_nom' => $cour->nom, 'cour_horaire' => $cour->horaire, 'active' => false]);
             }
         }
 
         // dd($this->coursList);
-       
+
     }
 
-    public function initDataEtudiant($id){
+    public function initDataEtudiant($id)
+    {
         $this->editEtudiant = Etudiant::find($id)->toArray();
         $this->toogleStateName('edit');
     }
 
-    public function submitNewEtudiant(){
+    public function submitNewEtudiant()
+    {
         $this->newEtudiant['user_id'] = Auth::user()->id;
-        $this->newEtudiant['numCarte'] = "AF-".random_int(100,9000);
+        $this->newEtudiant['numCarte'] = "AF-" . random_int(100, 9000);
         $photoName = $this->photo->store('photos', 'public');
         $this->newEtudiant['profil'] = $photoName;
-        
+
         $validateAtributes = $this->validate();
 
         Etudiant::create($validateAtributes['newEtudiant']);
-        $this->dispatch("ShowSuccessMsg", ['message'=>'Enregistrement avec success!','type'=>'success']);
-        $this->photo='';
 
+        // foreach ($this->nscList['cours'] as $cour) {
+        //     if ($cour['active']) {
+        //         Etudiant::find($this->newEtudiant['nom'])->cours()->attach($cour['cour_id']);
+        //     }
+        // }
+
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Enregistrement avec success!', 'type' => 'success']);
+        $this->photo = '';
     }
 
-    public function updateEtudiant($id){
-        $photoName = $this->photo->store('photos', 'public');
-        $this->editEtudiant['profil'] = $photoName;
+    public function updateEtudiant($id)
+    {
+        if ($this->photo != ''){
+            $photoName = $this->photo->store('photos', 'public');
+            $this->editEtudiant['profil'] = $photoName;
+        }
         $validateAtributes = $this->validate();
         // suprimer les cours appartient au utilisateur au paravant
         DB::table("etudiant_cours")->where("etudiant_id", $this->editEtudiant['id'])->delete();
@@ -150,24 +172,24 @@ class Etudiants extends Component
         Etudiant::find($this->editEtudiant['id'])->update($validateAtributes['editEtudiant']);
 
         // Ajout des cour au etudiant
-        foreach($this->nscList['cours'] as $cour){
-            if($cour['active']){
+        foreach ($this->nscList['cours'] as $cour) {
+            if ($cour['active']) {
                 Etudiant::find($this->editEtudiant['id'])->cours()->attach($cour['cour_id']);
             }
         }
         // $validateAtributes['editEtudiant']['user_id'] = Auth::user()->profil;
 
-        $this->dispatch("ShowSuccessMsg", ['message'=>'Etudiant modifier avec success!','type'=>'success']);
-        $this->photo='';
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant modifier avec success!', 'type' => 'success']);
+        $this->photo = '';
     }
 
-    public function setOrderField(string $name){
-        if ($name === $this->orderField){
+    public function setOrderField(string $name)
+    {
+        if ($name === $this->orderField) {
             $this->orderDirection = $this->orderDirection === 'ASC' ? 'DESC' : 'ASC';
-        }else{
+        } else {
             $this->orderField = $name;
             $this->reset('orderDirection');
-
         }
     }
 
@@ -179,12 +201,12 @@ class Etudiants extends Component
 
         $data = [
             "etudiants" => Etudiant::where("prenom", "LIKE", "%{$this->search}%")
-            ->orWhere("nom", "LIKE", "%{$this->search}%")
-            ->orderBy($this->orderField, $this->orderDirection)
-            ->paginate(5)
+                ->orWhere("nom", "LIKE", "%{$this->search}%")
+                ->orderBy($this->orderField, $this->orderDirection)
+                ->paginate(5)
         ];
 
-        return view('livewire.etudiants.index',$data)
+        return view('livewire.etudiants.index', $data)
             ->extends('layouts.mainLayout')
             ->section('content');
     }
