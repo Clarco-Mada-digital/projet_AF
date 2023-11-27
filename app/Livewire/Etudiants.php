@@ -153,6 +153,8 @@ class Etudiants extends Component
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant modifier avec success!', 'type' => 'success']);
         $this->photo = '';
+
+        $this->toogleStateName('view');
     }
 
     public function setOrderField(string $name)

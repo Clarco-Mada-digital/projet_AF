@@ -149,7 +149,7 @@
                     <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                 </div>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" style="width:150px;">
                 <a id="navbarDropdown" class="nav-link d-flex" href="#" role="button" data-widget="control-sidebar"
                     data-slide="true" aria-expanded="false" v-pre>
                     <img src="{{ Auth::user()->profil ? Auth::user()->profil : asset('images/profil/Avatar BC.png') }}"

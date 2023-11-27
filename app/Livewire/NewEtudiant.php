@@ -78,7 +78,7 @@ class NewEtudiant extends Component
         $this->dispatch("ShowSuccessMsg", ['message' => 'Enregistrement avec success!', 'type' => 'success']);
         $this->photo = '';
 
-        return redirect('etudiants-list');
+        return redirect(route('etudiants-list'));
     }
 
     public function render()

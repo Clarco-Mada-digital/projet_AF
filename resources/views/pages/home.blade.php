@@ -8,11 +8,11 @@
 
 
     <h3 class="mb-5 pt-3">Bienvenue {{ Auth::user()->prenom." ".Auth::user()->nom }} !</h3>
+    
     <div class="row">
         <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box">
-                <span class="info-box-icon bg-gradient-warning"><i class="fa fa-graduation-cap"
-                        aria-hidden="true"></i></span>
+                <span class="info-box-icon bg-gradient-warning"><i class="fa fa-graduation-cap" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Étudiants</span>
                     <span class="info-box-number">1500</span>
@@ -56,7 +56,7 @@
     <span>Que souhaiteriez-vous faire ?</span>
     <div class="row mt-3">
         <div class="col-md-4 col-sm-6 col-12">
-            <a href="{{ route("etudiants-nouveau") }}" class="info-box text-secondary">
+            <a href="{{ route('etudiants-nouveau') }}" class="info-box text-secondary">
                 <span class="info-box-icon bg-gradient-warning"><i class="fa fa-edit" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Allez au formulaire de nouveau étudiant</span>
@@ -136,7 +136,7 @@
                 </div>
 
             </div>
-            <a class="info-box text-secondary" href="{{ route('mada-contact')}}">
+            <a class="info-box text-secondary" href="{{ route('mada-contact') }}">
                 <span class="info-box-icon bg-gradient-primary"><i class="fa fa-comments" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text"> Contact </span>
