@@ -1,4 +1,4 @@
-<div class="row mx-4 pt-4">
+<div class="row mx-4 pt-4" >
     <div class="col-md-12 d-flex align-items-center justify-content-between my-3">
         <h3>Nouveaux étudiants: </h3>
         <form action="">
@@ -20,9 +20,9 @@
                 <button type="button" class="btn btn-tool" data-card-widget="maximize" spellcheck="false">
                     <i class="fas fa-expand"></i>
                 </button>
-                <button type="button" class="btn btn-danger" wire:click="toogleStateName('view')">
-                    <i class="fa fa-chevron-left"></i> Retour
-                </button>
+                <a href="{{ route('etudiants-list') }}" type="button" class="btn btn-info">
+                    <i class="fa fa-list mr-2"></i> Voir la liste d'étudiants
+                </a>
             </div>
             <div class="card-body p-0">
                 <div class="bs-stepper" id="bs-stepper">
@@ -69,12 +69,12 @@
                                 <div class="row">
                                     <div class="col-md-12 d-flex justify-content">
                                         @if ($photo)
-                                            <div class="w-25">
+                                            <div class="mr-4">
                                                 <img class="profile-user-img img-fluid img-circle"
                                                     src="{{ $photo->temporaryUrl() }}">
                                             </div>
                                         @endif
-                                        <div class="form-group w-75">
+                                        <div class="form-group">
                                             <label for="exampleInputFile">Image profil</label>
                                             <div class="input-group">
                                                 <div class="custom-file">

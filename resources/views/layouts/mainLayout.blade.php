@@ -39,7 +39,11 @@
         </div>
 
         {{-- La section a droite d'ecran en slideBar --}}
-        @include('components.asideProfil')
+        @guest
+            ""
+        @else
+            @include('components.asideProfil')           
+        @endguest
 
 
 

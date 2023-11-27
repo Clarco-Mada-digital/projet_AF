@@ -1,3 +1,5 @@
+@section('title', 'etudiant')
+
 <div>
 
     <div @if ($state != 'view') style="display: none;" @endif>
@@ -9,8 +11,8 @@
                         <h3 class="card-title d-flex align-items-center"> <i class="fa fa-users fa-2x mr-2"></i> Liste des
                             étudiants</h3>
                         <div class="card-tools d-flex align-items-center">
-                            <button class="btn btn-link text-light mr-4" wire:click="toogleStateName('new')">
-                                <i class="fa fa-user-plus"></i> Nouvel étudiant</button>
+                            <a href="{{ route('etudiants-nouveau') }}" class="btn btn-link text-light mr-4" >
+                                <i class="fa fa-user-plus"></i> Nouvel étudiant</a>
                             <div class="input-group input-group-md" style="width: 250px;">
                                 <input type="search" name="table_search" class="form-control float-right"
                                     placeholder="Search" wire:model.live.debounce.500ms="search">
@@ -294,9 +296,9 @@
 
     </div>
 
-    <div @if ($state != 'new') style="display: none;" @endif>
+    {{-- <div @if ($state != 'new') style="display: none;" @endif>
         @include('livewire.etudiants.new')
-    </div>
+    </div> --}}
 
 </div>
 
@@ -304,9 +306,9 @@
 
 
 {{-- Script for page edit --}}
-<script>
+{{-- <script>
     // BS-Stepper Init
     document.addEventListener('DOMContentLoaded', function() {
         window.stepper = new Stepper(document.querySelector('.bs-stepper'))
     })
-</script>
+</script> --}}

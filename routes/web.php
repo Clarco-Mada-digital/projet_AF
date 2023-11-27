@@ -29,12 +29,15 @@ Route::get('/mada-contact', function () {
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // group des route crée par bryan
-Route::group([
-    'prefix' => 'etudiants',
-    'as' => 'etudiants-'
-], function(){
-    Route::get('/list', Etudiants::class)->name('list');
-    Route::get('/nouveau', [App\Http\Controllers\HomeController::class, 'nouveauEtudiant'])->name('nouveau');
+Route::middleware('auth')->group(function(){
+    Route::group([
+        'prefix' => 'etudiants',
+        'as' => 'etudiants-'
+    ], function(){
+        Route::get('/list', Etudiants::class)->name('list');
+        Route::get('/nouveau', [App\Http\Controllers\HomeController::class, 'nouveauEtudiant'])->name('nouveau');
+    });
+
 });
 
 // Route::get('/list-etudiant', [App\Http\Controllers\HomeController::class, 'listEtudiant'])->name('list-etudiant');

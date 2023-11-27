@@ -1,6 +1,6 @@
-<aside class="main-sidebar elevation-4">
+<aside class="main-sidebar elevation-4" style="height: 100%;">
 
-    <div class="logo text-center " style="height: 15vh;">
+    <div class="logo text-center " style="height: 15%;">
         <img src="{{ asset('images/logo/alliance-francaise-d-antsiranana-logo.png')}}" alt="AF_logo" class="w-75">
     </div>
     

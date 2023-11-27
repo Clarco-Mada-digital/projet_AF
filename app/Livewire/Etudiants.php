@@ -12,7 +12,6 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
-use PhpParser\Node\Expr\FuncCall;
 
 class Etudiants extends Component
 {
@@ -49,44 +48,24 @@ class Etudiants extends Component
 
     protected function rules()
     {
-        if ($this->state == 'new') {
-            $rule = [
-                'newEtudiant.profil' => [''],
-                'newEtudiant.nom' => ['required'],
-                'newEtudiant.prenom' => 'required',
-                'newEtudiant.sexe' => ['required'],
-                'newEtudiant.nationalite' => ['required'],
-                'newEtudiant.dateNaissance' => ['required'],
-                'newEtudiant.profession' => [''],
-                'newEtudiant.email' => ['required', 'email', Rule::unique('etudiants', 'email')],
-                'newEtudiant.telephone1' => ['required'],
-                'newEtudiant.telephone2' => [''],
-                'newEtudiant.adresse' => ['required'],
-                'newEtudiant.numCarte' => [Rule::unique('etudiants', 'numCarte')],
-                'newEtudiant.user_id' => [''],
-                'newEtudiant.level_id' => [''],
+        $rule = [
+            'editEtudiant.profil' => [''],
+            'editEtudiant.nom' => ['required'],
+            'editEtudiant.prenom' => 'required',
+            'editEtudiant.sexe' => ['required'],
+            'editEtudiant.nationalite' => ['required'],
+            'editEtudiant.dateNaissance' => ['required'],
+            'editEtudiant.profession' => [''],
+            'editEtudiant.email' => ['required', 'email', Rule::unique('etudiants', 'email')->ignore($this->editEtudiant['id'])],
+            'editEtudiant.telephone1' => ['required'],
+            'editEtudiant.telephone2' => [''],
+            'editEtudiant.adresse' => ['required'],
+            'editEtudiant.numCarte' => [Rule::unique('etudiants', 'numCarte')->ignore($this->editEtudiant['id'])],
+            'editEtudiant.user_id' => [''],
+            'editEtudiant.level_id' => [''],
 
-            ];
-        }
-        if ($this->state == 'edit') {
-            $rule = [
-                'editEtudiant.profil' => [''],
-                'editEtudiant.nom' => ['required'],
-                'editEtudiant.prenom' => 'required',
-                'editEtudiant.sexe' => ['required'],
-                'editEtudiant.nationalite' => ['required'],
-                'editEtudiant.dateNaissance' => ['required'],
-                'editEtudiant.profession' => [''],
-                'editEtudiant.email' => ['required', 'email', Rule::unique('etudiants', 'email')->ignore($this->editEtudiant['id'])],
-                'editEtudiant.telephone1' => ['required'],
-                'editEtudiant.telephone2' => [''],
-                'editEtudiant.adresse' => ['required'],
-                'editEtudiant.numCarte' => [Rule::unique('etudiants', 'numCarte')->ignore($this->editEtudiant['id'])],
-                'editEtudiant.user_id' => [''],
-                'editEtudiant.level_id' => [''],
+        ];
 
-            ];
-        }
         return $rule;
     }
 
@@ -99,13 +78,6 @@ class Etudiants extends Component
         if ($stateName == 'edit') {
             $this->state = 'edit';
             $this->populateNscList();
-        }
-        if ($stateName == 'new') {
-            $this->state = 'new';
-            foreach (Cour::all() as $cour) {
-                array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_nom' => $cour->nom, 'cour_horaire' => $cour->horaire, 'active' => false]);
-            }
-            // dd($this->nscList['cours'][0]->nom);
         }
     }
 
@@ -161,7 +133,7 @@ class Etudiants extends Component
 
     public function updateEtudiant($id)
     {
-        if ($this->photo != ''){
+        if ($this->photo != '') {
             $photoName = $this->photo->store('photos', 'public');
             $this->editEtudiant['profil'] = $photoName;
         }
