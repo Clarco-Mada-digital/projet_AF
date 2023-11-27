@@ -28,10 +28,4 @@ class HomeController extends Controller
         return view('pages.home');
     }
 
-    public function nouveauEtudiant()
-    {
-        $name = Auth::user()->nom;
-        return view('pages.new-etudiant');
-    }
-
 }

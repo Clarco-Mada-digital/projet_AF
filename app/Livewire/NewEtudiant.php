@@ -25,10 +25,23 @@ class NewEtudiant extends Component
             array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_nom' => $cour->nom, 'cour_horaire' => $cour->horaire, 'active' => false]);
         };
     }
+    // public function bsSteepPrevNext($crement)
+    // {
+    //     if ($crement == 'next') {
+    //         $this->bsSteepActive += 1;
+    //     } else {
+    //         $this->bsSteepActive -= 1;
+    //     }
+    // }
     public function bsSteepPrevNext($crement)
     {
         if ($crement == 'next') {
-            $this->bsSteepActive += 1;
+            if ($this->bsSteepActive == 1){
+                $this->validate();
+                $this->bsSteepActive += 1;
+            }else{
+                $this->bsSteepActive += 1;
+            }
         } else {
             $this->bsSteepActive -= 1;
         }

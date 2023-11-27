@@ -44,9 +44,9 @@
                     </a>
 
                 </li>
-                <li @class(['nav-item', 'menu-open' => Str::contains(request()->route()->getName(), 'etudiant')]) >
+                <li @class(['nav-item', 'menu-open' => Str::contains(request()->route()->getName(), 'etudiants')]) >
                     <a href="#" 
-                        @class(["nav-link d-flex align-items-center", 'active'=> Str::contains(request()->route()->getName(), 'etudiant') ])>
+                        @class(["nav-link d-flex align-items-center", 'active'=> Str::contains(request()->route()->getName(), 'etudiants') ])>
                         <i class="fa fa-users nav-icon" aria-hidden="true"></i>
                         <p>
                             ÉTUDIANTS
@@ -70,8 +70,9 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link d-flex align-items-center">
+                <li @class(['nav-item', 'menu-open' => Str::contains(request()->route()->getName(), 'cours')])>
+                    <a href="#" 
+                        @class(["nav-link d-flex align-items-center", 'active'=> Str::contains(request()->route()->getName(), 'cours') ])>
                         <ion-icon class="nav-icon" name="book"></ion-icon>
                         <p>
                             COURS
@@ -81,13 +82,15 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('cours-nouveau') }}" 
+                                @class(['nav-link', 'active'=> request()->url() == route('cours-nouveau') ])>
                                 <ion-icon class="nav-icon" name="create"></ion-icon>
                                 <p>Nouveaux cours</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('cours-list') }}" 
+                                @class(['nav-link', 'active'=> request()->url() == route('cours-list') ])>
                                 <ion-icon class="nav-icon" name="list-circle"></ion-icon>
                                 <p>Liste des cours</p>
                             </a>
@@ -126,7 +129,7 @@
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <ion-icon class="nav-icon" name="people-circle-outline"></ion-icon>
-                                <p>Membres</p>
+                                <p>Utilisateurs</p>
                             </a>
                         </li>
                     </ul>

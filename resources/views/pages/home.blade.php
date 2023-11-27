@@ -70,7 +70,7 @@
                 <span class="info-box-icon bg-gradient-primary"><i class="fa fa-user-plus" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Allez au formulaire de nouveau membre</span>
-                    <span class="info-box-number">Inscrire un nouvel membre</span>
+                    <span class="info-box-number">Inscrire un nouveau membre</span>
                 </div>
 
             </div>
@@ -80,7 +80,7 @@
                 <span class="info-box-icon bg-gradient-warning"><i class="fa fa-book" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Allez au formulaire des nouveaux cours</span>
-                    <span class="info-box-number">Inscrire nouvel cours</span>
+                    <span class="info-box-number">Inscrire nouveau cours</span>
                 </div>
 
             </div>

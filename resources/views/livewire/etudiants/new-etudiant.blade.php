@@ -1,6 +1,6 @@
-<div class="row mx-4 pt-4" >
+<div class="row mx-4 pt-4">
     <div class="col-md-12 d-flex align-items-center justify-content-between my-3">
-        <h3>Nouveaux étudiants: </h3>
+        <h3>Nouvel étudiants: </h3>
         <form action="">
             <div class="input-group input-group-lg">
                 <input type="search" class="form-control form-control-lg" placeholder="Chercher l'information du membre"
@@ -41,7 +41,7 @@
                                 id="information-part-trigger"
                                 @if ($bsSteepActive != 2) disabled="disabled" @endif>
                                 <span class="bs-stepper-circle bg-gradient-info">2</span>
-                                <span class="bs-stepper-label text-info">Choix des cours</span>
+                                <span class="bs-stepper-label text-info">Choix du cours</span>
                             </button>
                         </div>
                         <div class="line"></div>
@@ -95,68 +95,84 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantNom">Nom</label>
-                                            <input type="text" class="form-control" id="etudiantNom"
+                                            <input type="text" class="form-control 
+                                                @error('newEtudiant.nom') is-invalid @enderror" id="etudiantNom"
                                                 wire:model="newEtudiant.nom">
+                                                @error('newEtudiant.nom') <span class="invalid-feedback"> Ce champ est obligatoire</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantPrenom">Prénom</label>
-                                            <input type="text" class="form-control" id="etudiantPrenom"
+                                            <input type="text" class="form-control 
+                                                @error('newEtudiant.prenom') is-invalid @enderror" id="etudiantPrenom"
                                                 wire:model='newEtudiant.prenom'>
+                                                @error('newEtudiant.prenom') <span class="invalid-feedback"> Ce champ est obligatoire</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantPrenom">Sexe</label>
-                                            <select class="custom-select" spellcheck="false" id="etudiantSexe"
+                                            <select class="custom-select 
+                                                @error('newEtudiant.sexe') is-invalid @enderror" spellcheck="false" id="etudiantSexe"
                                                 wire:model='newEtudiant.sexe'>
                                                 <option> --- --- </option>
                                                 <option value="M">Homme</option>
                                                 <option value="F">Femme</option>
                                             </select>
+                                            @error('newEtudiant.sexe') <span class="invalid-feedback"> Ce champ est obligatoire</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantBirth">Date de naissance</label>
-                                            <input type="date" class="form-control" id="etudiantBirth"
+                                            <input type="date" class="form-control 
+                                                @error('newEtudiant.dateNaissance') is-invalid @enderror" id="etudiantBirth"
                                                 wire:model='newEtudiant.dateNaissance'>
+                                                @error('newEtudiant.dateNaissance') <span class="invalid-feedback"> Ce champ est obligatoire</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantProfession">Nationalité</label>
-                                            <input type="text" class="form-control" id="etudiantNationalite"
+                                            <input type="text" class="form-control 
+                                                @error('newEtudiant.nationalite') is-invalid @enderror" id="etudiantNationalite"
                                                 wire:model='newEtudiant.nationalite'>
+                                                @error('newEtudiant.nationalite') <span class="invalid-feedback"> Ce champ est obligatoire</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantProfession">Profession</label>
                                             <input type="text" class="form-control" id="etudiantProfession"
-                                                wire:model='newEtudiant.profession'>
+                                                wire:model='newEtudiant.profession'>                                                
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantAddr">Adresse</label>
-                                            <input type="text" class="form-control" id="etudiantAddr"
+                                            <input type="text" class="form-control 
+                                                @error('newEtudiant.adresse') is-invalid @enderror" id="etudiantAddr"
                                                 wire:model='newEtudiant.adresse'>
+                                                @error('newEtudiant.adresse') <span class="invalid-feedback"> Ce champ est obligatoire</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantEmail">Email</label>
-                                            <input type="text" class="form-control" id="etudiantEmail"
+                                            <input type="text" class="form-control 
+                                                @error('newEtudiant.email') is-invalid @enderror" id="etudiantEmail"
                                                 wire:model='newEtudiant.email'>
+                                                @error('newEtudiant.email') <span class="invalid-feedback"> Ce champ est obligatoire | unique</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantPhone">Téléphone</label>
-                                            <input type="text" class="form-control" id="etudiantPhone"
+                                            <input type="text" class="form-control 
+                                                @error('newEtudiant.telephone1') is-invalid @enderror" id="etudiantPhone"
                                                 wire:model='newEtudiant.telephone1'>
+                                                @error('newEtudiant.telephone1') <span class="invalid-feedback"> Ce champ est obligatoire</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -193,7 +209,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="etudiantNiveau">Niveaux</label>
+                                            <label for="etudiantNiveau">Niveau</label>
                                             <select class="custom-select" spellcheck="false" id="etudiantNiveau"
                                                 wire:model='newEtudiant.level_id'>
                                                 <option> --- --- </option>
@@ -216,18 +232,18 @@
                                                             @if ($cour['active']) checked @endif
                                                             wire:model.lazy="nscList.cours.{{ $loop->index }}.active">
                                                         <label for="cour{{ $cour['cour_id'] }}"
-                                                            class="custom-control-label">{{ $cour['cour_nom']}}</label>
+                                                            class="custom-control-label">{{ $cour['cour_nom'] }}</label>
                                                     </div>
                                                 </div>
                                             @endforeach
                                             {{-- <div class="form-group col-md-3">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input class="custom-control-input" type="checkbox"
-                                                        id="courFrancais">
-                                                    <label for="courFrancais" class="custom-control-label">Cour
-                                                        Français</label>
-                                                </div>
-                                            </div> --}}
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" type="checkbox"
+                                                            id="courFrancais">
+                                                        <label for="courFrancais" class="custom-control-label">Cour
+                                                            Français</label>
+                                                    </div>
+                                                </div> --}}
 
                                         </div>
                                     </div>
@@ -264,7 +280,7 @@
                                                 <input class="custom-control-input" type="radio" id="carte"
                                                     name="paiementPar">
                                                 <label for="carte" class="custom-control-label">Carte
-                                                    banquaire</label>
+                                                    bancaire</label>
                                             </div>
 
                                         </div>
@@ -283,8 +299,8 @@
                                             <div class="custom-control custom-radio col-md-3">
                                                 <input class="custom-control-input" type="radio" id="moitier"
                                                     name="statuePaiement">
-                                                <label for="moitier" class="custom-control-label"> A moitier
-                                                    paiyé</label>
+                                                <label for="moitier" class="custom-control-label"> A moitié
+                                                    payé</label>
                                             </div>
                                         </div>
                                     </div>

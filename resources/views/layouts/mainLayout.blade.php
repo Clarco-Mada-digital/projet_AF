@@ -53,7 +53,7 @@
             <strong>Copyright &copy; 2023-2024 <a href="https://mada-digital.net">MADA-Digital</a>.</strong> All rights
             reserved.
             <div class="float-right d-none d-sm-inline text-danger">
-                Aliance Française Antsiranana
+                Alliance Française Antsiranana
             </div>
         </footer>
     </div>

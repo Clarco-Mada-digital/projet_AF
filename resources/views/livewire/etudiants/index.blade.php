@@ -71,7 +71,7 @@
                                         style="display: none; " aria-hidden="true">
                                         <div class="modal-dialog modal-xl modal-dialog-centered">
                                             <div class="modal-content">
-                                                <div class="modal-body p-0 " style="height: 60vh; width: 75vw;">
+                                                <div class="modal-body p-0 ">
                                                     @include('livewire.etudiants.view')
 
                                                 </div>

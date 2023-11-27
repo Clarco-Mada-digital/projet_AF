@@ -37,14 +37,7 @@ class Etudiants extends Component
     protected $queryString = [
         'search' => ['except' => '']
     ];
-    public function bsSteepPrevNext($crement)
-    {
-        if ($crement == 'next') {
-            $this->bsSteepActive += 1;
-        } else {
-            $this->bsSteepActive -= 1;
-        }
-    }
+    
 
     protected function rules()
     {
@@ -68,6 +61,7 @@ class Etudiants extends Component
 
         return $rule;
     }
+
 
     public function toogleStateName($stateName)
     {
