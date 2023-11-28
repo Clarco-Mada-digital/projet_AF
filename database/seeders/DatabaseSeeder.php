@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Professeur::factory(3)-> create();
 
         $this->call(LevelsTableSeeder::class);
-        $this->call(CourTableSeeder::class);
+        // $this->call(CourTableSeeder::class);
 
         
         \App\Models\Etudiant::factory(10)->create();
