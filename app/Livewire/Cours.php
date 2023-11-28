@@ -7,9 +7,13 @@ use App\Models\Level;
 use App\Models\Professeur;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Cours extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = "bootstrap";
 
     public string $search = "";
     public $state = 'view';

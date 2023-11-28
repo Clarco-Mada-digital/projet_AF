@@ -5,7 +5,9 @@ namespace App\Livewire;
 use App\Models\Cour;
 use App\Models\Level;
 use App\Models\Professeur;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
+
 
 class NewCour extends Component
 {
@@ -27,7 +29,7 @@ class NewCour extends Component
     public function rules()
     {
         $rule = [
-            'newCour.code' => ['required'|'unique'],
+            'newCour.code' => ['required', 'string', Rule::unique('cours', 'code')],
             'newCour.libelle' => ['required'],
             'newCour.categorie' => ['required'],
             'newCour.salle' => ['string'],
@@ -63,9 +65,10 @@ class NewCour extends Component
 
     // fonction pour l'enregistrement du cour
     public function addNewCour()
-    {
-        $this->newCour['horaire'] = $this->dateHeurCour;
+    {        
         $this->validate();
+        
+        $this->newCour['horaire'] = $this->dateHeurCour;
         
         Cour::create($this->newCour);
 
