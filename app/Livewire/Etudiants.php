@@ -88,9 +88,9 @@ class Etudiants extends Component
 
         foreach (Cour::all() as $cour) {
             if (in_array($cour->id, $cours)) {
-                array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_nom' => $cour->nom, 'cour_horaire' => $cour->horaire, 'active' => true]);
+                array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => true]);
             } else {
-                array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_nom' => $cour->nom, 'cour_horaire' => $cour->horaire, 'active' => false]);
+                array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
             }
         }
 

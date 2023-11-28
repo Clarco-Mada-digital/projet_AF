@@ -8,7 +8,7 @@
             <button type="button" class="btn btn-warning" data-toggle="modal" spellcheck="false" data-dismiss="modal"
                 @if ($editEtudiant != []) wire:click='updateEtudiant({{ $editEtudiant['id'] }})' @endif>
                 <i class="fa fa-save"></i> Enregistrer la modification</button>
-            <button type="button" class="btn btn-danger" wire:click="toogleStateName('view')"">
+            <button type="button" class="btn btn-danger" wire:click="toogleStateName('view')">
                 <i class="fa fa-chevron-left mr-2"> Retour</i>
             </button>
         </div>
@@ -23,11 +23,12 @@
                         @if ($editEtudiant != [])
                             <label class="d-flex flex-column justify-content-center">
                                 @if ($photo)
-                                <img class="profile-user-img img-fluid img-circle" src="{{ $photo->temporaryUrl() }}">
+                                    <img class="profile-user-img img-fluid img-circle"
+                                        src="{{ $photo->temporaryUrl() }}">
                                 @else
-                                <img class="profile-user-img img-fluid img-circle"
-                                    src="{{ $editEtudiant['profil'] ? asset('storage/' . $editEtudiant['profil']) : 'https://eu.ui-avatars.com/api/?name=' . $editEtudiant['nom'] . '&background=random' }}"
-                                    alt="Etudiant profile picture">
+                                    <img class="profile-user-img img-fluid img-circle"
+                                        src="{{ $editEtudiant['profil'] ? asset('storage/' . $editEtudiant['profil']) : 'https://eu.ui-avatars.com/api/?name=' . $editEtudiant['nom'] . '&background=random' }}"
+                                        alt="Etudiant profile picture">
                                 @endif
                                 <input type="file" wire:model='photo' style="display: none;">
                             </label>
@@ -159,7 +160,7 @@
                                             @if ($cour['active']) checked @endif
                                             wire:model.lazy="nscList.cours.{{ $loop->index }}.active">
                                         <label for="cour{{ $cour['cour_id'] }}"
-                                            class="custom-control-label">{{ $cour['cour_nom'] }}</label>
+                                            class="custom-control-label">{{ $cour['cour_libelle'] }}</label>
                                     </div>
                                 </div>
                             @endforeach

@@ -9,6 +9,16 @@ class Cour extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'code',
+        'libelle',
+        'categorie',
+        'salle',
+        'horaire',
+        'professeur_id',
+        'level_id',
+    ];
+
     public function professeur(){
         return $this->belongsTo(Professeur::class);
     }

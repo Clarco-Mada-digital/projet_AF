@@ -55,14 +55,14 @@
                                         <td>{{ $etudiant->nom }}</td>
                                         <td>{{ $etudiant->prenom }}</td>
                                         <td class="text-center">{{ $etudiant->telephone1 }}</td>
-                                        <td> {{ $etudiant->cours->implode('nom', ' | ') }} </td>
+                                        <td> {{ $etudiant->cours->implode('libelle', ' | ') }} </td>
                                         <td class="text-center">
                                             <button class="btn btn-link" data-toggle="modal"
                                                 data-target="#view-etudiant{{ $etudiant->id }}" spellcheck="false"> <i
-                                                    class="fa fa-eye"></i></button>
+                                                    class="fa fa-eye"  style="color: #0DCAF0;"></i></button>
                                             <button class="btn btn-link"
                                                 wire:click='initDataEtudiant({{ $etudiant->id }})' spellcheck="false">
-                                                <i class="fa fa-edit"></i></button>
+                                                <i class="fa fa-edit" style="color: #FFC107;"></i></button>
                                         </td>
                                     </tr>
 

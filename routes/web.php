@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\CourController;
+use App\Livewire\Cours;
 use App\Livewire\Etudiants;
+use App\Livewire\NewCour;
+use App\Models\Cour;
 use App\Models\Etudiant;
 use App\Models\Level;
 use App\Models\Role;
@@ -22,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/mada-contact', function () {
+Route::match(['get', 'post'], '/mada-contact', function () {
     return view('pages.mada-contact');
 })->name('mada-contact');
 
@@ -34,16 +36,16 @@ Route::middleware('auth')->group(function(){
         'prefix' => 'etudiants',
         'as' => 'etudiants-'
     ], function(){
-        Route::get('/list', Etudiants::class)->name('list');
-        Route::get('/nouveau', [App\Http\Controllers\EtudiantController::class, 'index'])->name('nouveau');
+        Route::match(['get', 'post'], '/list', Etudiants::class)->name('list');
+        Route::match(['get', 'post'], '/nouveau', [App\Http\Controllers\EtudiantController::class, 'index'])->name('nouveau');
     });
 
     Route::group([
         'prefix' => 'cours',
         'as' => 'cours-'
     ], function(){
-        Route::get('/list', [CourController::class, 'index'])->name('list');
-        Route::get('/nouveau', [CourController::class, 'nouveau'])->name('nouveau');
+        Route::match(['get', 'post'], '/list', Cours::class)->name('list');
+        Route::match(['get', 'post'], '/nouveau', NewCour::class)->name('nouveau');
     });
 
 });

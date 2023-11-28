@@ -63,7 +63,7 @@
             <div class="card-body">
                 <strong><i class="fa fa-book mr-1"></i> Cour choisie</strong>
                 <p class="text-muted">
-                  {{ $etudiant->cours->implode('nom', ' | ') }}
+                  {{ $etudiant->cours->implode('libelle', ' | ') }}
                 </p>
                 <hr>
                 <strong><i class="fa fa-thermometer mr-1"></i> Niveaux</strong>

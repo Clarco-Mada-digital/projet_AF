@@ -22,7 +22,7 @@ class NewEtudiant extends Component
     public function __construct()
     {
         foreach (Cour::all() as $cour) {
-            array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_nom' => $cour->nom, 'cour_horaire' => $cour->horaire, 'active' => false]);
+            array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
         };
     }
     // public function bsSteepPrevNext($crement)

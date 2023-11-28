@@ -15,18 +15,20 @@ class CourTableSeeder extends Seeder
     {
         DB::table('cours')->insert([
             [
-                "nom"=>'Cour français', 
+                "code"=>'CFADON1', 
+                "libelle"=>'Cour français', 
                 "categorie"=>'ADO',
-                "sale"=>'S 001',
-                "horaire"=> "Mercredi-14h-15h, Vendredi-14h-15h",
+                "salle"=>'S 001',
+                "horaire"=> "Mercredi-14h-15h | Vendredi-14h-15h",
                 "professeur_id"=>1,
                 "level_id"=>1,
             ],
             [
-                "nom"=>'Cour malagasy', 
+                "code"=>'CMADON1', 
+                "libelle"=>'Cour malagasy', 
                 "categorie"=>'ADO',
-                "sale"=>'S 002',
-                "horaire"=> "Mercredi-14h-15h, Vendredi-14h-15h",
+                "salle"=>'S 002',
+                "horaire"=> "Mercredi-14h-15h | Vendredi-14h-15h",
                 "professeur_id"=>2,
                 "level_id"=>1,
             ],

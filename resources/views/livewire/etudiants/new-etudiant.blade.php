@@ -232,7 +232,7 @@
                                                             @if ($cour['active']) checked @endif
                                                             wire:model.lazy="nscList.cours.{{ $loop->index }}.active">
                                                         <label for="cour{{ $cour['cour_id'] }}"
-                                                            class="custom-control-label">{{ $cour['cour_nom'] }}</label>
+                                                            class="custom-control-label">{{ $cour['cour_libelle'] }}</label>
                                                     </div>
                                                 </div>
                                             @endforeach

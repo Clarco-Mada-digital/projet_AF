@@ -5,7 +5,7 @@
             <button type="button" class="btn btn-tool" data-card-widget="maximize" spellcheck="false">
                 <i class="fas fa-expand"></i>
             </button>
-            <button type="button" class="btn btn-warning" data-toggle="modal" spellcheck="false" data-dismiss="modal">
+            <button type="button" class="btn btn-warning" data-toggle="modal" spellcheck="false" data-dismiss="modal" wire:click='initEditCour({{ $cour['id'] }})'>
                 <i class="fa fa-pen"></i> Mettre à jour le cour</button>
             <button type="button" class="btn btn-danger" data-dismiss="modal">
                 <i class="fa fa-times"></i>
@@ -18,14 +18,14 @@
         <div class="card-body">
             <strong><i class="fa fa-book mr-1"></i> Libellé du cour</strong>
             <p class="text-muted">
-              {{ $cour->nom }}
+              {{ $cour->libelle }}
             </p>
             <hr>
             <strong><i class="fa fa-clock mr-1"></i> Horaire du cour</strong>
             <p class="text-muted"> {{ $cour->horaire }} </p>
             <hr>
             <strong><i class="fa fa-thermometer mr-1"></i> Salle du cour</strong>
-            <p class="text-muted"> {{ $cour->sale }} </p>
+            <p class="text-muted"> {{ $cour->salle }} </p>
             <hr>
             <strong><i class="fa fa-user mr-1" aria-hidden="true"></i> Professeur</strong>
             <p class="text-muted">
