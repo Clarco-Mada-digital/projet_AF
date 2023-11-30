@@ -65,7 +65,7 @@
                             <a href="{{ route('etudiants-list')}}"
                                 @class(['nav-link', 'active'=> request()->url() == route('etudiants-list') ])>
                                 <ion-icon class="nav-icon" name="people"></ion-icon>
-                                <p>Tous les membres</p>
+                                <p>Tous les étudiants</p>
                             </a>
                         </li>
                     </ul>

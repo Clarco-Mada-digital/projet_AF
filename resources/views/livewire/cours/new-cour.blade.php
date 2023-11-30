@@ -1,4 +1,4 @@
-@section('title', 'nouveau cour')
+@section('title', 'nouveau cours')
 
 @section('titlePage', 'COURS')
 

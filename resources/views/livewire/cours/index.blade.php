@@ -76,7 +76,7 @@
                                     </div>
                                 @empty
                                     <tr>
-                                        <td class="text-center" colspan="6"> <img
+                                        <td class="text-center" colspan="7"> <img
                                                 src="{{ asset('images/no_data.svg') }}" alt="Data empty"
                                                 width="200px"> </td>
                                     </tr>

@@ -3,7 +3,7 @@
 <div>
 
     <div @if ($state != 'view') style="display: none;" @endif>
-        <h3 class="mb-5 pt-3">Listes étudiants</h3>
+        <h3 class="mb-5 pt-3">Liste des étudiants</h3>
         <div class="row m-4">
             <div class="col-12">
                 <div class="card">
@@ -11,7 +11,7 @@
                         <h3 class="card-title d-flex align-items-center"> <i class="fa fa-users fa-2x mr-2"></i> Liste des
                             étudiants</h3>
                         <div class="card-tools d-flex align-items-center">
-                            <a href="{{ route('etudiants-nouveau') }}" class="btn btn-link text-light mr-4" >
+                            <a href="{{ route('etudiants-nouveau') }}" class="btn btn-link text-light mr-4">
                                 <i class="fa fa-user-plus"></i> Nouvel étudiant</a>
                             <div class="input-group input-group-md" style="width: 250px;">
                                 <input type="search" name="table_search" class="form-control float-right"
@@ -25,7 +25,7 @@
                         </div>
                     </div>
 
-                    <div class="card-body table-responsive p-0 table-striped" >
+                    <div class="card-body table-responsive p-0 table-striped">
                         <table class="table table-head-fixed text-nowrap">
                             <thead>
                                 <tr>
@@ -39,14 +39,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($etudiants as $etudiant)
+                                @forelse ($etudiants as $etudiant)
                                     <tr>
                                         <td>
                                             @if ($etudiant->profil != null)
-                                                <img class="img-circle" src="{{ asset('storage/' . $etudiant->profil) }}" width='50'
+                                                <img class="img-circle"
+                                                    src="{{ asset('storage/' . $etudiant->profil) }}" width='50'
                                                     alt="profil etudiant">
                                             @else
-                                                <img class="img-circle" src="{{ 'https://eu.ui-avatars.com/api/?name=' . $etudiant->nom . '&background=random' }}"
+                                                <img class="img-circle"
+                                                    src="{{ 'https://eu.ui-avatars.com/api/?name=' . $etudiant->nom . '&background=random' }}"
                                                     width='50' alt="profil etudiant">
                                             @endif
 
@@ -59,7 +61,7 @@
                                         <td class="text-center">
                                             <button class="btn btn-link" data-toggle="modal"
                                                 data-target="#view-etudiant{{ $etudiant->id }}" spellcheck="false"> <i
-                                                    class="fa fa-eye"  style="color: #0DCAF0;"></i></button>
+                                                    class="fa fa-eye" style="color: #0DCAF0;"></i></button>
                                             <button class="btn btn-link"
                                                 wire:click='initDataEtudiant({{ $etudiant->id }})' spellcheck="false">
                                                 <i class="fa fa-edit" style="color: #FFC107;"></i></button>
@@ -78,7 +80,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td class="text-center" colspan="7"> <img
+                                                src="{{ asset('images/no_data.svg') }}" alt="Data empty"
+                                                width="200px">
+                                        </td>
+                                    </tr>
+                                @endforelse
 
                             </tbody>
                         </table>
