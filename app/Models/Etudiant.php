@@ -22,6 +22,7 @@ class Etudiant extends Model
         'email',
         'telephone1',
         'telephone2',
+        'coment',
         'user_id',
         'level_id',
     ];

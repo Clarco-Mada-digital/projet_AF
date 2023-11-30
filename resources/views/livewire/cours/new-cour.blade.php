@@ -4,9 +4,9 @@
 
 <div class="row mx-4 pt-4">
     <div class="col-md-12 d-flex align-items-center justify-content-between my-3">
-        <h3>Nouveau cour: </h3>
+        <h3>Nouveau cours: </h3>
         <form action="">
-            <div class="input-group input-group-lg">
+            {{-- <div class="input-group input-group-lg">
                 <input type="search" class="form-control form-control-lg" placeholder="Chercher l'information du membre"
                     value="" spellcheck="false" style="width:400px;">
                 <div class="input-group-append">
@@ -14,17 +14,17 @@
                         <i class="fa fa-search"></i>
                     </button>
                 </div>
-            </div>
+            </div> --}}
         </form>
     </div>
     <div class="col-md-12">
         <div class="card card-default m-0">
             <div class="card-header bg-gradient-primary w-100 d-flex align-items-center">
-                <h3 class="card-title flex-grow-1"><i class="fa fa-pen mr-2"></i> Formulaire de cour</h3>
+                <h3 class="card-title flex-grow-1"><i class="fa fa-pen mr-2"></i> Formulaire du cours</h3>
                 <button type="button" class="btn btn-tool" data-card-widget="maximize" spellcheck="false">
                     <i class="fas fa-expand"></i>
                 </button>
-                <a href="{{ route('cours-list') }}" type="button" class="btn btn-info">
+                <a href="{{ route('cours-list') }}" type="button" class="btn btn-warning">
                     <i class="fa fa-list mr-2"></i> Voir la liste des cours
                 </a>
             </div>
@@ -72,7 +72,7 @@
                     </div>
                     <div class="col-md-6 form-group row">
                         <div class="col-md-6">
-                            <label class="form-label" for="codeHeur">Jour du cour</label>
+                            <label class="form-label" for="codeHeur">Jour</label>
                             <select class="form-control" name="courDay" wire:model='dateInput'>
                                 <option>-- Jour --</option>
                                 <option value="Lundi">Lundi</option>
@@ -84,11 +84,11 @@
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label" for="codeHeur">Heur du debut</label>
+                            <label class="form-label" for="codeHeur">Heure du debut</label>
                             <input class="form-control" type="time" name="courTime" wire:model='heurDebInput'>
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label" for="codeHeur">Heur du fin</label>
+                            <label class="form-label" for="codeHeur">Heure du fin</label>
                             <input class="form-control" type="time" name="courTime" wire:model='heurFinInput'>
                         </div>
                         <div class="col-md-2 text-center">
@@ -104,7 +104,7 @@
                     </div>
                     <div class="col-md-6 form-group">
                         <label class="form-label" for="codeComment">Commentaire</label>
-                        <textarea class="form-control" type="text" name="newCour" id="codeComment" rows="6" wire:model='newCour.commentaire'></textarea>
+                        <textarea class="form-control" type="text" name="newCour" id="codeComment" rows="6" wire:model='newCour.coment'></textarea>
                     </div>
                     <div class="col-md-12 text-right">
                         <button type="submit" class="btn btn-info btn-lg"> <i class="fa fa-paper-plane"></i> Envoyer</button>

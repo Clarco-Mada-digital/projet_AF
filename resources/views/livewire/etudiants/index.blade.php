@@ -42,7 +42,7 @@
                                 @foreach ($etudiants as $etudiant)
                                     <tr>
                                         <td>
-                                            @if ($etudiant->profil != '')
+                                            @if ($etudiant->profil != null)
                                                 <img class="img-circle" src="{{ asset('storage/' . $etudiant->profil) }}" width='50'
                                                     alt="profil etudiant">
                                             @else

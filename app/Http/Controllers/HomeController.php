@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\Cour;
+use App\Models\Etudiant;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -14,7 +14,7 @@ class HomeController extends Controller
      * @return void
      */
     public function __construct()
-    {
+    {        
         $this->middleware('auth');
     }
 
@@ -25,7 +25,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('pages.home');
+        $etudiants = Etudiant::all()->toArray();
+        $cours = Cour::all()->toArray();
+        $datas = [
+            $etudiants,
+            $cours
+        ];
+
+        return view('pages.home', $datas)->with('message', ['key'=>'success', 'content'=>'Bienvenue '.Auth::user()->prenom." ".Auth::user()->nom]);
     }
 
 }

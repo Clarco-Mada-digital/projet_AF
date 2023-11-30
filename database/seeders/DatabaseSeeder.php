@@ -25,10 +25,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CourTableSeeder::class);
 
         
-        \App\Models\Etudiant::factory(10)->create();
+        // \App\Models\Etudiant::factory(10)->create();
         
 
-        $this->call(EtudiantCourTableSeeder::class);
+        // $this->call(EtudiantCourTableSeeder::class);
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',

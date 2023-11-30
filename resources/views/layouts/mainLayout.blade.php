@@ -50,10 +50,10 @@
         {{-- Partie footer --}}
         <footer class="main-footer">
 
-            <strong>Copyright &copy; 2023-2024 <a href="https://mada-digital.net">MADA-Digital</a>.</strong> All rights
+            <strong>Copyright &copy; 2023-2024 Alliance Française Antsiranana.</strong> All rights
             reserved.
             <div class="float-right d-none d-sm-inline text-danger">
-                Alliance Française Antsiranana
+                Designé et développé avec ❤️ par <a href="https://mada-digital.net" style="color: inherit;font-weight: bold;">MADA-Digital</a>                
             </div>
         </footer>
     </div>

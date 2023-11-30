@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('numCarte')->unique();
             $table->string('profil')->nullable();
+            $table->string('comment')->nullable();
             $table->timestamps();
 
             $table->foreignIdFor(User::class)->constrained();

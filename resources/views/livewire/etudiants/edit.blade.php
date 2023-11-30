@@ -7,7 +7,8 @@
             </button>
             <button type="button" class="btn btn-warning" data-toggle="modal" spellcheck="false" data-dismiss="modal"
                 @if ($editEtudiant != []) wire:click='updateEtudiant({{ $editEtudiant['id'] }})' @endif>
-                <i class="fa fa-save"></i> Enregistrer la modification</button>
+                <i class="fa fa-save"></i> <i class="fa fa-spinner fa-spin" wire:loading
+                    wire:target='updateEtudiant'></i> Enregistrer la modification</button>
             <button type="button" class="btn btn-danger" wire:click="toogleStateName('view')">
                 <i class="fa fa-chevron-left mr-2"> Retour</i>
             </button>
@@ -36,7 +37,9 @@
                             <img class="profile-user-img img-fluid img-circle" src=""
                                 alt="Etudiant profile picture">
                         @endif
-                        <label class="text-center">N° Carte : <input type="text"
+                        <i class="fa fa-spinner fa-spin text-center fa-2x" wire:loading wire:target='photo'
+                            style="position: absolute; top:20%; left:48%; color:#FFC107;"></i>
+                        <label class="text-center"> N° Carte : <input type="text"
                                 class="form-control text-center bg-primary" disabled
                                 wire:model='editEtudiant.numCarte'></label>
                     </div>
@@ -99,7 +102,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="etudiantEmail">Email</label>
-                            <input type="text" class="form-control @error('editEtudiant.email') is-invalid @enderror"
+                            <input type="text"
+                                class="form-control @error('editEtudiant.email') is-invalid @enderror"
                                 id="etudiantEmail" wire:model='editEtudiant.email'>
                         </div>
                     </div>
@@ -130,10 +134,14 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="Sessions">Session</label>
-                            <select class="custom-select" spellcheck="false" id="Sessions">
-                                <option>Session 002 23</option>
-                                <option>Session 001 24</option>
-                                <option>Session 002 24</option>
+                            <select class="custom-select" spellcheck="false" id="Sessions" wire:model='$etudiantSession'>
+                                @if ($listSession != null)
+                                    @foreach ($listSession as $session)
+                                        <option value="{{ $session['id'] }}"> {{ $session['nom'] }} </option>
+                                    @endforeach
+                                @endif
+                                {{-- <option>Session 001 24</option>
+                                <option>Session 002 24</option> --}}
                             </select>
                         </div>
                     </div>

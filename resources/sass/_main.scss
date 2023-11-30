@@ -31,5 +31,10 @@
         color: $primary;
       }
     }
+    &.active-ancre{
+      background-color: #ccc4;
+      border-radius: 0 20px 20px 0;
+      width: 98%;
+   }
   }
 }

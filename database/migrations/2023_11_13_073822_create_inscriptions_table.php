@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('moyentPaiement');
             $table->string('statue');
             $table->integer('numRecue')->nullable();
-            $table->longText('remarque');
+            $table->longText('remarque')->nullable();
+            $table->timestamps();
 
             $table->foreignIdFor(Etudiant::class)->constrained();
         });

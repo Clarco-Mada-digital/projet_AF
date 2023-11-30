@@ -8,6 +8,9 @@
 
 
     <h3 class="mb-5 pt-3">Bienvenue {{ Auth::user()->prenom." ".Auth::user()->nom }} !</h3>
+    @if (session()->has('message'))
+     {{session()->get('message->content')}}
+    @endif
     
     <div class="row">
         <div class="col-md-3 col-sm-6 col-12">
@@ -15,7 +18,7 @@
                 <span class="info-box-icon bg-gradient-warning"><i class="fa fa-graduation-cap" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Étudiants</span>
-                    <span class="info-box-number">1500</span>
+                    <span class="info-box-number"> 1520 </span>
                 </div>
 
             </div>
@@ -66,7 +69,7 @@
             </a>
         </div>
         <div class="col-md-4 col-sm-6 col-12">
-            <div class="info-box">
+            <div class="info-box text-secondary">
                 <span class="info-box-icon bg-gradient-primary"><i class="fa fa-user-plus" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Allez au formulaire de nouveau membre</span>
@@ -76,14 +79,14 @@
             </div>
         </div>
         <div class="col-md-4 col-sm-6 col-12">
-            <div class="info-box">
+            <a href="{{ route('cours-nouveau') }}" class="info-box text-secondary">
                 <span class="info-box-icon bg-gradient-warning"><i class="fa fa-book" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Allez au formulaire des nouveaux cours</span>
                     <span class="info-box-number">Inscrire nouveau cours</span>
                 </div>
 
-            </div>
+            </a>
         </div>
 
         <div class="col-md-6 mt-3">

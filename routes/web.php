@@ -3,6 +3,7 @@
 use App\Livewire\Cours;
 use App\Livewire\Etudiants;
 use App\Livewire\NewCour;
+use App\Livewire\Sessions;
 use App\Models\Cour;
 use App\Models\Etudiant;
 use App\Models\Level;
@@ -47,6 +48,8 @@ Route::middleware('auth')->group(function(){
         Route::match(['get', 'post'], '/list', Cours::class)->name('list');
         Route::match(['get', 'post'], '/nouveau', NewCour::class)->name('nouveau');
     });
+
+    Route::match(['get', 'post'], '/session', Sessions::class)->name('session');
 
 });
 

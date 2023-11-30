@@ -5,6 +5,10 @@ namespace App\Livewire;
 use App\Models\Cour;
 use Livewire\Component;
 use App\Models\Etudiant;
+use App\Models\Inscription;
+use App\Models\Level;
+use App\Models\Session;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\WithFileUploads;
@@ -13,33 +17,39 @@ class NewEtudiant extends Component
 {
     use WithFileUploads;
 
+    // ----------- Nos variable --------------
     public $newEtudiant = ['profil' => ''];
     public $photo;
     public int $bsSteepActive = 1;
+    public $listSession;
+    public $levels;
     public $nscList = ["cours" => [], "level" => []];
+    public $now;
+    public $etudiantSession;
+    public $sessionSelected;
+    public $moyenPaiment;
+    public $statue;
 
 
     public function __construct()
     {
+        $this->now = Carbon::now();
         foreach (Cour::all() as $cour) {
             array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
         };
+        $this->listSession = Session::all();
+        $this->levels = Level::all();
+
+        
     }
-    // public function bsSteepPrevNext($crement)
-    // {
-    //     if ($crement == 'next') {
-    //         $this->bsSteepActive += 1;
-    //     } else {
-    //         $this->bsSteepActive -= 1;
-    //     }
-    // }
+    // Fonction pour l'etap du formulaire de l'enregistrement des etudiants
     public function bsSteepPrevNext($crement)
     {
         if ($crement == 'next') {
-            if ($this->bsSteepActive == 1){
+            if ($this->bsSteepActive == 1) {
                 $this->validate();
                 $this->bsSteepActive += 1;
-            }else{
+            } else {
                 $this->bsSteepActive += 1;
             }
         } else {
@@ -47,6 +57,7 @@ class NewEtudiant extends Component
         }
     }
 
+    // Nos fonction de validation
     protected function rules()
     {
         $rule = [
@@ -70,12 +81,31 @@ class NewEtudiant extends Component
         return $rule;
     }
 
+    // Function pour aficher les cours disponible dans la session selectionée
+    public function updateCoursList()
+    {
+        if ($this->etudiantSession != null) {
+            $this->sessionSelected = Session::find($this->etudiantSession);
+            $this->nscList['cours'] = [];
+            $cours = Session::find($this->etudiantSession)->cours;
+
+            foreach ($cours as $cour) {
+                array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
+            }
+        }
+
+    }
+
+    // Enregistrement un nouveau etudiant
     public function submitNewEtudiant()
     {
         $this->newEtudiant['user_id'] = Auth::user()->id;
         $this->newEtudiant['numCarte'] = "AF-" . random_int(100, 9000);
-        $photoName = $this->photo->store('photos', 'public');
-        $this->newEtudiant['profil'] = $photoName;
+        if($this->photo != '')
+        {
+            $photoName = $this->photo->store('photos', 'public');
+            $this->newEtudiant['profil'] = $photoName;
+        }
 
         $validateAtributes = $this->validate();
 
@@ -87,6 +117,12 @@ class NewEtudiant extends Component
                 $newEtud->cours()->attach($cour['cour_id']);
             }
         }
+        // Pour la base donné de inscription
+        $montant = $this->sessionSelected->montant;
+        $inscriValue = ['montant'=>$montant, 'dateInscription'=> $this->now, 'moyentPaiement'=>$this->moyenPaiment, 'statue'=>$this->statue, 'etudiant_id'=>$newEtud->id];
+
+        $inscription = Inscription::create($inscriValue);
+        $inscription->sessions()->attach($this->sessionSelected->id);
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Enregistrement avec success!', 'type' => 'success']);
         $this->photo = '';
@@ -94,6 +130,7 @@ class NewEtudiant extends Component
         return redirect(route('etudiants-list'));
     }
 
+    // Fonction render
     public function render()
     {
         return view('livewire.etudiants.new-etudiant');

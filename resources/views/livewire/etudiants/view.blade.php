@@ -75,8 +75,7 @@
                 </p>
                 <hr>
                 <strong><i class="fa fa-comments mr-1"></i> Commentaire</strong>
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim
-                    neque.</p>
+                <p class="text-muted"> {{ $etudiant->coment }} </p>
             </div>
 
         </div>

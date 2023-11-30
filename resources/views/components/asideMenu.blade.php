@@ -46,7 +46,7 @@
                 </li>
                 <li @class(['nav-item', 'menu-open' => Str::contains(request()->route()->getName(), 'etudiants')]) >
                     <a href="#" 
-                        @class(["nav-link d-flex align-items-center", 'active'=> Str::contains(request()->route()->getName(), 'etudiants') ])>
+                        @class(["nav-link d-flex align-items-center", 'active-ancre'=> Str::contains(request()->route()->getName(), 'etudiants') ])>
                         <i class="fa fa-users nav-icon" aria-hidden="true"></i>
                         <p>
                             ÉTUDIANTS
@@ -72,7 +72,7 @@
                 </li>
                 <li @class(['nav-item', 'menu-open' => Str::contains(request()->route()->getName(), 'cours')])>
                     <a href="#" 
-                        @class(["nav-link d-flex align-items-center", 'active'=> Str::contains(request()->route()->getName(), 'cours') ])>
+                        @class(["nav-link d-flex align-items-center", 'active-ancre'=> Str::contains(request()->route()->getName(), 'cours') ])>
                         <ion-icon class="nav-icon" name="book"></ion-icon>
                         <p>
                             COURS
@@ -85,7 +85,7 @@
                             <a href="{{ route('cours-nouveau') }}" 
                                 @class(['nav-link', 'active'=> request()->url() == route('cours-nouveau') ])>
                                 <ion-icon class="nav-icon" name="create"></ion-icon>
-                                <p>Nouveaux cours</p>
+                                <p>Nouveau cours</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -97,16 +97,16 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link d-flex align-items-center">
+                <li @class(['nav-item', 'menu-open' => Str::contains(request()->route()->getName(), 'paiment')])>
+                    <a href="#" @class(["nav-link d-flex align-items-center", 'active'=> Str::contains(request()->route()->getName(), 'paiment') ])>
                         <ion-icon class="nav-icon" name="card"></ion-icon>
                         <p>
                             PAIEMENTS
                         </p>
                     </a>                    
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link d-flex align-items-center">
+                <li @class(['nav-item', 'menu-open' => Str::contains(request()->route()->getName(), 'session')])>
+                    <a href="#" @class(["nav-link d-flex align-items-center", 'active-ancre'=> Str::contains(request()->route()->getName(), 'session') ])>
                         <ion-icon class="nav-icon" name="settings"></ion-icon>
                         <p>
                             PARAMETRES
@@ -115,21 +115,28 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <ion-icon class="nav-icon" name="cog-outline"></ion-icon>
-                                <p>Général</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <ion-icon class="nav-icon" name="book-outline"></ion-icon>
-                                <p>Cours</p>
+                            <a href="{{route('session')}}"  
+                                @class(['nav-link', 'active'=> request()->url() == route('session') ])>
+                                <ion-icon class="nav-icon" name="barcode-outline"></ion-icon>
+                                <p>Session</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <ion-icon class="nav-icon" name="people-circle-outline"></ion-icon>
                                 <p>Utilisateurs</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <ion-icon class="nav-icon" name="briefcase-outline"></ion-icon>
+                                <p>Professeur</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <ion-icon class="nav-icon" name="finger-print-outline"></ion-icon>
+                                <p>Permissions</p>
                             </a>
                         </li>
                     </ul>

@@ -1,6 +1,6 @@
 <div class="row mx-4 pt-4">
     <div class="col-md-12 d-flex align-items-center justify-content-between my-3">
-        <h3>Nouvel étudiants: </h3>
+        <h3>Nouvel étudiant: </h3>
         <form action="">
             <div class="input-group input-group-lg">
                 <input type="search" class="form-control form-control-lg" placeholder="Chercher l'information du membre"
@@ -21,7 +21,7 @@
                     <i class="fas fa-expand"></i>
                 </button>
                 <a href="{{ route('etudiants-list') }}" type="button" class="btn btn-info">
-                    <i class="fa fa-list mr-2"></i> Voir la liste d'étudiants
+                    <i class="fa fa-list mr-2"></i> Voir la liste des étudiants
                 </a>
             </div>
             <div class="card-body p-0">
@@ -74,6 +74,9 @@
                                                     src="{{ $photo->temporaryUrl() }}">
                                             </div>
                                         @endif
+                                        <div class="mr-4 my-auto" wire:loading wire:target="photo">
+                                            <i class="fa fa-spinner fa-spin"></i>
+                                        </div>
                                         <div class="form-group">
                                             <label for="exampleInputFile">Image profil</label>
                                             <div class="input-group">
@@ -95,89 +98,113 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantNom">Nom</label>
-                                            <input type="text" class="form-control 
-                                                @error('newEtudiant.nom') is-invalid @enderror" id="etudiantNom"
-                                                wire:model="newEtudiant.nom">
-                                                @error('newEtudiant.nom') <span class="invalid-feedback"> Ce champ est obligatoire</span> @enderror
+                                            <input type="text"
+                                                class="form-control 
+                                                @error('newEtudiant.nom') is-invalid @enderror"
+                                                id="etudiantNom" wire:model="newEtudiant.nom">
+                                            @error('newEtudiant.nom')
+                                                <span class="invalid-feedback"> Ce champ est obligatoire</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantPrenom">Prénom</label>
-                                            <input type="text" class="form-control 
-                                                @error('newEtudiant.prenom') is-invalid @enderror" id="etudiantPrenom"
-                                                wire:model='newEtudiant.prenom'>
-                                                @error('newEtudiant.prenom') <span class="invalid-feedback"> Ce champ est obligatoire</span> @enderror
+                                            <input type="text"
+                                                class="form-control 
+                                                @error('newEtudiant.prenom') is-invalid @enderror"
+                                                id="etudiantPrenom" wire:model='newEtudiant.prenom'>
+                                            @error('newEtudiant.prenom')
+                                                <span class="invalid-feedback"> Ce champ est obligatoire</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantPrenom">Sexe</label>
-                                            <select class="custom-select 
-                                                @error('newEtudiant.sexe') is-invalid @enderror" spellcheck="false" id="etudiantSexe"
-                                                wire:model='newEtudiant.sexe'>
+                                            <select
+                                                class="custom-select 
+                                                @error('newEtudiant.sexe') is-invalid @enderror"
+                                                spellcheck="false" id="etudiantSexe" wire:model='newEtudiant.sexe'>
                                                 <option> --- --- </option>
                                                 <option value="M">Homme</option>
                                                 <option value="F">Femme</option>
                                             </select>
-                                            @error('newEtudiant.sexe') <span class="invalid-feedback"> Ce champ est obligatoire</span> @enderror
+                                            @error('newEtudiant.sexe')
+                                                <span class="invalid-feedback"> Ce champ est obligatoire</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantBirth">Date de naissance</label>
-                                            <input type="date" class="form-control 
-                                                @error('newEtudiant.dateNaissance') is-invalid @enderror" id="etudiantBirth"
-                                                wire:model='newEtudiant.dateNaissance'>
-                                                @error('newEtudiant.dateNaissance') <span class="invalid-feedback"> Ce champ est obligatoire</span> @enderror
+                                            <input type="date"
+                                                class="form-control 
+                                                @error('newEtudiant.dateNaissance') is-invalid @enderror"
+                                                id="etudiantBirth" wire:model='newEtudiant.dateNaissance'>
+                                            @error('newEtudiant.dateNaissance')
+                                                <span class="invalid-feedback"> Ce champ est obligatoire</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantProfession">Nationalité</label>
-                                            <input type="text" class="form-control 
-                                                @error('newEtudiant.nationalite') is-invalid @enderror" id="etudiantNationalite"
-                                                wire:model='newEtudiant.nationalite'>
-                                                @error('newEtudiant.nationalite') <span class="invalid-feedback"> Ce champ est obligatoire</span> @enderror
+                                            <input type="text"
+                                                class="form-control 
+                                                @error('newEtudiant.nationalite') is-invalid @enderror"
+                                                id="etudiantNationalite" wire:model='newEtudiant.nationalite'>
+                                            @error('newEtudiant.nationalite')
+                                                <span class="invalid-feedback"> Ce champ est obligatoire</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantProfession">Profession</label>
                                             <input type="text" class="form-control" id="etudiantProfession"
-                                                wire:model='newEtudiant.profession'>                                                
+                                                wire:model='newEtudiant.profession'>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantAddr">Adresse</label>
-                                            <input type="text" class="form-control 
-                                                @error('newEtudiant.adresse') is-invalid @enderror" id="etudiantAddr"
-                                                wire:model='newEtudiant.adresse'>
-                                                @error('newEtudiant.adresse') <span class="invalid-feedback"> Ce champ est obligatoire</span> @enderror
+                                            <input type="text"
+                                                class="form-control 
+                                                @error('newEtudiant.adresse') is-invalid @enderror"
+                                                id="etudiantAddr" wire:model='newEtudiant.adresse'>
+                                            @error('newEtudiant.adresse')
+                                                <span class="invalid-feedback"> Ce champ est obligatoire</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantEmail">Email</label>
-                                            <input type="text" class="form-control 
-                                                @error('newEtudiant.email') is-invalid @enderror" id="etudiantEmail"
-                                                wire:model='newEtudiant.email'>
-                                                @error('newEtudiant.email') <span class="invalid-feedback"> Ce champ est obligatoire | unique</span> @enderror
+                                            <input type="text"
+                                                class="form-control 
+                                                @error('newEtudiant.email') is-invalid @enderror"
+                                                id="etudiantEmail" wire:model='newEtudiant.email'>
+                                            @error('newEtudiant.email')
+                                                <span class="invalid-feedback"> Ce champ est obligatoire | unique</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantPhone">Téléphone</label>
-                                            <input type="text" class="form-control 
-                                                @error('newEtudiant.telephone1') is-invalid @enderror" id="etudiantPhone"
-                                                wire:model='newEtudiant.telephone1'>
-                                                @error('newEtudiant.telephone1') <span class="invalid-feedback"> Ce champ est obligatoire</span> @enderror
+                                            <input type="text"
+                                                class="form-control 
+                                                @error('newEtudiant.telephone1') is-invalid @enderror"
+                                                id="etudiantPhone" wire:model='newEtudiant.telephone1'>
+                                            @error('newEtudiant.telephone1')
+                                                <span class="invalid-feedback"> Ce champ est obligatoire</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="etudiantPhone">Seconde téléphone</label>
+                                            <label for="etudiantPhone">Second téléphone</label>
                                             <input type="text" class="form-control" id="etudiantPhone"
                                                 wire:model='newEtudiant.telephone2'>
                                         </div>
@@ -188,7 +215,7 @@
                                                 <input class="custom-control-input custom-control-input-danger"
                                                     type="checkbox" id="newMembre">
                                                 <label for="newMembre" class="custom-control-label">Confirmer que
-                                                    c'est un nouveaux membre</label>
+                                                    c'est un nouveau membre</label>
                                             </div>
                                         </div>
                                     </div>
@@ -200,10 +227,15 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="Sessions">Session</label>
-                                            <select class="custom-select" spellcheck="false" id="Sessions">
-                                                <option>Session 002 23</option>
-                                                <option>Session 001 24</option>
-                                                <option>Session 002 24</option>
+                                            <select class="custom-select" spellcheck="false" id="Sessions"
+                                                wire:model='etudiantSession' wire:click.live='updateCoursList'>
+                                                <option value='null'> --- Session --- </option>
+                                                @foreach ($listSession as $session)
+                                                    @if ($session->dateFin > $now)
+                                                        <option value="{{ $session->id }}"> {{ $session->nom }}
+                                                        </option>
+                                                    @endif
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -213,9 +245,11 @@
                                             <select class="custom-select" spellcheck="false" id="etudiantNiveau"
                                                 wire:model='newEtudiant.level_id'>
                                                 <option> --- --- </option>
-                                                <option value="1">Niveau Debutante</option>
-                                                <option value="2">Niveau Intermediaire</option>
-                                                <option value="3">Niveau avancée</option>
+                                                @forelse ($levels as $level)
+                                                    <option value="{{ $level->id }}"> {{ $level->nom }}</option>
+                                                @empty
+                                                    <option value="2"> Donné non trouvé </option>
+                                                @endforelse
                                             </select>
                                         </div>
                                     </div>
@@ -224,7 +258,7 @@
                                             <h3 class="card-title">Liste des cours</h3>
                                         </div>
                                         <div class="card-body row">
-                                            @foreach ($nscList['cours'] as $cour)
+                                            @forelse ($nscList['cours'] as $cour)
                                                 <div class="form-group col-md-3">
                                                     <div class="custom-control custom-checkbox">
                                                         <input class="custom-control-input" type="checkbox"
@@ -235,7 +269,9 @@
                                                             class="custom-control-label">{{ $cour['cour_libelle'] }}</label>
                                                     </div>
                                                 </div>
-                                            @endforeach
+                                            @empty
+                                                <h3>Aucun donnée trouvé !</h3>
+                                            @endforelse
                                             {{-- <div class="form-group col-md-3">
                                                     <div class="custom-control custom-checkbox">
                                                         <input class="custom-control-input" type="checkbox"
@@ -257,7 +293,9 @@
                                         <span class="info-box-icon"><i class="fas fa-tag"></i></span>
                                         <div class="info-box-content">
                                             <span class="info-box-text">Montant total</span>
-                                            <span class="info-box-number" style="font-size: 1.5rem;">20.000Ar</span>
+                                            @if ($etudiantSession != null)
+                                                <span class="info-box-number" style="font-size: 1.5rem;"> {{$sessionSelected->montant}} Ar</span>
+                                            @endif
                                         </div>
 
                                     </div>
@@ -268,17 +306,17 @@
                                         <div class="card-body row">
                                             <div class="custom-control custom-radio col-md-3">
                                                 <input class="custom-control-input" type="radio" id="espece"
-                                                    name="paiementPar">
+                                                    name="paiementPar" wire:model='moyenPaiment'>
                                                 <label for="espece" class="custom-control-label">Espèce</label>
                                             </div>
                                             <div class="custom-control custom-radio col-md-3">
                                                 <input class="custom-control-input" type="radio" id="cheque"
-                                                    name="paiementPar">
+                                                    name="paiementPar"  wire:model='moyenPaiment'>
                                                 <label for="cheque" class="custom-control-label"> Chèque</label>
                                             </div>
                                             <div class="custom-control custom-radio col-md-3">
                                                 <input class="custom-control-input" type="radio" id="carte"
-                                                    name="paiementPar">
+                                                    name="paiementPar"  wire:model='moyenPaiment'>
                                                 <label for="carte" class="custom-control-label">Carte
                                                     bancaire</label>
                                             </div>
@@ -287,18 +325,18 @@
                                     </div>
                                     <div class="col-md-12 card card-warning">
                                         <div class="card-header">
-                                            <h3 class="card-title">Statue de paiement</h3>
+                                            <h3 class="card-title">Status de paiement</h3>
                                         </div>
                                         <div class="card-body row">
                                             <div class="custom-control custom-radio col-md-3">
                                                 <input class="custom-control-input" type="radio" id="totale"
-                                                    name="statuePaiement">
+                                                    name="statuePaiement" wire:model='statue'>
                                                 <label for="totale" class="custom-control-label">Totalement
                                                     payé</label>
                                             </div>
                                             <div class="custom-control custom-radio col-md-3">
                                                 <input class="custom-control-input" type="radio" id="moitier"
-                                                    name="statuePaiement">
+                                                    name="statuePaiement" wire:model='statue'>
                                                 <label for="moitier" class="custom-control-label"> A moitié
                                                     payé</label>
                                             </div>
@@ -315,7 +353,7 @@
                                     </div>
                                     <div class="card-body row">
                                         <div class="col-md-6">
-                                            <button class="btn btn-success">Generer un facture</button>
+                                            <button class="btn btn-success">Imprimer la facture</button>
                                         </div>
                                         <div class="col-md-6">
                                             <button class="btn btn-success">Envoyé la facture par email</button>
@@ -323,7 +361,9 @@
                                     </div>
                                 </div>
                                 <a class="btn btn-primary" wire:click="bsSteepPrevNext('prev')">Précedent</a>
-                                <button type="submit" class="btn btn-primary">Envoyer</button>
+                                <button type="submit" class="btn btn-primary"> <i class="fa fa-spinner fa-spin"
+                                        wire:loading='submitNewEtudiant' wire:target='submitNewEtudiant'></i>
+                                    Valider</button>
                             </div>
                         </form>
                     </div>

@@ -13,7 +13,7 @@
                             cours</h3>
                         <div class="card-tools d-flex align-items-center">
                             <a href="{{ route('cours-nouveau') }}" class="btn btn-link text-light mr-4">
-                                <i class="fa fa-user-plus"></i> Nouvel cours</a>
+                                <i class="fa fa-user-plus"></i> Nouveau cours</a>
                             <div class="input-group input-group-md" style="width: 250px;">
                                 <input type="search" name="table_search" class="form-control float-right"
                                     placeholder="Search" wire:model.live.debounce.500ms="search">
@@ -33,8 +33,8 @@
                                     <th style="width: 10%">N°</th>
                                     <th style="width: 10%">Code</th>
                                     <th style="width: 30%">Libellé</th>
-                                    <th class="text-center" style="width: 20%">Heur du cour</th>
-                                    <th class="text-center" style="width: 20%">Proffesseur</th>
+                                    <th class="text-center" style="width: 20%">Heure du cour</th>
+                                    <th class="text-center" style="width: 20%">Professeur</th>
                                     <th style="width: 10%">Salle</th>
                                     <th class="text-center" style="width: 5%">Action</th>
                                 </tr>

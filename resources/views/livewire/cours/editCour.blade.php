@@ -4,7 +4,7 @@
         <button type="button" class="btn btn-tool" data-card-widget="maximize" spellcheck="false">
             <i class="fas fa-expand"></i>
         </button>
-        <a type="button" class="btn btn-info" wire:click="toogleStateName('view')">
+        <a type="button" class="btn btn-warning" wire:click="toogleStateName('view')">
             <i class="fa fa-list mr-2"></i> Aller à la liste des cours
         </a>
     </div>
@@ -79,10 +79,10 @@
             <div class="col-md-6 form-group">
                 <label class="form-label" for="codeComment">Commentaire</label>
                 <textarea class="form-control" type="text" name="editCour" id="codeComment" rows="6"
-                    wire:model='editCour.commentaire'></textarea>
+                    wire:model='editCour.coment'></textarea>
             </div>
             <div class="col-md-12 text-right">
-                <button type="submit" class="btn btn-info btn-lg"> <i class="fa fa-paper-plane"></i>
+                <button type="submit" class="btn btn-info btn-lg"> <i class="fa fa-paper-plane"></i> <i class="fa fa-spinner fa-spin" wire:loading wire:target='updateCour'></i>
                     Modifier</button>
             </div>
         </form>
