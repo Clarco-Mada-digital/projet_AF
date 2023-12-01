@@ -33,7 +33,7 @@ window.addEventListener('ShowSuccessMsg', (e)=>{
 
 window.addEventListener('showModalSimpleMsg', (e)=>{
   Swal.fire({
-    title: "Attention ?",
+    title: "Attention !",
     text: e.detail[0]['message'] || 'Attention au Opération effectué !',
     icon: "warning",
     buttons: true,
