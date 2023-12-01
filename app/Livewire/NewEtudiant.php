@@ -34,11 +34,17 @@ class NewEtudiant extends Component
     public function __construct()
     {
         $this->now = Carbon::now();
+        $this->listSession = Session::all();
+        $this->levels = Level::all();
         foreach (Cour::all() as $cour) {
             array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
         };
-        $this->listSession = Session::all();
-        $this->levels = Level::all();
+
+        if ($this->listSession->toArray() == null)
+            {
+                $this->dispatch("showModalSimpleMsg", ['message' => "Avant d'inscrire un étudiant, soyer sûr qu'il y a de la session active !", 'type' => 'warning']);
+                // return redirect(route('session'));
+            }
     }
     // Fonction pour l'etap du formulaire de l'enregistrement des etudiants
     public function bsSteepPrevNext($crement)

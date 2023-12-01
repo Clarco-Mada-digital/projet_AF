@@ -69,13 +69,25 @@ class Etudiants extends Component
 
     public function toogleStateName($stateName)
     {
-        if ($stateName == 'view') {
+        if ($stateName == 'view') 
+        {
             $this->nscList = ["cours" => [], "level" => []];
             $this->state = 'view';
         }
-        if ($stateName == 'edit') {
+        if ($stateName == 'edit') 
+        {
             $this->state = 'edit';
             $this->populateNscList();
+        }
+        if ($stateName == 'new')
+        {
+            // dd(Session::all());
+            if (Session::all()->toArray() == null)
+            {
+                $this->dispatch("showModalSimpleMsg", ['message' => "Avant d'inscrire un étudiant, soyer sûr qu'il y a de la session active !", 'type' => 'warning']);
+            }
+            else{ return redirect(route('etudiants-nouveau')); }
+            
         }
     }
 

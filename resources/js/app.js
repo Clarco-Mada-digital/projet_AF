@@ -31,6 +31,16 @@ window.addEventListener('ShowSuccessMsg', (e)=>{
   })
 })
 
+window.addEventListener('showModalSimpleMsg', (e)=>{
+  Swal.fire({
+    title: "Attention ?",
+    text: e.detail[0]['message'] || 'Attention au Opération effectué !',
+    icon: "warning",
+    buttons: true,
+    // dangerMode: true,
+  });
+})
+
 
 // checker preety bootstrap
 // import "https://cdnjs.cloudflare.com/ajax/libs/icheck-bootstrap/3.0.1/icheck-bootstrap.min.css"
