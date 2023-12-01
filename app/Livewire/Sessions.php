@@ -61,11 +61,9 @@ class Sessions extends Component
 
     public function toogleFormSession()
     {
-        if (Cour::all()->toArray() == null)
-            {
-                $this->dispatch("showModalSimpleMsg", ['message' => "Avant de créer une nouvelle session, soyer sûr qu'il y a des cours dans la base !", 'type' => 'warning']);
-            }
-        else{
+        if (Cour::all()->toArray() == null) {
+            $this->dispatch("showModalSimpleMsg", ['message' => "Avant de créer une nouvelle session, soyer sûr qu'il y a des cours dans la base !", 'type' => 'warning']);
+        } else {
             foreach (Cour::all() as $cour) {
                 array_push($this->cours, ['id' => $cour->id, 'libelle' => $cour->libelle, 'horaire' => $cour->horaire, 'active' => false]);
             }
@@ -168,6 +166,7 @@ class Sessions extends Component
 
         $data = [
             "sessions" => Session::where("nom", "LIKE", "%{$this->search}%")
+                ->orderBy($this->orderField, $this->orderDirection)
                 ->paginate(5)
         ];
 

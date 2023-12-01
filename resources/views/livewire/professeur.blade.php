@@ -1,0 +1,75 @@
+@section('title', 'professeur')
+
+@section('titlePage', 'PROFESSEUR')
+
+<div>
+    <h3 class="mb-5 pt-3">List des sessions</h3>
+    <div class="row m-4">
+        <div class="col-12">
+            <div class="card" style="min-height: 350px;">
+                <div class="card-header bg-gradient-primary">
+                    <h3 class="card-title d-flex align-items-center"> <i class="fa fa-users fa-2x mr-2"></i> Liste des
+                        professeurs</h3>
+                    <div class="card-tools d-flex align-items-center">
+                        <button class="btn btn-link text-light mr-4">
+                            <i class="fa fa-user-plus"></i> inscrit un nouveau professeur</button>
+                        <div class="input-group input-group-md" style="width: 250px;">
+                            <input type="search" name="table_search" class="form-control float-right"
+                                placeholder="Search" wire:model.live.debounce.500ms="search">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body table-responsive p-0 table-striped" style="position: relative;">
+                    <table class="table table-head-fixed text-nowrap">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%"></th>
+                                <th style="width: 20%" wire:click="setOrderField('nom')">Nom</th>
+                                <th class="text-center" style="width: 15%" wire:click="setOrderField('nom')">Prenom</th>
+                                <th class="text-center" style="width: 15%">nationalité</th>
+                                <th class="text-center" style="width: 15%">Telephone</th>
+                                <th class="text-center" style="width: 20%">Email</th>
+                                <th class="text-center" style="width: 10%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($professeurs as $professeur)
+                                <tr>
+                                    <td>{{ $loop->index + 1 }}</td>
+                                    <td>{{ $professeur->nom }}</td>
+                                    <td class="text-center">{{ $professeur->prenom }}</td>
+                                    <td class="text-center">{{ $professeur->nationalite }}</td>
+                                    <td class="text-center">{{ $professeur->telephone1 }}</td>
+                                    <td class="text-center"> {{ $professeur->email }} </td>
+                                    <td class="text-center">
+                                        <button class="btn btn-link"><i class="fa fa-eye"></i></button>
+                                        <button class="btn btn-link"><i class="fa fa-edit" style="color: #FFC107;"></i></button>
+                                        <button class="btn btn-link bounce"> <i class="fa fa-trash" style="color: #DC3545;"></i></button>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td class="text-center" colspan="7"> <img src="{{ asset('images/no_data.svg') }}"
+                                            alt="Data empty" width="200px">
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="card-footer clearfixr">
+                    <div class="float-right">
+                        {{ $professeurs->links() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -105,8 +105,8 @@
                         </p>
                     </a>                    
                 </li>
-                <li @class(['nav-item', 'menu-open' => Str::contains(request()->route()->getName(), 'session')])>
-                    <a href="#" @class(["nav-link d-flex align-items-center", 'active-ancre'=> Str::contains(request()->route()->getName(), 'session') ])>
+                <li @class(['nav-item', 'menu-open' => Str::contains(request()->route()->getName(), 'parametres')])>
+                    <a href="#" @class(["nav-link d-flex align-items-center", 'active-ancre'=> Str::contains(request()->route()->getName(), 'parametres') ])>
                         <ion-icon class="nav-icon" name="settings"></ion-icon>
                         <p>
                             PARAMETRES
@@ -115,8 +115,8 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('session')}}"  
-                                @class(['nav-link', 'active'=> request()->url() == route('session') ])>
+                            <a href="{{route('parametres-session')}}"  
+                                @class(['nav-link', 'active'=> request()->url() == route('parametres-session') ])>
                                 <ion-icon class="nav-icon" name="barcode-outline"></ion-icon>
                                 <p>Session</p>
                             </a>
@@ -128,7 +128,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{route('parametres-professeur')}}" 
+                                @class(['nav-link', 'active'=> request()->url() == route('parametres-professeur') ])>
                                 <ion-icon class="nav-icon" name="briefcase-outline"></ion-icon>
                                 <p>Professeur</p>
                             </a>

@@ -35,7 +35,11 @@ class HomeController extends Controller
         $cours = Cour::all();
         $datas =['etudiants'=>$etudiants, 'cours'=>$cours];
 
-        $request->session()->flash('message', 'Bienvenu '.Auth::user()->prenom." ".Auth::user()->nom);
+        $salutationList = ['Bienvenu', 'Salut', 'Bonjour', 'Hola', 'Salama', 'Bolatsara'];
+
+        $Salutation = array_rand($salutationList);
+
+        $request->session()->flash('message', $salutationList[$Salutation].' '.Auth::user()->prenom." ".Auth::user()->nom);
         
 
         return view('pages.home', $datas);

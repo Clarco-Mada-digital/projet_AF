@@ -24,7 +24,7 @@
 .sub-log-btn {
    border-radius: $btn-rad;
 }
-.bounce .bounce-h:hover{
+.bounce:hover{
    animation: bounceAnim infinite .6s  alternate ease-in-out;
 }
 .rotateAnim {
