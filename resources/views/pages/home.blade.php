@@ -8,9 +8,6 @@
 
 
     <h3 class="mb-5 pt-3">Bienvenue {{ Auth::user()->prenom." ".Auth::user()->nom }} !</h3>
-    @if (session()->has('message'))
-     {{session()->get('message->content')}}
-    @endif
     
     <div class="row">
         <div class="col-md-3 col-sm-6 col-12">
@@ -18,7 +15,9 @@
                 <span class="info-box-icon bg-gradient-warning"><i class="fa fa-graduation-cap" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Étudiants</span>
-                    <span class="info-box-number"> 1520 </span>
+                    <span class="info-box-number">
+                        @if ($etudiants != null) {{ sizeof($etudiants) }} @else Aucune donnée trouvée @endif
+                    </span>
                 </div>
 
             </div>
@@ -28,7 +27,9 @@
                 <span class="info-box-icon bg-gradient-primary"><i class="fa fa-user-plus" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Nouveaux étudiants</span>
-                    <span class="info-box-number">500</span>
+                    <span class="info-box-number"> 
+                        @if ($etudiants != null) {{ sizeof(($etudiants) ) }} @else Aucune donnée trouvée @endif  
+                    </span>
                 </div>
 
             </div>
@@ -38,7 +39,9 @@
                 <span class="info-box-icon bg-gradient-warning"><i class="fa fa-book" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Cours existants</span>
-                    <span class="info-box-number">25</span>
+                    <span class="info-box-number">
+                        @if ($etudiants != null) {{ sizeof($cours) }} @else Aucune donnée trouvée @endif                          
+                    </span>
                 </div>
 
             </div>
@@ -48,11 +51,12 @@
                 <span class="info-box-icon bg-gradient-primary"><i class="fa fa-address-book" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Nouveaux cours</span>
-                    <span class="info-box-number">3</span>
+                    <span class="info-box-number">
+                        @if ($etudiants != null) {{ sizeof($cours) }} @else Aucune donnée trouvée @endif                          
+                    </span> 
                 </div>
 
             </div>
-
         </div>
     </div>
     <h3 class="mt-3">Vos actions</h3>

@@ -243,7 +243,7 @@
                                         <div class="form-group">
                                             <label for="etudiantNiveau">Niveau</label>
                                             <select class="custom-select" spellcheck="false" id="etudiantNiveau"
-                                                wire:model='newEtudiant.level_id'>
+                                                wire:model='newEtudiant.level_id' wire:click.live='updateCoursList'>
                                                 <option> --- --- </option>
                                                 @forelse ($levels as $level)
                                                     <option value="{{ $level->id }}"> {{ $level->nom }}</option>
@@ -294,7 +294,8 @@
                                         <div class="info-box-content">
                                             <span class="info-box-text">Montant total</span>
                                             @if ($etudiantSession != null)
-                                                <span class="info-box-number" style="font-size: 1.5rem;"> {{$sessionSelected->montant}} Ar</span>
+                                                <span class="info-box-number" style="font-size: 1.5rem;">
+                                                    {{ $sessionSelected->montant }} Ar</span>
                                             @endif
                                         </div>
 
@@ -311,12 +312,12 @@
                                             </div>
                                             <div class="custom-control custom-radio col-md-3">
                                                 <input class="custom-control-input" type="radio" id="cheque"
-                                                    name="paiementPar"  wire:model='moyenPaiment'>
+                                                    name="paiementPar" wire:model='moyenPaiment'>
                                                 <label for="cheque" class="custom-control-label"> Chèque</label>
                                             </div>
                                             <div class="custom-control custom-radio col-md-3">
                                                 <input class="custom-control-input" type="radio" id="carte"
-                                                    name="paiementPar"  wire:model='moyenPaiment'>
+                                                    name="paiementPar" wire:model='moyenPaiment'>
                                                 <label for="carte" class="custom-control-label">Carte
                                                     bancaire</label>
                                             </div>
@@ -329,17 +330,17 @@
                                         </div>
                                         <div class="card-body row">
                                             <div class="custom-control custom-radio col-md-3">
-                                                <input class="custom-control-input" type="radio" id="totale"
-                                                    name="statuePaiement" wire:model='statue'>
-                                                <label for="totale" class="custom-control-label">Totalement
-                                                    payé</label>
-                                            </div>
-                                            <div class="custom-control custom-radio col-md-3">
                                                 <input class="custom-control-input" type="radio" id="moitier"
                                                     name="statuePaiement" wire:model='statue'>
                                                 <label for="moitier" class="custom-control-label"> A moitié
                                                     payé</label>
                                             </div>
+                                            <div class="custom-control custom-radio col-md-3">
+                                                <input class="custom-control-input" type="radio" id="totale"
+                                                    name="statuePaiement" wire:model='statue'>
+                                                <label for="totale" class="custom-control-label">Totalement
+                                                    payé</label>
+                                            </div>                                            
                                         </div>
                                     </div>
                                 </div>
@@ -351,12 +352,12 @@
                                     <div class="card-header">
                                         <h3 class="card-title">Facturation</h3>
                                     </div>
-                                    <div class="card-body row">
-                                        <div class="col-md-6">
-                                            <button class="btn btn-success">Imprimer la facture</button>
+                                    <div class="card-body mx-auto w-100">
+                                        <div class="text-center">
+                                            <img class="w-25" src="{{ asset('images/facture.jpg') }}" alt="prevision facture">
                                         </div>
-                                        <div class="col-md-6">
-                                            <button class="btn btn-success">Envoyé la facture par email</button>
+                                        <div class="text-center my-3">
+                                            <button class="btn btn-success">Imprimer la facture</button>
                                         </div>
                                     </div>
                                 </div>

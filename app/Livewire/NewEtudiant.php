@@ -18,7 +18,7 @@ class NewEtudiant extends Component
     use WithFileUploads;
 
     // ----------- Nos variable --------------
-    public $newEtudiant = ['profil' => ''];
+    public $newEtudiant = ['profil' => '', 'level_id'=>''];
     public $photo;
     public int $bsSteepActive = 1;
     public $listSession;
@@ -27,8 +27,8 @@ class NewEtudiant extends Component
     public $now;
     public $etudiantSession;
     public $sessionSelected;
-    public $moyenPaiment;
-    public $statue;
+    public $moyenPaiment = 'espece';
+    public $statue = 'totale';
 
 
     public function __construct()
@@ -39,8 +39,6 @@ class NewEtudiant extends Component
         };
         $this->listSession = Session::all();
         $this->levels = Level::all();
-
-        
     }
     // Fonction pour l'etap du formulaire de l'enregistrement des etudiants
     public function bsSteepPrevNext($crement)
@@ -85,15 +83,31 @@ class NewEtudiant extends Component
     public function updateCoursList()
     {
         if ($this->etudiantSession != null) {
-            $this->sessionSelected = Session::find($this->etudiantSession);
             $this->nscList['cours'] = [];
+            $this->sessionSelected = Session::find($this->etudiantSession);
             $cours = Session::find($this->etudiantSession)->cours;
 
-            foreach ($cours as $cour) {
-                array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
+            if ($this->newEtudiant['level_id'] != null) {
+                foreach ($cours as $cour)
+                {
+                    if ($cour->level_id == $this->newEtudiant['level_id'])
+                    {
+                        array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
+                        // dd($this->nscList['cours']);
+                    }
+                }
+
+                // $cours = $cour[0]->level_id == $this->newEtudiant['level_id'];
+                // dd($cours);
+                // dd($cours[0]->level_id);
+                // dd($this->newEtudiant['level_id']);
+
+            } else {
+                foreach ($cours as $cour) {
+                    array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
+                }
             }
         }
-
     }
 
     // Enregistrement un nouveau etudiant
@@ -101,8 +115,7 @@ class NewEtudiant extends Component
     {
         $this->newEtudiant['user_id'] = Auth::user()->id;
         $this->newEtudiant['numCarte'] = "AF-" . random_int(100, 9000);
-        if($this->photo != '')
-        {
+        if ($this->photo != '') {
             $photoName = $this->photo->store('photos', 'public');
             $this->newEtudiant['profil'] = $photoName;
         }
@@ -119,7 +132,7 @@ class NewEtudiant extends Component
         }
         // Pour la base donné de inscription
         $montant = $this->sessionSelected->montant;
-        $inscriValue = ['montant'=>$montant, 'dateInscription'=> $this->now, 'moyentPaiement'=>$this->moyenPaiment, 'statue'=>$this->statue, 'etudiant_id'=>$newEtud->id];
+        $inscriValue = ['montant' => $montant, 'dateInscription' => $this->now, 'moyentPaiement' => $this->moyenPaiment, 'statue' => $this->statue, 'etudiant_id' => $newEtud->id];
 
         $inscription = Inscription::create($inscriValue);
         $inscription->sessions()->attach($this->sessionSelected->id);

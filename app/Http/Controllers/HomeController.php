@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Cour;
 use App\Models\Etudiant;
-use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
+    public $now;
+
     /**
      * Create a new controller instance.
      *
@@ -15,7 +17,9 @@ class HomeController extends Controller
      */
     public function __construct()
     {        
+        $this->now = Carbon::now();
         $this->middleware('auth');
+
     }
 
     /**
@@ -25,14 +29,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $etudiants = Etudiant::all()->toArray();
-        $cours = Cour::all()->toArray();
-        $datas = [
-            $etudiants,
-            $cours
-        ];
+        $etudiants = Etudiant::all();
+        $cours = Cour::all();
+        $datas =['etudiants'=>$etudiants, 'cours'=>$cours];
+        
 
-        return view('pages.home', $datas)->with('message', ['key'=>'success', 'content'=>'Bienvenue '.Auth::user()->prenom." ".Auth::user()->nom]);
+        return view('pages.home', $datas);
     }
 
 }
