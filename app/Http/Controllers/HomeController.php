@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cour;
 use App\Models\Etudiant;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -27,11 +29,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
         $etudiants = Etudiant::all();
         $cours = Cour::all();
         $datas =['etudiants'=>$etudiants, 'cours'=>$cours];
+
+        $request->session()->flash('message', 'Bienvenu '.Auth::user()->prenom." ".Auth::user()->nom);
         
 
         return view('pages.home', $datas);

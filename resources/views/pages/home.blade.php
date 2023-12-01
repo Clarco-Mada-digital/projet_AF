@@ -7,16 +7,29 @@
 @section('content')
 
 
-    <h3 class="mb-5 pt-3">Bienvenue {{ Auth::user()->prenom." ".Auth::user()->nom }} !</h3>
-    
-    <div class="row">
+    {{-- <h3 class="mb-5 pt-3">Bienvenue {{ Auth::user()->prenom." ".Auth::user()->nom }} !</h3> --}}
+    @if (session()->has('message'))
+        <div class="alert alert-success alert-dismissible mt-4">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><img class="mr-2 rotateAnim" src="{{asset('images/Robot.png')}}" alt="robot image" style="width: 45px;"> Message de bienvenue :</h5>
+            <h3 class="ml-4 pl-4">{{ session()->get('message') }}</h3>
+        </div>
+        {{-- <h3 class="mb-5 pt-3"></h3> --}}
+    @endif
+
+    <div class="row mt-2">
         <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box">
-                <span class="info-box-icon bg-gradient-warning"><i class="fa fa-graduation-cap" aria-hidden="true"></i></span>
+                <span class="info-box-icon bg-gradient-warning"><i class="fa fa-graduation-cap"
+                        aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Étudiants</span>
                     <span class="info-box-number">
-                        @if ($etudiants != null) {{ sizeof($etudiants) }} @else Aucune donnée trouvée @endif
+                        @if ($etudiants != null)
+                            {{ sizeof($etudiants) }}
+                        @else
+                            Aucune donnée trouvée
+                        @endif
                     </span>
                 </div>
 
@@ -27,8 +40,12 @@
                 <span class="info-box-icon bg-gradient-primary"><i class="fa fa-user-plus" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Nouveaux étudiants</span>
-                    <span class="info-box-number"> 
-                        @if ($etudiants != null) {{ sizeof(($etudiants) ) }} @else Aucune donnée trouvée @endif  
+                    <span class="info-box-number">
+                        @if ($etudiants != null)
+                            {{ sizeof($etudiants) }}
+                        @else
+                            Aucune donnée trouvée
+                        @endif
                     </span>
                 </div>
 
@@ -40,7 +57,11 @@
                 <div class="info-box-content">
                     <span class="info-box-text">Cours existants</span>
                     <span class="info-box-number">
-                        @if ($etudiants != null) {{ sizeof($cours) }} @else Aucune donnée trouvée @endif                          
+                        @if ($etudiants != null)
+                            {{ sizeof($cours) }}
+                        @else
+                            Aucune donnée trouvée
+                        @endif
                     </span>
                 </div>
 
@@ -52,8 +73,12 @@
                 <div class="info-box-content">
                     <span class="info-box-text">Nouveaux cours</span>
                     <span class="info-box-number">
-                        @if ($etudiants != null) {{ sizeof($cours) }} @else Aucune donnée trouvée @endif                          
-                    </span> 
+                        @if ($etudiants != null)
+                            {{ sizeof($cours) }}
+                        @else
+                            Aucune donnée trouvée
+                        @endif
+                    </span>
                 </div>
 
             </div>
