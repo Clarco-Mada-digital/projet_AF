@@ -11,8 +11,15 @@
     @if (session()->has('message'))
         <div class="alert alert-success alert-dismissible mt-4">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <h5><img class="mr-2 rotateAnim" src="{{asset('images/Robot.png')}}" alt="robot image" style="width: 45px;"> Message de bienvenue :</h5>
-            <h3 class="ml-4 pl-4">{{ session()->get('message') }}</h3>
+            <div class="row">
+                <div class="d-flex flex-column col-11">
+                    <h4>{{ session()->get('message') }}</h4>                
+                    <p>Votre page d'accueil est votre alliée; elle vous indique les tâches à accomplir pour gérer votre étudiant.</p>
+                </div>
+                <img class="my-auto rotateAnim" src="{{asset('images/Robot.png')}}" alt="robot image" style="width: 75px; height:75px;">
+                
+
+            </div>
         </div>
         {{-- <h3 class="mb-5 pt-3"></h3> --}}
     @endif
