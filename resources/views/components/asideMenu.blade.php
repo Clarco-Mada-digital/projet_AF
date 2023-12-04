@@ -1,8 +1,15 @@
-<aside class="main-sidebar elevation-4" style="height: 100%;">
+<aside class="main-sidebar elevation-4 bg-white" style="height: 100%;">
 
     <div class="logo text-center " style="height: 15%;">
-        <img src="{{ asset('images/logo/alliance-francaise-d-antsiranana-logo.png')}}" alt="AF_logo" class="w-75">
+        <div class="log-lg w-100" style="background: url({{asset('images/logo/alliance-francaise-d-antsiranana-logo.png')}}) center center /cover; height:100%;">
+
+        </div>
+        {{-- <img src="{{ asset('images/logo/alliance-francaise-d-antsiranana-logo.png')}}" alt="AF_logo" class="w-75 logo-lg"> --}}
     </div>
+
+    {{-- <div class="logo logo-sm text-center " style="height: 15%;">
+        <img src="{{ asset('images/logo/alliance-francaise-d-antsiranana-logo.png')}}" alt="AF_logo" class="w-75">
+    </div> --}}
     
 
     <div class="sidebar sidebar-menu">
@@ -122,7 +129,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{route('parametres-user')}}"
+                            @class(['nav-link', 'active'=> request()->url() == route('parametres-user') ])>
                                 <ion-icon class="nav-icon" name="people-circle-outline"></ion-icon>
                                 <p>Utilisateurs</p>
                             </a>

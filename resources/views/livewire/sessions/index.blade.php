@@ -148,7 +148,7 @@
 
                             <div class="card-body d-flex justify-content-center">
                                 @foreach ($cours as $cour)
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <div class="custom-control custom-checkbox">
                                             <input class="custom-control-input" type="checkbox"
                                                 id="cour{{ $cour['id'] }}"

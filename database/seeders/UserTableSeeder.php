@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -23,7 +22,6 @@ class UserTableSeeder extends Seeder
                 "adresse"=>'125 rue de belle imagine',
                 "email"=>'jhon@doe.com',
                 "password"=>'$2y$12$PT23r3.Fme7vpdQzfElnBOTTZn7eyHsmGXJ7mdrytkOATtc6c/RJC',
-                "profil"=>'https://placehold.co/600x400/orange/orange.png',
                 "role_id"=>'1',
             ],
         ]);

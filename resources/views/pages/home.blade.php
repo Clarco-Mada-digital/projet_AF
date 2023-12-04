@@ -9,7 +9,7 @@
 
     {{-- <h3 class="mb-5 pt-3">Bienvenue {{ Auth::user()->prenom." ".Auth::user()->nom }} !</h3> --}}
     @if (session()->has('message'))
-        <div class="alert alert-success alert-dismissible mt-4">
+        <div class="alert alert-success alert-dismissible mt-2">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <div class="row">
                 <div class="d-flex flex-column col-11">
@@ -91,9 +91,11 @@
             </div>
         </div>
     </div>
-    <h3 class="mt-3">Vos actions</h3>
+    
+    <h3 class="mt-2">Vos actions</h3>
     <span>Que souhaiteriez-vous faire ?</span>
-    <div class="row mt-3">
+
+    <div class="row mt-2">
         <div class="col-md-4 col-sm-6 col-12">
             <a href="{{ route('etudiants-nouveau') }}" class="info-box text-secondary">
                 <span class="info-box-icon bg-gradient-warning"><i class="fa fa-edit" aria-hidden="true"></i></span>
