@@ -152,7 +152,7 @@
             <li class="nav-item" style="width:150px;">
                 <a id="navbarDropdown" class="nav-link d-flex" href="#" role="button" data-widget="control-sidebar"
                     data-slide="true" aria-expanded="false" v-pre>
-                    <img src="{{ Auth::user()->profil ? Auth::user()->profil : asset('images/profil/Avatar BC.png') }}"
+                    <img src="{{ Auth::user()->profil ? asset('storage/'.Auth::user()->profil) : 'https://eu.ui-avatars.com/api/?name=' . Auth::user()->nom . '&background=random' }}"
                         class="img-rounded elevation-2 mr-2" alt="User Image">
                     {{ Auth::user()->nom }}
                 </a>

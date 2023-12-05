@@ -7,7 +7,7 @@
             <div class="widget-user-header bg-primary">
                 <div class="widget-user-image">
                     <img class="img-rounded elevation-2 mt-2"
-                        src="{{ Auth::user()->profil ? Auth::user()->profil : asset('images/profil/Avatar BC.png') }}"
+                        src="{{ Auth::user()->profil ? asset('storage/'.Auth::user()->profil) : 'https://eu.ui-avatars.com/api/?name=' . Auth::user()->nom . '&background=random' }}"
                         alt="User Avatar">
                 </div>
 

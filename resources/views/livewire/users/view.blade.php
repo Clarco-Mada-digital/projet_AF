@@ -25,6 +25,7 @@
                           alt="Etudiant profile picture">
                   </div>
                   <h3 class="profile-username text-center">{{ $user->sexe == 'F' ? 'Mme/Mlle' : 'Mr' }} {{ $user->nom }} {{ $user->prenom }}</h3>
+                  <p class="text-center text-muted"> {{$user->role->nom}} </p>
                   
                   <ul class="list-group list-group-unbordered mb-3">
                       {{-- <li class="list-group-item">

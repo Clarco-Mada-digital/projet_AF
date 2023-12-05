@@ -94,14 +94,14 @@
     </div>
 
 
-    {{-- <div @if ($sectionName != 'edit') style="display: none;" @endif>
-        <h3 class="mb-5 pt-3">Modifier étudiant</h3>
+    <div @if ($sectionName != 'edit') style="display: none;" @endif>
+        <h3 class="mb-5 pt-3">Modifier utilisateur</h3>
         <div class="row m-4 p-0">
-            @include('livewire.professeurs.edit')
+            @include('livewire.users.edit')
         </div>
     </div>
 
-    <div @if ($sectionName != 'new') style="display: none;" @endif>
+    {{-- <div @if ($sectionName != 'new') style="display: none;" @endif>
         <h3 class="mb-5 pt-3">Modifier étudiant</h3>
         <div class="row m-4 p-0">
             @include('livewire.professeurs.new')
