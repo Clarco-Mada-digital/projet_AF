@@ -7,6 +7,7 @@ use App\Models\Etudiant;
 use App\Models\Inscription;
 use App\Models\Level;
 use App\Models\Session;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,9 +21,9 @@ class Etudiants extends Component
     use WithPagination;
     use WithFileUploads;
 
+    public string $search = "";
     protected $paginationTheme = "bootstrap";
 
-    public string $search = "";
     public string $orderField = 'nom';
     public string $orderDirection = 'ASC';
     public $state = 'view';

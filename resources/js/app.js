@@ -17,27 +17,46 @@ import "https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js";
 
 // Nos SweetAlert
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+import swal from 'sweetalert';
 window.Swal = Swal
 
-window.addEventListener('ShowSuccessMsg', (e)=>{   
-  console.log(e)     
+window.addEventListener('ShowSuccessMsg', (e) => {
+  console.log(e)
   Swal.fire({
-      position: 'top-end',
-      icon: e.detail[0]['type'] || 'info',
-      toast: true,
-      title: e.detail[0]['message'] || 'Opération effectué avec succès!',
-      showConfirmButton: false,
-      timer: 3000
+    position: 'top-end',
+    icon: e.detail[0]['type'] || 'info',
+    toast: true,
+    title: e.detail[0]['message'] || 'Opération effectué avec succès!',
+    showConfirmButton: false,
+    timer: 3000
   })
 })
 
-window.addEventListener('showModalSimpleMsg', (e)=>{
-  Swal.fire({
+window.addEventListener('showModalSimpleMsg', (e) => {
+  swal({
     title: "Attention !",
     text: e.detail[0]['message'] || 'Attention au Opération effectué !',
-    icon: "warning",
+    icon: e.detail[0]['type'],
     buttons: true,
     // dangerMode: true,
+  });
+})
+
+window.addEventListener('AlerDeletetConfirmModal', (e) => {
+  swal({
+    title: "êtes-vous sûr?",
+    text:  e.detail[0]['message'] || 'Attention au opération effectué',
+    icon:  e.detail[0]['type'],
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
+      Livewire.dispatch('deleteConfirmed');
+      
+    } else {
+      swal("OK ! Opération annuler");
+    }
   });
 })
 

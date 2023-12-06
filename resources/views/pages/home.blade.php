@@ -12,11 +12,11 @@
         <div class="alert alert-success alert-dismissible mt-2">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <div class="row">
-                <div class="d-flex flex-column col-11">
+                <div class="d-flex flex-column col-md-11 col-sm-12">
                     <h4>{{ session()->get('message') }}</h4>                
-                    <p>Votre page d'accueil est votre alliée; elle vous indique les tâches à accomplir pour gérer votre étudiant.</p>
+                    <p style="font-size: .9rem;">Votre page d'accueil est votre alliée; elle vous indique les tâches à accomplir pour gérer votre étudiant.</p>
                 </div>
-                <img class="my-auto rotateAnim" src="{{asset('images/Robot.png')}}" alt="robot image" style="width: 75px; height:75px;">
+                <img class="my-auto mx-auto rotateAnim" src="{{asset('images/Robot.png')}}" alt="robot image" style="width: 75px; height:75px;">
                 
 
             </div>

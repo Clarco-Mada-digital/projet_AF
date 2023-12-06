@@ -2,7 +2,7 @@
 
 <div>
 
-    <div @if ($state != 'view') style="display: none;" @endif>
+    <div @if ($state != 'view') style="display: none;" @endif style="font-size: .9rem;">
         <h3 class="mb-5 pt-3">Liste des étudiants</h3>
         <div class="row m-4">
             <div class="col-12">

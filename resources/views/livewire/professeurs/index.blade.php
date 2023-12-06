@@ -55,7 +55,7 @@
                                                     spellcheck="false"></i></button>
                                             <button class="btn btn-link"><i class="fa fa-edit" style="color: #FFC107;"
                                                     wire:click="toogleSectionName('edit', {{ $professeur->id }})"></i></button>
-                                            <button class="btn btn-link bounce"> <i class="fa fa-trash"
+                                            <button class="btn btn-link bounce" wire:click='confirmeDeleteProf({{$professeur->id}})'> <i class="fa fa-trash"
                                                     style="color: #DC3545;"></i></button>
                                         </td>
                                     </tr>

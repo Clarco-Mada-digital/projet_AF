@@ -8,7 +8,7 @@
         </div>
         <div class="">
             <ul class="breadcrumb bg-transparent mt-3">
-                <h4>@yield('titlePage')</h4>
+                <h4 style="font-size: 1.2rem;">@yield('titlePage')</h4>
                 {{-- <li class="breadcrumb-item"><a href="#">Accueil ></a></li> --}}
                 {{-- <li class="breadcrumb-item active">Acceuil</li> --}}
             </ul>

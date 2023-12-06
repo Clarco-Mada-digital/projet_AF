@@ -13,7 +13,6 @@ class Users extends Component
 {
     use WithPagination;
     use WithFileUploads;
-
     
     public $search;
     public $orderField = 'nom';
@@ -22,8 +21,12 @@ class Users extends Component
     public $editUser = [];
     public $photo;
 
+    public $userDelete;
+
+    public $listeners = ['deleteConfirmed' => 'deleteUser'];
+
     protected $queryString = [
-        'search' => ['except' => '']
+        'search' ,
     ];
 
     public function rules()
@@ -91,6 +94,23 @@ class Users extends Component
         $this->photo = '';
 
         $this->toogleSectionName('lsit');
+    }
+
+    public function deleteConfirmation(User $user)
+    {
+        $this->userDelete = $user->id;
+        $this->dispatch("AlerDeletetConfirmModal", ['message' => "êtes-vous sur de suprimer $user->nom $user->prenom ! dans la liste des utilisateurs ?", 'type' => 'warning']);
+        // $user->delete();
+        // dd($user);
+        // $this->dispatch("ShowSuccessMsg", ['message' => "L'utilisateur a été supprimé avec succès !", 'type' => 'success']);
+
+    }
+    public function deleteUser()
+    {
+        // dd($this->userDelete);
+        $user = User::where('id', $this->userDelete)->first();
+        $user->delete();
+        $this->dispatch("ShowSuccessMsg", ['message' => "L'utilisateur a été supprimé avec succès !", 'type' => 'success']);
     }
 
     public function setOrderField(string $name)

@@ -22,10 +22,12 @@ class Professeur extends Component
     public $editCoursList = ['cours' => []];
     public $orderDirection = 'ASC';
     public $orderField = 'nom';
+    public $ProfesseurDeleteid;
 
     protected $queryString = [
-        'search' => ['except' => '']
+        'search',
     ];
+    protected $listeners = [ "deleteConfirmed"=>'deleteProfesseur' ];
 
     public function rules()
     {
@@ -130,6 +132,22 @@ class Professeur extends Component
 
         $validateAtributes = $this->validate();
         dd($validateAtributes);
+    }
+
+    public function confirmeDeleteProf(ModelsProfesseur $professeur)
+    {
+        $this->ProfesseurDeleteid = $professeur->id;
+
+        $this->dispatch("AlerDeletetConfirmModal", ['message' => "êtes-vous sur de suprimer $professeur->nom $professeur->prenom ! dans la liste des professeurs ?", 'type' => 'warning']);
+    }
+    public function deleteProfesseur()
+    {
+        // dd($this->ProfesseurDeleteid);
+        $Professeurdel = ModelsProfesseur::where('id', $this->ProfesseurDeleteid);
+        $Professeurdel->delete();
+
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Professeur suprimer avec success!', 'type' => 'success']);
+
     }
 
     public function setOrderField(string $name)
