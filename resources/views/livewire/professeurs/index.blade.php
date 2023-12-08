@@ -44,9 +44,9 @@
                                 @forelse ($professeurs as $professeur)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $professeur->nom }}</td>
-                                        <td class="text-center">{{ $professeur->prenom }}</td>
-                                        <td class="text-center">{{ $professeur->nationalite }}</td>
+                                        <td wire:click="setOrderField('nom')">{{ $professeur->nom }}</td>
+                                        <td class="text-center" wire:click="setOrderField('prenom')">{{ $professeur->prenom }}</td>
+                                        <td class="text-center" wire:click="setOrderField('nationalite')">{{ $professeur->nationalite }}</td>
                                         <td class="text-center">{{ $professeur->telephone1 }}</td>
                                         <td class="text-center"> {{ $professeur->email }} </td>
                                         <td class="text-center">

@@ -58,26 +58,13 @@
       </div>
       <div class="col-md-7 card card-primary">
           <div class="card-header">
-              <h3 class="card-title"> <ion-icon name="finger-print-outline"></ion-icon> Rôle & Permissions</h3>
+              <h3 class="card-title"> <i class="fas fa-fingerprint"></i> Permissions</h3>
           </div>
 
-          {{-- <div class="card-body">
-              <strong><i class="fa fa-book mr-1"></i> Cour choisie</strong>
-              <p class="text-muted">
-                {{ $user->cours != '[]' ? $user->cours->implode('libelle', ' | ') : 'Aucun cours trouvé !' }}
-              </p>
-              <hr>
-              {{-- <strong><i class="fa fa-thermometer mr-1"></i> Niveaux</strong>
-              <p class="text-muted">{{ $user->level->nom }}</p>
-              <hr> 
-              <strong><i class="fa fa-hourglass mr-1" aria-hidden="true"></i> Heure de cour</strong>
-              <p class="text-muted">
-                  {{ $user->cours != '[]' ? $user->cours->implode('horaire', ' | ') :'Aucun cours trouvé !' }}
-              </p>
-              <hr>
-              <strong><i class="fa fa-comments mr-1"></i> Commentaire</strong>
-              <p class="text-muted"> {{ $user->coment }} </p>
-          </div> --}}
+          <div class="card-body">              
+              <strong><i class="fas fa-fingerprint mr-1"></i> Permissions</strong>
+              <p class="text-muted">Aucun permission trouvé !</p>
+          </div>
 
       </div>
   </div>

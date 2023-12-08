@@ -32,9 +32,9 @@
                                 <tr>
                                     <th style="width: 5%"></th>
                                     <th style="width: 20%" wire:click="setOrderField('nom')">Nom</th>
-                                    <th class="text-center" style="width: 15%" wire:click="setOrderField('nom')">Prenom
+                                    <th class="text-center" style="width: 15%" wire:click="setOrderField('prenom')">Prenom
                                     </th>
-                                    <th class="text-center" style="width: 15%">nationalité</th>
+                                    <th class="text-center" style="width: 15%" wire:click="setOrderField('nationalite')">nationalité</th>
                                     <th class="text-center" style="width: 15%">Telephone</th>
                                     <th class="text-center" style="width: 20%">Email</th>
                                     <th class="text-center" style="width: 10%">Action</th>
@@ -102,11 +102,12 @@
         </div>
     </div>
 
-    {{-- <div @if ($sectionName != 'new') style="display: none;" @endif>
-        <h3 class="mb-5 pt-3">Modifier étudiant</h3>
+    <div @if ($sectionName != 'new') style="display: none;" @endif>
+        <h3 class="mb-5 pt-3">Nouveau utilisateur</h3>
         <div class="row m-4 p-0">
-            @include('livewire.professeurs.new')
+            {{-- <p>New user form</p> --}}
+            @include('livewire.users.new')
         </div>
-    </div> --}}
+    </div>
 
 </div>

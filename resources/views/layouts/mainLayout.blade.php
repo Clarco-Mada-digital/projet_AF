@@ -42,7 +42,19 @@
         @guest
             ""
         @else
-            @include('components.asideProfil')           
+            @livewire('AsideProfil')
+            {{-- Partie Modal view --}}
+            <div class="modal fade" id="viewProfil" style="display: none; " aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered">
+                    <div class="modal-content bg-transparent">
+                        <div class="modal-body p-0">
+                            @include('livewire.profils.view')
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @livewire('EditProfil')
+            
         @endguest
 
 
@@ -53,7 +65,8 @@
             <strong>Copyright &copy; 2023-2024 Alliance Française Antsiranana.</strong> All rights
             reserved.
             <div class="float-right d-none d-sm-inline text-danger">
-                Designé et développé avec ❤️ par <a href="https://mada-digital.net" style="color: inherit;font-weight: bold;">MADA-Digital</a>                
+                Designé et développé avec ❤️ par <a href="https://mada-digital.net"
+                    style="color: inherit;font-weight: bold;">MADA-Digital</a>
             </div>
         </footer>
     </div>

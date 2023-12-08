@@ -34,56 +34,58 @@ Route::match(['get', 'post'], '/mada-contact', function () {
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // group des route crée par bryan
-Route::middleware('auth')->group(function(){
-    Route::group([
-        'prefix' => 'etudiants',
-        'as' => 'etudiants-'
-    ], function(){
-        Route::match(['get', 'post'], '/list', Etudiants::class)->name('list');
-        Route::match(['get', 'post'], '/nouveau', [App\Http\Controllers\EtudiantController::class, 'index'])->name('nouveau');
-    });
 
-    Route::group([
-        'prefix' => 'cours',
-        'as' => 'cours-'
-    ], function(){
-        Route::match(['get', 'post'], '/list', Cours::class)->name('list');
-        Route::match(['get', 'post'], '/nouveau', NewCour::class)->name('nouveau');
-    });
+Route::group([
+    'middleware' => ['auth'],
+    'prefix' => 'etudiants',
+    'as' => 'etudiants-'
+], function () {
+    Route::match(['get', 'post'], '/list', Etudiants::class)->name('list');
+    Route::match(['get', 'post'], '/nouveau', [App\Http\Controllers\EtudiantController::class, 'index'])->name('nouveau');
+});
 
-    Route::group([
-        'prefix' => 'parametres',
-        'as'=> 'parametres-'
-    ], function(){
-        Route::match(['get', 'post'], '/session', Sessions::class)->name('session');
-        Route::match(['get', 'post'], '/professeur', Professeur::class)->name('professeur');
-        Route::match(['get', 'post'], '/user', Users::class)->name('user');
-    });
+Route::group([
+    'middleware' =>['auth'],
+    'prefix' => 'cours',
+    'as' => 'cours-'
+], function () {
+    Route::match(['get', 'post'], '/list', Cours::class)->name('list');
+    Route::match(['get', 'post'], '/nouveau', NewCour::class)->name('nouveau');
+});
 
+// Les section pour Administrateur
 
+Route::group([
+    'middleware' =>['auth'],
+    'prefix' => 'parametres',
+    'as' => 'parametres-'
+], function () {
+    Route::match(['get', 'post'], '/session', Sessions::class)->name('session');
+    Route::match(['get', 'post'], '/professeur', Professeur::class)->name('professeur');
+    Route::match(['get', 'post'], '/user', Users::class)->name('user');
 });
 
 // Route::get('/list-etudiant', [App\Http\Controllers\HomeController::class, 'listEtudiant'])->name('list-etudiant');
 
 
 // Route test pour les datas
-Route::get('/users', function(){
+
+Route::get('/users', function () {
     return User::with(['role', 'etudiants'])->get();
-} );
+});
 
-Route::get('/roles', function(){
+Route::get('/roles', function () {
     return Role::with('users')->get();
-} );
+});
 
-Route::get('/etudiants', function(){
+Route::get('/etudiants', function () {
     return Etudiant::with(['user', 'cours', 'level'])->get();
-} );
+});
 
-Route::get('/cours', function(){
+Route::get('/cours', function () {
     return Cour::with(['level', 'etudiants', 'professeur'])->get();
-} );
+});
 
-Route::get('/niveaux', function(){
+Route::get('/niveaux', function () {
     return Level::with(['etudiants'])->get();
-} );
-
+});

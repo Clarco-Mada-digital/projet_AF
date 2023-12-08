@@ -11,9 +11,11 @@ use Livewire\WithPagination;
 
 class Professeur extends Component
 {
+    // Nos importation a utiliser
     use WithFileUploads;
     use WithPagination;
 
+    // Nos variable global
     public $search;
     public $sectionName = 'list';
     public $photo;
@@ -24,6 +26,7 @@ class Professeur extends Component
     public $orderField = 'nom';
     public $ProfesseurDeleteid;
 
+    // Nos variable protected
     protected $queryString = [
         'search',
     ];
@@ -130,22 +133,32 @@ class Professeur extends Component
             $this->newProfesseur['profil'] = $photoName;
         }
 
+        // Verification des validation du formulaire
         $validateAtributes = $this->validate();
-        dd($validateAtributes);
+        
+        // Enregistrement du nouveau professeur avec les données valider
+        ModelsProfesseur::create($validateAtributes['newProfesseur']);
+
+        // Envoye des notifications pour confirmation que l'enregistrement est avec success et retour vers list
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Professeur ajouté avec success!', 'type' => 'success']);
+        $this->toogleSectionName('list');
     }
 
     public function confirmeDeleteProf(ModelsProfesseur $professeur)
     {
+        // Recuperer les porfesseur a suprimer et demande au client la confirmation du supresion
         $this->ProfesseurDeleteid = $professeur->id;
 
+        // Envoye des notifications pour la confirmation de suppression
         $this->dispatch("AlerDeletetConfirmModal", ['message' => "êtes-vous sur de suprimer $professeur->nom $professeur->prenom ! dans la liste des professeurs ?", 'type' => 'warning']);
     }
     public function deleteProfesseur()
     {
-        // dd($this->ProfesseurDeleteid);
+        // recuperer le proffesseur a suprimer et le desactiver du base de donné
         $Professeurdel = ModelsProfesseur::where('id', $this->ProfesseurDeleteid);
         $Professeurdel->delete();
 
+        // Envoye des notifications que toute est effectué avec success
         $this->dispatch("ShowSuccessMsg", ['message' => 'Professeur suprimer avec success!', 'type' => 'success']);
 
     }
@@ -164,6 +177,7 @@ class Professeur extends Component
     {
         $data = [
             "professeurs" => ModelsProfesseur::where("nom", "LIKE", "%{$this->search}%")
+                ->orWhere("prenom", "LIKE", "%{$this->search}%")
                 ->orderBy($this->orderField, $this->orderDirection)
                 ->paginate(5)
         ];
