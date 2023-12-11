@@ -1,5 +1,6 @@
 <div class="modal fade @if ($editModal) show @endif" id="editProfil"
-    @if ($editModal) style="display: block;" @else style="display: none;" @endif aria-hidden="true">
+    @if ($editModal) style="display: block;" @else style="display: none;" @endif aria-hidden="true"
+    wire:ignore.self>
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content bg-transparent">
             <div class="modal-body p-0">
@@ -27,7 +28,7 @@
                         <div class="col-md-6 card card-primary card-outline">
                             <div class="card-body box-profile">
                                 <div class="row">
-                                    <div class="col-12 d-flex flex-md-column">
+                                    {{-- <div class="col-12 d-flex flex-md-column">
                                         @if ($editProfil != [])
                                             <label class="d-flex flex-column justify-content-center">
                                                 <img class="profile-user-img img-fluid img-circle"
@@ -38,6 +39,28 @@
                                             <img class="profile-user-img img-fluid img-circle" src=""
                                                 alt="Etudiant profile picture">
                                         @endif
+                                    </div> --}}
+                                    <div class="col-12 d-flex flex-md-column">
+                                        @if ($editProfil != [])
+                                            <label class="d-flex flex-column justify-content-center w-25 m-auto">
+                                                @if ($photo)
+                                                    <img class="profile-user-img img-fluid img-circle"
+                                                        src="{{ $photo->temporaryUrl() }}">
+                                                    <button class="btn btn-warning btn-sm mt-2" wire:click="set('photo', '')">Reset</button>
+                                                @else
+                                                    <img class="profile-user-img img-fluid img-circle"
+                                                        src="{{ $editProfil['profil'] ? asset('storage/' . $editProfil['profil']) : 'https://eu.ui-avatars.com/api/?name=' . $editProfil['nom'] . '&background=random' }}"
+                                                        alt="Etudiant profile picture">
+                                                @endif
+                                                <input type="file" wire:model='photo' style="display: none;">
+                                            </label>
+                                        @else
+                                            <img class="profile-user-img img-fluid img-circle" src=""
+                                                alt="Etudiant profile picture">
+                                        @endif
+                                        <i class="fa fa-spinner fa-spin text-center fa-2x" wire:loading
+                                            wire:target='photo'
+                                            style="position: absolute; top:20%; left:48%; color:#FFC107;"></i>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -123,12 +146,6 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                                     </div>
-                                    <input type="password" class="form-control" placeholder="Ancien mot de passe">
-                                </div>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                    </div>
                                     <input type="password" class="form-control" placeholder="Nouveau mot de passe">
                                 </div>
                                 <div class="input-group mb-3">
@@ -136,6 +153,9 @@
                                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                                     </div>
                                     <input type="password" class="form-control" placeholder="Confirme mot de passe">
+                                </div>
+                                <div class="text-right">
+                                    <a class="btn btn-link btn-sm text-info" href="#">Mot de passe oublier</a><i class="fa fa-lock fa-sm text-info"></i>
                                 </div>
                             </div>
 

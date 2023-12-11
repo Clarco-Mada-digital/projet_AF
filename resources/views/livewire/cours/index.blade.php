@@ -16,7 +16,7 @@
                                 <i class="fa fa-user-plus"></i> Nouveau cours</a>
                             <div class="input-group input-group-md" style="width: 250px;">
                                 <input type="search" name="table_search" class="form-control float-right"
-                                    placeholder="Search" wire:model.live.debounce.500ms="search">
+                                    placeholder="Rechercher" wire:model.live.debounce.500ms="search" autocomplete="off">
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default">
                                         <i class="fas fa-search"></i>

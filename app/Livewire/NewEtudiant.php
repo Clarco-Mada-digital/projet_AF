@@ -71,7 +71,7 @@ class NewEtudiant extends Component
             'newEtudiant.sexe' => ['required'],
             'newEtudiant.nationalite' => ['required'],
             'newEtudiant.dateNaissance' => ['required'],
-            'newEtudiant.profession' => [''],
+            'newEtudiant.profession' => ['nullable'],
             'newEtudiant.email' => ['required', 'email', Rule::unique('etudiants', 'email')],
             'newEtudiant.telephone1' => ['required'],
             'newEtudiant.telephone2' => [''],

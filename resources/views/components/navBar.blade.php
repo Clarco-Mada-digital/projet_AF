@@ -123,7 +123,7 @@
                 </li>
             @endif --}}
         @else
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown ">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
                     <span class="badge badge-warning navbar-badge">15</span>
@@ -149,12 +149,12 @@
                     <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                 </div>
             </li>
-            <li class="nav-item" style="width:150px;">
-                <a id="navbarDropdown" class="nav-link d-flex" href="#" role="button" data-widget="control-sidebar"
+            <li class="nav-item">
+                <a id="navbarDropdown" class="nav-link d-flex text-truncate" href="#" role="button" data-widget="control-sidebar"
                     data-slide="true" aria-expanded="false" v-pre>
                     <img src="{{ Auth::user()->profil ? asset('storage/'.Auth::user()->profil) : 'https://eu.ui-avatars.com/api/?name=' . Auth::user()->nom . '&background=random' }}"
                         class="img-rounded elevation-2 mr-2" alt="User Image">
-                    {{ Auth::user()->nom }}
+                    {{ Auth::user()->nom }} {{ Auth::user()->prenom }}
                 </a>
 
                 {{-- <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

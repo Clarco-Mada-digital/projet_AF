@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('dateNaissance');
             $table->char('sexe');
             $table->string('nationalite');
-            $table->string('profession');
+            $table->string('profession')->nullable();
             $table->string('telephone1');
             $table->string('telephone2')->nullable();
             $table->string('adresse');

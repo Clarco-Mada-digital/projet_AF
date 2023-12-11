@@ -1,43 +1,62 @@
-.sidebar-menu{
+.sidebar-menu {
   background-color: $primary;
-  height: calc(100% - 15vh);
-  padding: 0;
-  padding-top: 10px;
-  border-radius: 0 50px 0 0;
-  
-  .nav-item:hover{
-    .nav-link{
-      color: white;
-      &.active{
-        color: $primary;
+  height          : calc(100% - 15vh);
+  padding         : 0;
+  padding-top     : 10px;
+  border-radius   : 0 50px 0 0;
+
+  .nav-item {
+    .nav-treeview .nav-link{
+      padding-left: 2rem;
+    }
+    &:hover {
+      .nav-link {
+        color: white;
+
+        &.active {
+          color: $primary;
+        }
       }
     }
   }
+
   .nav-link {
     color: white;
 
-    & p{
+    & p {
       transition: all .3s ease-in-out;
     }
-    & :hover{
-      
+
+    & :hover {
+
       letter-spacing: .10rem;
     }
+
     &.active {
       background-color: white;
-      border-radius: 0 20px 20px 0;
-      color: $primary;
-      & :hover{
+      border-radius   : 0 20px 20px 0;
+      color           : $primary;
+
+      & :hover {
         color: $primary;
       }
     }
-    &.active-ancre{
+
+    &.active-ancre {
       background-color: #ccc4;
-      border-radius: 0 20px 20px 0;
-      width: 98%;
-   }
+      border-radius   : 0 20px 20px 0;
+      width           : 98%;
+    }
   }
 }
+
+// .ellipsisTxt
+// {
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   white-space: nowrap;
+//   width: inherit;
+// }
 
 // body.sidebar-collapse > .wrapper > .main-sidebar .logo-lg{
 //   margin-top: 50px;

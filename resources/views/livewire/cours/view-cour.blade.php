@@ -1,4 +1,4 @@
-<div class="card card-primary shadow-lg mb-0" style="transition: all 0.15s ease 0s; width: 100%;">
+<div class="card card-primary shadow-lg mb-0" style="transition: all 0.15s ease 0s; width: 100%;" wire:ignore.self>
     <div class="card-header">
         <h3 class="card-title">Apropos du cour</h3>
         <div class="card-tools">

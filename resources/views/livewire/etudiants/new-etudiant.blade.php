@@ -211,8 +211,8 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input custom-control-input-danger"
+                                            <div class="custom-control custom-switch">
+                                                <input class="custom-control-input custom-control-input-info"
                                                     type="checkbox" id="newMembre">
                                                 <label for="newMembre" class="custom-control-label">Confirmer que
                                                     c'est un nouveau membre</label>
@@ -340,7 +340,7 @@
                                                     name="statuePaiement" wire:model='statue'>
                                                 <label for="totale" class="custom-control-label">Totalement
                                                     payé</label>
-                                            </div>                                            
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -354,7 +354,8 @@
                                     </div>
                                     <div class="card-body mx-auto w-100">
                                         <div class="text-center">
-                                            <img class="w-25" src="{{ asset('images/facture.jpg') }}" alt="prevision facture">
+                                            <img class="w-25" src="{{ asset('images/facture.jpg') }}"
+                                                alt="prevision facture">
                                         </div>
                                         <div class="text-center my-3">
                                             <button class="btn btn-success">Imprimer la facture</button>
@@ -364,7 +365,7 @@
                                 <a class="btn btn-primary" wire:click="bsSteepPrevNext('prev')">Précedent</a>
                                 <button type="submit" class="btn btn-primary"> <i class="fa fa-spinner fa-spin"
                                         wire:loading='submitNewEtudiant' wire:target='submitNewEtudiant'></i>
-                                    Valider</button>
+                                    Finir l'inscription</button>
                             </div>
                         </form>
                     </div>
