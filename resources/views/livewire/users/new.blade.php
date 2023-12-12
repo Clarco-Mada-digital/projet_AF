@@ -27,7 +27,21 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputFile">Image profil</label>
-                            <div class="input-group">
+                            <div class="btn-group w-100">
+                                <label for="userProfil" class="btn btn-success col fileinput-button dz-clickable">
+                                    <i class="fas fa-plus"></i>
+                                    <input type="file" id="userProfil" wire:model='photo' style="display: none;">
+                                    <span>Ajouter un image</span>
+                                </label>
+                                <label type="reset" class="btn btn-warning col cancel" wire:click="set('photo', '')">
+                                    <i class="fas fa-times-circle"></i>
+                                    <span>Annuler</span>
+                                </label>
+                                @error('photo')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            {{-- <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="etudiantProfil"
                                         wire:model='photo'>
@@ -40,7 +54,7 @@
                                 <div class="input-group-append">
                                     <span class="input-group-text">Upload</span>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="col-md-4">
