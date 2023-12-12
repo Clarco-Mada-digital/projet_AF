@@ -4,16 +4,23 @@ namespace App\Livewire;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class EditProfil extends Component
 {
     use WithFileUploads;
+    use WithPagination;
     
-    public $editProfil;
+    protected $paginationTheme = "bootstrap";
+    
+    public $editProfil = [];
     public $photo;
+    public $newPwd;
+    public $confPwd;
     public $editModal = false;
 
     public function rules()
@@ -35,13 +42,36 @@ class EditProfil extends Component
 
     public function mount()
     {
-        $this->editProfil = Auth::user()->toArray();
+        $this->initDataProfil();
+    }
+
+    public function initDataProfil()
+    {
+        $this->editProfil = User::find(Auth::user()->id)->toArray();
     }
 
     public function updateProfil()
     {
+        if ($this->photo != '') {
+            $photoName = $this->photo->store('photos', 'public');
+            $this->editProfil['profil'] = $photoName;
+        }
+
         $this->validate();
        
+        if ($this->newPwd != null)
+        {
+            if ($this->newPwd == $this->confPwd)
+            {
+                $this->editProfil['passwod']= Hash::make($this->newPwd);
+            }
+            else
+            {
+                $this->dispatch("showModalSimpleMsg", ['message' => 'Votre mot de passe ne correspond pas.', 'type' => 'warning']);
+                return null;
+            }
+        }
+        // dd($this->editProfil);
         User::find(Auth::user()->id)->update($this->editProfil);
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Profil modifier avec success!', 'type' => 'success']);

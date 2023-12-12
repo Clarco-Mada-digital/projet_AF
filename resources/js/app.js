@@ -33,12 +33,12 @@ window.addEventListener('ShowSuccessMsg', (e) => {
 })
 
 window.addEventListener('showModalSimpleMsg', (e) => {
-  swal({
+  Swal.fire({
     title: "Attention !",
     text: e.detail[0]['message'] || 'Attention au Opération effectué !',
     icon: e.detail[0]['type'],
-    buttons: true,
-    // dangerMode: true,
+    confirmButtonColor: "#3085d6",
+    confirmButtonText: "OK !"
   });
 })
 

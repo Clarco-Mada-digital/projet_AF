@@ -120,7 +120,7 @@
             <div class=" card-body col-md-12 ">
                 <div class="row">
                     @foreach ($rolePermissionList['roles'] as $role)
-                        <div class="custom-control custom-checkbox mx-3">
+                        <div class="custom-control custom-radio mx-3">
                             <input
                                 class="custom-control-input custom-control-input-warning custom-control-input-outline"
                                 type="checkbox" id="customCheckbox{{ $role['id'] }}" name="roleUser" @if ($role['active'])

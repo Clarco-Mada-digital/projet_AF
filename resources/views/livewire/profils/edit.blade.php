@@ -17,7 +17,7 @@
                                     wire:target='updateProfil'></i>
                                 Enregistrer la modification</button>
                             <button type="button" class="btn btn-danger" data-toggle="modal" spellcheck="false"
-                                data-dismiss="modal">
+                                data-dismiss="modal" wire:click='initDataProfil'>
                                 <i class="fa fa-chevron-left mr-2"> Annuler</i>
                             </button>
                         </div>
@@ -142,17 +142,23 @@
 
                             </div>
                             <div class="card-body">
+                                {{-- <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                    </div>
+                                    <input type="password" class="form-control" placeholder="Ancien mot de passe" autocomplete="off" wire:model='oldPwd'>
+                                </div> --}}
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                                     </div>
-                                    <input type="password" class="form-control" placeholder="Nouveau mot de passe">
+                                    <input type="password" class="form-control" placeholder="Nouveau mot de passe" autocomplete="off" wire:model='newPwd'>
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                                     </div>
-                                    <input type="password" class="form-control" placeholder="Confirme mot de passe">
+                                    <input type="password" class="form-control" placeholder="Confirme mot de passe" autocomplete="off" wire:model='confPwd'>
                                 </div>
                                 <div class="text-right">
                                     <a class="btn btn-link btn-sm text-info" href="#">Mot de passe oublier</a><i class="fa fa-lock fa-sm text-info"></i>

@@ -8,7 +8,7 @@
         {{-- left part log form --}}
         <div class="col-xl-6 col-md-12">
             <div class="log text-center">
-                <img class="w-25" src="images/logo/alliance-francaise-d-antsiranana-logo.png" alt="logo AF">
+                <img class="w-25" src="{{asset("images/logo/alliance-francaise-d-antsiranana-logo.png")}}" alt="logo AF">
             </div>
             <hr class="mb-4 mt-0" />
             <div class="form-container text-center">
@@ -105,7 +105,7 @@
         </div>
 
         {{-- right parte log img --}}
-        <div class="col-xl-6 log-right-image" style="background-image: url('images/fond_log-in.png')">
+        <div class="col-xl-6 log-right-image" style="background-image: url('images/fond_log-in.webp')">
         </div>
     </div>
     

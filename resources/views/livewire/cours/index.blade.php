@@ -4,7 +4,7 @@
 
 <div>
     <div @if ($state != 'view') style="display: none;" @endif>
-        <h3 class="mb-5 pt-3">Listes cours</h3>
+        <h3 class="mb-5 pt-3">Listes des cours</h3>
         <div class="row m-4">
             <div class="col-12">
                 <div class="card">

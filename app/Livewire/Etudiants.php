@@ -194,6 +194,7 @@ class Etudiants extends Component
         $data = [
             "etudiants" => Etudiant::where("prenom", "LIKE", "%{$this->search}%")
                 ->orWhere("nom", "LIKE", "%{$this->search}%")
+                ->orWhere("numCarte", "LIKE", "%{$this->search}%")
                 ->orderBy($this->orderField, $this->orderDirection)
                 ->paginate(5)
         ];

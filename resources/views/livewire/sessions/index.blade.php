@@ -3,7 +3,7 @@
 @section('titlePage', 'SESSIONS')
 
 <div>
-    <h3 class="mb-5 pt-3">List des sessions</h3>
+    <h3 class="mb-5 pt-3">Liste des sessions</h3>
     <div class="row m-4">
         <div class="col-12">
             <div class="card" style="min-height: 350px;">
@@ -12,10 +12,10 @@
                         sessions</h3>
                     <div class="card-tools d-flex align-items-center">
                         <button class="btn btn-link text-light mr-4" wire:click='toogleFormSession'>
-                            <i class="fa fa-user-plus"></i> Nouvel sessions</button>
+                            <i class="fa fa-user-plus"></i> Nouvelle session</button>
                         <div class="input-group input-group-md" style="width: 250px;">
                             <input type="search" name="table_search" class="form-control float-right"
-                                placeholder="Search" wire:model.live.debounce.500ms="search">
+                                placeholder="Rechercher " wire:model.live.debounce.500ms="search">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-default">
                                     <i class="fas fa-search"></i>
@@ -31,10 +31,10 @@
                             <tr>
                                 <th style="width: 5%"></th>
                                 <th style="width: 20%" wire:click="setOrderField('nom')">Nom</th>
-                                <th class="text-center" style="width: 15%">Date de debut</th>
+                                <th class="text-center" style="width: 15%">Date de début</th>
                                 <th class="text-center" style="width: 15%">Date de fin</th>
                                 <th class="text-center" style="width: 20%">Montant en Ar</th>
-                                <th class="text-center" style="width: 15%" wire:click="setOrderField('statue')">Statue
+                                <th class="text-center" style="width: 15%" wire:click="setOrderField('statue')">Statut
                                 </th>
                                 <th class="text-center" style="width: 10%">Action</th>
                             </tr>

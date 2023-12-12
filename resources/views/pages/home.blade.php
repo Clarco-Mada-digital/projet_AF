@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="d-flex flex-column col-md-11 col-sm-12">
                     <h4>{{ session()->get('message') }}</h4>                
-                    <p style="font-size: .9rem;">Votre page d'accueil est votre alliée; elle vous indique les tâches à accomplir pour gérer votre étudiant.</p>
+                    <p style="font-size: .9rem;">Votre page d'accueil est votre alliée; elle vous indique les tâches à accomplir pour gérer vos étudiants.</p>
                 </div>
                 <img class="my-auto mx-auto rotateAnim" src="{{asset('images/Robot.png')}}" alt="robot image" style="width: 75px; height:75px;">
                 
@@ -33,7 +33,7 @@
                     <span class="info-box-text">Étudiants</span>
                     <span class="info-box-number">
                         @if ($etudiants != null)
-                            {{ sizeof($etudiants) }}
+                            {{ count($etudiants) }}
                         @else
                             Aucune donnée trouvée
                         @endif
@@ -49,7 +49,7 @@
                     <span class="info-box-text">Nouveaux étudiants</span>
                     <span class="info-box-number">
                         @if ($etudiants != null)
-                            {{ sizeof($etudiants) }}
+                            {{ count($etudiants) }}
                         @else
                             Aucune donnée trouvée
                         @endif
@@ -65,7 +65,7 @@
                     <span class="info-box-text">Cours existants</span>
                     <span class="info-box-number">
                         @if ($etudiants != null)
-                            {{ sizeof($cours) }}
+                            {{ count($cours) }}
                         @else
                             Aucune donnée trouvée
                         @endif
@@ -81,7 +81,7 @@
                     <span class="info-box-text">Nouveaux cours</span>
                     <span class="info-box-number">
                         @if ($etudiants != null)
-                            {{ sizeof($cours) }}
+                            {{ count($cours) }}
                         @else
                             Aucune donnée trouvée
                         @endif
@@ -96,16 +96,18 @@
     <span>Que souhaiteriez-vous faire ?</span>
 
     <div class="row mt-2">
+
         <div class="col-md-4 col-sm-6 col-12">
             <a href="{{ route('etudiants-nouveau') }}" class="info-box text-secondary">
                 <span class="info-box-icon bg-gradient-warning"><i class="fa fa-edit" aria-hidden="true"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Allez au formulaire de nouveau étudiant</span>
+                    <span class="info-box-text">Allez au formulaire de nouvel étudiant </span>
                     <span class="info-box-number">Inscrire un nouvel étudiant</span>
                 </div>
 
             </a>
         </div>
+
         <div class="col-md-4 col-sm-6 col-12">
             <div class="info-box text-secondary">
                 <span class="info-box-icon bg-gradient-primary"><i class="fa fa-user-plus" aria-hidden="true"></i></span>
@@ -116,12 +118,13 @@
 
             </div>
         </div>
+
         <div class="col-md-4 col-sm-6 col-12">
             <a href="{{ route('cours-nouveau') }}" class="info-box text-secondary">
                 <span class="info-box-icon bg-gradient-warning"><i class="fa fa-book" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Allez au formulaire des nouveaux cours</span>
-                    <span class="info-box-number">Inscrire nouveau cours</span>
+                    <span class="info-box-number">Inscrire un nouveau cours</span>
                 </div>
 
             </a>
@@ -143,10 +146,10 @@
                                 <i class="fas fa-bars"></i>
                             </button>
                             <div class="dropdown-menu" role="menu">
-                                <a href="#" class="dropdown-item">Ajouter nouvel événement</a>
+                                <a href="#" class="dropdown-item">Ajouter un nouvel événement </a>
                                 <a href="#" class="dropdown-item">Effacer les événements</a>
                                 <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item">Voir calendrier</a>
+                                <a href="#" class="dropdown-item">Voir le calendrier</a>
                             </div>
                         </div>
                         <button type="button" class="btn btn-info btn-sm" data-card-widget="collapse">
@@ -166,6 +169,7 @@
 
             </div>
         </div>
+
         <div class="col-md-6 mt-3">
             <h4>Aides & Astuces</h4>
             <span>Toutes nos ressources pour vous aider dans votre gestion de cours</span>
@@ -173,7 +177,7 @@
                 <span class="info-box-icon bg-gradient-primary"><i class="fa fa-info" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text"> Info </span>
-                    <span class="info-box-number">Besoins d'aide</span>
+                    <span class="info-box-number">Besoin d'aide</span>
                 </div>
 
             </div>
@@ -185,7 +189,9 @@
                 </div>
             </a>
         </div>
+        
     </div>
+
 
 
     {{-- Initilaisation du calendar JS --}}

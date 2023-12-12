@@ -20,7 +20,7 @@
                     <li class="nav-item">
                         <a href="#" class="nav-link" data-toggle="modal"
                         data-target="#viewProfil" spellcheck="false">
-                            Voir profil <span class="float-right badge bg-info"> <i class="fa fa-eye"></i> </span>
+                            Voir mon profil <span class="float-right badge bg-info"> <i class="fa fa-eye"></i> </span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -42,13 +42,13 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-user-secret"></i></span>
                                 </div>
-                                <input type="password" class="form-control" placeholder="Nouveau mot de passe" wire:model='newPwd'>
+                                <input type="password" class="form-control" placeholder="Nouveau mot de passe" wire:model='newPwd' autocomplete="off">
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-user-secret"></i></span>
                                 </div>
-                                <input type="password" class="form-control" placeholder="Confirm mot de passe" wire:model='newPwd'>
+                                <input type="password" class="form-control" placeholder="Confirm mot de passe" wire:model='confPwd' autocomplete="off">
                             </div>
                             <div class="d-flex justify-content-center mb-2">
                                 <button class="btn btn-warning btn-sm mx-2" wire:click='changePass'> <i class="fa fa-save"></i> <i class="fa fa-spin fa-spinner" wire:loading wire:target='changePass'></i> Confirmer</button>

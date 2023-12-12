@@ -42,7 +42,12 @@
                     </div>
                     <div class="col-md-2 form-group">
                         <label class="form-label" for="codeCategorie">Catégorie</label>
-                        <input class="form-control @error('newCour.libelle') is-invalid @enderror" type="text" name="newCour" id="codeCategorie" wire:model='newCour.categorie'>
+                        <select class="form-control @error('newCour.level_id') is-invalid @enderror" id="codeCategorie" wire:model='newCour.categorie'>
+                            <option >-- Catégorie --</option>
+                            <option value="enfant">Enfant</option>
+                            <option value="ado">Ado</option>
+                            <option value="adulte">Adulte</option>
+                        </select>
                         @error('newCour.categorie') <span class="invalid-feedback">Ce champ est obligatoire</span> @enderror
                     </div>
                     <div class="col-md-2 form-group">
@@ -65,7 +70,7 @@
                         <select class="form-control @error('newCour.professeur_id') is-invalid @enderror" name="professeur" id="codeProfesseur" wire:model='newCour.professeur_id'>
                             <option >-- Professeur --</option>
                             @foreach ($professeurs as $prof)
-                            <option value="{{ $prof['id'] }}"> {{ $prof['sexe'] == 'F' ? 'Mme/Mlle' : 'Mr' }} {{ $prof['nom'] }} </option>                            
+                            <option value="{{ $prof['id'] }}"> {{ $prof['sexe'] == 'F' ? 'Mme/Mlle' : 'M.' }} {{ $prof['nom'] }} </option>                            
                             @endforeach
                         </select>
                         @error('newCour.professeur_id') <span class="invalid-feedback">Ce champ est obligatoire</span> @enderror
@@ -84,7 +89,7 @@
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label" for="codeHeur">Heure du debut</label>
+                            <label class="form-label" for="codeHeur">Heure du début</label>
                             <input class="form-control" type="time" name="courTime" wire:model='heurDebInput'>
                         </div>
                         <div class="col-md-3">
@@ -107,7 +112,7 @@
                         <textarea class="form-control" type="text" name="newCour" id="codeComment" rows="6" wire:model='newCour.coment'></textarea>
                     </div>
                     <div class="col-md-12 text-right">
-                        <button type="submit" class="btn btn-info btn-lg"> <i class="fa fa-paper-plane"></i> Envoyer</button>
+                        <button type="submit" class="btn btn-info btn-md"> <i class="fa fa-paper-plane"></i> <i class="fa fa-spinner fa-spin" wire:loading wire:target='addNewCour'></i> Envoyer</button>
                     </div>
                 </form>
 

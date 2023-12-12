@@ -4,7 +4,7 @@
 
 <div>
     <div @if ($sectionName != 'list') style="display: none;" @endif>
-        <h3 class="mb-5 pt-3">List des sessions</h3>
+        <h3 class="mb-5 pt-3">Liste des professeurs</h3>
         <div class="row m-4">
             <div class="col-12">
                 <div class="card" style="min-height: 350px;">
@@ -13,10 +13,10 @@
                             professeurs</h3>
                         <div class="card-tools d-flex align-items-center">
                             <button class="btn btn-link text-light mr-4" wire:click="toogleSectionName('new')">
-                                <i class="fa fa-user-plus"></i> inscrit un nouveau professeur</button>
+                                <i class="fa fa-user-plus"></i> Ajouter un nouveau professeur</button>
                             <div class="input-group input-group-md" style="width: 250px;">
                                 <input type="search" name="table_search" class="form-control float-right"
-                                    placeholder="Search" wire:model.live.debounce.500ms="search">
+                                    placeholder="Rechercher" wire:model.live.debounce.500ms="search">
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default">
                                         <i class="fas fa-search"></i>
@@ -31,15 +31,17 @@
                             <thead>
                                 <tr>
                                     <th style="width: 5%"></th>
-                                    <th style="width: 20%" wire:click="setOrderField('nom')">Nom</th>
-                                    <th class="text-center" style="width: 15%" wire:click="setOrderField('nom')">Prenom
+                                    <th wire:click="setOrderField('nom')">Nom</th>
+                                    <th class="text-center" wire:click="setOrderField('nom')">Prénom
                                     </th>
-                                    <th class="text-center" style="width: 15%">nationalité</th>
-                                    <th class="text-center" style="width: 15%">Telephone</th>
-                                    <th class="text-center" style="width: 20%">Email</th>
-                                    <th class="text-center" style="width: 10%">Action</th>
+                                    <th class="text-center" >nationalité</th>
+                                    <th class="text-center" >Téléphone</th>
+                                    <th class="text-center" >Email</th>
+                                    <th class="text-center" >Cours</th>
+                                    <th class="text-center" >Action</th>
                                 </tr>
                             </thead>
+
                             <tbody>
                                 @forelse ($professeurs as $professeur)
                                     <tr>
@@ -49,6 +51,7 @@
                                         <td class="text-center" wire:click="setOrderField('nationalite')">{{ $professeur->nationalite }}</td>
                                         <td class="text-center">{{ $professeur->telephone1 }}</td>
                                         <td class="text-center"> {{ $professeur->email }} </td>
+                                        <td class="text-center"> {{ $professeur->cours->implode('libelle', ' | ') }} </td>
                                         <td class="text-center">
                                             <button class="btn btn-link"><i class="fa fa-eye" data-toggle="modal"
                                                     data-target="#view-professeur{{ $professeur->id }}"
@@ -95,14 +98,14 @@
 
 
     <div @if ($sectionName != 'edit') style="display: none;" @endif>
-        <h3 class="mb-5 pt-3">Modifier étudiant</h3>
+        <h3 class="mb-5 pt-3">Modifier professeur</h3>
         <div class="row m-4 p-0">
             @include('livewire.professeurs.edit')
         </div>
     </div>
 
     <div @if ($sectionName != 'new') style="display: none;" @endif>
-        <h3 class="mb-5 pt-3">Modifier étudiant</h3>
+        <h3 class="mb-5 pt-3">Nouvel professeur</h3>
         <div class="row m-4 p-0">
             @include('livewire.professeurs.new')
         </div>

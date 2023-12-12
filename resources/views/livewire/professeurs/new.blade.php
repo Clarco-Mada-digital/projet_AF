@@ -25,10 +25,24 @@
                         <div class="mr-4 my-auto" wire:loading wire:target="photo">
                             <i class="fa fa-spinner fa-spin"></i>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputFile">Image profil</label>
-                            <div class="input-group">
-                                <div class="custom-file">
+                        <div class="form-group w-100">
+                            <label for="exampleInputFile">Photo de profil</label>
+                            <div class="input-group w-50">
+                                <div class="btn-group w-100">
+                                    <label for="professeurtProfil" class="btn btn-success col fileinput-button dz-clickable">
+                                        <i class="fas fa-plus"></i>
+                                        <input type="file" id="professeurtProfil" wire:model='photo' style="display: none;">
+                                        <span>Ajouter un image</span>
+                                    </label>
+                                    <label type="reset" class="btn btn-warning col cancel" wire:click="set('photo', '')">
+                                        <i class="fas fa-times-circle"></i>
+                                        <span>Annuler</span>
+                                    </label>
+                                    @error('photo')
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                {{-- <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="etudiantProfil"
                                         wire:model='photo'>
                                     <label class="custom-file-label" for="etudiantProfil">Choisir un
@@ -36,10 +50,10 @@
                                     @error('photo')
                                         <span class="error">{{ $message }}</span>
                                     @enderror
-                                </div>
+                                </div> 
                                 <div class="input-group-append">
                                     <span class="input-group-text">Upload</span>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -90,6 +104,9 @@
                             <input type="text"
                                 class="form-control @error('newProfesseur.email') is-invalid @enderror"
                                 id="etudiantEmail" wire:model='newProfesseur.email'>
+                            @error('newProfesseur.email')
+                                <span class="invalid-feedback">Email doit être unique !</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -102,13 +119,13 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="etudiantPhone">Seconde téléphone</label>
+                            <label for="etudiantPhone">Second téléphone</label>
                             <input type="text" class="form-control" id="etudiantPhone"
                                 wire:model='newProfesseur.telephone2'>
                         </div>
                     </div>
                     <div class="col-md-12 text-right">
-                      <button type="submit" class="btn btn-info btn-lg">Envoyer</button>
+                        <button type="submit" class="btn btn-info btn-md"> <i class="fa fa-spin fa-spinner" wire:loading wire:target="submitNewProfesseur"></i> Envoyer</button>
                     </div>
                 </form>
 

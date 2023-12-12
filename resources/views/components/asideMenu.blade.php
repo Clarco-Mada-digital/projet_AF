@@ -191,7 +191,7 @@
                                 ])>
                                     {{-- <ion-icon class="nav-icon" name="barcode-outline"></ion-icon> --}}
                                     <i class="nav-icon far fa-circle"></i>
-                                    <p>Session</p>
+                                    <p>Sessions</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -211,7 +211,7 @@
                                 ])>
                                     {{-- <ion-icon class="nav-icon" name="briefcase-outline"></ion-icon> --}}
                                     <i class="nav-icon fa fa-graduation-cap"></i>
-                                    <p>Professeur</p>
+                                    <p>Professeurs</p>
                                 </a>
                             </li>
                             <li class="nav-item">

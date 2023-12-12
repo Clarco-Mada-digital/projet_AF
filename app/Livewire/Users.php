@@ -14,6 +14,8 @@ class Users extends Component
 {
     use WithPagination;
     use WithFileUploads;
+
+    protected $paginationTheme = "bootstrap";
     
     public $search;
     public $orderField = 'nom';
@@ -132,6 +134,21 @@ class Users extends Component
             $photoName = $this->photo->store('photos', 'public');
             $this->editUser['profil'] = $photoName;
         }
+        
+        $newRoleUserId = [];
+        foreach ($this->rolePermissionList['roles'] as $role)
+        {
+            if ($role['active'])
+            {
+                array_push($newRoleUserId, $role['id']);
+            }
+        }
+
+        if (count($newRoleUserId) > 1)
+        {
+            $this->dispatch("showModalSimpleMsg", ['message' => "Un utilisateur doit avoir qu'une seul rôle", 'type' => 'warning']);
+            return null;
+        }else{ $this->editUser['role_id'] = $newRoleUserId[0]; } 
 
         $validateAtributes = $this->validate();
         // dd($validateAtributes['editUser']);

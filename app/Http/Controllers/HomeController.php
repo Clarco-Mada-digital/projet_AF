@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Cour;
 use App\Models\Etudiant;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 
 class HomeController extends Controller
 {
     public $now;
+    public $newCours = [];
 
     /**
      * Create a new controller instance.
@@ -20,8 +23,7 @@ class HomeController extends Controller
     public function __construct()
     {        
         $this->now = Carbon::now();
-        $this->middleware('auth');
-
+        $this->middleware('auth');        
     }
 
     /**
@@ -33,6 +35,7 @@ class HomeController extends Controller
     {
         $etudiants = Etudiant::all();
         $cours = Cour::all();
+
         $datas =['etudiants'=>$etudiants, 'cours'=>$cours];
 
         $salutationList = ['Bienvenu', 'Salut', 'Bonjour', 'Hola', 'Salama', 'Bolatsara'];

@@ -16,6 +16,8 @@ class Professeur extends Component
     use WithPagination;
 
     // Nos variable global
+    protected $paginationTheme = "bootstrap";
+
     public $search;
     public $sectionName = 'list';
     public $photo;

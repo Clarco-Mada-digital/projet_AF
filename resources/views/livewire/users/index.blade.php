@@ -4,7 +4,7 @@
 
 <div>
     <div @if ($sectionName != 'list') style="display: none;" @endif>
-        <h3 class="mb-5 pt-3">List des ustilisateurs</h3>
+        <h3 class="mb-5 pt-3">Liste des ustilisateurs</h3>
         <div class="row m-4">
             <div class="col-12">
                 <div class="card" style="min-height: 350px;">
@@ -13,7 +13,7 @@
                             utilisateurs</h3>
                         <div class="card-tools d-flex align-items-center">
                             <button class="btn btn-link text-light mr-4" wire:click="toogleSectionName('new')">
-                                <i class="fa fa-user-plus"></i> inscrit un nouveau utilisateur</button>
+                                <i class="fa fa-user-plus"></i> Ajouter un nouvel utilisateur</button>
                             <div class="input-group input-group-md" style="width: 250px;">
                                 <input type="search" name="table_search" class="form-control float-right"
                                     placeholder="Recherche" wire:model.live.debounce.500ms="search">
@@ -30,14 +30,15 @@
                         <table class="table table-head-fixed text-nowrap">
                             <thead>
                                 <tr>
-                                    <th style="width: 5%"></th>
-                                    <th style="width: 20%" wire:click="setOrderField('nom')">Nom</th>
-                                    <th class="text-center" style="width: 15%" wire:click="setOrderField('prenom')">Prenom
+                                    <th ></th>
+                                    <th wire:click="setOrderField('nom')">Nom</th>
+                                    <th class="text-center" wire:click="setOrderField('prenom')">Prénom
                                     </th>
-                                    <th class="text-center" style="width: 15%" wire:click="setOrderField('nationalite')">nationalité</th>
-                                    <th class="text-center" style="width: 15%">Telephone</th>
-                                    <th class="text-center" style="width: 20%">Email</th>
-                                    <th class="text-center" style="width: 10%">Action</th>
+                                    <th class="text-center" wire:click="setOrderField('nationalite')">nationalité</th>
+                                    <th class="text-center" >Téléphone</th>
+                                    <th class="text-center" >Email</th>
+                                    <th class="text-center" wire:click="setOrderField('role_id')">Rôle</th>
+                                    <th class="text-center" >Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,6 +50,7 @@
                                         <td class="text-center">{{ $user->nationalite }}</td>
                                         <td class="text-center">{{ $user->telephone1 }}</td>
                                         <td class="text-center"> {{ $user->email }} </td>
+                                        <td class="text-center"> {{ $user->role->nom }} </td>
                                         <td class="text-center">
                                             <button class="btn btn-link"><i class="fa fa-eye" data-toggle="modal"
                                                     data-target="#view-professeur{{ $user->id }}"

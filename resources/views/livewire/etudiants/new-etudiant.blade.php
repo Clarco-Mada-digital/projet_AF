@@ -3,7 +3,7 @@
         <h3>Nouvel étudiant: </h3>
         <form action="">
             <div class="input-group input-group-lg">
-                <input type="search" class="form-control form-control-lg" placeholder="Chercher l'information du membre"
+                <input type="search" class="form-control form-control-lg" placeholder="Chercher les informations du membre"
                     value="" spellcheck="false" style="width:400px;">
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-lg btn-info">
@@ -32,7 +32,7 @@
                             <button type="button" class="step-trigger" role="tab" aria-controls="info-part"
                                 id="logins-part-trigger" @if ($bsSteepActive != 1) disabled="disabled" @endif>
                                 <span class="bs-stepper-circle">1</span>
-                                <span class="bs-stepper-label">Information étudiant</span>
+                                <span class="bs-stepper-label">Information sur l'étudiant</span>
                             </button>
                         </div>
                         <div class="line"></div>
@@ -78,8 +78,22 @@
                                             <i class="fa fa-spinner fa-spin"></i>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputFile">Image profil</label>
-                                            <div class="input-group">
+                                            <label for="exampleInputFile">Photo de profil</label>
+                                            <div class="btn-group w-100">
+                                                <label for="etudiantProfil" class="btn btn-success col fileinput-button dz-clickable">
+                                                    <i class="fas fa-plus"></i>
+                                                    <input type="file" id="etudiantProfil" wire:model='photo' style="display: none;">
+                                                    <span>Ajouter un image</span>
+                                                </label>
+                                                <label type="reset" class="btn btn-warning col cancel" wire:click="set('photo', '')">
+                                                    <i class="fas fa-times-circle"></i>
+                                                    <span>Annuler</span>
+                                                </label>
+                                                @error('photo')
+                                                    <span class="error">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            {{-- <div class="input-group">
                                                 <div class="custom-file">
                                                     <input type="file" class="custom-file-input" id="etudiantProfil"
                                                         wire:model='photo'>
@@ -92,7 +106,7 @@
                                                 <div class="input-group-append">
                                                     <span class="input-group-text">Upload</span>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -357,8 +371,10 @@
                                             <img class="w-25" src="{{ asset('images/facture.jpg') }}"
                                                 alt="prevision facture">
                                         </div>
-                                        <div class="text-center my-3">
-                                            <button class="btn btn-success">Imprimer la facture</button>
+                                        <div class="custom-control custom-switch text-center my-3">
+                                            <input class="custom-control-input custom-control-input-info"
+                                                type="checkbox" id="generetFactur">
+                                            <label for="generetFactur" class="custom-control-label">Imprimer la facture après l'inscription.</label>
                                         </div>
                                     </div>
                                 </div>

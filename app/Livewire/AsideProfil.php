@@ -11,6 +11,7 @@ class AsideProfil extends Component
 {
     public $formChangePwd = false;
     public $newPwd;
+    public $confPwd;
     public $editProfil = false;
 
 
@@ -22,6 +23,7 @@ class AsideProfil extends Component
     public function updateProfil()
     {
         $this->editProfil = Auth::user();
+        
         dd($this->editProfil);
     }
 
@@ -32,13 +34,22 @@ class AsideProfil extends Component
 
     public function changePass()
     {
-        $user = User::find(Auth::user()->id);
-        $user->update(['password' => Hash::make($this->newPwd)]);
-        $this->dispatch("ShowSuccessMsg", ['message' => 'Mot de passe modifier avec success!', 'type' => 'success']);
+        if ($this->newPwd != $this->confPwd)
+        {
+            $this->dispatch("showModalSimpleMsg", ['message' => 'Votre mot de passe ne correspond pas.', 'type' => 'warning']);
+            return null;
+        }
+        else
+        {
+            $user = User::find(Auth::user()->id);
+            $user->update(['password' => Hash::make($this->newPwd)]);
+            $this->dispatch("ShowSuccessMsg", ['message' => 'Mot de passe modifier avec success!', 'type' => 'success']);
+    
+            $this->newPwd = "";
+            $this->showFormPass();
+            // dd(Hash::make($this->newPwd));
+        }
 
-        $this->newPwd = "";
-        $this->showFormPass();
-        // dd(Hash::make($this->newPwd));
     }
 
     public function render()

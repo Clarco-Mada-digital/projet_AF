@@ -134,7 +134,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="Sessions">Session</label>
-                            <select class="custom-select" spellcheck="false" id="Sessions" wire:model='$etudiantSession'>
+                            <select class="custom-select" spellcheck="false" id="Sessions"
+                                wire:model='$etudiantSession'>
                                 @if ($listSession != null)
                                     @foreach ($listSession as $session)
                                         <option value="{{ $session['id'] }}"> {{ $session['nom'] }} </option>
@@ -161,15 +162,14 @@
                         <h4>List des cours</h4>
                         <div class="row mt-4">
                             @foreach ($nscList['cours'] as $cour)
-                                <div class="form-group col-md-3">
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" type="checkbox"
-                                            id="cour{{ $cour['cour_id'] }}"
-                                            @if ($cour['active']) checked @endif
-                                            wire:model.lazy="nscList.cours.{{ $loop->index }}.active">
-                                        <label for="cour{{ $cour['cour_id'] }}"
-                                            class="custom-control-label">{{ $cour['cour_libelle'] }}</label>
-                                    </div>
+                                <div class="custom-control custom-radio mx-3">
+                                    <input
+                                        class="custom-control-input custom-control-input-warning custom-control-input-outline"
+                                        type="checkbox" id="cour{{ $cour['cour_id'] }}" name="etudiantCourList"
+                                        @if ($cour['active']) checked @endif
+                                        wire:model.lazy="nscList.cours.{{ $loop->index }}.active" />
+                                    <label for="cour{{ $cour['cour_id'] }}"
+                                        class="custom-control-label">{{ $cour['cour_libelle'] }}</label>
                                 </div>
                             @endforeach
                         </div>

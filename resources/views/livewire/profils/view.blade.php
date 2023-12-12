@@ -15,21 +15,21 @@
                   
                   <ul class="list-group list-group-unbordered mb-3 text-white">
                       <li class="list-group-item bg-transparent">
-                          <b>Email</b> <a class="float-right">{{  Auth::user()->email }}</a>
+                          <b>Email</b> <a class="float-right text-light">{{  Auth::user()->email }}</a>
                       </li>
                       <li class="list-group-item bg-transparent">
-                          <b>Téléphone</b> <a class="float-right">{{  Auth::user()->telephone1 }}</a>
+                          <b>Téléphone</b> <a class="float-right text-light">{{  Auth::user()->telephone1 }}</a>
                       </li>
                       @if ( Auth::user()->telephone2 != '')
                           <li class="list-group-item bg-transparent">
-                              <b>Seconde téléphone</b> <a class="float-right">{{  Auth::user()->telephone2 }}</a>
+                              <b>Seconde téléphone</b> <a class="float-right text-light">{{  Auth::user()->telephone2 }}</a>
                           </li>
                       @endif
                       <li class="list-group-item bg-transparent">
-                          <b>Nationalité</b> <a class="float-right">{{  Auth::user()->nationalite }}</a>
+                          <b>Nationalité</b> <a class="float-right text-light">{{  Auth::user()->nationalite }}</a>
                       </li>
                       <li class="list-group-item bg-transparent">
-                          <b>Adresse</b> <a class="float-right">{{  Auth::user()->adresse }}</a>
+                          <b>Adresse</b> <a class="float-right text-light">{{  Auth::user()->adresse }}</a>
                       </li>
                   </ul>
               </div>
