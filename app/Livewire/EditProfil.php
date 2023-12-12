@@ -63,7 +63,7 @@ class EditProfil extends Component
         {
             if ($this->newPwd == $this->confPwd)
             {
-                $this->editProfil['passwod']= Hash::make($this->newPwd);
+                $this->editProfil['password'] = Hash::make($this->newPwd);
             }
             else
             {
