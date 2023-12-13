@@ -20,10 +20,11 @@
               <div class="row">
                   <div class="col-12 d-flex flex-md-column align-items-center">
                       @if ($editProfesseur != [])
-                          <label class="d-flex flex-column justify-content-center w-25">
+                          <label class="d-flex flex-column justify-content-center w-25 mx-auto">
                               @if ($photo)
                                   <img class="profile-user-img img-fluid img-circle"
                                       src="{{ $photo->temporaryUrl() }}">
+                                      <button class="btn btn-warning btn-sm mt-2" wire:click="set('photo', '')">Reset</button>
                               @else
                                   <img class="profile-user-img img-fluid img-circle"
                                       src="{{ $editProfesseur['profil'] ? asset('storage/' . $editProfesseur['profil']) : 'https://eu.ui-avatars.com/api/?name=' . $editProfesseur['nom'] . '&background=random' }}"

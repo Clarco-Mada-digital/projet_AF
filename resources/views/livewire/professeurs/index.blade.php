@@ -45,7 +45,18 @@
                             <tbody>
                                 @forelse ($professeurs as $professeur)
                                     <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>
+                                            @if ($professeur->profil != null)
+                                                <img class="img-circle"
+                                                    src="{{ asset('storage/' . $professeur->profil) }}" width='50'
+                                                    alt="profil professeur">
+                                            @else
+                                                <img class="img-circle"
+                                                    src="{{ 'https://eu.ui-avatars.com/api/?name=' . $professeur->nom . '&background=random' }}"
+                                                    width='50' alt="profil etudiant">
+                                            @endif
+
+                                        </td>
                                         <td wire:click="setOrderField('nom')">{{ $professeur->nom }}</td>
                                         <td class="text-center" wire:click="setOrderField('prenom')">{{ $professeur->prenom }}</td>
                                         <td class="text-center" wire:click="setOrderField('nationalite')">{{ $professeur->nationalite }}</td>

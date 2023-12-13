@@ -65,7 +65,7 @@ class NewEtudiant extends Component
     protected function rules()
     {
         $rule = [
-            'newEtudiant.profil' => ['string'],
+            'photo' => ['image', 'max:1024', 'nullable'],
             'newEtudiant.nom' => ['required'],
             'newEtudiant.prenom' => 'required',
             'newEtudiant.sexe' => ['required'],
@@ -121,14 +121,16 @@ class NewEtudiant extends Component
     {
         $this->newEtudiant['user_id'] = Auth::user()->id;
         $this->newEtudiant['numCarte'] = "AF-" . random_int(100, 9000);
+
+        $this->validate();
+
         if ($this->photo != '') {
-            $photoName = $this->photo->store('photos', 'public');
+            $photoName = $this->photo->store('profil', 'public');
             $this->newEtudiant['profil'] = $photoName;
         }
 
-        $validateAtributes = $this->validate();
 
-        $newEtud = Etudiant::create($validateAtributes['newEtudiant']);
+        $newEtud = Etudiant::create($this->newEtudiant);
         // $newEtud = Etudiant::where('email', $this->newEtudiant['email'])->first();
 
         foreach ($this->nscList['cours'] as $cour) {

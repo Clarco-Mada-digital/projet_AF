@@ -53,7 +53,7 @@ class EditProfil extends Component
     public function updateProfil()
     {
         if ($this->photo != '') {
-            $photoName = $this->photo->store('photos', 'public');
+            $photoName = $this->photo->store('profil', 'public');
             $this->editProfil['profil'] = $photoName;
         }
 

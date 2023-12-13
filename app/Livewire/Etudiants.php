@@ -7,10 +7,10 @@ use App\Models\Etudiant;
 use App\Models\Inscription;
 use App\Models\Level;
 use App\Models\Session;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -42,12 +42,29 @@ class Etudiants extends Component
     protected $queryString = [
         'search' => ['except' => '']
     ];
+    // Suprimer les anciens doc dans le ficher temp
+    protected function cleanupOldUploads()
+    {
+        $storage = Storage::disk('local');
+
+        foreach ($storage->allFiles("livewire-tmp") as $pathFileName)
+        {
+            if (! $storage->exists($pathFileName)) continue;
+
+            $fiveSecondDel = now()->subSecond(10)->timestamp;
+
+            if ($fiveSecondDel > $storage->lastModified($pathFileName))
+            {
+                $storage->delete($pathFileName);
+            }
+        }
+    }
     
 
     protected function rules()
     {
         $rule = [
-            'editEtudiant.profil' => [''],
+            'photo' => ['image', 'max:1024', 'nullable'],
             'editEtudiant.nom' => ['required'],
             'editEtudiant.prenom' => 'required',
             'editEtudiant.sexe' => ['required'],
@@ -151,15 +168,18 @@ class Etudiants extends Component
 
     public function updateEtudiant($id)
     {
+        $this->validate();
         if ($this->photo != '') {
-            $photoName = $this->photo->store('photos', 'public');
+            $photoName = $this->photo->store('profil', 'public');
             $this->editEtudiant['profil'] = $photoName;
+
+            // $image = Image::make(public_path('storage/'.$photoName))->fit(200, 200);
+            // $image->save();
         }
-        $validateAtributes = $this->validate();
         // suprimer les cours appartient au utilisateur au paravant
         DB::table("etudiant_cours")->where("etudiant_id", $this->editEtudiant['id'])->delete();
 
-        Etudiant::find($this->editEtudiant['id'])->update($validateAtributes['editEtudiant']);
+        Etudiant::find($this->editEtudiant['id'])->update($this->editEtudiant);
 
         // Ajout des cour au etudiant
         foreach ($this->nscList['cours'] as $cour) {

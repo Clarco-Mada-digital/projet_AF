@@ -113,7 +113,7 @@ class Professeur extends Component
     {
         // On recuper le photo s'il y en a.
         if ($this->photo != '') {
-            $photoName = $this->photo->store('photos', 'public');
+            $photoName = $this->photo->store('profil', 'public');
             $this->editProfesseur['profil'] = $photoName;
         }
 
@@ -131,7 +131,7 @@ class Professeur extends Component
     {
         // On recuper le photo s'il y en a.
         if ($this->photo != '') {
-            $photoName = $this->photo->store('photos', 'public');
+            $photoName = $this->photo->store('profil', 'public');
             $this->newProfesseur['profil'] = $photoName;
         }
 

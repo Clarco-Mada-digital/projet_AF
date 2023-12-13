@@ -44,7 +44,18 @@
                             <tbody>
                                 @forelse ($users as $user)
                                     <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>
+                                            @if ($user->profil != null)
+                                                <img class="img-circle"
+                                                    src="{{ asset('storage/' . $user->profil) }}" width='50'
+                                                    alt="profil utilisateur">
+                                            @else
+                                                <img class="img-circle"
+                                                    src="{{ 'https://eu.ui-avatars.com/api/?name=' . $user->nom . '&background=random' }}"
+                                                    width='50' alt="profil etudiant">
+                                            @endif
+
+                                        </td>
                                         <td>{{ $user->nom }}</td>
                                         <td class="text-center">{{ $user->prenom }}</td>
                                         <td class="text-center">{{ $user->nationalite }}</td>

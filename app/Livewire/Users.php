@@ -41,7 +41,7 @@ class Users extends Component
         if ($this->sectionName == 'edit')
         {
             $rule = [
-                'editUser.profil' => [''],
+                'editUser.profil' => ['image', 'max:1024'],
                 'editUser.nom' => ['required'],
                 'editUser.prenom' => 'required',
                 'editUser.sexe' => ['required'],
@@ -57,7 +57,7 @@ class Users extends Component
         if ($this->sectionName == 'new')
         {
             $rule = [
-                'newUser.profil' => [''],
+                'newUser.profil' => ['image', 'max:1024'],
                 'newUser.nom' => ['required'],
                 'newUser.prenom' => 'required',
                 'newUser.sexe' => ['required'],
@@ -115,7 +115,7 @@ class Users extends Component
     public function addNewUser()
     {
         if ($this->photo != '') {
-            $photoName = $this->photo->store('photos', 'public');
+            $photoName = $this->photo->store('profil', 'public');
             $this->newUser['profil'] = $photoName;
         }
         $validateAtributes = $this->validate();
@@ -131,7 +131,7 @@ class Users extends Component
     public function updateUser()
     {
         if ($this->photo != '') {
-            $photoName = $this->photo->store('photos', 'public');
+            $photoName = $this->photo->store('profil', 'public');
             $this->editUser['profil'] = $photoName;
         }
         
