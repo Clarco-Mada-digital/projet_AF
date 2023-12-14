@@ -111,7 +111,7 @@
         </div>
         <div class="col-md-6 card card-primary card-outline row p-0">
             <div class="card-header">
-                <h3 class="card-title"><i class="fa fa-user-circle mr-3"></i> Rôle</h3>
+                <h3 class="card-title fw-bold"><i class="fa fa-user-circle mr-3"></i> Rôle</h3>
                 <div class="card-tools">
                     <i class="fa fa-user-check"></i>
                 </div>
@@ -135,7 +135,7 @@
 
             <div class="card card-primary card-outline mb-0" style="min-height: 250px;">
                 <div class="card-header">
-                    <h3 class="card-title"><i class="fa fa-user-circle mr-3"></i> Permissions</h3>
+                    <h3 class="card-title fw-bold"><i class="fa fa-user-circle mr-3"></i> Permissions</h3>
                     <div class="card-tools">
                         <i class="fas fa-fingerprint"></i>
                     </div>

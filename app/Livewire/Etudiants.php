@@ -15,6 +15,8 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Str;
 
 class Etudiants extends Component
 {
@@ -173,6 +175,8 @@ class Etudiants extends Component
             $photoName = $this->photo->store('profil', 'public');
             $this->editEtudiant['profil'] = $photoName;
 
+            // $imageName = "profil/". Str::uuid() . $this->editEtudiant['nom'] . "webp";
+            // Image::make($this->photo)->save($imageName, 60);
             // $image = Image::make(public_path('storage/'.$photoName))->fit(200, 200);
             // $image->save();
         }
