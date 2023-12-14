@@ -41,7 +41,7 @@ class Users extends Component
         if ($this->sectionName == 'edit')
         {
             $rule = [
-                'editUser.profil' => ['image', 'max:1024'],
+                'photo' => ['image', 'max:1024'],
                 'editUser.nom' => ['required'],
                 'editUser.prenom' => 'required',
                 'editUser.sexe' => ['required'],
@@ -57,7 +57,7 @@ class Users extends Component
         if ($this->sectionName == 'new')
         {
             $rule = [
-                'newUser.profil' => ['image', 'max:1024'],
+                'photo' => ['image', 'max:1024'],
                 'newUser.nom' => ['required'],
                 'newUser.prenom' => 'required',
                 'newUser.sexe' => ['required'],
@@ -79,16 +79,19 @@ class Users extends Component
         {
             // $this->nscList = ["cours" => [], "level" => []];
             $this->editUser = [];
+            $this->photo = "";
             $this->rolePermissionList = ['roles'=> []];
             $this->sectionName = 'list';
         }
         if ($name == 'edit') 
         {
+            $this->photo = "";
             $this->sectionName = 'edit';
             $this->initDataUser($idUser);
         }
         if ($name == 'new')
         {
+            $this->photo = "";
             $this->sectionName = 'new';
             $this->roles = Role::all();
             
@@ -150,9 +153,9 @@ class Users extends Component
             return null;
         }else{ $this->editUser['role_id'] = $newRoleUserId[0]; } 
 
-        $validateAtributes = $this->validate();
-        // dd($validateAtributes['editUser']);
-        User::find($this->editUser['id'])->update($validateAtributes['editUser']);
+        $this->validate();
+        // dd($this->editUser);
+        User::find($this->editUser['id'])->update($this->editUser);
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Utilisateur modifier avec success!', 'type' => 'success']);
         $this->photo = '';

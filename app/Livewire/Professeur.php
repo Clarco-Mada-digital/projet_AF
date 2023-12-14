@@ -39,7 +39,7 @@ class Professeur extends Component
         if ($this->sectionName == 'new')
         {
             $rule = [
-                'newProfesseur.profil' => [''],
+                'photo' => ['image', 'max:1024'],
                 'newProfesseur.nom' => ['required'],
                 'newProfesseur.prenom' => 'required',
                 'newProfesseur.sexe' => ['required'],
@@ -54,7 +54,7 @@ class Professeur extends Component
         if ($this->sectionName == 'edit')
         {
             $rule = [
-                'editProfesseur.profil' => [''],
+                'photo' => ['image', 'max:1024'],
                 'editProfesseur.nom' => ['required'],
                 'editProfesseur.prenom' => 'required',
                 'editProfesseur.sexe' => ['required'],
@@ -72,17 +72,21 @@ class Professeur extends Component
 
     public function toogleSectionName($nameSection, $idProfesseur = null)
     {
-        if ($nameSection == 'edit') {
+        if ($nameSection == 'edit') 
+        {
+            $this->photo = '';
             $this->initDataProfesseur($idProfesseur);
             $this->sectionName = $nameSection;
         }
-        if ($nameSection == 'list') {
+        if ($nameSection == 'list') 
+        {
             $this->editProfesseur == [];
             $this->photo = '';
             $this->editCoursList = ['cours' => []];
             $this->sectionName = $nameSection;
         }
-        if ($nameSection == 'new') {
+        if ($nameSection == 'new') 
+        {
             $this->newProfesseur == [];
             $this->photo = '';
             $this->editCoursList = ['cours' => []];
@@ -109,37 +113,20 @@ class Professeur extends Component
         }
     }
 
-    public function updateProfesseur()
-    {
-        // On recuper le photo s'il y en a.
-        if ($this->photo != '') {
-            $photoName = $this->photo->store('profil', 'public');
-            $this->editProfesseur['profil'] = $photoName;
-        }
-
-        $validateAtributes = $this->validate();
-
-        ModelsProfesseur::find($this->editProfesseur['id'])->update($validateAtributes['editProfesseur']);
-
-        $this->dispatch("ShowSuccessMsg", ['message' => 'Professeur modifier avec success!', 'type' => 'success']);
-        $this->photo = '';
-
-        $this->toogleSectionName('list');
-    }
-
+    
     public function submitNewProfesseur()
     {
         // On recuper le photo s'il y en a.
+        $this->validate();
         if ($this->photo != '') {
             $photoName = $this->photo->store('profil', 'public');
             $this->newProfesseur['profil'] = $photoName;
         }
-
+        
         // Verification des validation du formulaire
-        $validateAtributes = $this->validate();
         
         // Enregistrement du nouveau professeur avec les données valider
-        ModelsProfesseur::create($validateAtributes['newProfesseur']);
+        ModelsProfesseur::create($this->newProfesseur);
 
         // Envoye des notifications pour confirmation que l'enregistrement est avec success et retour vers list
         $this->dispatch("ShowSuccessMsg", ['message' => 'Professeur ajouté avec success!', 'type' => 'success']);
@@ -174,6 +161,23 @@ class Professeur extends Component
             $this->reset('orderDirection');
         }
     }
+    
+    public function updateProfesseur()
+    {
+        $this->validate();
+        // On recuper le photo s'il y en a.
+        if ($this->photo != '') {
+            $photoName = $this->photo->store('profil', 'public');
+            $this->editProfesseur['profil'] = $photoName;
+        }
+
+
+        ModelsProfesseur::find($this->editProfesseur['id'])->update($this->editProfesseur);
+
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Professeur modifier avec success!', 'type' => 'success']);
+
+        $this->toogleSectionName('list');
+    }
 
     public function render()
     {
@@ -182,10 +186,10 @@ class Professeur extends Component
                 ->orWhere("prenom", "LIKE", "%{$this->search}%")
                 ->orderBy($this->orderField, $this->orderDirection)
                 ->paginate(5)
-        ];
-
-
-        return view('livewire.professeurs.index', $data)
+            ];
+            
+            
+            return view('livewire.professeurs.index', $data)
             ->extends('layouts.mainLayout')
             ->section('content');
     }

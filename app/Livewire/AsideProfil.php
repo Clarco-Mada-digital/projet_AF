@@ -20,12 +20,12 @@ class AsideProfil extends Component
     //     dd('voir profil');
     // }
 
-    public function updateProfil()
-    {
-        $this->editProfil = Auth::user();
+    // public function updateProfil()
+    // {
+    //     $this->editProfil = Auth::user();
         
-        dd($this->editProfil);
-    }
+    //     dd($this->editProfil);
+    // }
 
     public function showFormPass()
     {

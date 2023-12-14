@@ -26,7 +26,7 @@ class EditProfil extends Component
     public function rules()
     {
         $rule = [
-            'editProfil.profil' => [''],
+            'photo' => ['image', 'max:1024'],
             'editProfil.nom' => ['required'],
             'editProfil.prenom' => 'required',
             'editProfil.sexe' => ['required'],
@@ -52,12 +52,13 @@ class EditProfil extends Component
 
     public function updateProfil()
     {
+        $this->validate();
+        
         if ($this->photo != '') {
             $photoName = $this->photo->store('profil', 'public');
             $this->editProfil['profil'] = $photoName;
         }
 
-        $this->validate();
        
         if ($this->newPwd != null)
         {
