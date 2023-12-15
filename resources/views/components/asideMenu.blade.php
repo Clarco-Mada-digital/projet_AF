@@ -1,8 +1,8 @@
 <aside class="main-sidebar elevation-4 bg-white" style="height: 100%;">
 
-    <div class="logo text-center " style="height: 15vh;">
-        <div class="log-lg"
-            style="background: url({{ asset('images/logo/alliance-francaise-d-antsiranana-logo.png') }}) center center /cover; height:100%; width:100%;">
+    <div class="logo text-center " style="height: 15vh; width:inherit;">
+        <div class="log-side"
+            style="background: url({{ asset('images/logo/alliance-francaise-d-antsiranana-logo.png') }}) center center /cover; height:inherit; width: 80%; margin: auto;">
 
         </div>
         {{-- <img src="{{ asset('images/logo/alliance-francaise-d-antsiranana-logo.png')}}" alt="AF_logo" class="w-75 logo-lg"> --}}

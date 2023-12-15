@@ -379,7 +379,7 @@
                                     </div>
                                 </div>
                                 <a class="btn btn-primary" wire:click="bsSteepPrevNext('prev')">Précedent</a>
-                                <button type="submit" class="btn btn-primary"> <i class="fa fa-spinner fa-spin"
+                                <button type="submit" class="btn btn-primary"> <i class="fa fa-paper-plane"></i> <i class="fa fa-spinner fa-spin"
                                         wire:loading='submitNewEtudiant' wire:target='submitNewEtudiant'></i>
                                     Finir l'inscription</button>
                             </div>

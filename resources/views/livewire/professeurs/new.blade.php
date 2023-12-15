@@ -125,7 +125,7 @@
                         </div>
                     </div>
                     <div class="col-md-12 text-right">
-                        <button type="submit" class="btn btn-info btn-md"> <i class="fa fa-spin fa-spinner" wire:loading wire:target="submitNewProfesseur"></i> Envoyer</button>
+                        <button type="submit" class="btn btn-info btn-md"> <i class="fa fa-send"></i> <i class="fa fa-paper-plane"></i> <i class="fa fa-spin fa-spinner" wire:loading wire:target="submitNewProfesseur"></i> Envoyer</button>
                     </div>
                 </form>
 
