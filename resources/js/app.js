@@ -4,6 +4,8 @@ import './bootstrap';
 import "admin-lte/plugins/jquery/jquery";
 import "admin-lte/plugins/bootstrap/js/bootstrap.bundle";
 import "admin-lte/dist/js/adminlte";
+import "admin-lte/plugins/chart.js/Chart.min.js";
+import "admin-lte/dist/js/demo.js";
 
 // import ionicons
 import "https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js";

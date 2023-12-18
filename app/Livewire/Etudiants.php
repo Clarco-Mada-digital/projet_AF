@@ -36,6 +36,8 @@ class Etudiants extends Component
     public int $bsSteepActive = 1;
     public $etudiantSession;
 
+    public $dataInscri = [];
+
     public $allLevel;
     public $nscList = ["cours" => [], "level" => []];
 
@@ -147,26 +149,31 @@ class Etudiants extends Component
         $this->toogleStateName('edit');
     }
 
-    public function submitNewEtudiant()
-    {
-        $this->newEtudiant['user_id'] = Auth::user()->id;
-        $this->newEtudiant['numCarte'] = "AF-" . random_int(100, 9000);
-        $photoName = $this->photo->store('photos', 'public');
-        $this->newEtudiant['profil'] = $photoName;
+    // public function submitNewEtudiant()
+    // {
+    //     $this->newEtudiant['user_id'] = Auth::user()->id;
+    //     $this->newEtudiant['numCarte'] = "AF-" . random_int(100, 9000);
+    //     $photoName = $this->photo->store('photos', 'public');
+    //     $this->newEtudiant['profil'] = $photoName;
 
-        $validateAtributes = $this->validate();
+    //     // $validateAtributes = $this->validate();
 
-        Etudiant::create($validateAtributes['newEtudiant']);
+    //     // Save etudiant
+    //     // Etudiant::create($validateAtributes['newEtudiant']);
 
-        // foreach ($this->nscList['cours'] as $cour) {
-        //     if ($cour['active']) {
-        //         Etudiant::find($this->newEtudiant['nom'])->cours()->attach($cour['cour_id']);
-        //     }
-        // }
+    //     // foreach ($this->nscList['cours'] as $cour) {
+    //     //     if ($cour['active']) {
+    //     //         Etudiant::find($this->newEtudiant['nom'])->cours()->attach($cour['cour_id']);
+    //     //     }
+    //     // }
 
-        $this->dispatch("ShowSuccessMsg", ['message' => 'Enregistrement avec success!', 'type' => 'success']);
-        $this->photo = '';
-    }
+    //     // Save info d'inscription
+    //     dd($this->dataInscri);
+    //     Inscription::create();
+
+    //     $this->dispatch("ShowSuccessMsg", ['message' => 'Enregistrement avec success!', 'type' => 'success']);
+    //     $this->photo = '';
+    // }
 
     public function updateEtudiant($id)
     {

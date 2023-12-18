@@ -3,11 +3,8 @@
         data-accordion="false">
                        
             <li class="nav-item">
-                <a href="{{ route('home') }}" @class([
-                    'nav-link d-flex align-items-center',
-                    'active' =>
-                        request()->route()->getName() == 'home',
-                ])>
+                <a href="{{ route('home') }}" 
+                    @class(['nav-link d-flex align-items-center','active' => request()->route()->getName() == 'home',])>
                     {{-- <ion-icon class="nav-icon" name="logo-windows"></ion-icon> --}}
                     <i class="nav-icon fa-fw fab fa-windows"></i>
                     <p>
@@ -23,12 +20,7 @@
                 request()->route()->getName(),
                 'etudiants'),
         ])>
-            <a href="#" @class([
-                'nav-link d-flex align-items-center',
-                'active-ancre' => Str::contains(
-                    request()->route()->getName(),
-                    'etudiants'),
-            ])>
+            <a href="#" @class(['nav-link d-flex align-items-center','active-ancre' => Str::contains(request()->route()->getName(),'etudiants'),])>
                 <i class="fa fa-users fa-w nav-icon" aria-hidden="true"></i>
                 <p>
                     ÉTUDIANTS
@@ -64,12 +56,7 @@
                 request()->route()->getName(),
                 'cours'),
         ])>
-            <a href="#" @class([
-                'nav-link d-flex align-items-center',
-                'active-ancre' => Str::contains(
-                    request()->route()->getName(),
-                    'cours'),
-            ])>
+            <a href="#" @class(['nav-link d-flex align-items-center','active-ancre' => Str::contains(request()->route()->getName(),'cours'),])>
                 {{-- <ion-icon class="nav-icon" name="book"></ion-icon> --}}
                 <i class="nav-icon fa-w fa fa-book"></i>
                 <p>
@@ -105,18 +92,9 @@
         </li>
 
         @cannot('manager')
-            <li @class([
-                'nav-item',
-                'menu-open' => Str::contains(
-                    request()->route()->getName(),
-                    'paiment'),
-            ])>
-                <a href="#" @class([
-                    'nav-link d-flex align-items-center',
-                    'active' => Str::contains(
-                        request()->route()->getName(),
-                        'paiment'),
-                ])>
+            <li @class(['nav-item','menu-open' => Str::contains(request()->route()->getName(),'paiment'),])>
+                <a href="{{route('paiements-paiement')}}"
+                    @class(['nav-link d-flex align-items-center','active' => Str::contains(request()->route()->getName(),'paiements')])>
                     {{-- <ion-icon class="nav-icon" name="card"></ion-icon> --}}
                     <i class="nav-icon fa-fw fa fa-credit-card"></i>
                     <p>
@@ -127,12 +105,7 @@
         @endcannot
 
         @cannot('manager')
-            <li @class([
-                'nav-item',
-                'menu-open' => Str::contains(
-                    request()->route()->getName(),
-                    'parametres'),
-            ])>
+            <li @class(['nav-item','menu-open' => Str::contains(request()->route()->getName(),'parametres'),])>
                 <a href="#" @class([
                     'nav-link d-flex align-items-center',
                     'active-ancre' => Str::contains(

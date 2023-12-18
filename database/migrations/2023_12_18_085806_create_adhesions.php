@@ -13,14 +13,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inscriptions', function (Blueprint $table) {
-            $table->id();            
-            $table->longText('remarque')->nullable();
+        Schema::create('adhesions', function (Blueprint $table) {
+            $table->id();
+            $table->float('montant');
+            $table->string('statue');
+            $table->string('moyenPaiement');
+            $table->string('numRecue');
             $table->timestamps();
 
+            
             $table->foreignIdFor(Etudiant::class)->constrained();
             $table->foreignIdFor(Paiement::class)->constrained();
         });
+
     }
 
     /**
@@ -28,10 +33,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('inscriptions', function (Blueprint $table) {
+        Schema::table('adhesions', function (Blueprint $table) {
             $table->dropColumn(['etudiant_id', 'paiement_id']);
         });
 
-        Schema::dropIfExists('inscriptions');
+        Schema::dropIfExists('adhesions');
     }
 };

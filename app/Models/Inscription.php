@@ -9,15 +9,10 @@ class Inscription extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'montant',
-        'dateInscription',
-        'moyentPaiement',
-        'statue',
-        'numRecue',
+    protected $fillable = [        
         'remarque',
         'etudiant_id',
-        'updated_at'
+        'paiement_id'
     ];
 
     public function sessions(){

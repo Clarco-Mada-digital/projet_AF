@@ -3,6 +3,7 @@
 use App\Livewire\Cours;
 use App\Livewire\Etudiants;
 use App\Livewire\NewCour;
+use App\Livewire\Paiements;
 use App\Livewire\Professeur;
 use App\Livewire\Sessions;
 use App\Livewire\Users;
@@ -53,8 +54,15 @@ Route::group([
     Route::match(['get', 'post'], '/nouveau', NewCour::class)->name('nouveau');
 });
 
-// Les section pour Administrateur
+Route::group([
+    'middleware' =>['auth'],
+    'prefix' => 'paiements',
+    'as' => 'paiements-'
+], function () {
+    Route::match(['get', 'post'], '/', Paiements::class)->name('paiement');
+});
 
+// Les section pour Administrateur
 Route::group([
     'middleware' =>['auth'],
     'prefix' => 'parametres',

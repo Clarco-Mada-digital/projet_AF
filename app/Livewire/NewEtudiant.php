@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\Etudiant;
 use App\Models\Inscription;
 use App\Models\Level;
+use App\Models\Paiement;
 use App\Models\Session;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -27,9 +28,17 @@ class NewEtudiant extends Component
     public $now;
     public $etudiantSession;
     public $sessionSelected;
-    public $moyenPaiment = 'espece';
-    public $statue = 'totale';
+    public $moyenPaiment = 'Espece';
+    public $statue = 'Totalement';
 
+    public function defineStatue($nomStatue)
+    {
+        $this->statue = $nomStatue;
+    }
+    public function defineMoyenPai($nomMoyenPai)
+    {
+        $this->moyenPaiment = $nomMoyenPai;
+    }
 
     public function __construct()
     {
@@ -138,9 +147,24 @@ class NewEtudiant extends Component
                 $newEtud->cours()->attach($cour['cour_id']);
             }
         }
-        // Pour la base donné de inscription
         $montant = $this->sessionSelected->montant;
-        $inscriValue = ['montant' => $montant, 'dateInscription' => $this->now, 'moyentPaiement' => $this->moyenPaiment, 'statue' => $this->statue, 'etudiant_id' => $newEtud->id];
+
+        // Pour la base donné de paiement
+        $paiementData = [
+            'montant' => $montant,
+            'statue' => $this->statue,
+            'moyenPaiement' => $this->moyenPaiment,
+            'type' => 'Inscription',
+            'numRecue' => "AFPN°" . random_int(50, 9000),
+            'user_id' => Auth::user()->id
+        ];
+        $paiement = Paiement::create($paiementData);
+
+        // Pour la base donné de inscription
+        $inscriValue = [
+            'etudiant_id' => $newEtud->id,
+            'paiement_id' => $paiement->id
+        ];
 
         $inscription = Inscription::create($inscriValue);
         $inscription->sessions()->attach($this->sessionSelected->id);

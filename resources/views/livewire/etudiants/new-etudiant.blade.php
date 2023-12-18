@@ -321,17 +321,17 @@
                                         <div class="card-body row">
                                             <div class="custom-control custom-radio col-md-3">
                                                 <input class="custom-control-input" type="radio" id="espece"
-                                                    name="paiementPar" wire:model='moyenPaiment'>
+                                                    name="paiementPar" wire:click="defineMoyenPai('Espèce')">
                                                 <label for="espece" class="custom-control-label">Espèce</label>
                                             </div>
                                             <div class="custom-control custom-radio col-md-3">
                                                 <input class="custom-control-input" type="radio" id="cheque"
-                                                    name="paiementPar" wire:model='moyenPaiment'>
+                                                    name="paiementPar" wire:click="defineMoyenPai('Chèque')">
                                                 <label for="cheque" class="custom-control-label"> Chèque</label>
                                             </div>
                                             <div class="custom-control custom-radio col-md-3">
                                                 <input class="custom-control-input" type="radio" id="carte"
-                                                    name="paiementPar" wire:model='moyenPaiment'>
+                                                    name="paiementPar" wire:click="defineMoyenPai('Carte bancaire')">
                                                 <label for="carte" class="custom-control-label">Carte
                                                     bancaire</label>
                                             </div>
@@ -345,13 +345,13 @@
                                         <div class="card-body row">
                                             <div class="custom-control custom-radio col-md-3">
                                                 <input class="custom-control-input" type="radio" id="moitier"
-                                                    name="statuePaiement" wire:model='statue'>
+                                                    name="statuePaiement" wire:click="defineStatue('A moitié')">
                                                 <label for="moitier" class="custom-control-label"> A moitié
                                                     payé</label>
                                             </div>
                                             <div class="custom-control custom-radio col-md-3">
                                                 <input class="custom-control-input" type="radio" id="totale"
-                                                    name="statuePaiement" wire:model='statue'>
+                                                    name="statuePaiement" wire:click="defineStatue('Totalement')">
                                                 <label for="totale" class="custom-control-label">Totalement
                                                     payé</label>
                                             </div>
