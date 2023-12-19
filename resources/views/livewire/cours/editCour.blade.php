@@ -28,8 +28,12 @@
             </div>
             <div class="col-md-2 form-group">
                 <label class="form-label" for="codeCategorie">Catégorie</label>
-                <input class="form-control @error('editCour.libelle') is-invalid @enderror" type="text"
-                    name="editCour" id="codeCategorie" wire:model='editCour.categorie'>
+                <select class="form-control @error('editCour.libelle') is-invalid @enderror" id="codeCategorie" wire:model='editCour.categorie'>
+                    <option >-- Catégorie --</option>
+                    <option value="enfant">Enfant</option>
+                    <option value="ado">Ado</option>
+                    <option value="adulte">Adulte</option>
+                </select>
                 @error('editCour.categorie')
                     <span class="invalid-feedback">Ce champ est obligatoire</span>
                 @enderror

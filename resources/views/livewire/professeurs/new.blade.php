@@ -13,7 +13,7 @@
     </div>
 
     <div class="card-body row">
-        <div class="col-md-8 mx-auto">
+        <div class="col-md-12 mx-auto">
             <div class="card-body box-profile">
                 <form class="row" wire:submit='submitNewProfesseur'>
                     <div class="col-md-12 d-flex justify-content">
@@ -42,18 +42,6 @@
                                         <span class="error">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                {{-- <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="etudiantProfil"
-                                        wire:model='photo'>
-                                    <label class="custom-file-label" for="etudiantProfil">Choisir un
-                                        image</label>
-                                    @error('photo')
-                                        <span class="error">{{ $message }}</span>
-                                    @enderror
-                                </div> 
-                                <div class="input-group-append">
-                                    <span class="input-group-text">Upload</span>
-                                </div> --}}
                             </div>
                         </div>
                     </div>

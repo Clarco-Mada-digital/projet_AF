@@ -5,7 +5,7 @@
 <div>
     <div @if ($state != 'view') style="display: none;" @endif>
         <h3 class="mb-5 pt-3">Listes des cours</h3>
-        <div class="row m-4">
+        <div class="row mt-4 mx-2">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header bg-gradient-primary">
@@ -30,13 +30,13 @@
                         <table class="table table-head-fixed text-nowrap">
                             <thead>
                                 <tr>
-                                    <th style="width: 10%">N°</th>
-                                    <th style="width: 10%">Code</th>
+                                    <th style="width: 5%">N°</th>
+                                    <th style="width: 5%">Code</th>
                                     <th style="width: 30%">Libellé</th>
                                     <th class="text-center" style="width: 20%">Heure du cour</th>
                                     <th class="text-center" style="width: 20%">Professeur</th>
                                     <th style="width: 10%">Salle</th>
-                                    <th class="text-center" style="width: 5%">Action</th>
+                                    <th class="text-center" style="width: 10%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>

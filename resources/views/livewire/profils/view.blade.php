@@ -1,4 +1,4 @@
-<div class="card card-primary shadow-lg m-0 p-0" style="transition: all 0.15s ease 0s; background:rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px);">
+<div class="card card-primary shadow-lg m-0 p-0" style="transition: all 0.15s ease 0s; background:rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px);">
   
 
   <div class="card-body p-0 m-0">

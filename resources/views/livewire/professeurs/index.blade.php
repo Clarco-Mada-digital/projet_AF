@@ -5,7 +5,7 @@
 <div>
     <div @if ($sectionName != 'list') style="display: none;" @endif>
         <h3 class="mb-5 pt-3">Liste des professeurs</h3>
-        <div class="row m-4">
+        <div class="row mt-4 mx-2">
             <div class="col-12">
                 <div class="card" style="min-height: 350px;">
                     <div class="card-header bg-gradient-primary">
@@ -30,15 +30,14 @@
                         <table class="table table-head-fixed text-nowrap">
                             <thead>
                                 <tr>
-                                    <th style="width: 5%"></th>
-                                    <th wire:click="setOrderField('nom')">Nom</th>
-                                    <th class="text-center" wire:click="setOrderField('nom')">Prénom
-                                    </th>
-                                    <th class="text-center" >nationalité</th>
-                                    <th class="text-center" >Téléphone</th>
-                                    <th class="text-center" >Email</th>
-                                    <th class="text-center" >Cours</th>
-                                    <th class="text-center" >Action</th>
+                                    <th style="width: 5%;"></th>
+                                    <th style="width: 20%" wire:click="setOrderField('nom')">Nom</th>
+                                    <th class="text-center" style="width: 20%" wire:click="setOrderField('prenom')">Prénom</th>
+                                    <th class="text-center" style="width: 10%" wire:click="setOrderField('nationalite')">nationalité</th>
+                                    <th class="text-center" style="width: 10%">Téléphone</th>
+                                    <th class="text-center" style="width: 10%">Email</th>
+                                    <th class="text-center" style="width: 25%">Cours</th>
+                                    <th class="text-center" style="width: 5%">Action</th>
                                 </tr>
                             </thead>
 
@@ -57,9 +56,9 @@
                                             @endif
 
                                         </td>
-                                        <td wire:click="setOrderField('nom')">{{ $professeur->nom }}</td>
-                                        <td class="text-center" wire:click="setOrderField('prenom')">{{ $professeur->prenom }}</td>
-                                        <td class="text-center" wire:click="setOrderField('nationalite')">{{ $professeur->nationalite }}</td>
+                                        <td >{{ $professeur->nom }}</td>
+                                        <td class="text-center">{{ $professeur->prenom }}</td>
+                                        <td class="text-center">{{ $professeur->nationalite }}</td>
                                         <td class="text-center">{{ $professeur->telephone1 }}</td>
                                         <td class="text-center"> {{ $professeur->email }} </td>
                                         <td class="text-center"> {{ $professeur->cours->implode('libelle', ' | ') }} </td>
@@ -69,8 +68,7 @@
                                                     spellcheck="false"></i></button>
                                             <button class="btn btn-link"><i class="fa fa-edit" style="color: #FFC107;"
                                                     wire:click="toogleSectionName('edit', {{ $professeur->id }})"></i></button>
-                                            <button class="btn btn-link bounce" wire:click='confirmeDeleteProf({{$professeur->id}})'> <i class="fa fa-trash"
-                                                    style="color: #DC3545;"></i></button>
+                                            <button class="btn btn-link bounce" wire:click='confirmeDeleteProf({{$professeur->id}})'> <i class="fa fa-trash" style="color: #DC3545;"></i></button>
                                         </td>
                                     </tr>
 

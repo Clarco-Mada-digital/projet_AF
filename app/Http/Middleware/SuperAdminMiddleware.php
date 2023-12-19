@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
-class ManagerMiddleware
+class SuperAdminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,12 +16,7 @@ class ManagerMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Gate::allows("manager")) 
-        {
-            return $next($request);
-        }
-        elseif (Gate::allows("superAdmin"))
-        {
+        if (Gate::allows("superAdmin")) {
             return $next($request);
         }
         return redirect()->route('home');

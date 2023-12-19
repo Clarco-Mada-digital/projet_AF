@@ -35,6 +35,17 @@ class Sessions extends Component
     public function __construct()
     {
         $this->now = Carbon::now();
+        $sessions = Session::all();
+        foreach($sessions as $session)
+        {
+            if ($session->statue)
+            {
+                if ($session->dateFin < $this->now)
+                {
+                    $session->update(['statue' => false]);
+                }
+            }
+        }
         // $this->cours= Cour::all()->toArray();
 
     }
@@ -130,6 +141,7 @@ class Sessions extends Component
     {
         // dd($this->editSession);
         $this->validate();
+        $this->editSession['dateFin'] < $this->now ? $this->editSession['statue'] = false : $this->editSession['statue'] = true;
         Session::find($session->id)->update($this->editSession);
 
         // Vider les ancien donné

@@ -4,7 +4,7 @@
 
 <div>
     <h3 class="mb-5 pt-3">Liste des sessions</h3>
-    <div class="row m-4">
+    <div class="row mt-4 mx-2">
         <div class="col-12">
             <div class="card" style="min-height: 350px;">
                 <div class="card-header bg-gradient-primary">
@@ -34,8 +34,7 @@
                                 <th class="text-center" style="width: 15%">Date de début</th>
                                 <th class="text-center" style="width: 15%">Date de fin</th>
                                 <th class="text-center" style="width: 20%">Montant en Ar</th>
-                                <th class="text-center" style="width: 15%" wire:click="setOrderField('statue')">Statut
-                                </th>
+                                <th class="text-center" style="width: 15%" wire:click="setOrderField('statue')">Statut</th>
                                 <th class="text-center" style="width: 10%">Action</th>
                             </tr>
                         </thead>
@@ -102,8 +101,8 @@
                                     <td class="text-center">{{ date($session->dateFin) }}</td>
                                     <td class="text-center">{{ $session->montant }}</td>
                                     <td class="text-center"> <button
-                                            class="btn btn-link @if ($session->dateFin > $now) bg-gradient-success @else bg-gradient-danger @endif">
-                                            @if ($session->dateFin > $now)
+                                            class="btn btn-link @if ($session->statue) bg-gradient-success @else bg-gradient-danger @endif">
+                                            @if ($session->statue)
                                                 Active
                                             @else
                                                 Inactive
@@ -124,6 +123,7 @@
                                 </tr>
                             @endforelse
                         </tbody>
+
                     </table>
                     <div class="row @if (!$showFormCours) d-none @endif "
                         style="position: absolute; top:7rem; right:15px; width:55%;">

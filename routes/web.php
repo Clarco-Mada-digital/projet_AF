@@ -55,7 +55,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' =>['auth'],
+    'middleware' =>['auth', 'auth.admin'],
     'prefix' => 'paiements',
     'as' => 'paiements-'
 ], function () {
@@ -64,7 +64,7 @@ Route::group([
 
 // Les section pour Administrateur
 Route::group([
-    'middleware' =>['auth'],
+    'middleware' =>["auth", "auth.admin"],
     'prefix' => 'parametres',
     'as' => 'parametres-'
 ], function () {

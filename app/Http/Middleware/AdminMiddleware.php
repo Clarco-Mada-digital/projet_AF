@@ -16,7 +16,12 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Gate::allows("admin")) {
+        if (Gate::allows("admin")) 
+        {
+            return $next($request);
+        }
+        elseif(Gate::allows("superAdmin")) 
+        {
             return $next($request);
         }
         return redirect()->route('home');

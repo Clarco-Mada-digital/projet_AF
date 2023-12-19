@@ -4,7 +4,7 @@
 
 <div>
     <h3 class="mb-5 pt-3">Liste des paiements</h3>
-    <div class="row m-4">
+    <div class="row mt-4 mx-2">
         <div class="col-12">
             <div class="card" style="min-height: 350px;">
                 <div class="card-header bg-gradient-primary">
@@ -27,14 +27,14 @@
                     <table class="table table-head-fixed text-nowrap">
                         <thead>
                             <tr>
-                                <th wire:click="setOrderField('numRecue')">N° reçue</th>
-                                <th wire:click="setOrderField('type')">Paiement pour</th>
-                                <th class="text-center" wire:click="setOrderField('montant')">Montant en Ar</th>
-                                <th class="text-center" wire:click="setOrderField('moyentPaiement')">Moyen de paiement
+                                <th style="width: 5%;" wire:click="setOrderField('numRecue')">N° reçue</th>
+                                <th style="width: 20%;" wire:click="setOrderField('type')">Paiement pour</th>
+                                <th style="width: 15%;" class="text-center" wire:click="setOrderField('montant')">Montant en Ar</th>
+                                <th style="width: 20%;" class="text-center" wire:click="setOrderField('moyentPaiement')">Moyen de paiement
                                 </th>
-                                <th class="text-center">Statue paiement</th>
-                                <th class="text-center">Effectuer par</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center" style="width: 15%;">Statue paiement</th>
+                                <th class="text-center" style="width: 20%;">Effectuer par</th>
+                                <th class="text-center" style="width: 5%;">Action</th>
                             </tr>
                         </thead>
                         <tbody>

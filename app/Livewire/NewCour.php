@@ -45,7 +45,7 @@ class NewCour extends Component
     // Fonction pour recuperer les heurs du cour
     public function setDateHourCour()
     {
-        if ($this->heurDebInput > $this->heurFinInput)
+        if ($this->dateInput == '' || $this->heurDebInput == '' || $this->heurFinInput == ''|| $this->heurDebInput > $this->heurFinInput)
         {
             $this->dispatch("showModalSimpleMsg", ['message' => "Désolé, quelque chose a mal tourné. Veuillez vérifier les heures que vous avez entrées.", 'type' => 'error']);   
             return null;         

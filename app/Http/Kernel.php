@@ -61,6 +61,7 @@ class Kernel extends HttpKernel
 
         'auth.admin'=> \App\Http\Middleware\AdminMiddleware::class,
         'auth.manager'=> \App\Http\Middleware\ManagerMiddleware::class,
+        'auth.superAdmin'=> \App\Http\Middleware\SuperAdminMiddleware::class,
 
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,

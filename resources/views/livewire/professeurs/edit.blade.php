@@ -15,7 +15,7 @@
   </div>
 
   <div class="card-body row">
-      <div class="col-md-8 card card-primary card-outline mx-auto">
+      <div class="col-md-12 card card-primary card-outline mx-auto">
           <div class="card-body box-profile">
               <div class="row">
                   <div class="col-12 d-flex flex-md-column align-items-center">

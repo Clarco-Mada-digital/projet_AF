@@ -96,14 +96,14 @@
                             <label class="form-label" for="codeHeur">Heure du fin</label>
                             <input class="form-control" type="time" name="courTime" wire:model='heurFinInput'>
                         </div>
-                        <div class="col-md-2 text-center">
+                        <div class="col-md-3 text-center">
                             <button class="btn btn-info" wire:click.prevent="setDateHourCour"> <i class="fa fa-plus"></i> Add</button>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             <input class="form-control @error('dateHeurCour') is-invalid @enderror" type="text" disabled wire:model='dateHeurCour'>
                             @error('dateHeurCour') <span class="invalid-feedback">Ce champ est obligatoir</span> @enderror
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <button class="btn btn-danger" wire:click.prevent="resetDateHourCour"> <i class="fa fa-undo"></i> Reset</button>
                         </div>
                     </div>

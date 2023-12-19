@@ -5,7 +5,7 @@
 <div>
     <div @if ($sectionName != 'list') style="display: none;" @endif>
         <h3 class="mb-5 pt-3">Liste des ustilisateurs</h3>
-        <div class="row m-4">
+        <div class="row mt-4 mx-2">
             <div class="col-12">
                 <div class="card" style="min-height: 350px;">
                     <div class="card-header bg-gradient-primary">
@@ -30,15 +30,14 @@
                         <table class="table table-head-fixed text-nowrap">
                             <thead>
                                 <tr>
-                                    <th ></th>
-                                    <th wire:click="setOrderField('nom')">Nom</th>
-                                    <th class="text-center" wire:click="setOrderField('prenom')">Prénom
-                                    </th>
-                                    <th class="text-center" wire:click="setOrderField('nationalite')">nationalité</th>
-                                    <th class="text-center" >Téléphone</th>
-                                    <th class="text-center" >Email</th>
-                                    <th class="text-center" wire:click="setOrderField('role_id')">Rôle</th>
-                                    <th class="text-center" >Action</th>
+                                    <th style="width: 5%;"></th>
+                                    <th style="width: 20%;" wire:click="setOrderField('nom')">Nom</th>
+                                    <th class="text-center" style="width: 20%;" wire:click="setOrderField('prenom')">Prénom</th>
+                                    <th class="text-center" style="width: 15%;" wire:click="setOrderField('nationalite')">nationalité</th>
+                                    <th class="text-center" style="width: 15%;">Téléphone</th>
+                                    <th class="text-center" style="width: 15%;">Email</th>
+                                    <th class="text-center" style="width: 5%%;" wire:click="setOrderField('role_id')">Rôle</th>
+                                    <th class="text-center" style="width: 5%;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
