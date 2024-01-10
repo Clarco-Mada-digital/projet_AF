@@ -11,7 +11,9 @@ class Session extends Model
         'nom',
         'dateDebut',
         'dateFin',
+        'dateFinPromo',
         'montant',
+        'montantPromo',
         'statue',
         'updated_at',
     ];

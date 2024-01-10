@@ -34,7 +34,8 @@
                                 <th class="text-center" style="width: 15%">Date de début</th>
                                 <th class="text-center" style="width: 15%">Date de fin</th>
                                 <th class="text-center" style="width: 20%">Montant en Ar</th>
-                                <th class="text-center" style="width: 15%" wire:click="setOrderField('statue')">Statut</th>
+                                <th class="text-center" style="width: 15%" wire:click="setOrderField('statue')">Statut
+                                </th>
                                 <th class="text-center" style="width: 10%">Action</th>
                             </tr>
                         </thead>
@@ -60,17 +61,21 @@
                                             cours</button>
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-warning" wire:click='addNewSession'> <i
-                                                class="fa fa-plus"></i> <i class="fa fa-spinner fa-spin" wire:loading wire:target='addNewSession'></i> Add</button>
+                                        <button class="btn btn-warning" data-toggle="modal" data-target="#newPromotion"
+                                            spellcheck="false"> <i class="fa fa-gift"></i> Promotion </button>
+                                        <button class="btn btn-success" wire:click='addNewSession'> <i
+                                                class="fa fa-plus"></i> <i class="fa fa-spinner fa-spin" wire:loading
+                                                wire:target='addNewSession'></i> Enregistrer </button>
                                         <button class="btn btn-danger" wire:click='toogleFormSession'> <i
-                                                class="fa fa-ban"></i> Annuler</button>
+                                                class="fa fa-ban"></i> Annuler </button>
                                     </td>
                                 </tr>
                             @endif
                             @if ($formEditSession)
                                 <tr>
                                     <td colspan="2">
-                                        <input class="form-control" type="text" placeholder="Nom de session" wire:model='editSession.nom'>
+                                        <input class="form-control" type="text" placeholder="Nom de session"
+                                            wire:model='editSession.nom'>
                                     </td>
                                     <td>
                                         <input class="form-control" type="date" wire:model='editSession.dateDebut'>
@@ -86,12 +91,68 @@
                                             cours</button>
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-warning" wire:click="updateSession({{$editSession['id']}})"> <i
-                                                class="fa fa-edit"></i> <i class="fa fa-spinner fa-spin" wire:loading wire:target="updateSession"></i> Modifier</button>
-                                        <button class="btn btn-danger" wire:click="initUpdateSession({{$editSession['id']}}, 'True')"> <i
+                                        <button class="btn btn-info" data-toggle="modal" data-target="#editPromotion"
+                                            spellcheck="false"> <i class="fa fa-gift"></i> Promotion </button>
+                                        <button class="btn btn-warning"
+                                            wire:click="updateSession({{ $editSession['id'] }})"> <i
+                                                class="fa fa-edit"></i> <i class="fa fa-spinner fa-spin" wire:loading
+                                                wire:target="updateSession"></i> Modifier</button>
+                                        <button class="btn btn-danger"
+                                            wire:click="initUpdateSession({{ $editSession['id'] }}, 'True')"> <i
                                                 class="fa fa-ban"></i> Annuler</button>
                                     </td>
                                 </tr>
+
+                                {{-- Partie Modal edit promotion --}}
+                                <div class="modal fade" id="editPromotion" style="display: none; "
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-body p-0 ">
+                                                <div class="card card-primary shadow-lg mb-0"
+                                                    style="transition: all 0.15s ease 0s; width: 100%;">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title"> Définie le promotion </h3>
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool"
+                                                                data-card-widget="maximize" spellcheck="false">
+                                                                <i class="fas fa-expand"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-danger"
+                                                                data-dismiss="modal">
+                                                                <i class="fa fa-times"></i>
+                                                            </button>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="card-body row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="userNom"> Date de fin du promotion
+                                                                </label>
+                                                                <input type="date" class="form-control"
+                                                                    id="dateFinPromotion"
+                                                                    wire:model="editSession.dateFinPromo">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="userNom"> Montant </label>
+                                                                <input type="number" class="form-control"
+                                                                    id="montantPromotion"
+                                                                    wire:model="editSession.montantPromo">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 text-right">
+                                                            <button class="btn btn-success" data-dismiss="modal"> <i
+                                                                    class="fa fa-save"></i> Confirmer </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endif
                             @forelse ($sessions as $session)
                                 <tr>
@@ -99,7 +160,9 @@
                                     <td>{{ $session->nom }}</td>
                                     <td class="text-center">{{ $session->dateDebut }}</td>
                                     <td class="text-center">{{ date($session->dateFin) }}</td>
-                                    <td class="text-center">{{ $session->montant }}</td>
+                                    <td class="text-center">
+                                        {{ ($session->dateFinPromo != null) & ($session->dateFinPromo > $now) ? $session->montantPromo : $session->montant }}
+                                    </td>
                                     <td class="text-center"> <button
                                             class="btn btn-link @if ($session->statue) bg-gradient-success @else bg-gradient-danger @endif">
                                             @if ($session->statue)
@@ -109,7 +172,8 @@
                                             @endif
                                         </button> </td>
                                     <td class="text-center">
-                                        <button class="btn btn-link" wire:click="initUpdateSession({{$session->id}})">
+                                        <button class="btn btn-link"
+                                            wire:click="initUpdateSession({{ $session->id }})">
                                             <i class="fa fa-edit" style="color: #FFC107;"></i></button>
                                         <button class="btn btn-link bounce"> <i class="fa fa-trash"
                                                 style="color: #DC3545;"></i></button>
@@ -117,14 +181,15 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td class="text-center" colspan="7"> <img src="{{ asset('images/no_data.svg') }}"
-                                            alt="Data empty" width="200px">
+                                    <td class="text-center" colspan="7"> <img
+                                            src="{{ asset('images/no_data.svg') }}" alt="Data empty" width="200px">
                                     </td>
                                 </tr>
                             @endforelse
                         </tbody>
 
                     </table>
+
                     <div class="row @if (!$showFormCours) d-none @endif "
                         style="position: absolute; top:7rem; right:15px; width:55%;">
                         <div class="card card-outline card-info w-100 my-0" style="min-height: 150px;">
@@ -169,7 +234,55 @@
                         {{ $sessions->links() }}
                     </div>
                 </div>
+
+                {{-- Partie Modal promotion --}}
+                <div class="modal fade" id="newPromotion" style="display: none; " aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-body p-0 ">
+                                <div class="card card-primary shadow-lg mb-0"
+                                    style="transition: all 0.15s ease 0s; width: 100%;">
+                                    <div class="card-header">
+                                        <h3 class="card-title"> Définie le promotion </h3>
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="maximize"
+                                                spellcheck="false">
+                                                <i class="fas fa-expand"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div class="card-body row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="userNom"> Date de fin du promotion </label>
+                                                <input type="date" class="form-control" id="dateFinPromotion"
+                                                    wire:model="newSession.dateFinPromo">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="userNom"> Montant </label>
+                                                <input type="number" class="form-control" id="montantPromotion"
+                                                    wire:model="newSession.montantPromo">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 text-right">
+                                            <button class="btn btn-success" data-dismiss="modal"> <i
+                                                    class="fa fa-save"></i> Confirmer </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
+</div>
 </div>

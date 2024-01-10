@@ -194,7 +194,7 @@
 
 
 
-    {{-- Initilaisation du calendar JS --}}
+    {{-- Initialisation du calendar JS --}}
     <script>
         const options = {
             settings: {

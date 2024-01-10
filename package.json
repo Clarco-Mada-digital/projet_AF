@@ -16,5 +16,28 @@
     "dependencies": {
         "admin-lte": "3.2",
         "sweetalert": "^2.1.2"
+    },
+    "cspell": {
+        "version": "0.2",
+        "ignorePaths": [],
+        "dictionaryDefinitions": [],
+        "dictionaries": [],
+        "words": [
+            "clearfixr",
+            "csrf",
+            "endforeach",
+            "endforelse",
+            "endguest",
+            "endsection",
+            "extends",
+            "forelse",
+            "livewire",
+            "nowrap",
+            "prenom",
+            "tbody",
+            "thead"
+        ],
+        "ignoreWords": [],
+        "import": []
     }
 }

@@ -5,7 +5,7 @@
 @section('titlePage', 'PAGE CONTACT')
 
 @section('content')
-    <h3 class="mb-5 pt-3">Contacter MADA-Digital</h3>
+    <h3 class="mb-5 pt-3"> Contact MADA-Digital </h3>
 
     <section class="content">
 
@@ -15,7 +15,7 @@
                     <div class="">
                         <img src="{{ asset('images/logo/logo_mada-digital.png') }}" alt="logo MADA-Digital">
                         <p class="lead mb-5">EPP, Lazaret-Nord, Antsiranana 201<br />
-                            <b>Télephone</b>:
+                            <b>Téléphone</b>:
                             (+261) 32 82 968 68 <br />
                             <b>Email</b>: contact@mada-digital.net
                         </p>

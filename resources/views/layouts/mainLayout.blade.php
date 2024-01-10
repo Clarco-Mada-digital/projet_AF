@@ -38,7 +38,7 @@
 
         </div>
 
-        {{-- La section a droite d'ecran en slideBar --}}
+        {{-- La section a droite d’écran en slideBar --}}
         @guest
             ""
         @else
@@ -65,7 +65,7 @@
             <strong>Copyright &copy; 2023-2024 Alliance Française Antsiranana.</strong> All rights
             reserved.
             <div class="float-right d-none d-sm-inline text-danger">
-                Designé et développé avec ❤️ par <a href="https://mada-digital.net"
+                Désigné et développé avec ❤️ par <a href="https://mada-digital.net"
                     style="color: inherit;font-weight: bold;">MADA-Digital</a>
             </div>
         </footer>
