@@ -309,7 +309,7 @@
                                             <span class="info-box-text">Montant total</span>
                                             @if ($etudiantSession != null)
                                                 <span class="info-box-number" style="font-size: 1.5rem;">
-                                                    {{ $sessionSelected->montant }} Ar</span>
+                                                    {{ $montantInscription }} Ar</span>
                                             @endif
                                         </div>
 
@@ -358,8 +358,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a class="btn btn-primary" wire:click="bsSteepPrevNext('prev')">Précedent</a>
-                                <a class="btn btn-primary" wire:click="bsSteepPrevNext('next')">Suivant</a>
+                                <a class="btn btn-primary" wire:click="bsSteepPrevNext('prev')">Précédent</a>
+                                <a class="btn btn-primary" wire:click="bsSteepPrevNext('next')"> <i class="fa fa-paper-plane"></i> <i class="fa fa-spinner fa-spin"
+                                    wire:loading='submitNewEtudiant' wire:target='submitNewEtudiant'></i> Enregistrer l'inscription</a>
                             </div>
                             <div id="facture-part" @if ($bsSteepActive != 4) style="display: none;" @endif>
                                 <div class="col-md-12 card card-success">
@@ -378,10 +379,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a class="btn btn-primary" wire:click="bsSteepPrevNext('prev')">Précedent</a>
-                                <button type="submit" class="btn btn-primary"> <i class="fa fa-paper-plane"></i> <i class="fa fa-spinner fa-spin"
-                                        wire:loading='submitNewEtudiant' wire:target='submitNewEtudiant'></i>
-                                    Finir l'inscription</button>
+                                {{-- <a class="btn btn-primary" wire:click="bsSteepPrevNext('prev')">Précédent</a> --}}
+                                <button type="submit" class="btn btn-primary" wire:click="bsSteepPrevNext('next')"> Fermer </button>
                             </div>
                         </form>
                     </div>

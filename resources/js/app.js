@@ -22,6 +22,11 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import swal from 'sweetalert';
 window.Swal = Swal
 
+// var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+// var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+//   return new bootstrap.Tooltip(tooltipTriggerEl)
+// })
+
 window.addEventListener('ShowSuccessMsg', (e) => {
   console.log(e)
   Swal.fire({

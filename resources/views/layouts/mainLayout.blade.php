@@ -43,10 +43,12 @@
             ""
         @else
             @livewire('AsideProfil')
+
             {{-- Partie Modal view --}}
             <div class="modal fade" id="viewProfil" style="display: none; " aria-hidden="true">
                 <div class="modal-dialog modal-sm modal-dialog-centered">
-                    <div class="modal-content bg-transparent" style="background: url('{{asset('images/logo/alliance-francaise-d-antsiranana-logo.png')}}') center center /cover;">
+                    <div class="modal-content bg-transparent"
+                        style="background: url('{{ asset('images/logo/alliance-francaise-d-antsiranana-logo.png') }}') center center /cover;">
                         <div class="modal-body p-0">
                             @include('livewire.profils.view')
                         </div>
@@ -54,7 +56,7 @@
                 </div>
             </div>
             @livewire('EditProfil')
-            
+
         @endguest
 
 

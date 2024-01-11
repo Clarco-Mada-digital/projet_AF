@@ -12,6 +12,7 @@ class Paiement extends Model
     protected $fillable = [
         'montant',
         'statue',
+        'motif',
         'numRecue',
         'type',
         'user_id',

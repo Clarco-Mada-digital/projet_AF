@@ -13,7 +13,7 @@
                     <div class="card-tools d-flex align-items-center">
                         <div class="input-group input-group-md" style="width: 250px;">
                             <input type="search" name="table_search" class="form-control float-right"
-                                placeholder="Rechercher " wire:model.live.debounce.500ms="">
+                                placeholder="Rechercher " wire:model.live.debounce.500ms="search">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-default">
                                     <i class="fas fa-search"></i>
@@ -42,11 +42,12 @@
                             @forelse ($paiements as $paiement)
                                 <tr>
                                     <td> {{ $paiement->numRecue }} </td>
-                                    <td> {{ $paiement->type }} </td>
+                                    <td> {{ $paiement->type }} {{ $paiement->motif != null ? "- (".$paiement->motif.")" : "" }} </td>
                                     <td class="text-center">{{ $paiement->montant }}</td>
                                     <td class="text-center">{{ $paiement->moyenPaiement }}</td>
                                     <td class="text-center">{{ $paiement->statue }}</td>
-                                    <td class="text-center"> {{ $paiement->user->nom }} {{ $paiement->user->prenom }}
+                                    <td class="text-center"> <a href="#" data-toggle="modal"
+                                        data-target="#viewUser" spellcheck="false" wire:click='intiUserShow({{ $paiement->user->id }})'> {{ $paiement->user->nom }} {{ $paiement->user->prenom }} </a>
                                     </td>
                                     <td class="text-center">
                                         <button class="btn btn-link bounce">
@@ -72,6 +73,17 @@
                     <div class="float-right">
                         {{ $paiements->links() }}
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Partie Modal view --}}
+    <div class="modal fade" id="viewUser" style="display: none; " aria-hidden="true" wire:ignore.self>
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content bg-transparent" style="background: url('{{asset('images/logo/alliance-francaise-d-antsiranana-logo.png')}}') center center /cover;">
+                <div class="modal-body p-0">
+                    @include('livewire.paiements.viewUser')
                 </div>
             </div>
         </div>

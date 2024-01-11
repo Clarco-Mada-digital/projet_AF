@@ -104,6 +104,7 @@ class Sessions extends Component
         $this->dispatch("ShowSuccessMsg", ['message' => 'Creation de session avec success!', 'type' => 'success']);
 
         $this->newSession = [];
+        $this->cours = [];
         $this->formNewSession = False;
         $this->showFormCours = False;
     }

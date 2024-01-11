@@ -18,8 +18,7 @@
             <div class="card-body p-0 bg-light">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a href="#" class="nav-link" data-toggle="modal"
-                        data-target="#viewProfil" spellcheck="false">
+                        <a href="#" class="nav-link" data-toggle="modal" data-target="#viewProfil" spellcheck="false" wire:click='initUser({{ Auth::user()->role->id }})'>
                             Voir mon profil <span class="float-right badge bg-info"> <i class="fa fa-eye"></i> </span>
                         </a>
                     </li>

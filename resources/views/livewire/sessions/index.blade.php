@@ -157,14 +157,18 @@
                             @forelse ($sessions as $session)
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $session->nom }}</td>
+                                    <td>{{ $session->nom }} 
+                                        @if (($session->dateFinPromo != null) & ($session->dateFinPromo > $now))
+                                            <span class="right badge badge-info">En promo</span>
+                                        @endif
+                                    </td>
                                     <td class="text-center">{{ $session->dateDebut }}</td>
                                     <td class="text-center">{{ date($session->dateFin) }}</td>
                                     <td class="text-center">
                                         {{ ($session->dateFinPromo != null) & ($session->dateFinPromo > $now) ? $session->montantPromo : $session->montant }}
                                     </td>
                                     <td class="text-center"> <button
-                                            class="btn btn-link @if ($session->statue) bg-gradient-success @else bg-gradient-danger @endif">
+                                            class="btn btn-link @if ($session->statue) text-success @else text-danger @endif">
                                             @if ($session->statue)
                                                 Active
                                             @else
@@ -173,9 +177,9 @@
                                         </button> </td>
                                     <td class="text-center">
                                         <button class="btn btn-link"
-                                            wire:click="initUpdateSession({{ $session->id }})">
+                                            wire:click="initUpdateSession({{ $session->id }})" title="Modifier la session">
                                             <i class="fa fa-edit" style="color: #FFC107;"></i></button>
-                                        <button class="btn btn-link bounce"> <i class="fa fa-trash"
+                                        <button class="btn btn-link bounce" title="Supprimer la session"> <i class="fa fa-trash"
                                                 style="color: #DC3545;"></i></button>
                                     </td>
                                 </tr>

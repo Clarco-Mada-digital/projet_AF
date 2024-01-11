@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Paiement;
+use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,6 +14,7 @@ class Paiements extends Component
     protected $paginationTheme = "bootstrap"; 
 
     public string $search = "";
+    public $showUser ;
 
     public $orderDirection = 'ASC';
     public $orderField = 'numRecue';
@@ -28,10 +30,16 @@ class Paiements extends Component
         }
     }
 
+    public function intiUserShow(User $idUser){
+        $this->showUser = $idUser;
+        // dd($this->showUser);
+    }
+
     public function render()
     {
         $datas = [
             'paiements' => Paiement::where("numRecue", "LIKE", "%{$this->search}%")
+                ->orWhere("motif", "LIKE", "%{$this->search}%")
                 ->orderBy($this->orderField, $this->orderDirection)
                 ->paginate(5)
         ];

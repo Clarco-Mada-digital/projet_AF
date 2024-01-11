@@ -19,7 +19,7 @@ class NewEtudiant extends Component
     use WithFileUploads;
 
     // ----------- Nos variable --------------
-    public $newEtudiant = ['profil' => '', 'level_id'=>''];
+    public $newEtudiant = ['profil' => '', 'level_id' => ''];
     public $photo;
     public int $bsSteepActive = 1;
     public $listSession;
@@ -28,16 +28,18 @@ class NewEtudiant extends Component
     public $now;
     public $etudiantSession;
     public $sessionSelected;
-    public $moyenPaiment = 'Espece';
+    public $moyenPaiement = 'Espèce';
     public $statue = 'Totalement';
+    public float $montantInscription;
 
     public function defineStatue($nomStatue)
     {
         $this->statue = $nomStatue;
     }
+    
     public function defineMoyenPai($nomMoyenPai)
     {
-        $this->moyenPaiment = $nomMoyenPai;
+        $this->moyenPaiement = $nomMoyenPai;
     }
 
     public function __construct()
@@ -49,20 +51,30 @@ class NewEtudiant extends Component
             array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
         };
 
-        if ($this->listSession->toArray() == null)
-            {
-                $this->dispatch("showModalSimpleMsg", ['message' => "Avant d'inscrire un étudiant, soyer sûr qu'il y a de la session active !", 'type' => 'warning']);
-                // return redirect(route('session'));
-            }
+        if ($this->listSession->toArray() == null) {
+            $this->dispatch("showModalSimpleMsg", ['message' => "Avant d'inscrire un étudiant, soyer sûr qu'il y a de la session active !", 'type' => 'warning']);
+            // return redirect(route('session'));
+        }
     }
-    // Fonction pour l'etap du formulaire de l'enregistrement des etudiants
+
+    // Fonction pour les etape du formulaire de l'enregistrement des étudiants
     public function bsSteepPrevNext($crement)
     {
         if ($crement == 'next') {
-            if ($this->bsSteepActive == 1) {
+            if ($this->bsSteepActive == 1) 
+            {
                 $this->validate();
                 $this->bsSteepActive += 1;
-            } else {
+            }
+            elseif ($this->bsSteepActive == 3)
+            {
+                $this->submitNewEtudiant();
+            }
+            elseif ($this->bsSteepActive == 4)
+            {
+                return redirect(route('etudiants-list'));
+            }
+            else {
                 $this->bsSteepActive += 1;
             }
         } else {
@@ -94,7 +106,7 @@ class NewEtudiant extends Component
         return $rule;
     }
 
-    // Function pour aficher les cours disponible dans la session selectionée
+    // Function pour afficher les cours disponible dans la session sélectionnée
     public function updateCoursList()
     {
         if ($this->etudiantSession != null) {
@@ -103,10 +115,8 @@ class NewEtudiant extends Component
             $cours = Session::find($this->etudiantSession)->cours;
 
             if ($this->newEtudiant['level_id'] != null) {
-                foreach ($cours as $cour)
-                {
-                    if ($cour->level_id == $this->newEtudiant['level_id'])
-                    {
+                foreach ($cours as $cour) {
+                    if ($cour->level_id == $this->newEtudiant['level_id']) {
                         array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
                         // dd($this->nscList['cours']);
                     }
@@ -123,9 +133,18 @@ class NewEtudiant extends Component
                 }
             }
         }
+
+        // Définir le montant d'inscription
+        if ($this->sessionSelected != null) {
+            if ($this->sessionSelected->montantPromo != null && $this->sessionSelected->dateFinPromo > $this->now) {
+                $this->montantInscription = $this->sessionSelected->montantPromo;
+            } else {
+                $this->montantInscription = $this->sessionSelected->montant;
+            }
+        }
     }
 
-    // Enregistrement un nouveau etudiant
+    // Enregistrement un nouveau étudiant
     public function submitNewEtudiant()
     {
         $this->newEtudiant['user_id'] = Auth::user()->id;
@@ -151,9 +170,10 @@ class NewEtudiant extends Component
 
         // Pour la base donné de paiement
         $paiementData = [
-            'montant' => $montant,
+            'montant' => $this->montantInscription,
             'statue' => $this->statue,
-            'moyenPaiement' => $this->moyenPaiment,
+            'motif' => "Inscription du " . $this->newEtudiant['nom'],
+            'moyenPaiement' => $this->moyenPaiement,
             'type' => 'Inscription',
             'numRecue' => "AFPN°" . random_int(50, 9000),
             'user_id' => Auth::user()->id
@@ -169,10 +189,10 @@ class NewEtudiant extends Component
         $inscription = Inscription::create($inscriValue);
         $inscription->sessions()->attach($this->sessionSelected->id);
 
-        $this->dispatch("ShowSuccessMsg", ['message' => 'Enregistrement avec success!', 'type' => 'success']);
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant enregistrer avec success!', 'type' => 'success']);
         $this->photo = '';
 
-        return redirect(route('etudiants-list'));
+        $this->bsSteepActive += 1;
     }
 
     // Fonction render
