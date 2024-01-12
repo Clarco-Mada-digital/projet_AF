@@ -39,13 +39,14 @@
                                     <th class="text-center" style="width: 10%">Action</th>
                                 </tr>
                             </thead>
+
                             <tbody>
                                 @forelse ($cours as $cour)
                                     <tr>
                                         <td> {{ $loop->index + 1 }} </td>
                                         <td> {{ $cour->code }} </td>
                                         <td> {{ $cour->libelle }} </td>
-                                        <td class="text-center"> {{ $cour->horaire }} </td>
+                                        <td class="text-center"> {{ Str::words($cour->horaire, 7, "...") }} </td>
                                         <td class="text-center">
                                             {{ $cour->professeur->sexe == 'F' ? 'Mme/Mlle' : 'Mr' }}
                                             {{ $cour->professeur->nom }} </td>

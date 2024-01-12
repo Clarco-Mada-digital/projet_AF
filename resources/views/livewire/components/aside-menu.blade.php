@@ -62,7 +62,7 @@
                 <p>
                     COURS
                     <i class="right fas fa-angle-left"></i>
-                    @if (count($cours) > 0)
+                    @if ($tagNew)
                     <span class="right badge badge-danger">Nouveaux</span>                                
                     @endif
                 </p>

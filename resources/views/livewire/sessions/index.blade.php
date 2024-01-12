@@ -163,7 +163,7 @@
                                         @endif
                                     </td>
                                     <td class="text-center">{{ $session->dateDebut }}</td>
-                                    <td class="text-center">{{ date($session->dateFin) }}</td>
+                                    <td class="text-center">{{ $session->dateFin }}</td>
                                     <td class="text-center">
                                         {{ ($session->dateFinPromo != null) & ($session->dateFinPromo > $now) ? $session->montantPromo : $session->montant }}
                                     </td>

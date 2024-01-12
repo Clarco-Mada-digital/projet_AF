@@ -25,6 +25,7 @@
 
                 <div class="card-body table-responsive p-0 table-striped" style="position: relative;">
                     <table class="table table-head-fixed text-nowrap">
+
                         <thead>
                             <tr>
                                 <th style="width: 5%;" wire:click="setOrderField('numRecue')">N° reçue</th>
@@ -37,6 +38,7 @@
                                 <th class="text-center" style="width: 5%;">Action</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             {{-- Content du tableau --}}
                             @forelse ($paiements as $paiement)
@@ -45,7 +47,7 @@
                                     <td> {{ $paiement->type }} {{ $paiement->motif != null ? "- (".$paiement->motif.")" : "" }} </td>
                                     <td class="text-center">{{ $paiement->montant }}</td>
                                     <td class="text-center">{{ $paiement->moyenPaiement }}</td>
-                                    <td class="text-center">{{ $paiement->statue }}</td>
+                                    <td class="text-center">{{ $paiement->statue }} payée</td>
                                     <td class="text-center"> <a href="#" data-toggle="modal"
                                         data-target="#viewUser" spellcheck="false" wire:click='intiUserShow({{ $paiement->user->id }})'> {{ $paiement->user->nom }} {{ $paiement->user->prenom }} </a>
                                     </td>
@@ -54,7 +56,7 @@
                                             <i class="fa fa-download"></i>
                                         </button>
                                         <button class="btn btn-link">
-                                            <i class="fa fa-edit" style="color: #FFC107;"></i>
+                                            <i class="fa fa-print" ></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -65,6 +67,7 @@
                                     </td>
                                 </tr>
                             @endforelse
+                        
                         </tbody>
                     </table>
 
@@ -88,4 +91,5 @@
             </div>
         </div>
     </div>
+
 </div>
