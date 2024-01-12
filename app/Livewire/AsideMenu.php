@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Models\Cour;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Date;
 use Livewire\Component;
 
 class AsideMenu extends Component
@@ -19,7 +18,7 @@ class AsideMenu extends Component
         $this->cours = Cour::all();
         foreach($this->cours as $cour)
         {
-            if ($cour->created_at < $this->now)
+            if ($cour->created_at->addDays(30) > $this->now)
             {
                 $this->tagNew = true;
             }
