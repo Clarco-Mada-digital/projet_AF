@@ -75,7 +75,7 @@
                         </select>
                         @error('newCour.professeur_id') <span class="invalid-feedback">Ce champ est obligatoire</span> @enderror
                     </div>
-                    <div class="col-md-6 form-group row">
+                    {{-- <div class="col-md-6 form-group row">
                         <div class="col-md-6">
                             <label class="form-label" for="codeHeur">Jour</label>
                             <select class="form-control" name="courDay" wire:model='dateInput'>
@@ -106,8 +106,8 @@
                         <div class="col-md-3">
                             <button class="btn btn-danger" wire:click.prevent="resetDateHourCour"> <i class="fa fa-undo"></i> Reset</button>
                         </div>
-                    </div>
-                    <div class="col-md-6 form-group">
+                    </div> --}}
+                    <div class="col-md-12 form-group">
                         <label class="form-label" for="codeComment">Commentaire</label>
                         <textarea class="form-control" type="text" name="newCour" id="codeComment" rows="6" wire:model='newCour.coment'></textarea>
                     </div>

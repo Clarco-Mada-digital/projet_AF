@@ -33,7 +33,7 @@
                                     <th style="width: 5%">N°</th>
                                     <th style="width: 5%">Code</th>
                                     <th style="width: 30%">Libellé</th>
-                                    <th class="text-center" style="width: 20%">Heure du cour</th>
+                                    {{-- <th class="text-center" style="width: 20%">Heure du cour</th> --}}
                                     <th class="text-center" style="width: 20%">Professeur</th>
                                     <th style="width: 10%">Salle</th>
                                     <th class="text-center" style="width: 10%">Action</th>
@@ -46,7 +46,7 @@
                                         <td> {{ $loop->index + 1 }} </td>
                                         <td> {{ $cour->code }} </td>
                                         <td> {{ $cour->libelle }} </td>
-                                        <td class="text-center"> {{ Str::words($cour->horaire, 6, "...") }} </td>
+                                        {{-- <td class="text-center"> {{ Str::words($cour->horaire, 6, "...") }} </td> --}}
                                         <td class="text-center">
                                             {{ $cour->professeur->sexe == 'F' ? 'Mme/Mlle' : 'Mr' }}
                                             {{ $cour->professeur->nom }} </td>

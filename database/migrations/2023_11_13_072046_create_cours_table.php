@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('libelle');
             $table->string('categorie');
             $table->string('salle');
-            $table->string('horaire');
             $table->string('coment')->nullable();
             $table->timestamps();
 

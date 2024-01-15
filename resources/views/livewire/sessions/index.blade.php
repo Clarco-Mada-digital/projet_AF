@@ -57,8 +57,8 @@
                                         <input class="form-control" type="number" wire:model='newSession.montant'>
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-info" wire:click='toogleFormCours'>Choisir les
-                                            cours</button>
+                                        <button class="btn btn-info" data-toggle="modal" data-target="#sessionCour"
+                                            spellcheck="false"> Choisir le cour </button>
                                     </td>
                                     <td class="text-center">
                                         <button class="btn btn-warning" data-toggle="modal" data-target="#newPromotion"
@@ -157,7 +157,7 @@
                             @forelse ($sessions as $session)
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $session->nom }} 
+                                    <td>{{ $session->nom }}
                                         @if (($session->dateFinPromo != null) & ($session->dateFinPromo > $now))
                                             <span class="right badge badge-info">En promo</span>
                                         @endif
@@ -177,10 +177,11 @@
                                         </button> </td>
                                     <td class="text-center">
                                         <button class="btn btn-link"
-                                            wire:click="initUpdateSession({{ $session->id }})" title="Modifier la session">
+                                            wire:click="initUpdateSession({{ $session->id }})"
+                                            title="Modifier la session">
                                             <i class="fa fa-edit" style="color: #FFC107;"></i></button>
-                                        <button class="btn btn-link bounce" title="Supprimer la session"> <i class="fa fa-trash"
-                                                style="color: #DC3545;"></i></button>
+                                        <button class="btn btn-link bounce" title="Supprimer la session"> <i
+                                                class="fa fa-trash" style="color: #DC3545;"></i></button>
                                     </td>
                                 </tr>
                             @empty
@@ -284,9 +285,105 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- Partie Modal horaire du cour --}}
+                <div class="modal fade" id="sessionCour" style="display: none; " aria-hidden="true" wire:ignore.self>
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-body p-0 ">
+                                <div class="card card-primary shadow-lg mb-0"
+                                    style="transition: all 0.15s ease 0s; width: 100%;">
+
+                                    <div class="card-header">
+                                        <h3 class="card-title"> Choix de cour et l'horaire du cour </h3>
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="maximize"
+                                                spellcheck="false">
+                                                <i class="fas fa-expand"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="card-body row">
+                                        {{-- Contenue du modal --}}
+                                        <label for="Sessions">Horaire du cour</label>
+                                        <div class="col-md-12 form-group row">
+                                            {{-- Formulaire d'horaire du cour --}}
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="codeHeur">Jour</label>
+                                                <select class="form-control" name="courDay" wire:model='dateInput'>
+                                                    <option>-- Jour --</option>
+                                                    <option value="Lundi">Lundi</option>
+                                                    <option value="Mardi">Mardi</option>
+                                                    <option value="Mercredi">Mercredi</option>
+                                                    <option value="Jeudi">Jeudi</option>
+                                                    <option value="Vendredi">Vendredi</option>
+                                                    <option value="Samedi">Samedi</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label" for="codeHeur">Heure du début</label>
+                                                <input class="form-control" type="time" name="courTime"
+                                                    wire:model='heurDebInput'>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label" for="codeHeur">Heure du fin</label>
+                                                <input class="form-control" type="time" name="courTime"
+                                                    wire:model='heurFinInput'>
+                                            </div>
+                                            <div class="col-md-3 text-right mt-3">
+                                                <button class="btn btn-info" wire:click.prevent="setDateHourCour">
+                                                    <i class="fa fa-plus"></i> Add</button>
+                                            </div>
+                                            <div class="col-md-6 mt-3">
+                                                <input class="form-control @error('dateHeurCour') is-invalid @enderror"
+                                                    type="text" disabled wire:model='dateHeurCour'>
+                                                @error('dateHeurCour')
+                                                    <span class="invalid-feedback"> Ce champ est obligatoire
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-3 mt-3">
+                                                <button class="btn btn-danger" wire:click.prevent="resetDateHourCour">
+                                                    <i class="fa fa-undo"></i> Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 card card-info">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Liste des cours</h3>
+                                        </div>
+                                        <div class="card-body row">
+                                            @forelse ($cours as $cour)
+                                                <div class="form-group col-md-4">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" type="checkbox"
+                                                            id="cour{{ $cour['id'] }}"
+                                                            wire:model.lazy="cours.{{ $loop->index }}.active">
+                                                        <label for="cour{{ $cour['id'] }}"
+                                                            class="custom-control-label">{{ $cour['libelle'] }}</label>
+                                                    </div>
+                                                </div>
+                                            @empty
+                                                <h3>Aucun donnée trouvé !</h3>
+                                            @endforelse
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
+
     </div>
+</div>
 </div>
 </div>

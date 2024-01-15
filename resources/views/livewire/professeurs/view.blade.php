@@ -55,6 +55,7 @@
 
           </div>
       </div>
+
       <div class="col-md-7 card card-primary">
           <div class="card-header">
               <h3 class="card-title">Information cours</h3>
@@ -69,11 +70,11 @@
               {{-- <strong><i class="fa fa-thermometer mr-1"></i> Niveaux</strong>
               <p class="text-muted">{{ $professeur->level->nom }}</p>
               <hr> --}}
-              <strong><i class="fa fa-hourglass mr-1" aria-hidden="true"></i> Heure de cour</strong>
+              {{-- <strong><i class="fa fa-hourglass mr-1" aria-hidden="true"></i> Heure de cour</strong>
               <p class="text-muted">
                   {{ $professeur->cours != '[]' ? $professeur->cours->implode('horaire', ' | ') :'Aucun cours trouvé !' }}
-              </p>
-              <hr>
+              </p> 
+              <hr> --}}
               <strong><i class="fa fa-comments mr-1"></i> Commentaire</strong>
               <p class="text-muted"> {{ $professeur->coment }} </p>
           </div>

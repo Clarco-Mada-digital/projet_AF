@@ -17,6 +17,7 @@ return new class extends Migration
             $table->float('montant');
             $table->date('dateDebut');
             $table->date('dateFin');
+            $table->string('horaireDuCour');
             $table->timestamps();
         });
     }

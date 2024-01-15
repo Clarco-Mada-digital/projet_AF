@@ -14,7 +14,7 @@ class NewCour extends Component
     // Nos variable global
     public $professeurs;
     public $levels;
-    public $newCour = ['horaire'=>''];
+    public $newCour = [];
     public $dateInput;
     public $heurDebInput;
     public $heurFinInput;
@@ -33,7 +33,6 @@ class NewCour extends Component
             'newCour.libelle' => ['required'],
             'newCour.categorie' => ['required'],
             'newCour.salle' => ['string'],
-            'dateHeurCour' => ['required'],
             'newCour.professeur_id' => ['required'],
             'newCour.level_id' => ['required']
 
@@ -42,38 +41,39 @@ class NewCour extends Component
         return $rule;
     }
 
-    // Fonction pour recuperer les heurs du cour
-    public function setDateHourCour()
-    {
-        if ($this->dateInput == '' || $this->heurDebInput == '' || $this->heurFinInput == ''|| $this->heurDebInput > $this->heurFinInput)
-        {
-            $this->dispatch("showModalSimpleMsg", ['message' => "Désolé, quelque chose a mal tourné. Veuillez vérifier les heures que vous avez entrées.", 'type' => 'error']);   
-            return null;         
-        }
-        // Pour une separation dans l'affichage
-        $dateTimeForma =  $this->dateInput . ' ' . $this->heurDebInput . '-' . $this->heurFinInput;
-        if($this->dateHeurCour != null){
-            $this->dateHeurCour .= " | ";
-        }
+    // Fonction pour récupérer les heurs du cour
+    // public function setDateHourCour()
+    // {
+    //     if ($this->dateInput == '' || $this->heurDebInput == '' || $this->heurFinInput == ''|| $this->heurDebInput > $this->heurFinInput)
+    //     {
+    //         $this->dispatch("showModalSimpleMsg", ['message' => "Désolé, quelque chose a mal tourné. Veuillez vérifier les heures que vous avez entrées.", 'type' => 'error']);   
+    //         return null;         
+    //     }
+    //     // Pour une separation dans l'affichage
+    //     $dateTimeForma =  $this->dateInput . ' ' . $this->heurDebInput . '-' . $this->heurFinInput;
+    //     if($this->dateHeurCour != null){
+    //         $this->dateHeurCour .= " | ";
+    //     }
 
-        // Reset la valeur des inputs
-        $this->dateHeurCour .= $dateTimeForma;
-        $this->dateInput = '';
-        $this->heurDebInput = '';
-        $this->heurFinInput = '';
-    }
-    // Fonction reset la valeur de Date heur du cour
-    public function resetDateHourCour()
-    {
-        $this->dateHeurCour = "";
-    }
+    //     // Reset la valeur des inputs
+    //     $this->dateHeurCour .= $dateTimeForma;
+    //     $this->dateInput = '';
+    //     $this->heurDebInput = '';
+    //     $this->heurFinInput = '';
+    // }
+
+    // // Fonction reset la valeur de Date heur du cour
+    // public function resetDateHourCour()
+    // {
+    //     $this->dateHeurCour = "";
+    // }
 
     // fonction pour l'enregistrement du cour
     public function addNewCour()
     {        
         $this->validate();
         
-        $this->newCour['horaire'] = $this->dateHeurCour;
+        // $this->newCour['horaire'] = $this->dateHeurCour;
         
         Cour::create($this->newCour);
 

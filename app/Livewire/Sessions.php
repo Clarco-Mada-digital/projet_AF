@@ -20,13 +20,17 @@ class Sessions extends Component
     public $search;
     public $formNewSession = False;
     public $formEditSession = False;
-    public $newSession = [];
+    public $newSession = ["horaireDuCour"=>''];
     public $editSession = [];
     public $now;
     public $cours = [];
     public $showFormCours = False;
     public $orderDirection = 'ASC';
     public $orderField = 'nom';
+    public $dateInput;
+    public $heurDebInput;
+    public $heurFinInput;
+    public $dateHeurCour;
 
     protected $queryString = [
         'search' => ['except' => '']
@@ -87,9 +91,36 @@ class Sessions extends Component
         $this->showFormCours == False ? $this->showFormCours = True : $this->showFormCours = False;
     }
 
+     // Fonction pour récupérer les heurs du cour
+     public function setDateHourCour()
+     {
+         if ($this->dateInput == '' || $this->heurDebInput == '' || $this->heurFinInput == ''|| $this->heurDebInput > $this->heurFinInput)
+         {
+             $this->dispatch("showModalSimpleMsg", ['message' => "Désolé, quelque chose a mal tourné. Veuillez vérifier les heures que vous avez entrées.", 'type' => 'error']);   
+             return null;         
+         }
+         // Pour une separation dans l'affichage
+         $dateTimeForma =  $this->dateInput . ' ' . $this->heurDebInput . '-' . $this->heurFinInput;
+         if($this->dateHeurCour != null){
+             $this->dateHeurCour .= " | ";
+         }
+ 
+         // Reset la valeur des inputs
+         $this->dateHeurCour .= $dateTimeForma;
+         $this->dateInput = '';
+         $this->heurDebInput = '';
+         $this->heurFinInput = '';
+     }
+     // Fonction reset la valeur de Date heur du cour
+    public function resetDateHourCour()
+    {
+        $this->dateHeurCour = "";
+    }
+
     public function addNewSession()
     {
         $this->validate();
+        $this->newSession['horaireDuCour'] = $this->dateHeurCour;
 
         // Add nouveau session dans la base
         $mySession = Session::create($this->newSession);

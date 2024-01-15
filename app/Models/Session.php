@@ -14,6 +14,7 @@ class Session extends Model
         'dateFinPromo',
         'montant',
         'montantPromo',
+        'horaireDuCour',
         'statue',
         'updated_at',
     ];

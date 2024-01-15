@@ -25,6 +25,7 @@
         "words": [
             "clearfixr",
             "csrf",
+            "enderror",
             "endforeach",
             "endforelse",
             "endguest",
