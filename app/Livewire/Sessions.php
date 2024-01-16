@@ -136,6 +136,7 @@ class Sessions extends Component
 
         $this->newSession = [];
         $this->cours = [];
+        $this->dateHeurCour = "";
         $this->formNewSession = False;
         $this->showFormCours = False;
     }

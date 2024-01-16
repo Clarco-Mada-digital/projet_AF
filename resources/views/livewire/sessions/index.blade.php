@@ -39,6 +39,7 @@
                                 <th class="text-center" style="width: 10%">Action</th>
                             </tr>
                         </thead>
+                        
                         <tbody>
                             {{-- Section pour formulaire de nouvel session --}}
                             @if ($formNewSession)
@@ -301,8 +302,8 @@
                                                 spellcheck="false">
                                                 <i class="fas fa-expand"></i>
                                             </button>
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">
-                                                <i class="fa fa-times"></i>
+                                            <button type="button" class="btn btn-success" data-dismiss="modal">
+                                                <i class="fa fa-save"></i> Confirmer
                                             </button>
                                         </div>
 
