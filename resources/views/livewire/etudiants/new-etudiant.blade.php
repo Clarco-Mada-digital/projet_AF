@@ -373,14 +373,16 @@
                                                 alt="prevision facture">
                                         </div>
                                         <div class="custom-control custom-switch text-center my-3">
-                                            <input class="custom-control-input custom-control-input-info"
+                                            {{-- <input class="custom-control-input custom-control-input-info"
                                                 type="checkbox" id="generetFactur">
-                                            <label for="generetFactur" class="custom-control-label">Imprimer la facture après l'inscription.</label>
+                                            <label for="generetFactur" class="custom-control-label">Imprimer la facture après l'inscription.</label> --}}
+                                            <button class="btn btn-info mr-3"> <i class="fa fa-print"></i> Imprimer </button>
+                                            <button class="btn btn-warning"> <i class="fa fa-download"></i> Télécharger </button>
                                         </div>
                                     </div>
                                 </div>
                                 {{-- <a class="btn btn-primary" wire:click="bsSteepPrevNext('prev')">Précédent</a> --}}
-                                <button type="submit" class="btn btn-primary" wire:click="bsSteepPrevNext('next')"> Fermer </button>
+                                <button class="btn btn-primary" wire:click="bsSteepPrevNext('next')"> Fermer </button>
                             </div>
                         </form>
                     </div>
