@@ -63,7 +63,7 @@
             <div class="card-body">
                 <strong><i class="fa fa-book mr-1"></i> Cour choisie</strong>
                 <p class="text-muted">
-                  {{ $etudiant->cours->implode('libelle', ' | ') }}
+                  {{ $etudiant->cours->implode('libelle', ' | ') }} - ({{ $etudiant->session->nom }})
                 </p>
                 <hr>
                 <strong><i class="fa fa-thermometer mr-1"></i> Niveaux</strong>
@@ -71,7 +71,7 @@
                 <hr>
                 <strong><i class="fa fa-hourglass mr-1" aria-hidden="true"></i> Heure de cour</strong>
                 <p class="text-muted">
-                    <span class="tag tag-danger"> {{ $etudiant->cours->implode('horaire', ' | ') }} </span>
+                    <span class="tag tag-danger"> {{ $etudiant->session->horaireDuCour }} </span>
                 </p>
                 <hr>
                 <strong><i class="fa fa-comments mr-1"></i> Commentaire</strong>

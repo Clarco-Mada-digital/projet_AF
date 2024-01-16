@@ -87,7 +87,7 @@ Route::get('/roles', function () {
 });
 
 Route::get('/etudiants', function () {
-    return Etudiant::with(['user', 'cours', 'level'])->get();
+    return Etudiant::with(['user', 'cours', 'level', 'session'])->get();
 });
 
 Route::get('/cours', function () {

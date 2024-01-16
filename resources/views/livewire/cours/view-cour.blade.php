@@ -21,9 +21,9 @@
               {{ $cour->libelle }} niveau <b>{{ $cour->level->nom }}</b> {{ $cour->professeur->sexe == 'F' ? 'Avec Mme/Mlle '.$cour->professeur->prenom : 'Avec Mr '.$cour->professeur->prenom }}
             </p>
             <hr>
-            <strong><i class="fa fa-clock mr-1"></i> Horaire du cour</strong>
+            {{-- <strong><i class="fa fa-clock mr-1"></i> Horaire du cour</strong>
             <p class="text-muted"> {{ $cour->horaire }} </p>
-            <hr>
+            <hr> --}}
             <strong><i class="fa fa-thermometer mr-1"></i> Salle du cour</strong>
             <p class="text-muted"> {{ $cour->salle }} </p>
             <hr>

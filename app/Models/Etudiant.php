@@ -25,6 +25,7 @@ class Etudiant extends Model
         'coment',
         'user_id',
         'level_id',
+        'session_id',
     ];
 
     public function user(){
@@ -37,6 +38,10 @@ class Etudiant extends Model
 
     public function level(){
         return $this->belongsTo(Level::class);
+    }
+
+    public function session(){
+        return $this->belongsTo(Session::class);
     }
 
 }

@@ -98,8 +98,9 @@ class NewEtudiant extends Component
             'newEtudiant.telephone2' => [''],
             'newEtudiant.adresse' => ['required'],
             'newEtudiant.numCarte' => [Rule::unique('etudiants', 'numCarte')],
-            'newEtudiant.user_id' => [''],
+            'newEtudiant.user_id' => ['integer'],
             'newEtudiant.level_id' => ['integer'],
+            'newEtudiant.session_id' => ['integer'],
 
         ];
 
@@ -148,6 +149,7 @@ class NewEtudiant extends Component
     public function submitNewEtudiant()
     {
         $this->newEtudiant['user_id'] = Auth::user()->id;
+        $this->newEtudiant['session_id'] = $this->etudiantSession;
         $this->newEtudiant['numCarte'] = "AF-" . random_int(100, 9000);
 
         $this->validate();

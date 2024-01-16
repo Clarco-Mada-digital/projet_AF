@@ -38,6 +38,7 @@
                                     <th class="text-center" >Action</th>
                                 </tr>
                             </thead>
+
                             <tbody>
                                 @forelse ($etudiants as $etudiant)
                                     <tr>
@@ -57,7 +58,7 @@
                                         <td>{{ $etudiant->nom }}</td>
                                         <td>{{ $etudiant->prenom }}</td>
                                         <td class="text-center">{{ $etudiant->telephone1 }}</td>
-                                        <td class="text-center"> {{ $etudiant->cours->implode('libelle', ' | ') }} </td>
+                                        <td class="text-center"> {{ $etudiant->cours->implode('libelle', ' | ') }} - ({{ $etudiant->session->nom }}) </td>
                                         <td class="text-center">
                                             <button class="btn btn-link" data-toggle="modal"
                                                 data-target="#view-etudiant{{ $etudiant->id }}" spellcheck="false"> <i
