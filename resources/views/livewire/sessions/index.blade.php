@@ -39,7 +39,7 @@
                                 <th class="text-center" style="width: 10%">Action</th>
                             </tr>
                         </thead>
-                        
+
                         <tbody>
                             {{-- Section pour formulaire de nouvel session --}}
                             @if ($formNewSession)
@@ -288,7 +288,8 @@
                 </div>
 
                 {{-- Partie Modal horaire du cour --}}
-                <div class="modal fade" id="sessionCour" style="display: none; " aria-hidden="true" wire:ignore.self>
+                <div class="modal fade" id="sessionCour" style="display: none; " aria-hidden="true"
+                    wire:ignore.self>
                     <div class="modal-dialog modal-xl">
                         <div class="modal-content">
                             <div class="modal-body p-0 ">
@@ -296,7 +297,7 @@
                                     style="transition: all 0.15s ease 0s; width: 100%;">
 
                                     <div class="card-header">
-                                        <h3 class="card-title"> Choix de cour et l'horaire du cour </h3>
+                                        <h3 class="card-title"> Section cours </h3>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="maximize"
                                                 spellcheck="false">
@@ -309,48 +310,170 @@
 
                                     </div>
 
-                                    <div class="card-body row">
+                                    <div class="card-body row px-2">
                                         {{-- Contenue du modal --}}
-                                        <label for="Sessions">Horaire du cour</label>
-                                        <div class="col-md-12 form-group row">
-                                            {{-- Formulaire d'horaire du cour --}}
-                                            <div class="col-md-6">
-                                                <label class="form-label" for="codeHeur">Jour</label>
-                                                <select class="form-control" name="courDay" wire:model='dateInput'>
-                                                    <option>-- Jour --</option>
-                                                    <option value="Lundi">Lundi</option>
-                                                    <option value="Mardi">Mardi</option>
-                                                    <option value="Mercredi">Mercredi</option>
-                                                    <option value="Jeudi">Jeudi</option>
-                                                    <option value="Vendredi">Vendredi</option>
-                                                    <option value="Samedi">Samedi</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label class="form-label" for="codeHeur">Heure du début</label>
-                                                <input class="form-control" type="time" name="courTime"
-                                                    wire:model='heurDebInput'>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label class="form-label" for="codeHeur">Heure du fin</label>
-                                                <input class="form-control" type="time" name="courTime"
-                                                    wire:model='heurFinInput'>
-                                            </div>
-                                            <div class="col-md-3 text-right mt-3">
-                                                <button class="btn btn-info" wire:click.prevent="setDateHourCour">
-                                                    <i class="fa fa-plus"></i> Add</button>
-                                            </div>
-                                            <div class="col-md-6 mt-3">
-                                                <input class="form-control @error('dateHeurCour') is-invalid @enderror"
-                                                    type="text" disabled wire:model='dateHeurCour'>
-                                                @error('dateHeurCour')
-                                                    <span class="invalid-feedback"> Ce champ est obligatoire
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                            <div class="col-md-3 mt-3">
-                                                <button class="btn btn-danger" wire:click.prevent="resetDateHourCour">
-                                                    <i class="fa fa-undo"></i> Reset</button>
+                                        <div class="col-md-12 mx-0" id="accordion">
+                                            <div class="card card-info bg-none">
+                                                <div class="card-header mx-auto" style="width: 12rem;">
+                                                    <h4 class="card-title">
+                                                        <a class="d-block accordion-button mx-auto collapsed" data-toggle="collapse"
+                                                            href="#collapseOne" aria-expanded="false"
+                                                            spellcheck="false"> <i class="fa fa-plus"></i>
+                                                            Nouveau cours
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseOne" class="collapse" data-parent="#accordion"
+                                                    style="">
+                                                    <div class="card-body row">
+                                                        <div class="col-md-2 form-group">
+                                                            <label class="form-label" for="codeCour">Code *</label>
+                                                            <input
+                                                                class="form-control @error('newCour.code') is-invalid @enderror"
+                                                                type="text" name="newCour" id="codeCour"
+                                                                wire:model='newCour.code'>
+                                                            @error('newCour.code')
+                                                                <span class="invalid-feedback">Ce champ est
+                                                                    obligatoire</span>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="col-md-4 form-group">
+                                                            <label class="form-label" for="codeLibellé">Libellé
+                                                                *</label>
+                                                            <input
+                                                                class="form-control @error('newCour.libelle') is-invalid @enderror"
+                                                                type="text" name="newCour" id="codeLibellé"
+                                                                wire:model='newCour.libelle'>
+                                                            @error('newCour.libelle')
+                                                                <span class="invalid-feedback">Ce champ est
+                                                                    obligatoire</span>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="col-md-2 form-group">
+                                                            <label class="form-label" for="codeCategorie">Catégorie
+                                                                *</label>
+                                                            <select
+                                                                class="form-control @error('newCour.level_id') is-invalid @enderror"
+                                                                id="codeCategorie" wire:model='newCour.categorie'>
+                                                                <option>-- Catégorie --</option>
+                                                                <option value="enfant">Enfant</option>
+                                                                <option value="ado">Ado</option>
+                                                                <option value="adulte">Adulte</option>
+                                                            </select>
+                                                            @error('newCour.categorie')
+                                                                <span class="invalid-feedback">Ce champ est
+                                                                    obligatoire</span>
+                                                            @enderror
+                                                        </div>
+
+                                                        <div class="col-md-2 form-group">
+                                                            <label class="form-label" for="codeSalle">Salle</label>
+                                                            <input
+                                                                class="form-control @error('newCour.salle') is-invalid @enderror"
+                                                                type="text" name="newCour" id="codeSalle"
+                                                                wire:model='newCour.salle'>
+                                                            @error('newCour.salle')
+                                                                <span class="invalid-feedback">Ce champ est
+                                                                    obligatoire</span>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="col-md-2 form-group">
+                                                            <label class="form-label"
+                                                                for="codeProfesseur">Professeur</label>
+                                                            <select
+                                                                class="form-control @error('newCour.professeur_id') is-invalid @enderror"
+                                                                name="professeur" id="codeProfesseur"
+                                                                wire:model='newCour.professeur_id'>
+                                                                <option>-- Professeur --</option>
+                                                                {{-- @foreach ($professeurs as $prof)
+                                                                <option value="{{ $prof['id'] }}"> {{ $prof['sexe'] == 'F' ? 'Mme/Mlle' : 'M.' }} {{ $prof['nom'] }} </option>                            
+                                                                @endforeach --}}
+                                                            </select>
+                                                            @error('newCour.professeur_id')
+                                                                <span class="invalid-feedback">Ce champ est
+                                                                    obligatoire</span>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="col-md-4 form-group">
+                                                            <label class="form-label" for="codeSalle">Niveau</label>
+                                                            <select multiple
+                                                                class="form-control @error('newCour.level_id') is-invalid @enderror"
+                                                                id="courNiveau" wire:model='newLevels'>
+                                                                {{-- <option >-- Niveau --</option> --}}
+                                                                {{-- @foreach ($levels as $level)
+                                                                    <option value="{{ $level['id'] }}"> {{ $level['nom'] }} </option>                                
+                                                                @endforeach --}}
+                                                            </select>
+                                                            @error('newCour.level_id')
+                                                                <span class="invalid-feedback">Ce champ est
+                                                                    obligatoire</span>
+                                                            @enderror
+                                                            <span class="text-info" style="font-size: .7rem;">**Pour
+                                                                effectuer une
+                                                                sélection multiple, appuyez sur Ctrl ou Cmd.**</span>
+                                                        </div>
+                                                        <div class="col-md-8 form-group">
+                                                            <label class="form-label"
+                                                                for="codeComment">Commentaire</label>
+                                                            <textarea class="form-control" type="text" name="newCour" id="codeComment" rows="6"
+                                                                wire:model='newCour.coment'></textarea>
+                                                        </div>
+                                                        {{-- <label for="Sessions">Horaire du cour</label> --}}
+                                                        <div class="col-md-12 form-group row">
+                                                            {{-- Formulaire d'horaire du cour --}}
+                                                            <div class="col-md-6">
+                                                                <label class="form-label" for="codeHeur">Jour</label>
+                                                                <select class="form-control" name="courDay"
+                                                                    wire:model='dateInput'>
+                                                                    <option>-- Jour --</option>
+                                                                    <option value="Lundi">Lundi</option>
+                                                                    <option value="Mardi">Mardi</option>
+                                                                    <option value="Mercredi">Mercredi</option>
+                                                                    <option value="Jeudi">Jeudi</option>
+                                                                    <option value="Vendredi">Vendredi</option>
+                                                                    <option value="Samedi">Samedi</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label class="form-label" for="codeHeur">Heure du
+                                                                    début</label>
+                                                                <input class="form-control" type="time"
+                                                                    name="courTime" wire:model='heurDebInput'>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label class="form-label" for="codeHeur">Heure du
+                                                                    fin</label>
+                                                                <input class="form-control" type="time"
+                                                                    name="courTime" wire:model='heurFinInput'>
+                                                            </div>
+                                                            <div class="col-md-3 text-right mt-3">
+                                                                <button class="btn btn-info"
+                                                                    wire:click.prevent="setDateHourCour">
+                                                                    <i class="fa fa-plus"></i> Add</button>
+                                                            </div>
+                                                            <div class="col-md-6 mt-3">
+                                                                <input
+                                                                    class="form-control @error('dateHeurCour') is-invalid @enderror"
+                                                                    type="text" disabled wire:model='dateHeurCour'>
+                                                                @error('dateHeurCour')
+                                                                    <span class="invalid-feedback"> Ce champ est
+                                                                        obligatoire
+                                                                    </span>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-3 mt-3">
+                                                                <button class="btn btn-danger"
+                                                                    wire:click.prevent="resetDateHourCour">
+                                                                    <i class="fa fa-undo"></i> Reset</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 text-right">
+                                                            <button class="btn btn-success"> <i
+                                                                    class="fa fa-check"></i> Ajouter le
+                                                                cour </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

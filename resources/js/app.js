@@ -49,13 +49,14 @@ window.addEventListener('showModalSimpleMsg', (e) => {
   });
 })
 
-window.addEventListener('AlerDeletetConfirmModal', (e) => {
+window.addEventListener('AlertDeleteConfirmModal', (e) => {
   swal({
     title: "êtes-vous sûr?",
     text:  e.detail[0]['message'] || 'Attention au opération effectué',
     icon:  e.detail[0]['type'],
     buttons: true,
     dangerMode: true,
+    confirmButtonText: "Oui"
   })
   .then((willDelete) => {
     if (willDelete) {

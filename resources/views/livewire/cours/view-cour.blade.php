@@ -18,7 +18,7 @@
         <div class="card-body">
             <strong><i class="fa fa-book mr-1"></i> Libellé du cour</strong>
             <p class="text-muted">
-              {{ $cour->libelle }} niveau <b>{{ $cour->level->nom }}</b> {{ $cour->professeur->sexe == 'F' ? 'Avec Mme/Mlle '.$cour->professeur->prenom : 'Avec Mr '.$cour->professeur->prenom }}
+              {{ $cour->libelle }} niveau <b>{{ $cour->level->implode('nom', '/') }}</b> {{ $cour->professeur->sexe == 'F' ? 'Avec Mme/Mlle '.$cour->professeur->prenom : 'Avec Mr '.$cour->professeur->prenom }}
             </p>
             <hr>
             {{-- <strong><i class="fa fa-clock mr-1"></i> Horaire du cour</strong>

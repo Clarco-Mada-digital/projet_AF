@@ -16,10 +16,7 @@ class NewCour extends Component
     public $levels;
     public $newCour = [];
     public $dateInput;
-    public $heurDebInput;
-    public $heurFinInput;
-    public $dateHeurCour;
-
+    public $newLevels = [];
     public function __construct()
     {
         $this->professeurs = Professeur::all()->toArray();
@@ -33,9 +30,7 @@ class NewCour extends Component
             'newCour.libelle' => ['required'],
             'newCour.categorie' => ['required'],
             'newCour.salle' => ['string'],
-            'newCour.professeur_id' => ['required'],
-            'newCour.level_id' => ['required']
-
+            'newCour.professeur_id' => ['string'],
         ];
 
         return $rule;
@@ -75,10 +70,18 @@ class NewCour extends Component
         
         // $this->newCour['horaire'] = $this->dateHeurCour;
         
-        Cour::create($this->newCour);
+        $myCour = Cour::create($this->newCour);
+
+        if ($this->newLevels != [])
+        {
+            foreach ($this->newLevels as $level)
+            {
+                $myCour->level()->attach($level);
+            }
+        }
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Enregistrement avec success!', 'type' => 'success']);
-        $this->newCour = ['horaire'=> ''];
+        // $this->newCour = ['horaire'=> ''];
         return redirect(route('cours-list'));
     }
 

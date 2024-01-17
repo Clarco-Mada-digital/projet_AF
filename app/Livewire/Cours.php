@@ -19,7 +19,7 @@ class Cours extends Component
     public $state = 'view';
     public $professeurs;
     public $levels;
-    public $editCour = [];
+    public $editCour = ['levels' => []];
 
     public function __construct()
     {
@@ -36,7 +36,6 @@ class Cours extends Component
             'editCour.salle' => ['string'],
             'editCour.horaire' => ['required'],
             'editCour.professeur_id' => ['required'],
-            'editCour.level_id' => ['required']
 
         ];
 
@@ -57,6 +56,14 @@ class Cours extends Component
     public function initEditCour($id)
     {
         $this->editCour = Cour::find($id)->toArray();
+        $this->editCour['levels'] = Cour::find($id)->level->toArray();
+        $newTable = [];
+        foreach ($this->editCour['levels'] as $level)
+        {
+            array_push($newTable, $level['id']);
+        }
+        $this->editCour['levels'] = $newTable;
+        // dd($this->editCour['levels']);
         $this->toogleStateName('edit');
     }
 

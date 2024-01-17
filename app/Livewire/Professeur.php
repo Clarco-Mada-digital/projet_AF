@@ -139,7 +139,7 @@ class Professeur extends Component
         $this->ProfesseurDeleteid = $professeur->id;
 
         // Envoye des notifications pour la confirmation de suppression
-        $this->dispatch("AlerDeletetConfirmModal", ['message' => "êtes-vous sur de suprimer $professeur->nom $professeur->prenom ! dans la liste des professeurs ?", 'type' => 'warning']);
+        $this->dispatch("AlertDeleteConfirmModal", ['message' => "êtes-vous sur de suprimer $professeur->nom $professeur->prenom ! dans la liste des professeurs ?", 'type' => 'warning']);
     }
     public function deleteProfesseur()
     {

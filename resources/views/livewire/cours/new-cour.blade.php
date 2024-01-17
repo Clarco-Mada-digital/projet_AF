@@ -30,18 +30,18 @@
             </div>
             <div class="card-body">
                 <form class="row" wire:submit.prevent='addNewCour'>
-                    <div class="col-md-1 form-group">
-                        <label class="form-label" for="codeCour">Code</label>
+                    <div class="col-md-2 form-group">
+                        <label class="form-label" for="codeCour">Code *</label>
                         <input class="form-control @error('newCour.code') is-invalid @enderror" type="text" name="newCour" id="codeCour" wire:model='newCour.code'>
                         @error('newCour.code') <span class="invalid-feedback">Ce champ est obligatoire</span> @enderror
                     </div>
-                    <div class="col-md-3 form-group">
-                        <label class="form-label" for="codeLibellé">Libellé</label>
+                    <div class="col-md-4 form-group">
+                        <label class="form-label" for="codeLibellé">Libellé *</label>
                         <input class="form-control @error('newCour.libelle') is-invalid @enderror" type="text" name="newCour" id="codeLibellé" wire:model='newCour.libelle'>
                         @error('newCour.libelle') <span class="invalid-feedback">Ce champ est obligatoire</span> @enderror
                     </div>
                     <div class="col-md-2 form-group">
-                        <label class="form-label" for="codeCategorie">Catégorie</label>
+                        <label class="form-label" for="codeCategorie">Catégorie *</label>
                         <select class="form-control @error('newCour.level_id') is-invalid @enderror" id="codeCategorie" wire:model='newCour.categorie'>
                             <option >-- Catégorie --</option>
                             <option value="enfant">Enfant</option>
@@ -50,16 +50,7 @@
                         </select>
                         @error('newCour.categorie') <span class="invalid-feedback">Ce champ est obligatoire</span> @enderror
                     </div>
-                    <div class="col-md-2 form-group">
-                        <label class="form-label" for="codeSalle">Niveau</label>
-                        <select class="form-control @error('newCour.level_id') is-invalid @enderror" id="courNiveau" wire:model='newCour.level_id'>
-                            <option >-- Niveau --</option>
-                            @foreach ($levels as $level)
-                                <option value="{{ $level['id'] }}"> {{ $level['nom'] }} </option>                                
-                            @endforeach
-                        </select>
-                        @error('newCour.level_id') <span class="invalid-feedback">Ce champ est obligatoire</span> @enderror
-                    </div>
+                    
                     <div class="col-md-2 form-group">
                         <label class="form-label" for="codeSalle">Salle</label>
                         <input class="form-control @error('newCour.salle') is-invalid @enderror" type="text" name="newCour" id="codeSalle" wire:model='newCour.salle'>
@@ -74,6 +65,17 @@
                             @endforeach
                         </select>
                         @error('newCour.professeur_id') <span class="invalid-feedback">Ce champ est obligatoire</span> @enderror
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label class="form-label" for="codeSalle">Niveau</label>
+                        <select multiple class="form-control @error('newCour.level_id') is-invalid @enderror" id="courNiveau" wire:model='newLevels'>
+                            {{-- <option >-- Niveau --</option> --}}
+                            @foreach ($levels as $level)
+                                <option value="{{ $level['id'] }}"> {{ $level['nom'] }} </option>                                
+                            @endforeach
+                        </select>
+                        @error('newCour.level_id') <span class="invalid-feedback">Ce champ est obligatoire</span> @enderror
+                        <span class="text-info">**Pour effectuer une sélection multiple, appuyez sur Ctrl ou Cmd.**</span>
                     </div>
                     {{-- <div class="col-md-6 form-group row">
                         <div class="col-md-6">
@@ -107,7 +109,7 @@
                             <button class="btn btn-danger" wire:click.prevent="resetDateHourCour"> <i class="fa fa-undo"></i> Reset</button>
                         </div>
                     </div> --}}
-                    <div class="col-md-12 form-group">
+                    <div class="col-md-8 form-group">
                         <label class="form-label" for="codeComment">Commentaire</label>
                         <textarea class="form-control" type="text" name="newCour" id="codeComment" rows="6" wire:model='newCour.coment'></textarea>
                     </div>

@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Level;
 use App\Models\Professeur;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,12 +17,11 @@ return new class extends Migration
             $table->string('code');
             $table->string('libelle');
             $table->string('categorie');
-            $table->string('salle');
+            $table->string('salle')->nullable();
             $table->string('coment')->nullable();
             $table->timestamps();
 
             $table->foreignIdFor(Professeur::class)->constrained();
-            $table->foreignIdFor(Level::class)->constrained();
         });
 
         Schema::enableForeignKeyConstraints();

@@ -32,6 +32,7 @@
             "endsection",
             "extends",
             "forelse",
+            "keydown",
             "livewire",
             "nowrap",
             "prenom",
