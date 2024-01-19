@@ -1,6 +1,7 @@
 body {
   font-size: .9rem;
 }
+
 .sidebar-menu {
   background-color: $primary;
   height          : calc(100% - 15vh);
@@ -9,9 +10,10 @@ body {
   border-radius   : 0 50px 0 0;
 
   .nav-item {
-    .nav-treeview .nav-link{
+    .nav-treeview .nav-link {
       padding-left: 2rem;
     }
+
     &:hover {
       .nav-link {
         color: white;
@@ -32,7 +34,7 @@ body {
 
     & :hover {
 
-      letter-spacing: .10rem;
+      letter-spacing: .04rem;
     }
 
     &.active {
@@ -52,6 +54,23 @@ body {
     }
   }
 }
+
+.btn-icon {
+  & .btn-icon-title {
+    opacity: 0;
+    transition: all .3s ease-in-out;
+  }
+
+  &:hover {
+    & .btn-icon-title {
+      display   : inline-block !important;
+      transform : none;
+      opacity: 1;
+    }
+  }
+}
+
+
 
 // .ellipsisTxt
 // {

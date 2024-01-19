@@ -8,6 +8,8 @@
         <div class="row mt-4 mx-2">
             <div class="col-12">
                 <div class="card">
+
+                    {{-- Card header --}}
                     <div class="card-header bg-gradient-primary">
                         <h3 class="card-title d-flex align-items-center"> <i class="fa fa-users fa-2x mr-2"></i> Liste des
                             cours</h3>
@@ -26,6 +28,7 @@
                         </div>
                     </div>
 
+                    {{-- Card body --}}
                     <div class="card-body table-responsive p-0 table-striped">
                         <table class="table table-head-fixed text-nowrap">
                             <thead>
@@ -33,8 +36,8 @@
                                     <th style="width: 5%">N°</th>
                                     <th style="width: 5%">Code</th>
                                     <th style="width: 25%">Libellé</th>
-                                    {{-- <th class="text-center" style="width: 20%">Heure du cour</th> --}}
-                                    <th style="width: 25%">Professeur</th>
+                                    <th class="text-center" style="width: 20%">Heure du cour</th>
+                                    <th class="text-center" style="width: 25%">Professeur</th>
                                     <th style="width: 10%">Salle</th>
                                     <th class="text-center" style="width: 10%">Action</th>
                                 </tr>
@@ -46,8 +49,8 @@
                                         <td> {{ $loop->index + 1 }} </td>
                                         <td> {{ $cour->code }} </td>
                                         <td> {{ $cour->libelle }} </td>
-                                        {{-- <td class="text-center"> {{ Str::words($cour->horaire, 6, "...") }} </td> --}}
-                                        <td>
+                                        <td class="text-center"> {{ Str::words($cour->horaireDuCour, 6, "...") }} </td>
+                                        <td class="text-center">
                                             {{ $cour->professeur->sexe == 'F' ? 'Mme/Mlle' : 'Mr' }}
                                             {{ $cour->professeur->nom }} </td>
                                         <td> {{ $cour->salle }} </td>
@@ -58,7 +61,7 @@
                                             <button class="btn btn-link"
                                                 wire:click="initEditCour('{{ $cour->id }}')"> <i class="fa fa-edit"
                                                     style="color: #FFC107;"></i></button>
-                                            <button class="btn btn-link bounce"> <i class="fa fa-trash"
+                                            <button class="btn btn-link bounce" wire:click='confirmeDeleteLevel({{ $cour->id }})'> <i class="fa fa-trash"
                                                     style="color: #DC3545;"></i></button>
                                         </td>
                                     </tr>
@@ -82,11 +85,11 @@
                                                 width="200px"> </td>
                                     </tr>
                                 @endforelse
-
                             </tbody>
                         </table>
 
                     </div>
+
                     <div class="card-footer clearfixr">
                         <div class="float-right">
                             {{ $cours->links() }}
@@ -98,6 +101,7 @@
 
     </div>
 
+    {{-- Partie Section edit --}}
     <div @if ($state != 'edit') style="display: none;" @endif>
         <div class="row mx-4 pt-4">
             <div class="col-md-12 my-3">

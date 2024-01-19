@@ -6,7 +6,9 @@
     <h3 class="mb-5 pt-3">Liste des sessions</h3>
     <div class="row mt-4 mx-2">
         <div class="col-12">
-            <div class="card" style="min-height: 350px;">
+            <div class="card" style="min-height: 400px;">
+
+                {{-- En tête de la card --}}
                 <div class="card-header bg-gradient-primary">
                     <h3 class="card-title d-flex align-items-center"> <i class="fa fa-users fa-2x mr-2"></i> Liste des
                         sessions</h3>
@@ -25,6 +27,7 @@
                     </div>
                 </div>
 
+                {{-- corp de la card --}}
                 <div class="card-body table-responsive p-0 table-striped" style="position: relative;">
                     <table class="table table-head-fixed text-nowrap">
                         <thead>
@@ -58,17 +61,23 @@
                                         <input class="form-control" type="number" wire:model='newSession.montant'>
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-info" data-toggle="modal" data-target="#sessionCour"
-                                            spellcheck="false"> Choisir le cour </button>
+                                        <button class="btn btn-info" wire:click='toogleFormCours'> Choisir le cour
+                                        </button>
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-warning" data-toggle="modal" data-target="#newPromotion"
-                                            spellcheck="false"> <i class="fa fa-gift"></i> Promotion </button>
-                                        <button class="btn btn-success" wire:click='addNewSession'> <i
-                                                class="fa fa-plus"></i> <i class="fa fa-spinner fa-spin" wire:loading
-                                                wire:target='addNewSession'></i> Enregistrer </button>
-                                        <button class="btn btn-danger" wire:click='toogleFormSession'> <i
-                                                class="fa fa-ban"></i> Annuler </button>
+                                        <button class="btn btn-primary btn-icon" data-toggle="modal"
+                                            data-target="#newCours" spellcheck="false"> <i class="fa fa-plus"></i> <span
+                                                class="btn-icon-title d-none">Cours</span> </button>
+                                        <button class="btn btn-warning btn-icon" data-toggle="modal"
+                                            data-target="#newPromotion" spellcheck="false"> <i class="fa fa-gift"></i>
+                                            <span class="btn-icon-title d-none">Promotion</span> </button>
+                                        <button class="btn btn-success btn-icon" wire:click='addNewSession'> <i
+                                                class="fa fa-save"></i> <i class="fa fa-spinner fa-spin" wire:loading
+                                                wire:target='addNewSession'></i> <span
+                                                class="btn-icon-title d-none">Save</span> </button>
+                                        <button class="btn btn-danger btn-icon" wire:click='toogleFormSession'> <i
+                                                class="fa fa-ban"></i> <span
+                                                class="btn-icon-title d-none">Annuler</span> </button>
                                     </td>
                                 </tr>
                             @endif
@@ -92,15 +101,17 @@
                                             cours</button>
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-info" data-toggle="modal" data-target="#editPromotion"
-                                            spellcheck="false"> <i class="fa fa-gift"></i> Promotion </button>
-                                        <button class="btn btn-warning"
+                                        <button class="btn btn-info btn-icon" data-toggle="modal" data-target="#newCours"
+                                            spellcheck="false"> <i class="fa fa-plus"></i> <span class="btn-icon-title d-none">cours</span> </button>
+                                        <button class="btn btn-info btn-icon" data-toggle="modal" data-target="#editPromotion"
+                                            spellcheck="false"> <i class="fa fa-gift"></i> <span class="btn-icon-title d-none">Promotion</span> </button>
+                                        <button class="btn btn-warning btn-icon"
                                             wire:click="updateSession({{ $editSession['id'] }})"> <i
                                                 class="fa fa-edit"></i> <i class="fa fa-spinner fa-spin" wire:loading
-                                                wire:target="updateSession"></i> Modifier</button>
-                                        <button class="btn btn-danger"
+                                                wire:target="updateSession"></i> <span class="btn-icon-title d-none">Modifier</span> </button>
+                                        <button class="btn btn-danger btn-icon"
                                             wire:click="initUpdateSession({{ $editSession['id'] }}, 'True')"> <i
-                                                class="fa fa-ban"></i> Annuler</button>
+                                                class="fa fa-ban"></i> <span class="btn-icon-title d-none">Annuler</span> </button>
                                     </td>
                                 </tr>
 
@@ -196,43 +207,7 @@
 
                     </table>
 
-                    <div class="row @if (!$showFormCours) d-none @endif "
-                        style="position: absolute; top:7rem; right:15px; width:55%;">
-                        <div class="card card-outline card-info w-100 my-0" style="min-height: 150px;">
-                            <div class="card-header py-0">
-                                <h3 class="card-title">List des cours</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
-                                        data-source="widgets.html" data-source-selector="#card-refresh-content"
-                                        data-load-on-init="false" spellcheck="false">
-                                        <i class="fas fa-sync-alt"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="maximize">
-                                        <i class="fas fa-expand"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-info btn-sm" wire:click='toogleFormCours'>
-                                        <i class="fas fa-save"> Confirmer</i>
-                                    </button>
-                                </div>
 
-                            </div>
-
-                            <div class="card-body d-flex justify-content-center">
-                                @foreach ($cours as $cour)
-                                    <div class="form-group col-md-4">
-                                        <div class="custom-control custom-checkbox">
-                                            <input class="custom-control-input" type="checkbox"
-                                                id="cour{{ $cour['id'] }}"
-                                                wire:model.lazy="cours.{{ $loop->index }}.active">
-                                            <label for="cour{{ $cour['id'] }}"
-                                                class="custom-control-label">{{ $cour['libelle'] }}</label>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                        </div>
-                    </div>
 
                 </div>
                 <div class="card-footer clearfixr">
@@ -287,8 +262,8 @@
                     </div>
                 </div>
 
-                {{-- Partie Modal horaire du cour --}}
-                <div class="modal fade" id="sessionCour" style="display: none; " aria-hidden="true"
+                {{-- Partie Modal du cour --}}
+                {{-- <div class="modal fade" id="sessionCour" style="display: none; " aria-hidden="true"
                     wire:ignore.self>
                     <div class="modal-dialog modal-xl">
                         <div class="modal-content">
@@ -309,21 +284,72 @@
                                         </div>
 
                                     </div>
+                                    {{-- Listes des cours 
+                                    <div class="col-md-12 card card-info">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Liste des cours</h3>
+                                        </div>
+                                        <div class="card-body row">
+                                            @forelse ($coursList as $cour)
+                                                <div class="form-group col-md-4">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" type="checkbox"
+                                                            id="cour{{ $cour['id'] }}"
+                                                            wire:model.lazy="coursList.{{ $loop->index }}.active">
+                                                        <label for="cour{{ $cour['id'] }}"
+                                                            class="custom-control-label">{{ $cour['libelle'] }}</label>
+                                                    </div>
+                                                </div>
+                                            @empty
+                                                <h3>Aucun donnée trouvé !</h3>
+                                            @endforelse
+                                                @json($coursList)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
 
+                {{-- Partie modal new cours --}}
+                <div class="modal fade" id="newCours" style="display: none; " aria-hidden="true" wire:ignore.self>
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-body p-0 ">
+                                <div class="card card-primary shadow-lg mb-0"
+                                    style="transition: all 0.15s ease 0s; width: 100%;">
+
+                                    {{-- En tête du modale --}}
+                                    <div class="card-header">
+                                        <h3 class="card-title"> Section cours </h3>
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="maximize"
+                                                spellcheck = "false">
+                                                <i class="fas fa-expand"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-success" data-dismiss="modal">
+                                                <i class="fa fa-save"></i> Confirmer
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                    {{-- Contenue du modal --}}
                                     <div class="card-body row px-2">
-                                        {{-- Contenue du modal --}}
                                         <div class="col-md-12 mx-0" id="accordion">
                                             <div class="card card-info bg-none">
                                                 <div class="card-header mx-auto" style="width: 12rem;">
                                                     <h4 class="card-title">
-                                                        <a class="d-block accordion-button mx-auto collapsed" data-toggle="collapse"
-                                                            href="#collapseOne" aria-expanded="false"
-                                                            spellcheck="false"> <i class="fa fa-plus"></i>
+                                                        <a class="d-block accordion-button mx-auto collapsed"
+                                                            data-toggle="collapse" href="#collapseOne"
+                                                            aria-expanded="false" spellcheck="false"> <i
+                                                                class="fa fa-plus"></i>
                                                             Nouveau cours
                                                         </a>
                                                     </h4>
                                                 </div>
-                                                <div id="collapseOne" class="collapse" data-parent="#accordion"
+                                                <div id="collapseOne" class="collapse show" data-parent="#accordion"
                                                     style="">
                                                     <div class="card-body row">
                                                         <div class="col-md-2 form-group">
@@ -385,9 +411,11 @@
                                                                 name="professeur" id="codeProfesseur"
                                                                 wire:model='newCour.professeur_id'>
                                                                 <option>-- Professeur --</option>
-                                                                {{-- @foreach ($professeurs as $prof)
-                                                                <option value="{{ $prof['id'] }}"> {{ $prof['sexe'] == 'F' ? 'Mme/Mlle' : 'M.' }} {{ $prof['nom'] }} </option>                            
-                                                                @endforeach --}}
+                                                                @foreach ($professeurs as $prof)
+                                                                    <option value="{{ $prof['id'] }}">
+                                                                        {{ $prof['sexe'] == 'F' ? 'Mme/Mlle' : 'M.' }}
+                                                                        {{ $prof['nom'] }} </option>
+                                                                @endforeach
                                                             </select>
                                                             @error('newCour.professeur_id')
                                                                 <span class="invalid-feedback">Ce champ est
@@ -400,9 +428,10 @@
                                                                 class="form-control @error('newCour.level_id') is-invalid @enderror"
                                                                 id="courNiveau" wire:model='newLevels'>
                                                                 {{-- <option >-- Niveau --</option> --}}
-                                                                {{-- @foreach ($levels as $level)
-                                                                    <option value="{{ $level['id'] }}"> {{ $level['nom'] }} </option>                                
-                                                                @endforeach --}}
+                                                                @foreach ($levels as $level)
+                                                                    <option value="{{ $level['id'] }}">
+                                                                        {{ $level['nom'] }} </option>
+                                                                @endforeach
                                                             </select>
                                                             @error('newCour.level_id')
                                                                 <span class="invalid-feedback">Ce champ est
@@ -412,14 +441,9 @@
                                                                 effectuer une
                                                                 sélection multiple, appuyez sur Ctrl ou Cmd.**</span>
                                                         </div>
-                                                        <div class="col-md-8 form-group">
-                                                            <label class="form-label"
-                                                                for="codeComment">Commentaire</label>
-                                                            <textarea class="form-control" type="text" name="newCour" id="codeComment" rows="6"
-                                                                wire:model='newCour.coment'></textarea>
-                                                        </div>
+
                                                         {{-- <label for="Sessions">Horaire du cour</label> --}}
-                                                        <div class="col-md-12 form-group row">
+                                                        <div class="col-md-8 form-group row">
                                                             {{-- Formulaire d'horaire du cour --}}
                                                             <div class="col-md-6">
                                                                 <label class="form-label" for="codeHeur">Jour</label>
@@ -448,7 +472,7 @@
                                                             </div>
                                                             <div class="col-md-3 text-right mt-3">
                                                                 <button class="btn btn-info"
-                                                                    wire:click.prevent="setDateHourCour">
+                                                                    wire:click="setDateHourCour">
                                                                     <i class="fa fa-plus"></i> Add</button>
                                                             </div>
                                                             <div class="col-md-6 mt-3">
@@ -463,13 +487,19 @@
                                                             </div>
                                                             <div class="col-md-3 mt-3">
                                                                 <button class="btn btn-danger"
-                                                                    wire:click.prevent="resetDateHourCour">
+                                                                    wire:click.prevent="resetDateHourCour()">
                                                                     <i class="fa fa-undo"></i> Reset</button>
                                                             </div>
                                                         </div>
+                                                        <div class="col-md-12 form-group">
+                                                            <label class="form-label"
+                                                                for="codeComment">Commentaire</label>
+                                                            <textarea class="form-control" type="text" name="newCour" id="codeComment" rows="6"
+                                                                wire:model='newCour.coment'></textarea>
+                                                        </div>
                                                         <div class="col-md-12 text-right">
-                                                            <button class="btn btn-success"> <i
-                                                                    class="fa fa-check"></i> Ajouter le
+                                                            <button class="btn btn-success" wire:click='addNewCour'>
+                                                                <i class="fa fa-check"></i> Ajouter le
                                                                 cour </button>
                                                         </div>
                                                     </div>
@@ -477,36 +507,53 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 card card-info">
-                                        <div class="card-header">
-                                            <h3 class="card-title">Liste des cours</h3>
-                                        </div>
-                                        <div class="card-body row">
-                                            @forelse ($cours as $cour)
-                                                <div class="form-group col-md-4">
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input class="custom-control-input" type="checkbox"
-                                                            id="cour{{ $cour['id'] }}"
-                                                            wire:model.lazy="cours.{{ $loop->index }}.active">
-                                                        <label for="cour{{ $cour['id'] }}"
-                                                            class="custom-control-label">{{ $cour['libelle'] }}</label>
-                                                    </div>
-                                                </div>
-                                            @empty
-                                                <h3>Aucun donnée trouvé !</h3>
-                                            @endforelse
-
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
 
         </div>
 
+    </div>
+    {{-- Formulaire d'ajout de cours --}}
+    <div class="row @if (!$showFormCours) d-none @endif "
+        style="position: absolute; top:23rem; right:15px; width:55%;">
+        <div class="card card-outline card-info w-100 my-0" style="height: 200px; overflow: hidden; overflow-y: scroll;">
+            <div class="card-header py-0" style="position: sticky">
+                <h3 class="card-title">List des cours</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
+                        data-source="widgets.html" data-source-selector="#card-refresh-content"
+                        data-load-on-init="false" spellcheck="false">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                    <button type="button" class="btn btn-info btn-sm" wire:click='toogleFormCours'>
+                        <i class="fas fa-save"> Confirmer</i>
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="card-body d-flex justify-content-center row">
+                @foreach ($coursList as $cour)
+                    <div class="form-group col-md-4">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="cour{{ $cour['id'] }}"
+                                wire:model.lazy="coursList.{{ $loop->index }}.active">
+                            <label for="cour{{ $cour['id'] }}"
+                                class="custom-control-label">{{ $cour['libelle'] }}</label>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+        </div>
     </div>
 </div>
 </div>

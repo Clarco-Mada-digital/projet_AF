@@ -18,10 +18,12 @@ return new class extends Migration
             $table->string('libelle');
             $table->string('categorie');
             $table->string('salle')->nullable();
+            $table->string('horaireDuCour')->nullable();
             $table->string('coment')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
-            $table->foreignIdFor(Professeur::class)->constrained();
+            $table->foreignIdFor(Professeur::class)->constrained()->default('NULL');
         });
 
         Schema::enableForeignKeyConstraints();

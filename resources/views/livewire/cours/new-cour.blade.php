@@ -5,20 +5,11 @@
 <div class="row mx-4 pt-4">
     <div class="col-md-12 d-flex align-items-center justify-content-between my-3">
         <h3>Nouveau cours: </h3>
-        <form action="">
-            {{-- <div class="input-group input-group-lg">
-                <input type="search" class="form-control form-control-lg" placeholder="Chercher l'information du membre"
-                    value="" spellcheck="false" style="width:400px;">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-lg btn-info">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </div>
-            </div> --}}
-        </form>
     </div>
     <div class="col-md-12">
         <div class="card card-default m-0">
+
+            {{-- card header --}}
             <div class="card-header bg-gradient-primary w-100 d-flex align-items-center">
                 <h3 class="card-title flex-grow-1"><i class="fa fa-pen mr-2"></i> Formulaire du cours</h3>
                 <button type="button" class="btn btn-tool" data-card-widget="maximize" spellcheck="false">
@@ -28,6 +19,8 @@
                     <i class="fa fa-list mr-2"></i> Voir la liste des cours
                 </a>
             </div>
+
+            {{-- card body --}}
             <div class="card-body">
                 <form class="row" wire:submit.prevent='addNewCour'>
                     <div class="col-md-2 form-group">
@@ -77,7 +70,7 @@
                         @error('newCour.level_id') <span class="invalid-feedback">Ce champ est obligatoire</span> @enderror
                         <span class="text-info">**Pour effectuer une sélection multiple, appuyez sur Ctrl ou Cmd.**</span>
                     </div>
-                    {{-- <div class="col-md-6 form-group row">
+                    <div class="col-md-8 form-group row">
                         <div class="col-md-6">
                             <label class="form-label" for="codeHeur">Jour</label>
                             <select class="form-control" name="courDay" wire:model='dateInput'>
@@ -108,8 +101,8 @@
                         <div class="col-md-3">
                             <button class="btn btn-danger" wire:click.prevent="resetDateHourCour"> <i class="fa fa-undo"></i> Reset</button>
                         </div>
-                    </div> --}}
-                    <div class="col-md-8 form-group">
+                    </div>
+                    <div class="col-md-12 form-group">
                         <label class="form-label" for="codeComment">Commentaire</label>
                         <textarea class="form-control" type="text" name="newCour" id="codeComment" rows="6" wire:model='newCour.coment'></textarea>
                     </div>
@@ -119,6 +112,7 @@
                 </form>
 
             </div>
+
         </div>
     </div>
 </div>

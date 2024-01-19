@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\Level;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
 

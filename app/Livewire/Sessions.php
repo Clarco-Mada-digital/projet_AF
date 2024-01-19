@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\Cour;
+use App\Models\Level;
+use App\Models\Professeur;
 use App\Models\Session;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -20,36 +22,43 @@ class Sessions extends Component
     public $search;
     public $formNewSession = False;
     public $formEditSession = False;
-    public $newSession = ["horaireDuCour"=>''];
+    public $newSession = [];
     public $editSession = [];
     public $now;
-    public $cours = [];
+    public $professeurs;
+    public $levels;
+    public $newLevels = [];
+    public $coursList = [];
     public $showFormCours = False;
+
     public $orderDirection = 'ASC';
     public $orderField = 'nom';
+
+    public $newCour = [];
+    public $newCourList = [];
     public $dateInput;
     public $heurDebInput;
     public $heurFinInput;
     public $dateHeurCour;
 
-    protected $queryString = [
-        'search' => ['except' => '']
-    ];
-
     public function __construct()
     {
+        $this->professeurs = Professeur::all()->toArray();
+        $this->levels = Level::all()->toArray();
         $this->now = Carbon::now();
         $sessions = Session::all();
-        foreach($sessions as $session)
-        {
-            if ($session->statue)
-            {
-                if ($session->dateFin < $this->now)
-                {
+        foreach ($sessions as $session) {
+            if ($session->statue) {
+                if ($session->dateFin < $this->now) {
+                    // Désactiver la session qui dépassé la jour par rapport au jour de fin.
                     $session->update(['statue' => false]);
+
+                    // Supprimer les cours appartient au session fermer
+                    DB::table("session_cours")->where("session_id", $session->id)->delete();
                 }
             }
         }
+        $this->initDataCours();
         // $this->cours= Cour::all()->toArray();
 
     }
@@ -74,68 +83,102 @@ class Sessions extends Component
         return $rule;
     }
 
+    public function initDataCours()
+    {
+        $this->coursList = [];
+        foreach (Cour::all() as $cour) {
+            array_push($this->coursList, ['id' => $cour->id, 'libelle' => $cour->libelle, 'horaire' => $cour->horaire, 'active' => false]);
+        }
+    }
+
     public function toogleFormSession()
     {
-        if (Cour::all()->toArray() == null) {
-            $this->dispatch("showModalSimpleMsg", ['message' => "Avant de créer une nouvelle session, soyer sûr qu'il y a des cours dans la base !", 'type' => 'warning']);
-        } else {
-            foreach (Cour::all() as $cour) {
-                array_push($this->cours, ['id' => $cour->id, 'libelle' => $cour->libelle, 'horaire' => $cour->horaire, 'active' => false]);
-            }
-            $this->formNewSession == True ? [$this->formNewSession = False, $this->cours = [], $this->showFormCours = False] : $this->formNewSession = True;
-        }
+        $this->initDataCours();
+        $this->formNewSession ? [$this->formNewSession = False, $this->showFormCours = False] : [$this->formNewSession = True, $this->formEditSession = false];
     }
     public function toogleFormCours()
     {
-
-        $this->showFormCours == False ? $this->showFormCours = True : $this->showFormCours = False;
+        $this->showFormCours ? [$this->showFormCours = false] : [$this->showFormCours = true];
     }
 
-     // Fonction pour récupérer les heurs du cour
-     public function setDateHourCour()
-     {
-         if ($this->dateInput == '' || $this->heurDebInput == '' || $this->heurFinInput == ''|| $this->heurDebInput > $this->heurFinInput)
-         {
-             $this->dispatch("showModalSimpleMsg", ['message' => "Désolé, quelque chose a mal tourné. Veuillez vérifier les heures que vous avez entrées.", 'type' => 'error']);   
-             return null;         
-         }
-         // Pour une separation dans l'affichage
-         $dateTimeForma =  $this->dateInput . ' ' . $this->heurDebInput . '-' . $this->heurFinInput;
-         if($this->dateHeurCour != null){
-             $this->dateHeurCour .= " | ";
-         }
- 
-         // Reset la valeur des inputs
-         $this->dateHeurCour .= $dateTimeForma;
-         $this->dateInput = '';
-         $this->heurDebInput = '';
-         $this->heurFinInput = '';
-     }
-     // Fonction reset la valeur de Date heur du cour
+    // Fonction pour récupérer les heurs du cour
+    public function setDateHourCour()
+    {
+        if ($this->dateInput == '' || $this->heurDebInput == '' || $this->heurFinInput == '' || $this->heurDebInput > $this->heurFinInput) {
+            $this->dispatch("showModalSimpleMsg", ['message' => "Désolé, quelque chose a mal tourné. Veuillez vérifier les heures que vous avez entrées.", 'type' => 'error']);
+            return null;
+        }
+        // Pour une separation dans l'affichage
+        $dateTimeForma =  $this->dateInput . ' ' . $this->heurDebInput . '-' . $this->heurFinInput;
+        if ($this->dateHeurCour != null) {
+            $this->dateHeurCour .= " | ";
+        }
+
+        // Reset la valeur des inputs
+        $this->dateHeurCour .= $dateTimeForma;
+        $this->dateInput = '';
+        $this->heurDebInput = '';
+        $this->heurFinInput = '';
+    }
+    // Fonction reset la valeur de Date heur du cour
     public function resetDateHourCour()
     {
         $this->dateHeurCour = "";
     }
 
+    public function addNewCour()
+    {
+        $this->validate([
+            'newCour.code' => ['required', 'string', Rule::unique('cours', 'code')],
+            'newCour.libelle' => ['required'],
+            'newCour.categorie' => ['required'],
+            'newCour.salle' => ['string'],
+            'newCour.professeur_id' => ['string'],
+        ]);
+
+        $this->newCour['horaireDuCour'] = $this->dateHeurCour;
+        $myCour = Cour::create($this->newCour);
+
+        array_push($this->newCourList, $myCour->id);
+
+        if ($this->newLevels != []) {
+            foreach ($this->newLevels as $level) {
+                $myCour->level()->attach($level);
+            }
+        }
+
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Enregistrement avec success!', 'type' => 'success']);
+
+        $this->coursList = [];
+        $this->initDataCours();
+        $this->resetDateHourCour();
+        $this->newCour = [];
+        $this->newLevels = [];
+    }
+
     public function addNewSession()
     {
         $this->validate();
-        $this->newSession['horaireDuCour'] = $this->dateHeurCour;
+        // $this->newSession['horaireDuCour'] = $this->dateHeurCour;
 
         // Add nouveau session dans la base
         $mySession = Session::create($this->newSession);
 
         // add les cours correspondant au session a la base
-        foreach ($this->cours as $cour) {
+        foreach ($this->coursList as $cour) {
             if ($cour['active']) {
                 $mySession->cours()->attach($cour['id']);
             }
         }
+        foreach ($this->newCourList as $cour) {
+            $mySession->cours()->attach($cour);
+        }
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Creation de session avec success!', 'type' => 'success']);
 
+        $this->newCourList = [];
         $this->newSession = [];
-        $this->cours = [];
+        $this->coursList = [];
         $this->dateHeurCour = "";
         $this->formNewSession = False;
         $this->showFormCours = False;
@@ -143,13 +186,14 @@ class Sessions extends Component
 
     public function initUpdateSession(Session $session, $cancel = False)
     {
-        $this->cours = [];
+        $this->coursList = [];
         if ($cancel) {
             $this->editSession = [];
             $this->showFormCours = False;
             $this->formEditSession = false;
         } else {
-            // metre la liste de nos cours dans un variable          
+            // metre la liste de nos cours dans un variable
+            $this->formNewSession ? $this->formNewSession = false : "";
             $mapData = function ($value) {
                 return $value['id'];
             };
@@ -161,9 +205,9 @@ class Sessions extends Component
             $cours = array_map($mapData, Session::find($this->editSession['id'])->cours->toArray());
             foreach (Cour::all() as $cour) {
                 if (in_array($cour->id, $cours)) {
-                    array_push($this->cours, ['id' => $cour->id, 'libelle' => $cour->libelle, 'horaire' => $cour->horaire, 'active' => true]);
+                    array_push($this->coursList, ['id' => $cour->id, 'libelle' => $cour->libelle, 'horaire' => $cour->horaire, 'active' => true]);
                 } else {
-                    array_push($this->cours, ['id' => $cour->id, 'libelle' => $cour->libelle, 'horaire' => $cour->horaire, 'active' => false]);
+                    array_push($this->coursList, ['id' => $cour->id, 'libelle' => $cour->libelle, 'horaire' => $cour->horaire, 'active' => false]);
                 }
             }
         }
@@ -181,7 +225,7 @@ class Sessions extends Component
         DB::table("session_cours")->where("session_id", $this->editSession['id'])->delete();
 
         // add les cours correspondant au session a la base
-        foreach ($this->cours as $cour) {
+        foreach ($this->coursList as $cour) {
             if ($cour['active']) {
                 Session::find($this->editSession['id'])->cours()->attach($cour['id']);
             }
@@ -208,6 +252,8 @@ class Sessions extends Component
     public function render()
     {
         Carbon::setLocale('fr');
+        // $this->coursList = [];
+
 
         $data = [
             "sessions" => Session::where("nom", "LIKE", "%{$this->search}%")
