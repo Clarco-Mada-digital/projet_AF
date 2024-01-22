@@ -207,9 +207,9 @@
                                     <div class="col-md-3">
                                         <label for="etudiantPhone">Téléphone</label>
                                         <div class="input-group">
-                                            <div class="input-group-prepend">
+                                            {{-- <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                            </div>
+                                            </div> --}}
                                             <input type="text"
                                                 class="form-control phone @error('newEtudiant.telephone1') is-invalid @enderror"
                                                 id="etudiantPhone" wire:model='newEtudiant.telephone1'>
@@ -221,13 +221,13 @@
                                     <div class="col-md-3">
                                         <label for="etudiantPhone2">Second téléphone</label>
                                         <div class="input-group">
-                                            <div class="input-group-prepend">
+                                            {{-- <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                            </div>
+                                            </div> --}}
                                             <input type="text"
                                                 class="form-control phone @error('newEtudiant.telephone1') is-invalid @enderror"
                                                 id="etudiantPhone2" wire:model='newEtudiant.telephone2'>
-                                            @error('newEtudiant.telephone1')
+                                            @error('newEtudiant.telephone2')
                                             <span class="invalid-feedback"> Ce champ est obligatoire</span>
                                             @enderror
                                         </div>

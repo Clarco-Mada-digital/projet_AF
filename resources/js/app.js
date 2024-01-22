@@ -1,4 +1,5 @@
 import './bootstrap';
+import './intlTelInput';
 
 // Mes import
 // import "admin-lte/plugins/jquery/jquery";
@@ -25,7 +26,11 @@ import swal from 'sweetalert';
 window.Swal = Swal
 
 // Input Mask
-$(".phone").inputmask("(999)-99-99-999-99");
+// $(".phone").inputmask("(999)-99-99-999-99");
+let PhoneInputList = document.querySelectorAll('.phone');
+let phoneList = [...PhoneInputList].map(PhoneInput => new window.intlTelInput(PhoneInput, {
+  initialCountry: 'mg'
+}));
 
 // Tooltip definition
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
