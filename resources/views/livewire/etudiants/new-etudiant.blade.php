@@ -236,7 +236,7 @@
                                         <div class="form-group">
                                             <div class="custom-control custom-switch">
                                                 <input class="custom-control-input custom-control-input-info"
-                                                    type="checkbox" id="newMembre">
+                                                    type="checkbox" id="newMembre" wire:model='noMember'>
                                                 <label for="newMembre" class="custom-control-label">Confirmer que
                                                     c'est un nouveau membre</label>
                                             </div>
@@ -247,6 +247,19 @@
                             </div>
                             <div id="cour-part" @if ($bsSteepActive !=2) style="display: none;" @endif>
                                 <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <label> Inscrit pour : </label>
+                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                            <label class="btn bg-info active">
+                                                <input type="radio" name="options" id="option_b1" autocomplete="off"
+                                                    checked="" spellcheck="false" value="cour" wire:model='typeInscription'> Un cour
+                                            </label>
+                                            <label class="btn bg-info">
+                                                <input type="radio" name="options" id="option_b2" autocomplete="off"
+                                                    spellcheck="false" value="examen"  wire:model='typeInscription'> Examen
+                                            </label>
+                                        </div>
+                                    </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="Sessions">Session</label>

@@ -72,7 +72,7 @@ class NewCour extends Component
     {        
         $this->validate();
         
-        $this->newCour['horaire'] = $this->dateHeurCour;
+        $this->newCour['horaireDuCour'] = $this->dateHeurCour;
         
         $myCour = Cour::create($this->newCour);
 

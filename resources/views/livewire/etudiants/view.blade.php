@@ -71,7 +71,7 @@
                 <hr>
                 <strong><i class="fa fa-hourglass mr-1" aria-hidden="true"></i> Heure de cour</strong>
                 <p class="text-muted">
-                    <span class="tag tag-danger"> {{ $etudiant->session->horaireDuCour }} </span>
+                    <span class="tag tag-danger"> {{ $etudiant->cours->implode('horaireDuCour', ', ') }} </span>
                 </p>
                 <hr>
                 <strong><i class="fa fa-comments mr-1"></i> Commentaire</strong>

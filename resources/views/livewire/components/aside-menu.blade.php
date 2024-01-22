@@ -35,16 +35,16 @@
                     ])>
                         {{-- <ion-icon class="nav-icon" name="pencil"></ion-icon> --}}
                         <i class="nav-icon fa fa-edit"></i>
-                        <p>Inscription au cours</p>
+                        <p>Inscription</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="#" class="nav-link">
-                        {{-- <ion-icon class="nav-icon" name="pencil"></ion-icon> --}}
+                        {{-- <ion-icon class="nav-icon" name="pencil"></ion-icon> 
                         <i class="nav-icon fa fa-edit"></i>
                         <p>Inscription à l'examen</p>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a href="{{ route('etudiants-list') }}" @class([
                         'nav-link',

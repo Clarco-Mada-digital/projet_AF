@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,8 +13,9 @@ class LevelsTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('levels')->insert([
+            ["nom"=>'À définir'],
             ["nom"=>'Debutant'],
-            ["nom"=>'Intermediaire'],
+            ["nom"=>'Intermédiaire'],
             ["nom"=>'Avancé'],
         ]);
     }

@@ -3,6 +3,7 @@ import './bootstrap';
 // Mes import
 // import "admin-lte/plugins/jquery/jquery";
 import "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js";
+
 import "admin-lte/plugins/bootstrap/js/bootstrap.bundle";
 import "admin-lte/dist/js/adminlte";
 import "admin-lte/plugins/chart.js/Chart.min.js";
@@ -23,12 +24,12 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import swal from 'sweetalert';
 window.Swal = Swal
 
-// var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-// var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-//   return new bootstrap.Tooltip(tooltipTriggerEl)
-// })
-
+// Input Mask
 $(".phone").inputmask("(999)-99-99-999-99");
+
+// Tooltip definition
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
 window.addEventListener('ShowSuccessMsg', (e) => {
   console.log(e)
@@ -73,6 +74,6 @@ window.addEventListener('AlertDeleteConfirmModal', (e) => {
 
 
 // checker pretty bootstrap
-// import "https://cdnjs.cloudflare.com/ajax/libs/icheck-bootstrap/3.0.1/icheck-bootstrap.min.css"
+// import "https://cdnjs.cloudflare.com/ajax/libs/icheck-bootstrap/5.2.1/icheck-bootstrap.min.css"
 
 

@@ -19,7 +19,7 @@ class NewEtudiant extends Component
     use WithFileUploads;
 
     // ----------- Nos variable --------------
-    public $newEtudiant = ['profil' => '', 'level_id' => ''];
+    public $newEtudiant = ['profil' => '', 'level_id' => '1'];
     public $photo;
     public int $bsSteepActive = 1;
     public $listSession;
@@ -31,6 +31,9 @@ class NewEtudiant extends Component
     public $moyenPaiement = 'Espèce';
     public $statue = 'Totalement';
     public float $montantInscription;
+    public string $typeInscription = "cour";
+
+    public bool $noMember = false;
 
     public function defineStatue($nomStatue)
     {
@@ -58,9 +61,9 @@ class NewEtudiant extends Component
     }
 
     // Fonction pour les etape du formulaire de l'enregistrement des étudiants
-    public function bsSteepPrevNext($crement)
+    public function bsSteepPrevNext($crèment)
     {
-        if ($crement == 'next') {
+        if ($crèment == 'next') {
             if ($this->bsSteepActive == 1) 
             {
                 $this->validate();
@@ -114,13 +117,18 @@ class NewEtudiant extends Component
             $this->nscList['cours'] = [];
             $this->sessionSelected = Session::find($this->etudiantSession);
             $cours = Session::find($this->etudiantSession)->cours;
-
-            if ($this->newEtudiant['level_id'] != null) {
+            
+            if ($this->newEtudiant['level_id'] != null && $cours != null) {
                 foreach ($cours as $cour) {
-                    if ($cour->level_id == $this->newEtudiant['level_id']) {
-                        array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
-                        // dd($this->nscList['cours']);
+                    foreach($cour->level as $level) {
+                        if ($level->id == $this->newEtudiant['level_id']) {
+                            array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
+                        }
                     }
+                    // if ($this->newEtudiant['level_id'] in $cour->level_id) {
+                    //     array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
+                    //     // dd($this->nscList['cours']);
+                    // }
                 }
 
                 // $cours = $cour[0]->level_id == $this->newEtudiant['level_id'];
@@ -142,6 +150,8 @@ class NewEtudiant extends Component
             } else {
                 $this->montantInscription = $this->sessionSelected->montant;
             }
+
+            $this->noMember ? $this->montantInscription = ($this->montantInscription + 10000) : "";
         }
     }
 
@@ -168,7 +178,9 @@ class NewEtudiant extends Component
                 $newEtud->cours()->attach($cour['cour_id']);
             }
         }
+        
         $montant = $this->sessionSelected->montant;
+        
 
         // Pour la base donné de paiement
         $paiementData = [
@@ -176,7 +188,7 @@ class NewEtudiant extends Component
             'statue' => $this->statue,
             'motif' => "Inscription du " . $this->newEtudiant['nom'],
             'moyenPaiement' => $this->moyenPaiement,
-            'type' => 'Inscription',
+            'type' => 'Inscription a un '. $this->typeInscription,
             'numRecue' => "AFPN°" . random_int(50, 9000),
             'user_id' => Auth::user()->id
         ];
