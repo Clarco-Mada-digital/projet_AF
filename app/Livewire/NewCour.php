@@ -2,17 +2,20 @@
 
 namespace App\Livewire;
 
+use App\Models\Categorie;
 use App\Models\Cour;
 use App\Models\Level;
 use App\Models\Professeur;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-
+#[Layout('layouts.mainLayout')]
 class NewCour extends Component
 {
     // Nos variable global
     public $professeurs;
     public $levels;
+    public $categories;
     public $newCour = [];
     public $dateInput;
     public $dateHeurCour;
@@ -25,6 +28,7 @@ class NewCour extends Component
     {
         $this->professeurs = Professeur::all()->toArray();
         $this->levels = Level::all()->toArray();
+        $this->categories = Categorie::all()->toArray();
     }
 
     public function rules()
@@ -32,7 +36,7 @@ class NewCour extends Component
         $rule = [
             'newCour.code' => ['required', 'string'],
             'newCour.libelle' => ['required'],
-            'newCour.categorie' => ['required'],
+            'newCour.categorie_id' => ['required'],
             'newCour.salle' => ['string'],
             'newCour.professeur_id' => ['string'],
         ];
@@ -91,8 +95,6 @@ class NewCour extends Component
     // Fonction render de view
     public function render()
     {
-        return view('livewire.cours.new-cour')
-            ->extends('layouts.mainLayout')
-            ->section('content');
+        return view('livewire.cours.new-cour');
     }
 }

@@ -122,11 +122,18 @@
                     {{-- <ion-icon class="nav-icon" name="settings"></ion-icon> --}}
                     <i class="nav-icon fa-fw fa fa-cogs"></i>
                     <p>
-                        PARAMETRES
+                        PARAMÈTRES
                         <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ route('parametres-param-general') }}" 
+                            @class(['nav-link', 'active' => request()->url() == route('parametres-param-general')])>
+                            <i class="nav-icon fa fa-wrench"></i>
+                            <p> Generale </p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('parametres-session') }}" @class([
                             'nav-link',
@@ -134,7 +141,7 @@
                         ])>
                             {{-- <ion-icon class="nav-icon" name="barcode-outline"></ion-icon> --}}
                             <i class="nav-icon far fa-circle"></i>
-                            <p>Sessions</p>
+                            <p> Sessions </p>
                         </a>
                     </li>
                     <li class="nav-item">

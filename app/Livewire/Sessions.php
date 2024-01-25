@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Categorie;
 use App\Models\Cour;
 use App\Models\Level;
 use App\Models\Professeur;
@@ -9,9 +10,12 @@ use App\Models\Session;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+
+#[Layoutt('layouts.mainLayout')]
 class Sessions extends Component
 {
     use WithPagination;
@@ -27,6 +31,7 @@ class Sessions extends Component
     public $now;
     public $professeurs;
     public $levels;
+    public $categories;
     public $newLevels = [];
     public $coursList = [];
     public $showFormCours = False;
@@ -45,6 +50,7 @@ class Sessions extends Component
     {
         $this->professeurs = Professeur::all()->toArray();
         $this->levels = Level::all()->toArray();
+        $this->categories = Categorie::all()->toArray();
         $this->now = Carbon::now();
         $sessions = Session::all();
         foreach ($sessions as $session) {
@@ -131,7 +137,7 @@ class Sessions extends Component
         $this->validate([
             'newCour.code' => ['required', 'string', Rule::unique('cours', 'code')],
             'newCour.libelle' => ['required'],
-            'newCour.categorie' => ['required'],
+            'newCour.categorie_id' => ['required'],
             'newCour.salle' => ['string'],
             'newCour.professeur_id' => ['string'],
         ]);
@@ -261,8 +267,6 @@ class Sessions extends Component
                 ->paginate(5)
         ];
 
-        return view('livewire.sessions.index', $data)
-            ->extends('layouts.mainLayout')
-            ->section('content');
+        return view('livewire.sessions.index', $data);
     }
 }

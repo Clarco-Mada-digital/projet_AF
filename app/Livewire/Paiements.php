@@ -4,9 +4,12 @@ namespace App\Livewire;
 
 use App\Models\Paiement;
 use App\Models\User;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+
+#[Layout('layouts.mainLayout')]
 class Paiements extends Component
 {
     use WithPagination;
@@ -43,8 +46,6 @@ class Paiements extends Component
                 ->orderBy($this->orderField, $this->orderDirection)
                 ->paginate(5)
         ];
-        return view('livewire.paiements.index', $datas)
-            ->extends('layouts.mainLayout')
-            ->section('content');
+        return view('livewire.paiements.index', $datas);
     }
 }

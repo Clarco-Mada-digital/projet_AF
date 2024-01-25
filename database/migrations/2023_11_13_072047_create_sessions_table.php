@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('dateFin');
             // $table->string('horaireDuCour');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -38,54 +38,57 @@
                         <tbody>
                             {{-- Section pour formulaire de nouvel niveau --}}
                             @if ($showNewLevelForm)
-                                <tr>
-                                    <td colspan="2">
-                                        <input class="form-control @error('newLevel') border-danger @enderror" type="text" placeholder="Nouvel de niveau"
-                                            wire:model='newLevel' wire:keydown.enter="addNewLevel">
-                                            @error('newLevel') <span class="text-danger fs-3"> {{ $message }} </span> @enderror
-                                    </td>                                    
-                                    <td class="text-center">                                        
-                                        <button class="btn btn-success" wire:click='addNewLevel'> <i
-                                                class="fa fa-plus"></i> <i class="fa fa-spinner fa-spin" wire:loading
-                                                wire:target='addNewLevel'></i> Enregistrer </button>
-                                        <button class="btn btn-danger" wire:click='toogleFormLevel'> <i
-                                                class="fa fa-ban"></i> Annuler </button>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input class="form-control @error('newLevel') border-danger @enderror" type="text"
+                                        placeholder="Nouvel de niveau" wire:model='newLevel'
+                                        wire:keydown.enter="addNewLevel">
+                                    @error('newLevel') <span class="text-danger fs-3"> {{ $message }} </span> @enderror
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn btn-success" wire:click='addNewLevel'> <i class="fa fa-plus"></i>
+                                        <i class="fa fa-spinner fa-spin" wire:loading wire:target='addNewLevel'></i>
+                                        Enregistrer </button>
+                                    <button class="btn btn-danger" wire:click='toogleFormLevel'> <i
+                                            class="fa fa-ban"></i> Annuler </button>
+                                </td>
+                            </tr>
                             @endif
                             @if ($showEditLevelForm)
-                                <tr>
-                                    <td colspan="2">
-                                        <input class="form-control @error('editLevel') border-danger @enderror" type="text" placeholder="Nouvel de niveau"
-                                            wire:model='editLevel' wire:keydown.enter="submitEditLevel">
-                                            @error('editLevel') <span class="text-danger fs-3"> {{ $message }} </span> @enderror
-                                    </td>                                    
-                                    <td class="text-center">                                        
-                                        <button class="btn btn-success" wire:click="submitEditLevel()"> <i
-                                                class="fa fa-plus"></i> <i class="fa fa-spinner fa-spin" wire:loading
-                                                wire:target='editLevel'></i> Confirmer </button>
-                                        <button class="btn btn-danger" wire:click="toogleEditLevel({{ 1 }}, false)"> <i
-                                                class="fa fa-ban"></i> Annuler </button>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input class="form-control @error('editLevel') border-danger @enderror" type="text"
+                                        placeholder="Nouvel de niveau" wire:model='editLevel'
+                                        wire:keydown.enter="submitEditLevel">
+                                    @error('editLevel') <span class="text-danger fs-3"> {{ $message }} </span> @enderror
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn btn-success" wire:click="submitEditLevel()"> <i
+                                            class="fa fa-plus"></i> <i class="fa fa-spinner fa-spin" wire:loading
+                                            wire:target='editLevel'></i> Confirmer </button>
+                                    <button class="btn btn-danger" wire:click="toogleEditLevel({{ 1 }}, false)"> <i
+                                            class="fa fa-ban"></i> Annuler </button>
+                                </td>
+                            </tr>
                             @endif
                             @forelse ($niveaux as $niveau)
-                                <tr>
-                                    <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $niveau->nom }}</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-link" wire:click='toogleEditLevel({{ $niveau->id }})'>
-                                            <i class="fa fa-edit" style="color: #FFC107;"></i></button>
-                                        <button class="btn btn-link bounce" title="Supprimer la session" wire:click='confirmeDeleteLevel({{ $niveau->id }})'> <i
-                                                class="fa fa-trash" style="color: #DC3545;"></i></button>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>{{ $loop->index + 1 }}</td>
+                                <td>{{ $niveau->libelle }}</td>
+                                <td class="text-center">
+                                    <button class="btn btn-link" wire:click='toogleEditLevel({{ $niveau->id }})'>
+                                        <i class="fa fa-edit" style="color: #FFC107;"></i></button>
+                                    <button class="btn btn-link bounce" title="Supprimer la session"
+                                        wire:click='confirmeDeleteLevel({{ $niveau->id }})'> <i class="fa fa-trash"
+                                            style="color: #DC3545;"></i></button>
+                                </td>
+                            </tr>
                             @empty
-                                <tr>
-                                    <td class="text-center" colspan="7"> <img src="{{ asset('images/no_data.svg') }}"
-                                            alt="Data empty" width="200px">
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td class="text-center" colspan="7"> <img src="{{ asset('images/no_data.svg') }}"
+                                        alt="Data empty" width="200px">
+                                </td>
+                            </tr>
                             @endforelse
                         </tbody>
 
@@ -102,5 +105,4 @@
 
         </div>
     </div>
-</div>
 </div>

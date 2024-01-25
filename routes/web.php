@@ -5,6 +5,7 @@ use App\Livewire\Etudiants;
 use App\Livewire\NewCour;
 use App\Livewire\Niveaux;
 use App\Livewire\Paiements;
+use App\Livewire\ParametreGenerale;
 use App\Livewire\Professeur;
 use App\Livewire\Sessions;
 use App\Livewire\Users;
@@ -69,6 +70,7 @@ Route::group([
     'prefix' => 'parametres',
     'as' => 'parametres-'
 ], function () {
+    Route::match(['get', 'post'], '/general', ParametreGenerale::class)->name('param-general');
     Route::match(['get', 'post'], '/session', Sessions::class)->name('session');
     Route::match(['get', 'post'], '/niveau', Niveaux::class)->name('niveau');
     Route::match(['get', 'post'], '/professeur', Professeur::class)->name('professeur');

@@ -13,10 +13,10 @@ class LevelsTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('levels')->insert([
-            ["nom"=>'À définir'],
-            ["nom"=>'Debutant'],
-            ["nom"=>'Intermédiaire'],
-            ["nom"=>'Avancé'],
+            ["libelle"=>'À définir'],
+            ["libelle"=>'Debutant'],
+            ["libelle"=>'Intermédiaire'],
+            ["libelle"=>'Avancé'],
         ]);
     }
 }

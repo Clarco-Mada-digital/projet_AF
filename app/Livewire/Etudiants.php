@@ -17,7 +17,9 @@ use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Layout;
 
+#[Layout('layouts.mainLayout')]
 class Etudiants extends Component
 {
     use WithPagination;
@@ -230,8 +232,6 @@ class Etudiants extends Component
                 ->paginate(5)
         ];
 
-        return view('livewire.etudiants.index', $data)
-            ->extends('layouts.mainLayout')
-            ->section('content');
+        return view('livewire.etudiants.index', $data);
     }
 }

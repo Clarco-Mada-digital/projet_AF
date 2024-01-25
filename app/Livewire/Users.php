@@ -10,6 +10,8 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
+
+#[Layout('layouts.mainLayout')]
 class Users extends Component
 {
     use WithPagination;
@@ -200,8 +202,6 @@ class Users extends Component
                 ->orderBy($this->orderField, $this->orderDirection)
                 ->paginate(5)
         ];
-        return view('livewire.users.index', $data)
-                ->extends('layouts.mainLayout')
-                ->section('content');
+        return view('livewire.users.index', $data);
     }
 }

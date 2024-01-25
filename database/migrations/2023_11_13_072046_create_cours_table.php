@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Categorie;
 use App\Models\Professeur;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,13 +17,13 @@ return new class extends Migration
             $table->id();
             $table->string('code');
             $table->string('libelle');
-            $table->string('categorie');
             $table->string('salle')->nullable();
             $table->string('horaireDuCour')->nullable();
-            $table->string('coment')->nullable();
+            $table->string('comment')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
+            $table->foreignIdFor(Categorie::class)->constrained()->default('1');
             $table->foreignIdFor(Professeur::class)->constrained()->default('NULL');
         });
 

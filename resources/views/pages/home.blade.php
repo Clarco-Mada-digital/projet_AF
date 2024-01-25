@@ -1,5 +1,6 @@
 @extends('layouts.mainLayout')
 
+
 @section('title', 'Accueil')
 
 @section('titlePage', 'TABLEAU DE BORD')

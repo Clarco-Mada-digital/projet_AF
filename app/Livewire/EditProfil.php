@@ -10,6 +10,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
+
 class EditProfil extends Component
 {
     use WithFileUploads;

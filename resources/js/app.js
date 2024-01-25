@@ -28,7 +28,7 @@ window.Swal = Swal
 // Input Mask
 // $(".phone").inputmask("(999)-99-99-999-99");
 let PhoneInputList = document.querySelectorAll('.phone');
-let phoneList = [...PhoneInputList].map(PhoneInput => new window.intlTelInput(PhoneInput, {
+let phoneList = [...PhoneInputList].map(PhoneInput => new intlTelInput(PhoneInput, {
   initialCountry: 'mg'
 }));
 
@@ -69,8 +69,8 @@ window.addEventListener('AlertDeleteConfirmModal', (e) => {
   })
   .then((willDelete) => {
     if (willDelete) {
-      Livewire.dispatch('deleteConfirmed');
-      
+      Livewire.dispatch('deleteConfirmed' + e.detail[0]['thinkDelete']);
+      console.log('deleteConfirmed' + e.detail[0]['thinkDelete'])
     } else {
       swal("OK ! Opération annuler");
     }

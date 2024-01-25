@@ -282,7 +282,7 @@
                                                 wire:model='newEtudiant.level_id' wire:click.live='updateCoursList'>
                                                 <option> --- --- </option>
                                                 @forelse ($levels as $level)
-                                                <option value="{{ $level->id }}"> {{ $level->nom }}</option>
+                                                <option value="{{ $level->id }}"> {{ $level->libelle }}</option>
                                                 @empty
                                                 <option value="2"> Donné non trouvé </option>
                                                 @endforelse

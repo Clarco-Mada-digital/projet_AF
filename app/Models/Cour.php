@@ -18,6 +18,7 @@ class Cour extends Model
         'horaireDuCour',
         'coment',
         'professeur_id',
+        'categorie_id',
     ];
 
     public function professeur()

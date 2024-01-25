@@ -5,10 +5,13 @@ namespace App\Livewire;
 use App\Models\Cour;
 use App\Models\Professeur as ModelsProfesseur;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
+
+#[Layout('layouts.mainLayout')]
 class Professeur extends Component
 {
     // Nos importation a utiliser
@@ -189,8 +192,6 @@ class Professeur extends Component
             ];
             
             
-            return view('livewire.professeurs.index', $data)
-            ->extends('layouts.mainLayout')
-            ->section('content');
+            return view('livewire.professeurs.index', $data);
     }
 }

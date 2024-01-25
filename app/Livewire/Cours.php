@@ -2,12 +2,16 @@
 
 namespace App\Livewire;
 
+use App\Models\Categorie;
 use App\Models\Cour;
 use App\Models\Level;
 use App\Models\Professeur;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+
+#[Layout('layouts.mainLayout')]
 class Cours extends Component
 {
     use WithPagination;
@@ -19,6 +23,7 @@ class Cours extends Component
     public $state = 'view';
     public $professeurs;
     public $levels;
+    public $categories;
     public $editCour = ['levels' => []];
     public $dateInput;
     public $dateHeurCour;
@@ -31,6 +36,7 @@ class Cours extends Component
     {
         $this->professeurs = Professeur::all()->toArray();
         $this->levels = Level::all()->toArray();
+        $this->categories = Categorie::all()->toArray();
     }
 
     public function rules()
@@ -38,7 +44,7 @@ class Cours extends Component
         $rule = [
             'editCour.code' => ['required'],
             'editCour.libelle' => ['required'],
-            'editCour.categorie' => ['required'],
+            'editCour.categorie_id' => ['required'],
             'editCour.salle' => ['string'],
             'editCour.horaire' => ['string'],
             'editCour.professeur_id' => ['required'],
@@ -139,8 +145,6 @@ class Cours extends Component
                 ->paginate(5)
         ];
 
-        return view('livewire.cours.index', $data)
-            ->extends('layouts.mainLayout')
-            ->section('content');
+        return view('livewire.cours.index', $data);
     }
 }

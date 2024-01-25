@@ -33,11 +33,11 @@
             <div class="col-md-2 form-group">
                 <label class="form-label" for="codeCategorie">Catégorie</label>
                 <select class="form-control @error('editCour.libelle') is-invalid @enderror" id="codeCategorie"
-                    wire:model='editCour.categorie'>
+                    wire:model='editCour.categorie_id'>
                     <option>-- Catégorie --</option>
-                    <option value="enfant">Enfant</option>
-                    <option value="ado">Ado</option>
-                    <option value="adulte">Adulte</option>
+                    @foreach ($categories as $categorie)
+                        <option value="{{ $categorie['id'] }}"> {{ $categorie['libelle'] }}</option>
+                    @endforeach
                 </select>
                 @error('editCour.categorie')
                 <span class="invalid-feedback">Ce champ est obligatoire</span>
@@ -70,9 +70,8 @@
                 <label class="form-label" for="codeSalle">Niveau</label>
                 <select multiple class="form-control @error('editCour.level_id') is-invalid @enderror" id="courNiveau"
                     wire:model='editCour.levels'>
-                    {{-- <option>-- Niveau --</option> --}}
                     @foreach ($levels as $level)
-                    <option value="{{ $level['id'] }}"> {{ $level['nom'] }} </option>
+                    <option value="{{ $level['id'] }}"> {{ $level['libelle'] }} </option>
                     @endforeach
                 </select>
                 @error('editCour.level_id')

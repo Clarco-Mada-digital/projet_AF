@@ -3,9 +3,12 @@
 namespace App\Livewire;
 
 use App\Models\Level;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+
+#[Layout('layouts.mainLayout')]
 class Niveaux extends Component
 {
     use WithPagination;
@@ -35,7 +38,7 @@ class Niveaux extends Component
         if (!$open) {
             $this->showEditLevelForm = false;
         } else {
-            $this->showEditLevelForm ? [$this->editLevel = $editLevel->nom, $this->editLevelId = $editLevel->id] : [$this->editLevel = $editLevel->nom, $this->editLevelId = $editLevel->id, $this->showEditLevelForm = !$this->showEditLevelForm];
+            $this->showEditLevelForm ? [$this->editLevel = $editLevel->libelle, $this->editLevelId = $editLevel->id] : [$this->editLevel = $editLevel->libelle, $this->editLevelId = $editLevel->id, $this->showEditLevelForm = !$this->showEditLevelForm];
         }
     }
 
@@ -43,7 +46,7 @@ class Niveaux extends Component
     {
         $this->validate(['newLevel'=>['required']], messages:['required'=>'Ce champ est obligatoire !']);
 
-        Level::create(["nom" => $this->newLevel]);
+        Level::create(["libelle" => $this->newLevel]);
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Creation de niveau avec success!', 'type' => 'success']);
 
@@ -56,7 +59,7 @@ class Niveaux extends Component
         $levelEdit = Level::where('id', $this->editLevelId);
         $this->validate(['editLevel'=>['required']], messages:['required'=>'Ce champ est obligatoire !']);
 
-        $levelEdit->update(['nom'=>$this->editLevel]);
+        $levelEdit->update(['libelle'=>$this->editLevel]);
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Modification de niveau avec success!', 'type' => 'success']);
 
@@ -83,12 +86,10 @@ class Niveaux extends Component
     public function render()
     {
         $data = [
-            "niveaux" => Level::where("nom", "LIKE", "%{$this->search}%")
+            "niveaux" => Level::where("libelle", "LIKE", "%{$this->search}%")
                 ->paginate(5)
         ];
 
-        return view('livewire.niveaux.index', $data)
-            ->extends('layouts.mainLayout')
-            ->section('content');;
+        return view('livewire.niveaux.index', $data);
     }
 }
