@@ -15,7 +15,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 
-#[Layoutt('layouts.mainLayout')]
+#[Layout('layouts.mainLayout')]
 class Sessions extends Component
 {
     use WithPagination;
