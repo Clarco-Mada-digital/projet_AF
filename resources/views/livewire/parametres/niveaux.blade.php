@@ -23,8 +23,11 @@
             <table class="table table-head-fixed text-nowrap">
                 <thead>
                     <tr>
-                        <th style="width: 5%"></th>
+                        <th style="width: 5%"></th>                        
                         <th wire:click="setOrderField('nom')">Nom</th>
+                        @if ($key == 'Tarifs')
+                        <th wire:click="setOrderField('montant')">Montant</th>
+                        @endif
                         <th class="text-center" style="width: 10%">Action</th>
                     </tr>
                 </thead>
@@ -47,7 +50,7 @@
                         </td>
                     </tr>
                     @endif --}}
-                    @if ($showEditLevelForm)
+                    {{-- @if ($showEditLevelForm)
                     <tr>
                         <td colspan="2">
                             <input class="form-control @error('editLevel') border-danger @enderror" type="text"
@@ -63,13 +66,17 @@
                                     class="fa fa-ban"></i> Annuler </button>
                         </td>
                     </tr>
-                    @endif
+                    @endif --}}
                     @forelse ($niveaux as $niveau)
                     <tr>
                         <td>{{ $loop->index + 1 }}</td>
                         <td>{{ $niveau->libelle }}</td>
+                        @if ($key == 'Tarifs')
+                        <td>{{ $niveau->montant }}</td>
+                        @endif
                         <td class="text-center">
-                            <button class="btn btn-link" wire:click='toogleEditLevel({{ $niveau->id }})'>
+                            <button class="btn btn-link"  data-toggle="modal" data-target="#view-params"
+                            spellcheck="false" wire:click="editModal('{{ $key }}', '{{ $niveau->id }}')">
                                 <i class="fa fa-edit" style="color: #FFC107;"></i></button>
                             <button class="btn btn-link bounce" title="Supprimer la session"
                                 wire:click="confirmeDeleteLevel('{{ $niveau->id }}', '{{$key}}')"> <i class="fa fa-trash"
@@ -83,7 +90,11 @@
                         <div class="modal-dialog modal-xl modal-dialog-centered">
                             <div class="modal-content bg-transparent">
                                 <div class="modal-body p-0">
-                                    @include('livewire.parametres.view')
+                                    @if ($edit)
+                                    @include('livewire.parametres.edit') 
+                                    @else
+                                        @include('livewire.parametres.new')                                        
+                                    @endif
                                 </div>
                             </div>
                         </div>

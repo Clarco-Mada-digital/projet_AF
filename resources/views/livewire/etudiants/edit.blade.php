@@ -158,7 +158,7 @@
                                 wire:model='editEtudiant.level_id'>
                                 <option> --- --- </option>
                                 @foreach ($allLevel as $level)
-                                    <option value="{{ $level->id }}">{{ $level->nom }}</option>
+                                    <option value="{{ $level->id }}">{{ $level->libelle }}</option>
                                 @endforeach
                             </select>
                         </div>

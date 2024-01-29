@@ -144,16 +144,15 @@
                             <p> Sessions </p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="{{ route('parametres-niveau') }}" @class([
                             'nav-link',
                             'active' => request()->url() == route('parametres-niveau'),
                         ])>
-                            {{-- <ion-icon class="nav-icon" name="barcode-outline"></ion-icon> --}}
                             <i class="nav-icon fa fa-bars"></i>
                             <p>Niveaux</p>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a href="{{ route('parametres-user') }}" @class([
                             'nav-link',

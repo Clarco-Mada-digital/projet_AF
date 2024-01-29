@@ -23,11 +23,16 @@ class ParametreGenerale extends Component
     public string $searchPermissions = "";
     public string $newLevel;
     public string $newCategorie;
-    public string $editLevel;
-    public string $editLevelId;
+    public string $newPermissions;
+    public string $newTarifs;
+    public $editLevel;
+    public $editCategorie;
+    public $editLevelId;
+    public $editCategorieId;
     public string $titleModal = "";
     public string $submitFunction = "";
     public string $champ = "";
+    public bool $edit = false;
 
     public bool $showNewLevelForm = false;
     public bool $showEditLevelForm = false;
@@ -43,6 +48,9 @@ class ParametreGenerale extends Component
 
     public function initModal($key)
     {
+        $this->edit = false;
+        $this->champ = "";
+        $this->resetErrorBag();
         $this->titleModal = Str::lower("Nouveau ".$key);
 
         if ($key == "Niveaux")
@@ -57,7 +65,40 @@ class ParametreGenerale extends Component
             $this->champ = 'newCategorie';
             $this->submitFunction = "addNewCategorie";
         }
+        elseif ($key == "Tarifs")
+        {
+            $this->newTarifs = "";
+            $this->champ = 'newTarifs';
+        }
+        elseif ($key == "Permissions")
+        {
+            $this->newPermissions = "";
+            $this->champ = 'newPermission';
+        }
         
+    }
+
+    public function editModal($key, $id)
+    {
+        $this->edit = true;
+        $this->champ = "";
+        $this->resetErrorBag();
+        $this->titleModal = Str::lower("Edit ".$key);
+
+        if ($key == "Niveaux")
+        {
+            $this->editLevelId = Level::find($id);
+            $this->editLevel = Level::find($id)->libelle;
+            $this->champ = 'editLevel';
+            $this->submitFunction = "updateLevel";
+        }
+        elseif ($key == "Categories")
+        {
+            $this->editCategorieId = Categorie::find($id);
+            $this->editCategorie = Categorie::find($id)->libelle;
+            $this->champ = 'editCategorie';
+            $this->submitFunction = "updateCategorie";
+        }        
     }
 
     public function toogleEditLevel(Level $editLevel, $open = true)
@@ -79,6 +120,17 @@ class ParametreGenerale extends Component
         $this->dispatch("ShowSuccessMsg", ['message' => 'Creation de niveau avec success!', 'type' => 'success']);
 
         $this->newLevel = "";
+    }
+    
+    public function updateLevel()
+    {
+        $this->validate(['editLevel' => ['required']], messages: ['required' => 'Ce champ est obligatoire !']);
+
+        $this->editLevelId->update(['libelle' => $this->editLevel]);
+
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Edition avec success!', 'type' => 'success']);
+
+        // $this->editLevel = "";
     }
 
     public function submitEditLevel()
@@ -130,6 +182,17 @@ class ParametreGenerale extends Component
         $this->dispatch("ShowSuccessMsg", ['message' => 'Creation de categorie avec success!', 'type' => 'success']);
 
         $this->newCategorie = "";
+    }
+
+    public function updateCategorie()
+    {
+        $this->validate(['editCategorie' => ['required']], messages: ['required' => 'Ce champ est obligatoire !']);
+
+        $this->editCategorieId->update(['libelle' => $this->editCategorie]);
+
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Edition avec success!', 'type' => 'success']);
+
+        // $this->editLevel = "";
     }
 
     public function deleteCategorie()

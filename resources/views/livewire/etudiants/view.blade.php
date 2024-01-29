@@ -18,6 +18,7 @@
     <div class="card-body row">
         <div class="col-md-4 d-flex justify-content-centr flex-column mr-1">
             <div class="card card-primary card-outline">
+                
                 <div class="card-body box-profile">
                     <div class="text-center">
                         <img class="profile-user-img img-fluid img-circle"
@@ -56,10 +57,13 @@
             </div>
         </div>
         <div class="col-md-7 card card-primary">
+
+            {{-- cards header --}}
             <div class="card-header">
                 <h3 class="card-title">Information cours</h3>
             </div>
 
+            {{-- cards body --}}
             <div class="card-body">
                 <strong><i class="fa fa-book mr-1"></i> Cour choisie</strong>
                 <p class="text-muted">
@@ -67,7 +71,7 @@
                 </p>
                 <hr>
                 <strong><i class="fa fa-thermometer mr-1"></i> Niveaux</strong>
-                <p class="text-muted">{{ $etudiant->level->nom }}</p>
+                <p class="text-muted">{{ $etudiant->level->libelle }}</p>
                 <hr>
                 <strong><i class="fa fa-hourglass mr-1" aria-hidden="true"></i> Heure de cour</strong>
                 <p class="text-muted">

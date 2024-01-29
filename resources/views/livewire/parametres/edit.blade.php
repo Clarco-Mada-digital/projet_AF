@@ -9,13 +9,12 @@
             <h2 class="text-white mb-3"> {{ $titleModal }} </h2>
             <div class="d-flex justify-content-center">
               <div class="w-100">
-                <input class="form-control @error('newLevel') border-danger @enderror" type="text"
-                  placeholder="{{$titleModal}}" wire:model='{{$champ}}' wire:keydown.enter="{{$submitFunction}}">
-                @error('newLevel') <span class="text-danger fs-3"> {{ $message }} </span> @enderror
+                <input class="form-control @error('newLevel') border-danger @enderror" type="text" wire:model='{{$champ}}' wire:keydown.enter="{{$submitFunction}}">
+                @error('editLevel') <span class="text-danger fs-3"> {{ $message }} </span> @enderror
               </div>
               <button class="btn btn-success ml-3" wire:click='{{$submitFunction}}'>
                 <i class="fa fa-spinner fa-spin" wire:loading wire:target='{{$submitFunction}}'></i>
-                Enregistrer
+                Modifier
               </button>
             </div>
 

@@ -78,6 +78,7 @@ class NewEtudiant extends Component
                 return redirect(route('etudiants-list'));
             }
             else {
+                // dd($this->newEtudiant);
                 $this->bsSteepActive += 1;
             }
         } else {

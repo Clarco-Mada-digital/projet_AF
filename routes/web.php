@@ -72,9 +72,9 @@ Route::group([
 ], function () {
     Route::match(['get', 'post'], '/general', ParametreGenerale::class)->name('param-general');
     Route::match(['get', 'post'], '/session', Sessions::class)->name('session');
-    Route::match(['get', 'post'], '/niveau', Niveaux::class)->name('niveau');
     Route::match(['get', 'post'], '/professeur', Professeur::class)->name('professeur');
     Route::match(['get', 'post'], '/user', Users::class)->name('user');
+    // Route::match(['get', 'post'], '/niveau', Niveaux::class)->name('niveau');
 });
 
 // Route::get('/list-etudiant', [App\Http\Controllers\HomeController::class, 'listEtudiant'])->name('list-etudiant');
