@@ -27,6 +27,7 @@
 
                     <div class="card-body table-responsive p-0 table-striped">
                         <table class="table table-head-fixed text-nowrap">
+                            {{-- table header --}}
                             <thead>
                                 <tr>
                                     <th style="width: 5%"></th>
@@ -35,10 +36,12 @@
                                     <th wire:click="setOrderField('prenom')">Prénom</th>
                                     <th class="text-center" >Téléphone</th>
                                     <th class="text-center" >Cour choisi</th>
+                                    <th class="text-center" >Statue</th>
                                     <th class="text-center" >Action</th>
                                 </tr>
                             </thead>
 
+                            {{-- table body --}}
                             <tbody>
                                 @forelse ($etudiants as $etudiant)
                                     <tr>
@@ -59,6 +62,7 @@
                                         <td>{{ $etudiant->prenom }}</td>
                                         <td class="text-center">{{ $etudiant->telephone1 }}</td>
                                         <td class="text-center"> {{ $etudiant->cours->implode('libelle', ' | ') }} - ({{ $etudiant->session->nom }}) </td>
+                                        <td class="text-center @if ($etudiant->level->id == 1) text-danger @else text-success @endif"> {{ $etudiant->level->libelle }} </td>
                                         <td class="text-center">
                                             <button class="btn btn-link" data-toggle="modal"
                                                 data-target="#view-etudiant{{ $etudiant->id }}" spellcheck="false"> <i
@@ -81,9 +85,10 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 @empty
                                     <tr>
-                                        <td class="text-center" colspan="7"> <img
+                                        <td class="text-center" colspan="8"> <img
                                                 src="{{ asset('images/no_data.svg') }}" alt="Data empty"
                                                 width="200px">
                                         </td>

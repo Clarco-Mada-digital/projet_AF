@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Level;
+use App\Models\Price;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,12 +12,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('prices', function (Blueprint $table) {
+        Schema::create('examens', function (Blueprint $table) {
             $table->id();
-            $table->string("nom");
-            $table->float("montant");
+            $table->string('libelle');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreignIdFor(Price::class)->constrained();
         });
     }
 
@@ -26,10 +27,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('prices', function (Blueprint $table) {
-            $table->dropColumn(['level_id']);
+        Schema::table('examens', function (Blueprint $table) {
+            $table->dropColumn(['price_id']);
         });
 
-        Schema::dropIfExists('prices');
+        Schema::dropIfExists('examens');
     }
 };

@@ -205,6 +205,20 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="etudiantNiveau">Catégorie</label>
+                                            <select class="custom-select" spellcheck="false" id="etudiantNiveau"
+                                                wire:model='newEtudiant.categories'>
+                                                <option> --- --- </option>
+                                                @forelse ($categories as $categorie)
+                                                <option value="{{ $categorie->id }}"> {{ $categorie->libelle }}</option>
+                                                @empty
+                                                <option> Donné non trouvé </option>
+                                                @endforelse
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
                                         <label for="etudiantPhone">Téléphone</label>
                                         <div class="input-group">
                                             {{-- <div class="input-group-prepend">
@@ -252,14 +266,17 @@
                                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                             <label class="btn bg-info active">
                                                 <input type="radio" name="options" id="option_b1" autocomplete="off"
-                                                    checked="" spellcheck="false" value="cour" wire:model='typeInscription'> Un cour
+                                                    spellcheck="false" value="cour" wire:model.live='typeInscription'>
+                                                Un cour
                                             </label>
                                             <label class="btn bg-info">
                                                 <input type="radio" name="options" id="option_b2" autocomplete="off"
-                                                    spellcheck="false" value="examen"  wire:model='typeInscription'> Examen
+                                                    spellcheck="false" value="examen" wire:model.live='typeInscription'>
+                                                Examen
                                             </label>
                                         </div>
                                     </div>
+                                    @if ($typeInscription == 'cour')
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="Sessions">Session</label>
@@ -289,11 +306,14 @@
                                             </select>
                                         </div>
                                     </div>
+                                    @endif
+
                                     <div class="col-md-12 card card-info">
                                         <div class="card-header">
-                                            <h3 class="card-title">Liste des cours</h3>
+                                            <h3 class="card-title">Liste des {{ Str::plural($typeInscription) }}</h3>
                                         </div>
                                         <div class="card-body row">
+                                            @if ($typeInscription == 'cour')
                                             @forelse ($nscList['cours'] as $cour)
                                             <div class="form-group col-md-3">
                                                 <div class="custom-control custom-checkbox">
@@ -308,14 +328,23 @@
                                             @empty
                                             <h3>Aucun donnée trouvé !</h3>
                                             @endforelse
-                                            {{-- <div class="form-group col-md-3">
+                                            @endif
+                                            @if ($typeInscription == 'examen')
+                                            @forelse ($nscList['examens'] as $examen)
+                                            <div class="form-group col-md-3">
                                                 <div class="custom-control custom-checkbox">
                                                     <input class="custom-control-input" type="checkbox"
-                                                        id="courFrancais">
-                                                    <label for="courFrancais" class="custom-control-label">Cour
-                                                        Français</label>
+                                                        id="examen{{ $examen['examen_id'] }}" @if ($examen['active']) checked
+                                                        @endif
+                                                        wire:model.lazy="nscList.examens.{{ $loop->index }}.active">
+                                                    <label for="examen{{ $examen['examen_id'] }}"
+                                                        class="custom-control-label">{{ $examen['examen_labelle'] }}</label>
                                                 </div>
-                                            </div> --}}
+                                            </div>
+                                            @empty
+                                            <h3>Aucun donnée trouvé !</h3>
+                                            @endforelse
+                                            @endif
 
                                         </div>
                                     </div>

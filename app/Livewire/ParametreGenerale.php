@@ -3,9 +3,10 @@
 namespace App\Livewire;
 
 use App\Models\Categorie;
+use App\Models\Examen;
 use App\Models\Level;
-use App\Models\Permission;
 use App\Models\Price;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -16,19 +17,28 @@ class ParametreGenerale extends Component
 {
     use WithPagination;
     protected $paginationTheme = "bootstrap";
+    public string $orderField = 'nom';
+    public string $orderFieldLibelle = 'libelle';
+    public string $orderDirection = 'ASC';
 
     public string $searchNiveaux = "";
     public string $searchCategories = "";
     public string $searchTarifs = "";
-    public string $searchPermissions = "";
+    public string $searchExamens = "";
     public string $newLevel;
     public string $newCategorie;
-    public string $newPermissions;
+    public string $newExamen;
     public string $newTarifs;
+    public $dataTarifs = ["level_id" => []];
+    public $dataExamens = ["price_id" => ""];
     public $editLevel;
     public $editCategorie;
+    public $editTarif;
+    public $editExamen;
     public $editLevelId;
     public $editCategorieId;
+    public $editTarifId;
+    public $editExamenId;
     public string $titleModal = "";
     public string $submitFunction = "";
     public string $champ = "";
@@ -39,66 +49,81 @@ class ParametreGenerale extends Component
 
     public $levelDelete;
     public $categorieDelete;
-    protected $listeners = ["deleteConfirmedLevel" => 'deleteLevel', "deleteConfirmedCategorie" => 'deleteCategorie'];
+    public $tarifDelete;
+    public $examenDelete;
+
+    // Emit du js
+    protected $listeners = ["deleteConfirmedLevel" => 'deleteLevel', "deleteConfirmedCategorie" => 'deleteCategorie', "deleteConfirmedTarifs" => "deleteTarif", "deleteConfirmedExamens" => "deleteExamen"];
 
     public $levels;
-    public function __construct() {
+    public $prices;
+    public function __construct()
+    {
         $this->levels = Level::all();
+        $this->prices = Price::all();
     }
 
     public function initModal($key)
     {
         $this->edit = false;
         $this->champ = "";
+        $this->dataTarifs = ["level_id" => []];
         $this->resetErrorBag();
-        $this->titleModal = Str::lower("Nouveau ".$key);
+        $this->titleModal = Str::lower("Nouveau " . $key);
 
-        if ($key == "Niveaux")
-        {
+        if ($key == "Niveaux") {
             $this->newLevel = "";
             $this->champ = 'newLevel';
             $this->submitFunction = "addNewLevel";
-        }
-        elseif ($key == "Categories")
-        {
+        } elseif ($key == "Categories") {
             $this->newCategorie = "";
             $this->champ = 'newCategorie';
             $this->submitFunction = "addNewCategorie";
-        }
-        elseif ($key == "Tarifs")
-        {
+        } elseif ($key == "Tarifs") {
             $this->newTarifs = "";
             $this->champ = 'newTarifs';
+            $this->submitFunction = "addNewTarif";
+        } elseif ($key == "Examens") {
+            $this->newExamen = "";
+            $this->champ = 'newExamen';
+            $this->submitFunction = "addNewExamen";
         }
-        elseif ($key == "Permissions")
-        {
-            $this->newPermissions = "";
-            $this->champ = 'newPermission';
-        }
-        
     }
 
     public function editModal($key, $id)
     {
         $this->edit = true;
         $this->champ = "";
+        $this->dataTarifs = ["level_id" => []];
         $this->resetErrorBag();
-        $this->titleModal = Str::lower("Edit ".$key);
+        $this->titleModal = Str::lower("Edit " . $key);
 
-        if ($key == "Niveaux")
-        {
+        if ($key == "Niveaux") {
             $this->editLevelId = Level::find($id);
-            $this->editLevel = Level::find($id)->libelle;
+            $this->editLevel = $this->editLevelId->libelle;
             $this->champ = 'editLevel';
             $this->submitFunction = "updateLevel";
         }
-        elseif ($key == "Categories")
-        {
+        if ($key == "Categories") {
             $this->editCategorieId = Categorie::find($id);
-            $this->editCategorie = Categorie::find($id)->libelle;
+            $this->editCategorie = $this->editCategorieId->libelle;
             $this->champ = 'editCategorie';
             $this->submitFunction = "updateCategorie";
-        }        
+        }
+        if ($key == "Tarifs") {
+            $this->editTarifId = Price::find($id);
+            $this->editTarif = $this->editTarifId->nom;
+            $this->champ = 'editTarif';
+            $this->dataTarifs = $this->editTarifId->toArray();
+            $this->submitFunction = "updateTarif";
+        }
+        if ($key == "Examens") {
+            $this->editExamenId = Examen::find($id);
+            $this->editExamen = $this->editExamenId->libelle;
+            $this->champ = 'editExamen';
+            $this->dataTarifs = $this->editExamenId->toArray();
+            $this->submitFunction = "updateExamen";
+        }
     }
 
     public function toogleEditLevel(Level $editLevel, $open = true)
@@ -121,7 +146,7 @@ class ParametreGenerale extends Component
 
         $this->newLevel = "";
     }
-    
+
     public function updateLevel()
     {
         $this->validate(['editLevel' => ['required']], messages: ['required' => 'Ce champ est obligatoire !']);
@@ -151,17 +176,29 @@ class ParametreGenerale extends Component
         if ($typeThinkDeleted == "Niveaux") {
             $this->levelDelete = Level::find($thinkDeleted);
             // dd($this->levelDelete);
-            $this->dispatch("AlertDeleteConfirmModal", ['message' => "êtes-vous sur de supprimer ".
-            $this->levelDelete->libelle." ! dans la liste des niveau ?", 'type' => 'warning', 'thinkDelete' => 'Level']);
+            $this->dispatch("AlertDeleteConfirmModal", ['message' => "êtes-vous sur de supprimer " .
+                $this->levelDelete->libelle . " ! dans la liste des niveau ?", 'type' => 'warning', 'thinkDelete' => 'Level']);
         }
         if ($typeThinkDeleted == "Categories") {
             $this->categorieDelete = Categorie::find($thinkDeleted);
             // dd($this->levelDelete);
-            $this->dispatch("AlertDeleteConfirmModal", ['message' => "êtes-vous sur de supprimer ".$this->categorieDelete->libelle." ! dans la liste des catégorie ?", 'type' => 'warning', 'thinkDelete' => 'Categorie']);
+            $this->dispatch("AlertDeleteConfirmModal", ['message' => "êtes-vous sur de supprimer " . $this->categorieDelete->libelle . " ! dans la liste des catégorie ?", 'type' => 'warning', 'thinkDelete' => 'Categorie']);
         }
+        if ($typeThinkDeleted == "Tarifs") {
+            $this->tarifDelete = Price::find($thinkDeleted);
 
-        // Envoyé des notifications pour la confirmation de suppression
-        // $this->dispatch("AlertDeleteConfirmModal", ['message' => "êtes-vous sur de supprimer $LevelDeleted->nom ! dans la liste des niveau ?", 'type' => 'warning']);
+            if ($thinkDeleted == 1 || $thinkDeleted == 2 || $thinkDeleted == 3) {
+                $this->dispatch("showModalSimpleMsg", ['message' => "Vous ne pouvez pas supprimer cette tarification !", 'type' => 'error']);
+            } else {
+                // dd($this->tarifDelete);
+                $this->dispatch("AlertDeleteConfirmModal", ['message' => "êtes-vous sur de supprimer " . $this->tarifDelete->nom . " ! dans la liste des tarification ?", 'type' => 'warning', 'thinkDelete' => 'Tarifs']);
+            }
+        }
+        if ($typeThinkDeleted == "Examens") { 
+            $this->examenDelete = Examen::find($thinkDeleted);
+            // dd($this->levelDelete);
+            $this->dispatch("AlertDeleteConfirmModal", ['message' => "êtes-vous sur de supprimer " . $this->examenDelete->libelle . " ! dans la liste des examens ?", 'type' => 'warning', 'thinkDelete' => 'Examens']);
+        }
     }
     public function deleteLevel()
     {
@@ -204,13 +241,135 @@ class ParametreGenerale extends Component
         $this->dispatch("ShowSuccessMsg", ['message' => 'Catégorie supprimer avec success!', 'type' => 'success']);
     }
 
+    // section tarifs
+    public function addNewTarif()
+    {
+        $this->validate(
+            [
+                'newTarifs' => ['required'],
+                'dataTarifs.montant' => ['required'],
+            ],
+            messages: ['required' => 'Ce champ est obligatoire !']
+        );
+        $this->dataTarifs['montant'] = str_replace(',', '.', $this->dataTarifs['montant']);
+        $this->dataTarifs['nom'] = $this->newTarifs;
+
+        $newTarification = Price::create($this->dataTarifs);
+
+        foreach ($this->dataTarifs['level_id'] as $level) {
+            $newTarification->levels()->attach($level);
+        }
+
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Creation de tarif avec success!', 'type' => 'success']);
+
+        $this->newTarifs = "";
+        $this->dataTarifs = ["level_id" => []];
+    }
+
+    public function updateTarif()
+    {
+        $this->validate(
+            [
+                'editTarif' => ['required'],
+                'dataTarifs.montant' => ['required'],
+            ],
+            messages: ['required' => 'Ce champ est obligatoire !']
+        );
+
+        $this->dataTarifs['montant'] = str_replace(',', '.', $this->dataTarifs['montant']);
+        $this->dataTarifs['nom'] = $this->editTarif;
+        $this->dataTarifs['level_id'] = $this->editTarifId->levels;
+
+        // supprimer les tarif relier enregistre
+        DB::table("price_levels")->where("price_id", $this->editTarifId->id)->delete();
+
+        $this->editTarifId->update($this->dataTarifs);
+
+        foreach ($this->dataTarifs['level_id'] as $level) {
+            $this->editTarifId->levels()->attach($level);
+        }
+
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Modification avec success!', 'type' => 'success']);
+
+        $this->dataTarifs = ["level_id" => []];
+    }
+
+    public function deleteTarif()
+    {
+        $this->tarifDelete->delete();
+
+        // Envoyé des notifications que toute est effectué avec success
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Tarif supprimer avec success!', 'type' => 'success']);
+    }
+
+    // section examen
+    public function addNewExamen()
+    {
+        $this->validate(
+            [
+                'newExamen' => ['required'],
+                'dataExamens.price_id' => ['required'],
+            ],
+            messages: ['required' => 'Ce champ est obligatoire !']
+        );
+        Examen::create(["libelle" => $this->newExamen, "price_id" => $this->dataExamens['price_id']]);
+
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Creation de examen avec success!', 'type' => 'success']);
+
+        $this->newExamen = "";
+        $this->dataExamens = ["price_id" => ""];
+    }
+
+    public function updateExamen()
+    {
+        $this->validate(
+            [
+                'editExamen' => ['required'],
+                'dataExamens.price_id' => ['required'],
+            ],
+            messages: ['required' => 'Ce champ est obligatoire !']
+        );
+        $this->editExamenId->update(["libelle" => $this->editExamen, "price_id" => $this->dataExamens['price_id']]);
+
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Modification avec success!', 'type' => 'success']);
+
+        $this->dataExamens = ["price_id" => ""];
+    }
+
+    public function deleteExamen()
+    {
+        $this->examenDelete->delete();
+
+        // Envoyé des notifications que toute est effectué avec success
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Examen supprimer avec success!', 'type' => 'success']);
+
+    }
+
+    // function sortField
+    public function setOrderField(string $name)
+    {
+
+        if ($name === $this->orderField || $name === $this->orderFieldLibelle) {
+            $this->orderDirection = $this->orderDirection === 'ASC' ? 'DESC' : 'ASC';
+        } else {
+            $this->orderField = $name;
+            $this->orderFieldLibelle = $name;
+            $this->reset('orderDirection');
+        }
+    }
+
     public function render()
     {
         $data = [
-            "Niveaux" => Level::where("libelle", "LIKE", "%{$this->searchNiveaux}%")->paginate(5),
-            "Categories" => Categorie::where('libelle', 'LIKE', "%{$this->searchCategories}%")->paginate(5),
-            "Tarifs" => Price::where('nom', 'LIKE', "%{$this->searchTarifs}%")->paginate(5),
-            "Permissions" => Permission::where('nom', 'LIKE', "%{$this->searchPermissions}%")->paginate(5),
+            "Niveaux" => Level::where("libelle", "LIKE", "%{$this->searchNiveaux}%")
+                ->paginate(5),
+            "Categories" => Categorie::where('libelle', 'LIKE', "%{$this->searchCategories}%")
+                ->paginate(5),
+            "Tarifs" => Price::where('nom', 'LIKE', "%{$this->searchTarifs}%")
+                ->orderBy($this->orderField, $this->orderDirection)
+                ->paginate(5),
+            "Examens" => Examen::where('libelle', 'LIKE', "%{$this->searchExamens}%")
+                ->paginate(5),
         ];
         $datas = [
             "allData" => $data,

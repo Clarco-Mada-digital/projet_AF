@@ -6,18 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Price extends Model
+class Examen extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = 
-    [
-        'nom',
-        'montant',
+    protected $fillable = [
+        'libelle',
+        'price_id',
     ];
 
-    public function levels()
+    public function price()
     {
-        return $this->belongsToMany(Level::class, "price_levels", 'price_id', 'level_id');
+        return $this->belongsTo(Price::class);
     }
 }

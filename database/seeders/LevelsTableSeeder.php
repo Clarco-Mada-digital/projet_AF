@@ -14,9 +14,12 @@ class LevelsTableSeeder extends Seeder
     {
         DB::table('levels')->insert([
             ["libelle"=>'À définir'],
-            ["libelle"=>'Debutant'],
-            ["libelle"=>'Intermédiaire'],
-            ["libelle"=>'Avancé'],
+            ["libelle"=>'A1'],
+            ["libelle"=>'A2'],
+            ["libelle"=>'B1'],
+            ["libelle"=>'B2'],
+            ["libelle"=>'C1'],
+            ["libelle"=>'C2'],
         ]);
     }
 }

@@ -2,15 +2,18 @@
 
 namespace App\Livewire;
 
+use App\Models\Categorie;
 use App\Models\Cour;
 use Livewire\Component;
 use App\Models\Etudiant;
+use App\Models\Examen;
 use App\Models\Inscription;
 use App\Models\Level;
 use App\Models\Paiement;
 use App\Models\Session;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Livewire\WithFileUploads;
 
@@ -24,7 +27,8 @@ class NewEtudiant extends Component
     public int $bsSteepActive = 1;
     public $listSession;
     public $levels;
-    public $nscList = ["cours" => [], "level" => []];
+    public $categories;
+    public $nscList = ["cours" => [], "level" => [], "examens" => []];
     public $now;
     public $etudiantSession;
     public $sessionSelected;
@@ -39,7 +43,7 @@ class NewEtudiant extends Component
     {
         $this->statue = $nomStatue;
     }
-    
+
     public function defineMoyenPai($nomMoyenPai)
     {
         $this->moyenPaiement = $nomMoyenPai;
@@ -50,6 +54,7 @@ class NewEtudiant extends Component
         $this->now = Carbon::now();
         $this->listSession = Session::all();
         $this->levels = Level::all();
+        $this->categories = Categorie::all();
         foreach (Cour::all() as $cour) {
             array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
         };
@@ -64,20 +69,14 @@ class NewEtudiant extends Component
     public function bsSteepPrevNext($crèment)
     {
         if ($crèment == 'next') {
-            if ($this->bsSteepActive == 1) 
-            {
-                $this->validate();
+            if ($this->bsSteepActive == 1) {
+                // $this->validate();
                 $this->bsSteepActive += 1;
-            }
-            elseif ($this->bsSteepActive == 3)
-            {
+            } elseif ($this->bsSteepActive == 3) {
                 $this->submitNewEtudiant();
-            }
-            elseif ($this->bsSteepActive == 4)
-            {
+            } elseif ($this->bsSteepActive == 4) {
                 return redirect(route('etudiants-list'));
-            }
-            else {
+            } else {
                 // dd($this->newEtudiant);
                 $this->bsSteepActive += 1;
             }
@@ -102,6 +101,7 @@ class NewEtudiant extends Component
             'newEtudiant.telephone2' => [''],
             'newEtudiant.adresse' => ['required'],
             'newEtudiant.numCarte' => [Rule::unique('etudiants', 'numCarte')],
+            'newEtudiant.categories' => ['required'],
             'newEtudiant.user_id' => ['integer'],
             'newEtudiant.level_id' => ['integer'],
             'newEtudiant.session_id' => ['integer'],
@@ -114,37 +114,54 @@ class NewEtudiant extends Component
     // Function pour afficher les cours disponible dans la session sélectionnée
     public function updateCoursList()
     {
-        if ($this->etudiantSession != null) {
+        if ($this->etudiantSession != null && $this->etudiantSession != 'null') {
             $this->nscList['cours'] = [];
+            $this->nscList['examens'] = [];
             $this->sessionSelected = Session::find($this->etudiantSession);
             $cours = Session::find($this->etudiantSession)->cours;
-            
-            if ($this->newEtudiant['level_id'] != null && $cours != null) {
-                foreach ($cours as $cour) {
-                    foreach($cour->level as $level) {
-                        if ($level->id == $this->newEtudiant['level_id']) {
-                            array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
-                        }
-                    }
-                    // if ($this->newEtudiant['level_id'] in $cour->level_id) {
-                    //     array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
-                    //     // dd($this->nscList['cours']);
-                    // }
-                }
 
-                // $cours = $cour[0]->level_id == $this->newEtudiant['level_id'];
-                // dd($cours);
-                // dd($cours[0]->level_id);
-                // dd($this->newEtudiant['level_id']);
+            // if ($this->newEtudiant['level_id'] != null && $cours != null) {
+            //     foreach ($cours as $cour) {
+            //         foreach($cour->level as $level) {
+            //             if ($level->id == $this->newEtudiant['level_id']) {
+            //                 array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
+            //             }
+            //         }
+            // if ($this->newEtudiant['level_id'] in $cour->level_id) {
+            //     array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
+            //     // dd($this->nscList['cours']);
+            // }
+            // }
 
-            } else {
-                foreach ($cours as $cour) {
-                    array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
-                }
+            // $cours = $cour[0]->level_id == $this->newEtudiant['level_id'];
+            // dd($cours);
+            // dd($cours[0]->level_id);
+            // dd($this->newEtudiant['level_id']);
+
+            // } else {
+            foreach ($cours as $cour) {
+                array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
             }
+            foreach (Examen::all() as $examen) {
+                array_push($this->nscList['examens'], ['examen_id' => $examen->id, 'examen_libelle' => $examen->libelle, 'active' => false]);
+            }
+            // }
         }
 
         // Définir le montant d'inscription
+        if  ($this->newEtudiant['categories'] == '1') 
+        {
+            $montantAdhesion = DB::table('Prices')->where('id', 1)->value('montant');
+        }
+        if  ($this->newEtudiant['categories'] == '2')
+        {
+            $montantAdhesion = DB::table('Prices')->where('id', 2)->value('montant');
+        }
+        if  ($this->newEtudiant['categories'] == '3')
+        {
+            $montantAdhesion = DB::table('Prices')->where('id', 3)->value('montant');
+        }
+        
         if ($this->sessionSelected != null) {
             if ($this->sessionSelected->montantPromo != null && $this->sessionSelected->dateFinPromo > $this->now) {
                 $this->montantInscription = $this->sessionSelected->montantPromo;
@@ -152,7 +169,7 @@ class NewEtudiant extends Component
                 $this->montantInscription = $this->sessionSelected->montant;
             }
 
-            $this->noMember ? $this->montantInscription = ($this->montantInscription + 10000) : "";
+            $this->noMember ? $this->montantInscription = ($this->montantInscription + $montantAdhesion) : "";
         }
     }
 
@@ -179,9 +196,9 @@ class NewEtudiant extends Component
                 $newEtud->cours()->attach($cour['cour_id']);
             }
         }
-        
+
         $montant = $this->sessionSelected->montant;
-        
+
 
         // Pour la base donné de paiement
         $paiementData = [
@@ -189,7 +206,7 @@ class NewEtudiant extends Component
             'statue' => $this->statue,
             'motif' => "Inscription du " . $this->newEtudiant['nom'],
             'moyenPaiement' => $this->moyenPaiement,
-            'type' => 'Inscription a un '. $this->typeInscription,
+            'type' => 'Inscription a un ' . $this->typeInscription,
             'numRecue' => "AFPN°" . random_int(50, 9000),
             'user_id' => Auth::user()->id
         ];

@@ -10,7 +10,8 @@ class Cour extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = [
+    protected $fillable = 
+    [
         'code',
         'libelle',
         'categorie',
