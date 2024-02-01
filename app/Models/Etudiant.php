@@ -9,7 +9,7 @@ class Etudiant extends Model
 {
     use HasFactory;
 
-    protected $fillable = 
+    protected $fillable =
     [
         'numCarte',
         'profil',
@@ -29,20 +29,28 @@ class Etudiant extends Model
         'session_id',
     ];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function cours(){
-        return $this->belongsToMany(Cour::class,"etudiant_cours", 'etudiant_id', 'cour_id');
+    public function cours()
+    {
+        return $this->belongsToMany(Cour::class, "etudiant_cours", 'etudiant_id', 'cour_id');
     }
 
-    public function level(){
+    public function examens()
+    {
+        return $this->belongsToMany(Examen::class, "etudiant_examens", 'etudiant_id', 'examen_id');
+    }
+
+    public function level()
+    {
         return $this->belongsTo(Level::class);
     }
 
-    public function session(){
+    public function session()
+    {
         return $this->belongsTo(Session::class);
     }
-
 }

@@ -207,7 +207,9 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantNiveau">Catégorie</label>
-                                            <select class="custom-select" spellcheck="false" id="etudiantNiveau"
+                                            <select
+                                                class="custom-select  @error('newEtudiant.categories') is-invalid @enderror"
+                                                spellcheck="false" id="etudiantNiveau"
                                                 wire:model='newEtudiant.categories'>
                                                 <option> --- --- </option>
                                                 @forelse ($categories as $categorie)
@@ -216,6 +218,9 @@
                                                 <option> Donné non trouvé </option>
                                                 @endforelse
                                             </select>
+                                            @error('newEtudiant.categories')
+                                            <span class="invalid-feedback"> Ce champ est obligatoire | unique</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -271,12 +276,12 @@
                                             </label>
                                             <label class="btn bg-info">
                                                 <input type="radio" name="options" id="option_b2" autocomplete="off"
-                                                    spellcheck="false" value="examen" wire:model.live='typeInscription'>
+                                                    spellcheck="false" value="examen" wire:model.live='typeInscription' wire:click.live="updateCoursList">
                                                 Examen
                                             </label>
                                         </div>
                                     </div>
-                                    @if ($typeInscription == 'cour')
+                                    
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="Sessions">Session</label>
@@ -306,7 +311,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                    @endif
 
                                     <div class="col-md-12 card card-info">
                                         <div class="card-header">
@@ -334,11 +338,12 @@
                                             <div class="form-group col-md-3">
                                                 <div class="custom-control custom-checkbox">
                                                     <input class="custom-control-input" type="checkbox"
-                                                        id="examen{{ $examen['examen_id'] }}" @if ($examen['active']) checked
+                                                        id="examen{{ $examen['id'] }}" @if ($examen['active']) checked
                                                         @endif
-                                                        wire:model.lazy="nscList.examens.{{ $loop->index }}.active">
-                                                    <label for="examen{{ $examen['examen_id'] }}"
-                                                        class="custom-control-label">{{ $examen['examen_labelle'] }}</label>
+                                                        wire:model.lazy="nscList.examens.{{ $loop->index }}.active"
+                                                        wire:click.live="updateCoursList">
+                                                    <label for="examen{{ $examen['id'] }}"
+                                                        class="custom-control-label">{{ $examen['libelle'] }}</label>
                                                 </div>
                                             </div>
                                             @empty
@@ -358,10 +363,8 @@
                                         <span class="info-box-icon"><i class="fas fa-tag"></i></span>
                                         <div class="info-box-content">
                                             <span class="info-box-text">Montant total</span>
-                                            @if ($etudiantSession != null)
                                             <span class="info-box-number" style="font-size: 1.5rem;">
                                                 {{ $montantInscription }} Ar</span>
-                                            @endif
                                         </div>
 
                                     </div>

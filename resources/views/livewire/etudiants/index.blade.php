@@ -35,7 +35,7 @@
                                     <th wire:click="setOrderField('nom')">Nom</th>
                                     <th wire:click="setOrderField('prenom')">Prénom</th>
                                     <th class="text-center" >Téléphone</th>
-                                    <th class="text-center" >Cour choisi</th>
+                                    <th class="text-center" >Cour | Examen</th>
                                     <th class="text-center" >Statue</th>
                                     <th class="text-center" >Action</th>
                                 </tr>
@@ -61,7 +61,7 @@
                                         <td>{{ $etudiant->nom }}</td>
                                         <td>{{ $etudiant->prenom }}</td>
                                         <td class="text-center">{{ $etudiant->telephone1 }}</td>
-                                        <td class="text-center"> {{ $etudiant->cours->implode('libelle', ' | ') }} - ({{ $etudiant->session->nom }}) </td>
+                                        <td class="text-center"> {{ $etudiant->cours->implode('libelle', ' | ') }} {{ $etudiant->examens->implode('libelle', ' | ') }} - ({{ $etudiant->session->nom }})  </td>
                                         <td class="text-center @if ($etudiant->level->id == 1) text-danger @else text-success @endif"> {{ $etudiant->level->libelle }} </td>
                                         <td class="text-center">
                                             <button class="btn btn-link" data-toggle="modal"
