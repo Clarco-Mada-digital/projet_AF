@@ -62,7 +62,7 @@ Route::group([
 Route::group([
     'prefix' => 'paiements',
     'as' => 'paiements-',
-    'middleware' => ['role:Manager|Super-Admin|Admin']
+    'middleware' => ['role:Manager|Admin|Super-Admin']
 ], function () {
     Route::match(['get', 'post'], '/', Paiements::class)->name('paiement');
 });

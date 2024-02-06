@@ -11,7 +11,7 @@
                           alt="Etudiant profile picture">
                   </div>
                   <h3 class="profile-username text-center text-white">{{   $showUser?->sexe == 'F' ? 'Mme/Mlle' : 'Mr' }} {{   $showUser?->nom }} {{   $showUser?->prenom }}</h3>
-                  <p class="text-center text-white"> {{ Auth::user()->role->nom}} </p>
+                  <p class="text-center text-white"> {{ Auth::user()->roles->implode('name', ' | ')}} </p>
                   
                   <ul class="list-group list-group-unbordered mb-3 text-white">
                       <li class="list-group-item bg-transparent">

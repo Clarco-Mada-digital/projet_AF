@@ -91,7 +91,7 @@
             </ul>
         </li>
 
-        @hasanyrole('Manager|Super-Admin')
+        @hasanyrole('Manager|Super-Admin|Admin')
         <li @class(['nav-item','menu-open'=> Str::contains(request()->route()->getName(),'paiment'),])>
             <a href="{{route('paiements-paiement')}}" @class(['nav-link d-flex align-items-center','active'=>
                 Str::contains(request()->route()->getName(),'paiements')])>
