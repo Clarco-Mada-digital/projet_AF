@@ -60,7 +60,7 @@
                                         <td class="text-center">{{ $user->nationalite }}</td>
                                         <td class="text-center">{{ $user->telephone1 }}</td>
                                         <td class="text-center"> {{ $user->email }} </td>
-                                        <td class="text-center"> {{ $user->role->nom }} </td>
+                                        <td class="text-center"> {{ $user->roles->implode('name', ' | ') }} </td>
                                         <td class="text-center">
                                             <button class="btn btn-link"><i class="fa fa-eye" data-toggle="modal"
                                                     data-target="#view-professeur{{ $user->id }}"

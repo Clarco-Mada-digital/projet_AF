@@ -24,20 +24,14 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define("admin", function(User $user){
-            return $user->hasRole("Admin");
+        // Implicitly grant "Super-Admin" role all permission checks using can()
+        Gate::before(function ($user, $ability) {
+            if ($user->hasRole('Super-Admin')) {
+                return true;
+            }
         });
-
-        Gate::define("manager", function(User $user){
-            return $user->hasRole("Manager");
-        });
-
-        Gate::define("superAdmin", function(User $user){
-            return $user->hasRole("SuperAdmin");
-        });
-
-        Gate::after(function(User $user){
-            return $user->hasRole("SuperAdmin");
-        });
+        // Gate::after(function ($user, $ability) {
+        //     return $user->hasRole('Super Admin'); // note this returns boolean
+        //  });
     }
 }

@@ -25,7 +25,7 @@
                           alt="Etudiant profile picture">
                   </div>
                   <h3 class="profile-username text-center">{{ $user->sexe == 'F' ? 'Mme/Mlle' : 'Mr' }} {{ $user->nom }} {{ $user->prenom }}</h3>
-                  <p class="text-center text-muted"> {{$user->role->nom}} </p>
+                  <p class="text-center text-muted"> {{$user->roles->implode('name', ' | ')}} </p>
                   
                   <ul class="list-group list-group-unbordered mb-3">
                       {{-- <li class="list-group-item">
@@ -61,9 +61,18 @@
               <h3 class="card-title"> <i class="fas fa-fingerprint"></i> Permissions</h3>
           </div>
 
-          <div class="card-body">              
+          <div class="card-body" style="max-height: 375px; overflow-y: scroll;"> 
+            {{-- La liste des permissions --}}
               <strong><i class="fas fa-fingerprint mr-1"></i> Permissions</strong>
+              <ul class="my-2">
+                @foreach (($user->permissions->pluck('name')) as $item)
+                <li class="text-muted"> {{ Str::title($item) }} </li>                  
+                @endforeach
+              </ul>
+              
+              {{-- @isset ($user->roles)
               <p class="text-muted">Aucun permission trouvé !</p>
+              @endisset --}}
           </div>
 
       </div>

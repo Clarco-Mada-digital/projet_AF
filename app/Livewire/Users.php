@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Role;
+use App\Models\Permission;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Validation\Rule;
@@ -19,7 +20,7 @@ class Users extends Component
     use WithFileUploads;
 
     protected $paginationTheme = "bootstrap";
-    
+
     public $search;
     public $orderField = 'nom';
     public $orderDirection = 'ASC';
@@ -27,22 +28,22 @@ class Users extends Component
     public $editUser = [];
     public $newUser = [];
     public $roles = [];
-    public $rolePermissionList = ['roles'=> []];
-    public $permission=false;
+    public $rolePermissionList = ['roles' => [], 'permissions' => []];
+    public $permission = false;
+    public $allSelectePermissions = false;
     public $photo;
 
     public $userDelete;
 
-    public $listeners = ['deleteConfirmed' => 'deleteUser'];
+    public $listeners = ['deleteConfirmedUser' => 'deleteUser'];
 
     protected $queryString = [
-        'search' ,
+        'search',
     ];
 
     public function rules()
     {
-        if ($this->sectionName == 'edit')
-        {
+        if ($this->sectionName == 'edit') {
             $rule = [
                 'photo' => ['image', 'max:1024'],
                 'editUser.nom' => ['required'],
@@ -53,12 +54,9 @@ class Users extends Component
                 'editUser.telephone1' => ['required'],
                 'editUser.telephone2' => [''],
                 'editUser.adresse' => ['string'],
-                'editUser.role_id' => ['']
-    
-            ];           
+            ];
         }
-        if ($this->sectionName == 'new')
-        {
+        if ($this->sectionName == 'new') {
             $rule = [
                 'photo' => ['image', 'max:1024'],
                 'newUser.nom' => ['required'],
@@ -69,8 +67,6 @@ class Users extends Component
                 'newUser.telephone1' => ['required'],
                 'newUser.telephone2' => [''],
                 'newUser.adresse' => ['string'],
-                'newUser.role_id' => ['']
-    
             ];
         }
         return $rule;
@@ -78,44 +74,72 @@ class Users extends Component
 
     public function toogleSectionName($name, $idUser = null)
     {
-        if ($name == 'list') 
-        {
+        $this->rolePermissionList = ['roles'=> [], 'permissions' => []];
+        $this->newUser = [];
+
+        if ($name == 'list') {
             // $this->nscList = ["cours" => [], "level" => []];
             $this->editUser = [];
             $this->photo = "";
-            $this->rolePermissionList = ['roles'=> []];
+            $this->rolePermissionList = ['roles' => [], 'permissions' => []];
             $this->sectionName = 'list';
         }
-        if ($name == 'edit') 
-        {
+        if ($name == 'edit') {
+            $this->rolePermissionList['permissions'] = [];
             $this->photo = "";
             $this->sectionName = 'edit';
             $this->initDataUser($idUser);
         }
-        if ($name == 'new')
-        {
+        if ($name == 'new') {
+            foreach (Permission::all() as $permission) {
+                array_push($this->rolePermissionList['permissions'], ['id' => $permission->id, 'nom' => $permission->name, 'active' => false]);
+            }
             $this->photo = "";
             $this->sectionName = 'new';
             $this->roles = Role::all();
-            
+        }
+    }
+
+    public function selectAllPermission()
+    {
+        // foreach($this->rolePermissionList['permissions'] as $permission)
+        // {
+        //     $this->allSelectePermissions ? $permission['active'] = true : $permission['active'] = false;
+        // }
+        for ($i=0; $i < count($this->rolePermissionList['permissions']); $i++) { 
+            $this->allSelectePermissions ? $this->rolePermissionList['permissions'][$i]['active'] = true : $this->rolePermissionList['permissions'][$i]['active'] = false;
         }
     }
 
     public function initDataUser($user)
     {
-       $this->editUser = User::find($user)->toArray();
-       $userRoleId = $this->editUser['role_id'];
-       foreach(Role::all() as $role)
-       {
-            if ($role->id == $userRoleId)
-            {
-                array_push($this->rolePermissionList['roles'], ['id'=>$role->id, 'nom'=>$role->nom, 'active'=>true]);
+        $this->rolePermissionList = ['roles' => [], 'permissions' => []];
+        $this->editUser = User::find($user)->toArray();
+        $userRoleId = User::find($user)->roles;
+        $userPermissionId = User::find($user)->permissions->toArray();
+        $arrayUserPermId = [];
+        foreach ($userPermissionId as $permissionId) {
+            array_push($arrayUserPermId, $permissionId['id']);
+        }
+
+        //  Pour les Roles
+        foreach (Role::all() as $role) {
+            foreach ($userRoleId as $roleId) {
+                if ($role->id == $roleId->id) {
+                    array_push($this->rolePermissionList['roles'], ['id' => $role->id, 'nom' => $role->name, 'active' => true]);
+                } else {
+                    array_push($this->rolePermissionList['roles'], ['id' => $role->id, 'nom' => $role->name, 'active' => false]);
+                }
             }
-            else
-            {
-                array_push($this->rolePermissionList['roles'], ['id'=>$role->id, 'nom'=>$role->nom, 'active'=>false]);
+        }
+        
+        foreach (Permission::all() as $permission) {
+            if (in_array($permission->id, $arrayUserPermId)) {
+                array_push($this->rolePermissionList['permissions'], ['id' => $permission->id, 'nom' => $permission->name, 'active' => true]);
+            } else {
+                array_push($this->rolePermissionList['permissions'], ['id' => $permission->id, 'nom' => $permission->name, 'active' => false]);
             }
-       }
+        }
     }
 
     public function addNewUser()
@@ -125,8 +149,23 @@ class Users extends Component
             $this->newUser['profil'] = $photoName;
         }
         $validateAtributes = $this->validate();
-        
-        User::create($validateAtributes['newUser']);
+
+        if($this->newUser['role_id'] == null)
+        {
+            $this->dispatch("ShowErrorMsg", ['message' => "Veuillez sélectionner un role pour l'utilisateur!", 'type' => 'error']);
+            return;
+        }
+
+        $user = User::create($validateAtributes['newUser']);
+
+        // Ajout le Role selection pour l'utilisateur crée.
+        $user->assignRole($this->newUser['role_id']);
+        // Ajout de permission au utilisateur crée.
+        foreach ($this->rolePermissionList['permissions'] as $permission) {
+            if ($permission['active']) {
+                $user->givePermissionTo($permission['nom']);
+            }
+        }
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Utilisateur enregistrer avec success!', 'type' => 'success']);
         $this->photo = '';
@@ -140,24 +179,32 @@ class Users extends Component
             $photoName = $this->photo->store('profil', 'public');
             $this->editUser['profil'] = $photoName;
         }
-        
+
         $newRoleUserId = [];
-        foreach ($this->rolePermissionList['roles'] as $role)
-        {
-            if ($role['active'])
-            {
+        foreach ($this->rolePermissionList['roles'] as $role) {
+            if ($role['active']) {
                 array_push($newRoleUserId, $role['id']);
             }
         }
-
-        if (count($newRoleUserId) > 1)
-        {
-            $this->dispatch("showModalSimpleMsg", ['message' => "Un utilisateur doit avoir qu'une seul rôle", 'type' => 'warning']);
-            return null;
-        }else{ $this->editUser['role_id'] = $newRoleUserId[0]; } 
+        $newPermissionUserId = [];
+        foreach ($this->rolePermissionList['permissions'] as $permission) {
+            if ($permission['active']) {
+                array_push($newPermissionUserId, $permission['id']);
+            }
+        }
 
         $this->validate();
-        // dd($this->editUser);
+
+        if (count($newRoleUserId) > 1) {
+            $this->dispatch("showModalSimpleMsg", ['message' => "Un utilisateur doit avoir qu'une seul rôle", 'type' => 'warning']);
+            return null;
+        } else {
+            // suppression de role et permission de l'utilisateur
+            $user = User::find($this->editUser['id']);
+            $user->syncRoles($newRoleUserId);
+            $user->syncPermissions($newPermissionUserId);
+        }
+
         User::find($this->editUser['id'])->update($this->editUser);
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Utilisateur modifier avec success!', 'type' => 'success']);
@@ -169,7 +216,7 @@ class Users extends Component
     public function deleteConfirmation(User $user)
     {
         $this->userDelete = $user->id;
-        $this->dispatch("AlerDeletetConfirmModal", ['message' => "êtes-vous sur de suprimer $user->nom $user->prenom ! dans la liste des utilisateurs ?", 'type' => 'warning']);
+        $this->dispatch("AlertDeleteConfirmModal", ['message' => "êtes-vous sur de suprimer $user->nom $user->prenom ! dans la liste des utilisateurs ?", 'type' => 'warning', 'thinkDelete' => 'User']);
         // $user->delete();
         // dd($user);
         // $this->dispatch("ShowSuccessMsg", ['message' => "L'utilisateur a été supprimé avec succès !", 'type' => 'success']);

@@ -135,48 +135,55 @@
                     @foreach ($roles as $role)
                         <div class="custom-control custom-checkbox mx-3">
                             <input class="custom-control-input" type="radio" name="userId"
-                                id="customCheckbox{{ $role->id }}" wire:model='newUser.role_id' value="{{$role->id}}" />
+                                id="customCheckbox{{ $role->id }}" wire:model='newUser.role_id' value="{{$role->name}}" />
                             <label for="customCheckbox{{ $role->id }}"
-                                class="custom-control-label">{{ $role->nom }}</label>
+                                class="custom-control-label">{{ $role->name }}</label>
                         </div>
                     @endforeach
                 </div>
             </div>
 
-            <div class="card card-primary card-outline mb-0" style="min-height: 250px;">
+            <div class="card card-primary card-outline mb-0" style="height: 250px;">
                 <div class="card-header">
-                    <h3 class="card-title"><i class="fa fa-user-circle mr-3"></i> Permissions</h3>
+                    <h3 class="card-title"><i class="fa fa-fingerprint mr-3"></i> Permissions</h3>
                     <div class="card-tools">
-                        <i class="fas fa-fingerprint"></i>
+                        <input class="custom-control-input custom-control-input-warning custom-control-input-outline" type="checkbox" id="allSelectPermissions" name="allSelectPermissions" wire:model.lazy="allSelectePermissions" wire:click.live="selectAllPermission" />
+                        <label for="allSelectPermissions" class="custom-control-label">Séléctioner toutes</label>
+                        <i class="fas fa-user-check"></i>
                     </div>
 
                 </div>
 
-                <div class="card-body p-0">
+                <div class="card-body p-0" style="overflow-y: scroll;">
                     <table class="table table-sm">
                         <thead>
                             <tr>
                                 <th style="width: 10px">#</th>
                                 <th>Permissions</th>
                                 <th>choix</th>
-                                <th style="width: 40px">status</th>
+                                <th class="text-center" style="width: 15%">status</th>
                             </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                              <td> 1. </td>
-                              <td>Permission d'ajout de cours</td>
-                              <td>
-                                  <div class="form-group">
-                                      <div
-                                          class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                          <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                                          <label class="custom-control-label" for="customSwitch1"></label>
-                                      </div>
-                                  </div>
-                              </td>
-                              <td><span class="badge bg-danger">Desactivé</span></td>
-                          </tr>       
+                            @foreach ($rolePermissionList['permissions'] as $permission)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td> {{ $permission['nom'] }} </td>
+                                <td>
+                                    <div class="form-group">
+                                        <div
+                                            class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch{{ $permission['id'] }}" wire:model.live='rolePermissionList.permissions.{{ $loop->index }}.active' />
+                                            <label class="custom-control-label" for="customSwitch{{ $permission['id'] }}"></label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <span class="badge {{$permission['active'] ? 'bg-success' : 'bg-danger'}} "> {{$permission['active'] ? 'Activé' : 'Desactivé'}} </span>
+                                </td>
+                            </tr> 
+                            @endforeach
+                                
                         </tbody>
                     </table>
                 </div>

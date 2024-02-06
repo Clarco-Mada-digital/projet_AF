@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Hash;
@@ -29,10 +28,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             
-            $table->foreignIdFor(Role::class)->constrained();
         });
-
-        Schema::enableForeignKeyConstraints();
 
     }
 
@@ -41,9 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role_id');
-        });
 
         Schema::dropIfExists('users');
     }

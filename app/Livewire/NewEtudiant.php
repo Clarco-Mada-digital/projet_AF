@@ -10,6 +10,7 @@ use App\Models\Examen;
 use App\Models\Inscription;
 use App\Models\Level;
 use App\Models\Paiement;
+use App\Models\Permission;
 use App\Models\Session;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -63,7 +64,7 @@ class NewEtudiant extends Component
 
         foreach (Examen::all() as $examen) {
             array_push($this->nscList['examens'], ['id' => $examen->id, 'libelle' => $examen->libelle, 'active' => false]);
-        }
+        }        
 
         if ($this->listSession->toArray() == null) {
             $this->dispatch("showModalSimpleMsg", ['message' => "Avant d'inscrire un étudiant, soyer sûr qu'il y a de la session active !", 'type' => 'warning']);

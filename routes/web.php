@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PdfController;
 use App\Livewire\Cours;
 use App\Livewire\Etudiants;
 use App\Livewire\NewCour;
@@ -41,7 +42,8 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::group([
     'middleware' => ['auth'],
     'prefix' => 'etudiants',
-    'as' => 'etudiants-'
+    'as' => 'etudiants-',
+    'middleware' => ['role:Manager|Super-Admin|Admin']
 ], function () {
     Route::match(['get', 'post'], '/list', Etudiants::class)->name('list');
     Route::match(['get', 'post'], '/nouveau', [App\Http\Controllers\EtudiantController::class, 'index'])->name('nouveau');
@@ -50,25 +52,26 @@ Route::group([
 Route::group([
     'middleware' =>['auth'],
     'prefix' => 'cours',
-    'as' => 'cours-'
+    'as' => 'cours-',
+    'middleware' => ['role:Manager|Super-Admin|Admin']
 ], function () {
     Route::match(['get', 'post'], '/list', Cours::class)->name('list');
     Route::match(['get', 'post'], '/nouveau', NewCour::class)->name('nouveau');
 });
 
 Route::group([
-    'middleware' =>['auth', 'auth.admin'],
     'prefix' => 'paiements',
-    'as' => 'paiements-'
+    'as' => 'paiements-',
+    'middleware' => ['role:Manager|Super-Admin|Admin']
 ], function () {
     Route::match(['get', 'post'], '/', Paiements::class)->name('paiement');
 });
 
 // Les section pour Administrateur
 Route::group([
-    'middleware' =>["auth", "auth.admin"],
     'prefix' => 'parametres',
-    'as' => 'parametres-'
+    'as' => 'parametres-',
+    'middleware' => ['role:Admin|Super-Admin']
 ], function () {
     Route::match(['get', 'post'], '/general', ParametreGenerale::class)->name('param-general');
     Route::match(['get', 'post'], '/session', Sessions::class)->name('session');
@@ -79,6 +82,8 @@ Route::group([
 
 // Route::get('/list-etudiant', [App\Http\Controllers\HomeController::class, 'listEtudiant'])->name('list-etudiant');
 
+
+Route::get('generate-pdf', [PdfController::class, 'generatePDF']);
 
 // Route test pour les datas
 
