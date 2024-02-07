@@ -85,18 +85,29 @@ class Users extends Component
             $this->sectionName = 'list';
         }
         if ($name == 'edit') {
-            $this->rolePermissionList['permissions'] = [];
-            $this->photo = "";
-            $this->sectionName = 'edit';
-            $this->initDataUser($idUser);
+            if (Auth()->user()->can('utilisateurs.crate'))
+            {
+                $this->rolePermissionList['permissions'] = [];
+                $this->photo = "";
+                $this->sectionName = 'edit';
+                $this->initDataUser($idUser);
+            }else{
+                $this->dispatch("showModalSimpleMsg", ['message' => "Vous ne disposez pas des autorisations nécessaires pour effectuer cette action. Si c'est un problème, veuillez en informer l'administrateur !", 'type' => 'warning']);
+            }   
         }
         if ($name == 'new') {
-            foreach (Permission::all() as $permission) {
-                array_push($this->rolePermissionList['permissions'], ['id' => $permission->id, 'nom' => $permission->name, 'active' => false]);
+            if (Auth()->user()->can('utilisateurs.crate'))
+            {
+                foreach (Permission::all() as $permission) {
+                    array_push($this->rolePermissionList['permissions'], ['id' => $permission->id, 'nom' => $permission->name, 'active' => false]);
+                    }
+                $this->photo = "";
+                $this->sectionName = 'new';
+                $this->roles = Role::all();
+            }else{
+                $this->dispatch("showModalSimpleMsg", ['message' => "Vous ne disposez pas des autorisations nécessaires pour effectuer cette action. Si c'est un problème, veuillez en informer l'administrateur !", 'type' => 'warning']);
             }
-            $this->photo = "";
-            $this->sectionName = 'new';
-            $this->roles = Role::all();
+            
         }
     }
 
@@ -152,7 +163,7 @@ class Users extends Component
 
         if($this->newUser['role_id'] == null)
         {
-            $this->dispatch("ShowErrorMsg", ['message' => "Veuillez sélectionner un role pour l'utilisateur!", 'type' => 'error']);
+            $this->dispatch("showModalSimpleMsg", ['message' => "Veuillez sélectionner un role pour l'utilisateur!", 'type' => 'error']);
             return;
         }
 

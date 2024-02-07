@@ -58,10 +58,10 @@
                                             <button class="btn btn-link" data-toggle="modal"
                                                 data-target="#view-cours{{ $cour->id }}" spellcheck="false">
                                                 <i class="fa fa-eye" style="color: #0DCAF0;"></i></button>
-                                            <button class="btn btn-link"
+                                            <button class="btn btn-link @cannot('cours.edit') disabled @endcannot"
                                                 wire:click="initEditCour('{{ $cour->id }}')"> <i class="fa fa-edit"
                                                     style="color: #FFC107;"></i></button>
-                                            <button class="btn btn-link bounce" wire:click='confirmeDeleteLevel({{ $cour->id }})'> <i class="fa fa-trash"
+                                            <button class="btn btn-link bounce @cannot('cours.delete') disabled @endcannot" wire:click='confirmeDeleteLevel({{ $cour->id }})'> <i class="fa fa-trash"
                                                     style="color: #DC3545;"></i></button>
                                         </td>
                                     </tr>

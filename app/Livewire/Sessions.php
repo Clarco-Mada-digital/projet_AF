@@ -99,8 +99,13 @@ class Sessions extends Component
 
     public function toogleFormSession()
     {
-        $this->initDataCours();
-        $this->formNewSession ? [$this->formNewSession = False, $this->showFormCours = False] : [$this->formNewSession = True, $this->formEditSession = false];
+        if(Auth()->user()->can('sessions.edit'))
+        {
+            $this->initDataCours();
+            $this->formNewSession ? [$this->formNewSession = False, $this->showFormCours = False] : [$this->formNewSession = True, $this->formEditSession = false];
+        }else{
+            $this->dispatch("showModalSimpleMsg", ['message' => "Vous ne disposez pas des autorisations nécessaires pour effectuer cette action. Si c'est un problème, veuillez en informer l'administrateur !", 'type' => 'warning']);
+        }
     }
     public function toogleFormCours()
     {

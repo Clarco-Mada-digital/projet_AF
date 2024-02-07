@@ -46,7 +46,7 @@ Route::group([
     'middleware' => ['role:Manager|Super-Admin|Admin']
 ], function () {
     Route::match(['get', 'post'], '/list', Etudiants::class)->name('list');
-    Route::match(['get', 'post'], '/nouveau', [App\Http\Controllers\EtudiantController::class, 'index'])->name('nouveau');
+    Route::match(['get', 'post'], '/nouveau', [App\Http\Controllers\EtudiantController::class, 'index'])->name('nouveau')->middleware('étudiants.create');
 });
 
 Route::group([
@@ -56,7 +56,7 @@ Route::group([
     'middleware' => ['role:Manager|Super-Admin|Admin']
 ], function () {
     Route::match(['get', 'post'], '/list', Cours::class)->name('list');
-    Route::match(['get', 'post'], '/nouveau', NewCour::class)->name('nouveau');
+    Route::match(['get', 'post'], '/nouveau', NewCour::class)->name('nouveau')->middleware('permission:cours.create');
 });
 
 Route::group([

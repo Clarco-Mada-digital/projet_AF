@@ -67,7 +67,7 @@
                                             <button class="btn btn-link" data-toggle="modal"
                                                 data-target="#view-etudiant{{ $etudiant->id }}" spellcheck="false"> <i
                                                     class="fa fa-eye" style="color: #0DCAF0;"></i></button>
-                                            <button class="btn btn-link"
+                                            <button class="btn btn-link @cannot('étudiants.edit') disabled @endcannot"
                                                 wire:click='initDataEtudiant({{ $etudiant->id }})' spellcheck="false">
                                                 <i class="fa fa-edit" style="color: #FFC107;"></i></button>
                                         </td>

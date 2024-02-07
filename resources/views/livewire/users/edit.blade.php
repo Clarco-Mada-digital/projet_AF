@@ -158,7 +158,7 @@
                             @foreach($rolePermissionList['permissions'] as $permission)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $permission['nom'] }} </td>
+                                <td> {{ Str::before($permission['nom'], '.*') }} </td>
                                 <td>
                                     <div class="form-group">
                                         <div

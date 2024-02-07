@@ -77,9 +77,15 @@ class Professeur extends Component
     {
         if ($nameSection == 'edit') 
         {
-            $this->photo = '';
-            $this->initDataProfesseur($idProfesseur);
-            $this->sectionName = $nameSection;
+            if(Auth()->user()->can('professeurs.edit'))
+            {
+                $this->photo = '';
+                $this->initDataProfesseur($idProfesseur);
+                $this->sectionName = $nameSection;
+            }else{
+                $this->dispatch("showModalSimpleMsg", ['message' => "Vous ne disposez pas des autorisations nécessaires pour effectuer cette action. Si c'est un problème, veuillez en informer l'administrateur !", 'type' => 'warning']);
+            }
+            
         }
         if ($nameSection == 'list') 
         {
@@ -90,10 +96,15 @@ class Professeur extends Component
         }
         if ($nameSection == 'new') 
         {
-            $this->newProfesseur == [];
-            $this->photo = '';
-            $this->editCoursList = ['cours' => []];
-            $this->sectionName = $nameSection;
+            if(Auth()->user()->can('professeurs.edit'))
+            {
+                $this->newProfesseur == [];
+                $this->photo = '';
+                $this->editCoursList = ['cours' => []];
+                $this->sectionName = $nameSection;
+            }else{
+                $this->dispatch("showModalSimpleMsg", ['message' => "Vous ne disposez pas des autorisations nécessaires pour effectuer cette action. Si c'est un problème, veuillez en informer l'administrateur !", 'type' => 'warning']);
+            }
         }
     }
 

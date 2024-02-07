@@ -13,7 +13,7 @@
                     <h3 class="card-title d-flex align-items-center"> <i class="fa fa-users fa-2x mr-2"></i> Liste des
                         sessions</h3>
                     <div class="card-tools d-flex align-items-center">
-                        <button class="btn btn-link text-light mr-4" wire:click='toogleFormSession'>
+                        <button class="btn btn-link text-light mr-4 @cannot('sessions.create') disabled @endcannot" wire:click='toogleFormSession'>
                             <i class="fa fa-user-plus"></i> Nouvelle session</button>
                         <div class="input-group input-group-md" style="width: 250px;">
                             <input type="search" name="table_search" class="form-control float-right"
@@ -196,10 +196,10 @@
                                 <td class="text-center">
                                     <button class="btn btn-link" title="Modifier la session">
                                         <i class="fa fa-eye"></i></button>
-                                    <button class="btn btn-link" wire:click="initUpdateSession({{ $session->id }})"
+                                    <button class="btn btn-link @cannot('sessions') disabled @endcannot" wire:click="initUpdateSession({{ $session->id }})"
                                         title="Modifier la session">
                                         <i class="fa fa-edit" style="color: #FFC107;"></i></button>
-                                    <button class="btn btn-link bounce" title="Supprimer la session"> <i
+                                    <button class="btn btn-link bounce @cannot('sessions') disabled @endcannot" title="Supprimer la session"> <i
                                             class="fa fa-trash" style="color: #DC3545;"></i></button>
                                 </td>
                             </tr>

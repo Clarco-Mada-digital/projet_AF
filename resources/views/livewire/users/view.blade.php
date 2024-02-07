@@ -66,7 +66,7 @@
               <strong><i class="fas fa-fingerprint mr-1"></i> Permissions</strong>
               <ul class="my-2">
                 @foreach (($user->permissions->pluck('name')) as $item)
-                <li class="text-muted"> {{ Str::title($item) }} </li>                  
+                <li class="text-muted"> {{ Str::before(Str::title($item), '.*') }} </li>                  
                 @endforeach
               </ul>
               

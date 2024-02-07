@@ -12,7 +12,7 @@
                         <h3 class="card-title d-flex align-items-center"> <i class="fa fa-users fa-2x mr-2"></i> Liste des
                             professeurs</h3>
                         <div class="card-tools d-flex align-items-center">
-                            <button class="btn btn-link text-light mr-4" wire:click="toogleSectionName('new')">
+                            <button class="btn btn-link text-light mr-4 @cannot('professeurs.create') disabled @endcannot" wire:click="toogleSectionName('new')">
                                 <i class="fa fa-user-plus"></i> Ajouter un nouveau professeur</button>
                             <div class="input-group input-group-md" style="width: 250px;">
                                 <input type="search" name="table_search" class="form-control float-right"
@@ -66,9 +66,11 @@
                                             <button class="btn btn-link"><i class="fa fa-eye" data-toggle="modal"
                                                     data-target="#view-professeur{{ $professeur->id }}"
                                                     spellcheck="false"></i></button>
-                                            <button class="btn btn-link"><i class="fa fa-edit" style="color: #FFC107;"
+                                            <button class="btn btn-link"><i class="fa fa-edit 
+                                                @cannot('professeurs.edit') disabled @endcannot" style="color: #FFC107;"
                                                     wire:click="toogleSectionName('edit', {{ $professeur->id }})"></i></button>
-                                            <button class="btn btn-link bounce" wire:click='confirmeDeleteProf({{$professeur->id}})'> <i class="fa fa-trash" style="color: #DC3545;"></i></button>
+                                            <button class="btn btn-link bounce 
+                                            @cannot('professeurs.delete') disabled @endcannot" wire:click='confirmeDeleteProf({{$professeur->id}})'> <i class="fa fa-trash" style="color: #DC3545;"></i></button>
                                         </td>
                                     </tr>
 
