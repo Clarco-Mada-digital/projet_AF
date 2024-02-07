@@ -46,7 +46,7 @@ Route::group([
     'middleware' => ['role:Manager|Super-Admin|Admin']
 ], function () {
     Route::match(['get', 'post'], '/list', Etudiants::class)->name('list');
-    Route::match(['get', 'post'], '/nouveau', [App\Http\Controllers\EtudiantController::class, 'index'])->name('nouveau')->middleware('étudiants.create');
+    Route::match(['get', 'post'], '/nouveau', [App\Http\Controllers\EtudiantController::class, 'index'])->name('nouveau')->middleware('permission:étudiants.create');
 });
 
 Route::group([
@@ -83,7 +83,7 @@ Route::group([
 // Route::get('/list-etudiant', [App\Http\Controllers\HomeController::class, 'listEtudiant'])->name('list-etudiant');
 
 
-Route::get('generate-pdf', [PdfController::class, 'generatePDF']);
+Route::get('/generate-pdf', [PdfController::class, 'generatePDF']);
 
 // Route test pour les datas
 

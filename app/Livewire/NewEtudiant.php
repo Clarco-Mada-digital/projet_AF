@@ -10,15 +10,13 @@ use App\Models\Examen;
 use App\Models\Inscription;
 use App\Models\Level;
 use App\Models\Paiement;
-use App\Models\Permission;
 use App\Models\Session;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Livewire\WithFileUploads;
-
-use function PHPSTORM_META\type;
 
 class NewEtudiant extends Component
 {
@@ -82,6 +80,8 @@ class NewEtudiant extends Component
                 return null;
             } elseif ($this->bsSteepActive == 3) {
                 $this->submitNewEtudiant();
+                $this->bsSteepActive += 1;
+                return null;
             } elseif ($this->bsSteepActive == 4) {
                 return redirect(route('etudiants-list'));
             } else {
@@ -233,6 +233,20 @@ class NewEtudiant extends Component
         $this->photo = '';
 
         $this->bsSteepActive += 1;
+    }
+
+    // Creation du pdf pour la reçu de paiement
+    public function generatePDF()
+    {
+        $datas = [
+            "etudiant" => Etudiant::find(1),
+            "auth" => auth()->user(),
+            "paiements" => Paiement::find(1),
+        ];
+
+        $pdf = Pdf::loadView('generate-pdf', $datas);
+        return $pdf->download('invoice.pdf');
+        // return view('/generate-pdf', $datas);
     }
 
     // Fonction render

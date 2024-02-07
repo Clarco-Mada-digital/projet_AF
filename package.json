@@ -27,6 +27,7 @@
             "clearfixr",
             "csrf",
             "endcan",
+            "endcannot",
             "enderror",
             "endforeach",
             "endforelse",

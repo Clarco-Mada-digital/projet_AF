@@ -435,7 +435,7 @@
                                                 après l'inscription.</label> --}}
                                             <button class="btn btn-info mr-3"> <i class="fa fa-print"></i> Imprimer
                                             </button>
-                                            <button class="btn btn-warning"> <i class="fa fa-download"></i> Télécharger
+                                            <button class="btn btn-warning" wire:click.prevent.='generatePDF'> <i class="fa fa-download"></i> Télécharger
                                             </button>
                                         </div>
                                     </div>

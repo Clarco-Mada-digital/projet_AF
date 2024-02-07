@@ -196,10 +196,10 @@
                                 <td class="text-center">
                                     <button class="btn btn-link" title="Modifier la session">
                                         <i class="fa fa-eye"></i></button>
-                                    <button class="btn btn-link @cannot('sessions') disabled @endcannot" wire:click="initUpdateSession({{ $session->id }})"
+                                    <button class="btn btn-link @cannot('sessions.edit') disabled @endcannot" wire:click="initUpdateSession({{ $session->id }})"
                                         title="Modifier la session">
                                         <i class="fa fa-edit" style="color: #FFC107;"></i></button>
-                                    <button class="btn btn-link bounce @cannot('sessions') disabled @endcannot" title="Supprimer la session"> <i
+                                    <button class="btn btn-link bounce @cannot('sessions.create') disabled @endcannot" title="Supprimer la session"> <i
                                             class="fa fa-trash" style="color: #DC3545;"></i></button>
                                 </td>
                             </tr>
