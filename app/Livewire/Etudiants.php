@@ -8,6 +8,7 @@ use App\Models\Inscription;
 use App\Models\Level;
 use App\Models\Session;
 use Carbon\Carbon;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -26,6 +27,7 @@ class Etudiants extends Component
     use WithFileUploads;
 
     public string $search = "";
+    public string $filteredBy = "";
     protected $paginationTheme = "bootstrap";
 
     public string $orderField = 'nom';
@@ -53,19 +55,17 @@ class Etudiants extends Component
     {
         $storage = Storage::disk('local');
 
-        foreach ($storage->allFiles("livewire-tmp") as $pathFileName)
-        {
-            if (! $storage->exists($pathFileName)) continue;
+        foreach ($storage->allFiles("livewire-tmp") as $pathFileName) {
+            if (!$storage->exists($pathFileName)) continue;
 
             $fiveSecondDel = now()->subSecond(10)->timestamp;
 
-            if ($fiveSecondDel > $storage->lastModified($pathFileName))
-            {
+            if ($fiveSecondDel > $storage->lastModified($pathFileName)) {
                 $storage->delete($pathFileName);
             }
         }
     }
-    
+
 
     protected function rules()
     {
@@ -93,25 +93,21 @@ class Etudiants extends Component
 
     public function toogleStateName($stateName)
     {
-        if ($stateName == 'view') 
-        {
+        if ($stateName == 'view') {
             $this->nscList = ["cours" => [], "level" => []];
             $this->state = 'view';
         }
-        if ($stateName == 'edit') 
-        {
+        if ($stateName == 'edit') {
             $this->state = 'edit';
             $this->populateNscList();
         }
-        if ($stateName == 'new')
-        {
+        if ($stateName == 'new') {
             // dd(Session::all());
-            if (Session::all()->toArray() == null)
-            {
+            if (Session::all()->toArray() == null) {
                 $this->dispatch("showModalSimpleMsg", ['message' => "Avant d'inscrire un étudiant, soyer sûr qu'il y a de la session active !", 'type' => 'warning']);
+            } else {
+                return redirect(route('etudiants-nouveau'));
             }
-            else{ return redirect(route('etudiants-nouveau')); }
-            
         }
     }
 
@@ -145,37 +141,11 @@ class Etudiants extends Component
         $this->etudiantSession = Inscription::where('etudiant_id', $this->editEtudiant['id'])->first()->sessions;
         $cours = $this->etudiantSession->toArray();
         // dd($cours);
-            // foreach ($cours as $cour) {
-            //     array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
-            // }
+        // foreach ($cours as $cour) {
+        //     array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
+        // }
         $this->toogleStateName('edit');
     }
-
-    // public function submitNewEtudiant()
-    // {
-    //     $this->newEtudiant['user_id'] = Auth::user()->id;
-    //     $this->newEtudiant['numCarte'] = "AF-" . random_int(100, 9000);
-    //     $photoName = $this->photo->store('photos', 'public');
-    //     $this->newEtudiant['profil'] = $photoName;
-
-    //     // $validateAtributes = $this->validate();
-
-    //     // Save etudiant
-    //     // Etudiant::create($validateAtributes['newEtudiant']);
-
-    //     // foreach ($this->nscList['cours'] as $cour) {
-    //     //     if ($cour['active']) {
-    //     //         Etudiant::find($this->newEtudiant['nom'])->cours()->attach($cour['cour_id']);
-    //     //     }
-    //     // }
-
-    //     // Save info d'inscription
-    //     dd($this->dataInscri);
-    //     Inscription::create();
-
-    //     $this->dispatch("ShowSuccessMsg", ['message' => 'Enregistrement avec success!', 'type' => 'success']);
-    //     $this->photo = '';
-    // }
 
     public function updateEtudiant($id)
     {
@@ -224,12 +194,16 @@ class Etudiants extends Component
 
         $this->allLevel = Level::all();
 
+        $etudiants = Etudiant::where(function (Builder $query) {
+            $query->where("nom", "LIKE", "%{$this->search}%")
+                ->orWhere("prenom", "LIKE", "%{$this->search}%")
+                ->orWhere("numCarte", "LIKE", "%{$this->search}%");
+            })
+            ->where([['level_id', 'LIKE', "%{$this->filteredBy}%"]])
+            ->paginate(5);
+
         $data = [
-            "etudiants" => Etudiant::where("prenom", "LIKE", "%{$this->search}%")
-                ->orWhere("nom", "LIKE", "%{$this->search}%")
-                ->orWhere("numCarte", "LIKE", "%{$this->search}%")
-                ->orderBy($this->orderField, $this->orderDirection)
-                ->paginate(5)
+            "etudiants" => $etudiants,
         ];
 
         return view('livewire.etudiants.index', $data);

@@ -83,7 +83,7 @@ Route::group([
 // Route::get('/list-etudiant', [App\Http\Controllers\HomeController::class, 'listEtudiant'])->name('list-etudiant');
 
 
-Route::get('/generate-pdf', [PdfController::class, 'generatePDF']);
+Route::get('/generate-pdf/{paiement}', [PdfController::class, 'generatePDF']);
 
 // Route test pour les datas
 
