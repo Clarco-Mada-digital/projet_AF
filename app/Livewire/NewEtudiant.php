@@ -34,6 +34,7 @@ class NewEtudiant extends Component
     public $etudiantSession;
     public $sessionSelected;
     public $moyenPaiement = 'Espèce';
+    public $paiement_id = 0;
     public $statue = 'Totalement';
     public float $montantInscription = 0;
     public string $typeInscription = "cour";
@@ -215,6 +216,7 @@ class NewEtudiant extends Component
             'user_id' => Auth::user()->id
         ];
         $paiement = Paiement::create($paiementData);
+        $this->paiement_id = $paiement->id;
 
         // Pour la base donné de inscription
         $inscriValue = [

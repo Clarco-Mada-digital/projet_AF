@@ -52,12 +52,12 @@
                                         data-target="#viewUser" spellcheck="false" wire:click='intiUserShow({{ $paiement->user->id }})'> {{ $paiement->user->nom }} {{ $paiement->user->prenom }} </a>
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-link bounce">
+                                        <a href="/generate-pdf/{{ $paiement->id }}" target="_blank" class="btn btn-link bounce">
                                             <i class="fa fa-download"></i>
-                                        </button>
-                                        <button class="btn btn-link">
+                                        </a>
+                                        <a href="/generate-pdf/{{ $paiement->id }}" target="_blank" class="btn btn-link">
                                             <i class="fa fa-print" ></i>
-                                        </button>
+                                        </a>
                                     </td>
                                 </tr>
                             @empty

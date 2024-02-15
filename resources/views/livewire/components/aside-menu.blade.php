@@ -163,8 +163,8 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         {{-- <ion-icon class="nav-icon" name="finger-print-outline"></ion-icon> --}}
-                        <i class="nav-icon fas fa-fingerprint"></i>
-                        <p>Permissions</p>
+                        <i class="nav-icon fa fa-calculator"></i>
+                        <p>Statistiques</p>
                     </a>
                 </li>
             </ul>

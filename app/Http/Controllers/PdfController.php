@@ -18,6 +18,7 @@ class PdfController extends Controller
         $etudiant = Etudiant::find($iscription->etudiant_id);
         $price = Price::find(2);
         
+        $nameDuFichier = 'Facture' . "_" . $etudiant->nom . "_". $etudiant->prenom . ".pdf";
        
         $data = [
             "etudiant" => $etudiant,
@@ -29,7 +30,7 @@ class PdfController extends Controller
         // dd($data);
 
         $pdf = Pdf::loadView('pages/generatePdf/generate-pdf', $data);
-        // return $pdf->download('Facture.pdf');
+        // return $pdf->download($nameDuFichier);
         return view('pages/generatePdf/generate-pdf', $data);
     }
 }

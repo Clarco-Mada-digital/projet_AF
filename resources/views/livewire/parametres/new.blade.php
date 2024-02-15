@@ -36,7 +36,7 @@
                   id="codeExamen" wire:model='dataExamens.price_id'>
                   <option> --- Tarification --- </option>
                   @foreach ($prices as $price)
-                  <option value="{{ $price['id'] }}">{{ $price['nom'] }}</option>
+                  <option value="{{ $price['id'] }}">{{ $price['nom'] }} - {{ $price->levels->implode("libelle", " | ")}}</option>
                   @endforeach
                 </select>
                 @endif

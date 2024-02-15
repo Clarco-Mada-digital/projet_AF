@@ -20,7 +20,7 @@
   <div class="container">
     <div class="header">
       <div class="logo w-75 text-center">
-        <img src="../../images/logo/alliance-francaise-d-antsiranana-logo.png" alt="logo AF" width="250px">
+        <img src="../../images/logo/alliance-francaise-d-antsiranana-logo.png" alt="logo AF" width="150px">
       </div>
       <div class="title-container w-100 row">
         <div class="col-md-6 bg-red" style="background: red"></div>
@@ -156,9 +156,10 @@
     var element = document.getElementById('element-to-print');
     var opt = {
       hMargin:       0.3,
-      filename:     'myfile.pdf',
+      filename:     "Facture.pdf",
       image:        { type: 'jpeg', quality: 0.98 },
-      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+      pagebreaks: { mode: ['css', 'legacy'], avoid: 'img' }
     };
     html2pdf(element, opt);
   </script>

@@ -433,10 +433,10 @@
                                                 type="checkbox" id="generetFactur">
                                             <label for="generetFactur" class="custom-control-label">Imprimer la facture
                                                 après l'inscription.</label> --}}
-                                            <button class="btn btn-info mr-3"> <i class="fa fa-print"></i> Imprimer
-                                            </button>
-                                            <button class="btn btn-warning" wire:click.prevent.='generatePDF'> <i class="fa fa-download"></i> Télécharger
-                                            </button>
+                                            <a href="/generate-pdf/{{ $paiement_id }}" target="_blank" class="btn btn-info mr-3"> <i class="fa fa-print"></i> Imprimer
+                                            </a>
+                                            <a href="/generate-pdf/{{ $paiement_id }}" target="_blank" class="btn btn-warning"> <i class="fa fa-download"></i> Télécharger
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
