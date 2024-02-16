@@ -120,7 +120,7 @@
                 @if ($paiements->type == "Inscription a un cour" || $paiements->type == "Reinscription a un cour")
                 <tr>
                   <th scope="row">1</th>
-                  <td>{{ $paiements->type }} ({{ $cours->libelle }})</td>
+                  <td>{{ $paiements->type }} @if ($cours != null) ({{ $cours->libelle }}) @endif</td>
                   <td class="text-end"> <span class="@if ($session->dateFinPromo > Carbon\Carbon::now()) text-decoration-line-through @endif">{{ $session->montant }} Ar</span> @if ($session->dateFinPromo > Carbon\Carbon::now()) {{ $session->montantPromo }} @endif</td>
                 </tr>
                 @endif
