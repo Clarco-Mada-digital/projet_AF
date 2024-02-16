@@ -133,13 +133,13 @@ class NewEtudiant extends Component
 
         // Définir le montant d'inscription
         if ($this->newEtudiant['categories'] == '1') {
-            $montantAdhesion = DB::table('Prices')->where('id', 1)->value('montant');
+            $montantAdhesion = DB::table('prices')->where('id', 1)->value('montant');
         }
         if ($this->newEtudiant['categories'] == '2') {
-            $montantAdhesion = DB::table('Prices')->where('id', 2)->value('montant');
+            $montantAdhesion = DB::table('prices')->where('id', 2)->value('montant');
         }
         if ($this->newEtudiant['categories'] == '3') {
-            $montantAdhesion = DB::table('Prices')->where('id', 3)->value('montant');
+            $montantAdhesion = DB::table('prices')->where('id', 3)->value('montant');
         }
 
         // pour inscription au cours
