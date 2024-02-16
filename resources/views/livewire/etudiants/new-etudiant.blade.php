@@ -210,7 +210,7 @@
                                             <select
                                                 class="custom-select  @error('newEtudiant.categories') is-invalid @enderror"
                                                 spellcheck="false" id="etudiantNiveau"
-                                                wire:model='newEtudiant.categories'>
+                                                wire:model='newEtudiant.categorie_id'>
                                                 <option> --- --- </option>
                                                 @forelse ($categories as $categorie)
                                                 <option value="{{ $categorie->id }}"> {{ $categorie->libelle }}</option>
@@ -441,7 +441,7 @@
                                     </div>
                                 </div>
                                 {{-- <a class="btn btn-primary" wire:click="bsSteepPrevNext('prev')">Précédent</a> --}}
-                                <button class="btn btn-primary" wire:click="bsSteepPrevNext('next')"> Fermer </button>
+                                <a href="{{route('etudiants-list')}}" class="btn btn-primary"> Fermer </a>
                             </div>
                         </form>
                     </div>

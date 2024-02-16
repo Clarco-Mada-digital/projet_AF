@@ -81,6 +81,7 @@ class NewEtudiant extends Component
                 return null;
             } elseif ($this->bsSteepActive == 3) {
                 $this->submitNewEtudiant();
+                $this->bsSteepActive += 1;
                 return null;
             } elseif ($this->bsSteepActive == 4) {
                 return redirect(route('etudiants-list'));
@@ -108,7 +109,7 @@ class NewEtudiant extends Component
             'newEtudiant.telephone2' => [''],
             'newEtudiant.adresse' => ['required'],
             'newEtudiant.numCarte' => [Rule::unique('etudiants', 'numCarte')],
-            'newEtudiant.categories' => ['required'],
+            'newEtudiant.categorie_id' => ['required'],
             'newEtudiant.user_id' => ['integer'],
             'newEtudiant.level_id' => ['integer'],
             'newEtudiant.session_id' => ['integer'],
@@ -132,15 +133,16 @@ class NewEtudiant extends Component
         }
 
         // Définir le montant d'inscription
-        if ($this->newEtudiant['categories'] == '1') {
-            $montantAdhesion = DB::table('prices')->where('id', 1)->value('montant');
-        }
-        if ($this->newEtudiant['categories'] == '2') {
-            $montantAdhesion = DB::table('prices')->where('id', 2)->value('montant');
-        }
-        if ($this->newEtudiant['categories'] == '3') {
-            $montantAdhesion = DB::table('prices')->where('id', 3)->value('montant');
-        }
+        // if ($this->newEtudiant['categorie_id'] == '1') {
+        //     $montantAdhesion = DB::table('prices')->where('id', 1)->value('montant');
+        // }
+        // if ($this->newEtudiant['categorie_id'] == '2') {
+        //     $montantAdhesion = DB::table('prices')->where('id', 2)->value('montant');
+        // }
+        // if ($this->newEtudiant['categorie_id'] == '3') {
+        //     $montantAdhesion = DB::table('prices')->where('id', 3)->value('montant');
+        // }
+        $montantAdhesion = DB::table('prices')->where('id', $this->newEtudiant['categorie_id'])->value('montant');
 
         // pour inscription au cours
         if ($this->sessionSelected != null) {
@@ -241,8 +243,7 @@ class NewEtudiant extends Component
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant enregistrer avec success!', 'type' => 'success']);
         $this->photo = '';
-
-        $this->bsSteepActive += 1;
+        // $this->bsSteepActive += 1;
     }
 
     // Creation du pdf pour la reçu de paiement

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cour;
 use App\Models\Etudiant;
 use App\Models\Examen;
 use App\Models\Inscription;
@@ -17,7 +18,7 @@ class PdfController extends Controller
         // retreive all records from db
         $iscription = Inscription::where('paiement_id', '=', $paiement->id)->first();
         $etudiant = Etudiant::find($iscription->etudiant_id);
-        $price = Price::find(2);
+        $price = Price::find($etudiant->categorie_id);
         $examen = null;
         $cours = null;
 
@@ -25,7 +26,7 @@ class PdfController extends Controller
             $examen = Examen::where('id', '=', $iscription->idCourOrExam)->first();
         }
         if($paiement->type == "Reinscription a un cour" || $paiement->type == "Inscription a un cour"){
-            $cours = Examen::where('id', '=', $iscription->idCourOrExam)->first();
+            $cours = Cour::where('id', '=', $iscription->idCourOrExam)->first();
         }
 
             

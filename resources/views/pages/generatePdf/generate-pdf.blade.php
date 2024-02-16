@@ -121,7 +121,7 @@
                 <tr>
                   <th scope="row">1</th>
                   <td>{{ $paiements->type }} ({{ $cours->libelle }})</td>
-                  <td class="text-end"> {{ $session->montant }} Ar</td>
+                  <td class="text-end"> <span class="@if ($session->dateFinPromo > Carbon\Carbon::now()) text-decoration-line-through @endif">{{ $session->montant }} Ar</span> @if ($session->dateFinPromo > Carbon\Carbon::now()) {{ $session->montantPromo }} @endif</td>
                 </tr>
                 @endif
                 @if ($paiements->type == "Inscription a un examen" || $paiements->type == "Reinscription a un examen")
@@ -145,13 +145,21 @@
                 <tr>
                   <th scope="text-lg">Total</th>
                   @if ($paiements->type == "Inscription a un cour")
-                  <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montant + $price->montant }} Ar</td>
+                    @if ($session->dateFinPromo > Carbon\Carbon::now())
+                    <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montantPromo + $price->montant }} Ar</td>
+                    @else
+                    <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montant + $price->montant }} Ar</td>
+                    @endif
                   @endif
                   @if ($paiements->type == "Inscription a un examen")
                   <td colspan="2" class="text-end fw-bold fs-4">{{ $examen->price->montant + $price->montant }} Ar</td>
                   @endif
                   @if ($paiements->type == "Reinscription a un cour")
-                  <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montant }} Ar</td>
+                    @if ($session->dateFinPromo > Carbon\Carbon::now())
+                    <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montantPromo }} Ar</td>
+                    @else
+                    <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montant }} Ar</td>
+                    @endif
                   @endif
                   @if ($paiements->type == "Reinscription a un examen")
                   <td colspan="2" class="text-end fw-bold fs-4">{{ $examen->price->montant }} Ar</td>
