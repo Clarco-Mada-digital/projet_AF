@@ -49,6 +49,11 @@ class Etudiant extends Model
         return $this->belongsTo(Level::class);
     }
 
+    public function categories()
+    {
+        return $this->belongsTo(Categorie::class);
+    }
+
     public function session()
     {
         return $this->belongsTo(Session::class);

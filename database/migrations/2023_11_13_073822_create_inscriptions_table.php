@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('inscriptions', function (Blueprint $table) {
             $table->id();            
             $table->longText('remarque')->nullable();
+            $table->integer('examen_id')->nullable();
             $table->timestamps();
 
             $table->foreignIdFor(Etudiant::class)->constrained();

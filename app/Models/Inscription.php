@@ -11,6 +11,7 @@ class Inscription extends Model
 
     protected $fillable = [        
         'remarque',
+        'examen_id',
         'etudiant_id',
         'paiement_id'
     ];

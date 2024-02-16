@@ -16,7 +16,7 @@
         </form>
 
     </div>
-    <div class="col-md-12">
+    <div class="col-md-12" wire:ignore.self>
         <div class="card card-default m-0">
 
             {{-- Card header --}}

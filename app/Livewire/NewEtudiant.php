@@ -81,7 +81,6 @@ class NewEtudiant extends Component
                 return null;
             } elseif ($this->bsSteepActive == 3) {
                 $this->submitNewEtudiant();
-                $this->bsSteepActive += 1;
                 return null;
             } elseif ($this->bsSteepActive == 4) {
                 return redirect(route('etudiants-list'));
@@ -153,10 +152,9 @@ class NewEtudiant extends Component
 
             $this->noMember ? $this->montantInscription = ($this->montantInscription + $montantAdhesion) : "";
         }
-
         // pour l'inscription au examen
         if ($this->typeInscription == 'examen') {
-            $this->montantInscription = 20;
+            $this->montantInscription = 0;
             if ($this->nscList['examens'] != null) {
                 foreach ($this->nscList['examens'] as $examen) {
                     if ($examen['active']) {
@@ -164,8 +162,8 @@ class NewEtudiant extends Component
                         $this->montantInscription += $examenData->price->montant;
                     }
                 }
-                $this->noMember ? $this->montantInscription = ($this->montantInscription + $montantAdhesion) : "";
             }
+            $this->noMember ? $this->montantInscription = ($this->montantInscription + $montantAdhesion) : "";
         }
     }
 
@@ -175,6 +173,7 @@ class NewEtudiant extends Component
         $this->newEtudiant['user_id'] = Auth::user()->id;
         $this->newEtudiant['session_id'] = $this->etudiantSession;
         $this->newEtudiant['numCarte'] = "AF-" . random_int(100, 9000);
+        $examen_id = null;
         
         $this->validate();
         
@@ -191,6 +190,7 @@ class NewEtudiant extends Component
             foreach ($this->nscList['examens'] as $examen) {
                 if ($examen['active']) {
                     $newEtud->examens()->attach($examen['id']);
+                    $examen_id = $examen['id'];
                 }
             }
         }
@@ -204,14 +204,20 @@ class NewEtudiant extends Component
 
         $montant = $this->sessionSelected->montant;
 
+        $inscrOuReinscr = "";
+        if ($this->noMember) {
+            $inscrOuReinscr = "Inscription";
+        } else {
+            $inscrOuReinscr = "Reinscription";
+        }
 
         // Pour la base donné de paiement
         $paiementData = [
             'montant' => $this->montantInscription,
             'statue' => $this->statue,
-            'motif' => "Inscription du " . $this->newEtudiant['nom'],
+            'motif' => $inscrOuReinscr." du " . $this->newEtudiant['nom'],
             'moyenPaiement' => $this->moyenPaiement,
-            'type' => 'Inscription a un ' . $this->typeInscription,
+            'type' => $inscrOuReinscr.' a un ' . $this->typeInscription,
             'numRecue' => "AFPN°" . random_int(50, 9000),
             'user_id' => Auth::user()->id
         ];
@@ -221,7 +227,8 @@ class NewEtudiant extends Component
         // Pour la base donné de inscription
         $inscriValue = [
             'etudiant_id' => $newEtud->id,
-            'paiement_id' => $paiement->id
+            'paiement_id' => $paiement->id,
+            'examen_id' => $examen_id,
         ];
 
         $inscription = Inscription::create($inscriValue);

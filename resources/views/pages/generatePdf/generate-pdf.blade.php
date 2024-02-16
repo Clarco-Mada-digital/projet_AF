@@ -61,7 +61,7 @@
               </tr>
               <tr>
                 <th scope="row">Méthode de paiement :</th>
-                <td>Larry the Bird</td>
+                <td> {{ $paiements['moyenPaiement'] }} </td>
               </tr>
             </tbody>
           </table>
@@ -117,12 +117,22 @@
                 </tr>
               </thead>
               <tbody>
+                @if ($paiements->type == "Inscription a un cour" || $paiements->type == "Reinscription a un cour")
                 <tr>
                   <th scope="row">1</th>
-                  <td>{{ $paiements->motif }}</td>
+                  <td>{{ $paiements->type }}</td>
                   <td class="text-end"> {{ $session->montant }} Ar</td>
                 </tr>
-                @if ($paiements->type == "Inscription a un cour")
+                @endif
+                @if ($paiements->type == "Inscription a un examen" || $paiements->type == "Reinscription a un examen")
+                <tr>
+                  <th scope="row">1</th>
+                  <td>{{ $paiements->type }}</td>
+                  <td class="text-end"> {{ $examen->price->montant }} Ar</td>
+                </tr>
+                @endif
+
+                @if ($paiements->type == "Inscription a un cour" || $paiements->type == "Inscription a un examen")
                 <tr>
                   <th scope="row">2</th>
                   <td> Adhesion au membre AF </td>
@@ -136,8 +146,15 @@
                   <th scope="text-lg">Total</th>
                   @if ($paiements->type == "Inscription a un cour")
                   <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montant + $price->montant }} Ar</td>
-                  @else
+                  @endif
+                  @if ($paiements->type == "Inscription a un examen")
+                  <td colspan="2" class="text-end fw-bold fs-4">{{ $examen->price->montant + $price->montant }} Ar</td>
+                  @endif
+                  @if ($paiements->type == "Reinscription a un cour")
                   <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montant }} Ar</td>
+                  @endif
+                  @if ($paiements->type == "Reinscription a un examen")
+                  <td colspan="2" class="text-end fw-bold fs-4">{{ $examen->price->montant }} Ar</td>
                   @endif
                 </tr>
               </tfoot>
