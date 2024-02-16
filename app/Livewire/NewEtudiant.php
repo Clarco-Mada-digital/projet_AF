@@ -173,7 +173,7 @@ class NewEtudiant extends Component
         $this->newEtudiant['user_id'] = Auth::user()->id;
         $this->newEtudiant['session_id'] = $this->etudiantSession;
         $this->newEtudiant['numCarte'] = "AF-" . random_int(100, 9000);
-        $examen_id = null;
+        $idCourOrExam = null;
         
         $this->validate();
         
@@ -190,7 +190,7 @@ class NewEtudiant extends Component
             foreach ($this->nscList['examens'] as $examen) {
                 if ($examen['active']) {
                     $newEtud->examens()->attach($examen['id']);
-                    $examen_id = $examen['id'];
+                    $idCourOrExam = $examen['id'];
                 }
             }
         }
@@ -198,6 +198,7 @@ class NewEtudiant extends Component
             foreach ($this->nscList['cours'] as $cour) {
                 if ($cour['active']) {
                     $newEtud->cours()->attach($cour['cour_id']);
+                    $idCourOrExam = $cour['cour_id'];
                 }
             }
         }
@@ -228,7 +229,7 @@ class NewEtudiant extends Component
         $inscriValue = [
             'etudiant_id' => $newEtud->id,
             'paiement_id' => $paiement->id,
-            'examen_id' => $examen_id,
+            'idCourOrExam' => $idCourOrExam,
         ];
 
         $inscription = Inscription::create($inscriValue);

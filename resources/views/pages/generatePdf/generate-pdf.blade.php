@@ -120,14 +120,14 @@
                 @if ($paiements->type == "Inscription a un cour" || $paiements->type == "Reinscription a un cour")
                 <tr>
                   <th scope="row">1</th>
-                  <td>{{ $paiements->type }}</td>
+                  <td>{{ $paiements->type }} ({{ $cours->libelle }})</td>
                   <td class="text-end"> {{ $session->montant }} Ar</td>
                 </tr>
                 @endif
                 @if ($paiements->type == "Inscription a un examen" || $paiements->type == "Reinscription a un examen")
                 <tr>
                   <th scope="row">1</th>
-                  <td>{{ $paiements->type }}</td>
+                  <td>{{ $paiements->type }} ({{ $examen->libelle }})</td>
                   <td class="text-end"> {{ $examen->price->montant }} Ar</td>
                 </tr>
                 @endif

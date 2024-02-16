@@ -19,8 +19,13 @@ class PdfController extends Controller
         $etudiant = Etudiant::find($iscription->etudiant_id);
         $price = Price::find(2);
         $examen = null;
-        if($iscription->examen_id != null){
-            $examen = Examen::where('id', '=', $iscription->examen_id)->first();
+        $cours = null;
+
+        if($paiement->type == "Reinscription a un examen" || $paiement->type == "Inscription a un examen"){
+            $examen = Examen::where('id', '=', $iscription->idCourOrExam)->first();
+        }
+        if($paiement->type == "Reinscription a un cour" || $paiement->type == "Inscription a un cour"){
+            $cours = Examen::where('id', '=', $iscription->idCourOrExam)->first();
         }
 
             
@@ -34,6 +39,7 @@ class PdfController extends Controller
             "paiements" => $paiement,
             "price" => $price,
             "examen" => $examen,
+            "cours" => $cours,
         ];
         // dd($data);
 
