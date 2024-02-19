@@ -30,7 +30,7 @@
                     <p class="text-muted text-center">Membre {{ $etudiant->created_at->diffForHumans() }}</p>
                     <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
-                            <b>Date de naissance</b> <a class="float-right">{{ $etudiant->dateNaissance }}</a>
+                            <b>Date de naissance</b> <a class="float-right">{{ Date('d M, Y', strtotime($etudiant->dateNaissance)) }}</a>
                         </li>
                         <li class="list-group-item">
                             <b>Profession</b> <a class="float-right">{{ $etudiant->profession }}</a>

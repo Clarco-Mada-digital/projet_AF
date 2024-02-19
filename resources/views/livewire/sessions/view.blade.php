@@ -31,7 +31,7 @@
         @if ($session->dateFinPromo != null & $session->dateFinPromo > $now)
         <strong><i class="fa fa-book mr-1"></i> En promotion </strong>
         <p class="text-muted">
-            En promo jusqu' a {{ \Carbon\Carbon::parse($session->dateFinPromo)->diffForHumans() }} </br>
+            La promotion se termine {{ \Carbon\Carbon::parse($session->dateFinPromo)->diffForHumans() }} </br>
             Avec montant de {{$session->montantPromo }} Ar
         </p>
         <hr>

@@ -179,8 +179,8 @@
                                     <span class="right badge badge-info">En promo</span>
                                     @endif
                                 </td>
-                                <td class="text-center">{{ $session->dateDebut }}</td>
-                                <td class="text-center">{{ $session->dateFin }}</td>
+                                <td class="text-center">{{ Date('d M, Y', strtotime($session->dateDebut)) }}</td>
+                                <td class="text-center">{{ Date('d M, Y', strtotime($session->dateFin)) }}</td>
                                 <td class="text-center">
                                     {{ ($session->dateFinPromo != null) & ($session->dateFinPromo > $now) ?
                                     $session->montantPromo : $session->montant }}

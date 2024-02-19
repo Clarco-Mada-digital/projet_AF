@@ -185,13 +185,13 @@
             <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <ion-icon class="nav-icon" name="save-outline"></ion-icon>
+                        <i class="nav-icon fa fa-cloud"></i>
                         <p>Sauvegarde</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <ion-icon class="nav-icon" name="refresh-circle-outline"></ion-icon>
+                        <i class="nav-icon fa fa-undo"></i>
                         <p>Restoration</p>
                     </a>
                 </li>
