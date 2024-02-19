@@ -18,22 +18,25 @@
 
 <body>
   <div class="container">
+
     <div class="header">
-      <div class="logo w-75 text-center">
-        <img src="../../images/logo/alliance-francaise-d-antsiranana-logo.png" alt="logo AF" width="150px">
+      <div class="logo w-75 text-center m-0 p-0">
+        <img class="m-0 p-0" src="../../images/logo/alliance-francaise-d-antsiranana-logo.png" alt="logo AF" width="120px">
       </div>
       <div class="title-container w-100 row">
-        <div class="col-md-6 bg-red" style="background: red"></div>
-        <h2 class="mx-2 col-md-3">Reçu de Paiement</h2>
-        <div class="col-md-2 bg-red" style="background: red"></div>
+        <div class="col-md-6" style="background: red;"></div>
+        <h2 class="mx-2 col-md-2">Reçu de Paiement</h2>
+        <div class="col-md-3" style="background: red; margin-left: auto;"></div>
       </div>
     </div>
+
     <section class="mt-5 container">
       <div class="row">
         <div class="col-md-6">
+
           {{-- table --}}
           <h3>Facturé à :</h3>
-          <table class="table table-sm table-borderless">
+          <table class="table table-sm table-striped table-borderless">
             <tbody>
               <tr>
                 <th scope="row">Nom :</th>
@@ -67,6 +70,7 @@
           </table>
         </div>
         <div class="col-md-6">
+
           {{-- table --}}
           <h3>Payé à :</h3>
           <table class="table table-sm table-striped table-borderless">
