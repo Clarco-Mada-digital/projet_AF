@@ -36,7 +36,7 @@
                                     <th style="width: 5%">N°</th>
                                     <th style="width: 5%">Code</th>
                                     <th style="width: 25%">Libellé</th>
-                                    <th class="text-center" style="width: 20%">Heure du cour</th>
+                                    <th class="text-center" style="width: 20%">Heure du cours</th>
                                     <th class="text-center" style="width: 25%">Professeur</th>
                                     <th style="width: 10%">Salle</th>
                                     <th class="text-center" style="width: 10%">Action</th>

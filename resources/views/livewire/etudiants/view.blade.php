@@ -67,7 +67,7 @@
             {{-- cards body --}}
             <div class="card-body">
                 @if ($etudiant->cours->count() != 0)
-                <strong><i class="fa fa-book mr-1"></i> Cour choisie</strong>
+                <strong><i class="fa fa-book mr-1"></i> Cours choisie</strong>
                 <p class="text-muted">
                     {{ $etudiant->cours->implode('libelle', ' | ') }} - ({{ $etudiant->session->nom }})
                 </p>

@@ -8,7 +8,7 @@
             <div class="col-12">
                 <div class="w-25 mb-3">
                     <div class="form-group">
-                        <label for="filteredForm">Filtrer le statue/niveaux par :</label>
+                        <label for="filteredForm">Filtrer le statut/niveaux par :</label>
                         <select class="form-control" id="filteredForm" aria-label="Filter form" wire:model.live="filteredBy">
                         <option value="" selected>Tout</option>
                         @foreach ($allLevel as $level)
@@ -49,8 +49,8 @@
                                     <th wire:click="setOrderField('nom')">Nom</th>
                                     <th wire:click="setOrderField('prenom')">Prénom</th>
                                     <th class="text-center">Téléphone</th>
-                                    <th class="text-center">Cour | Examen</th>
-                                    <th class="text-center">Statue</th>
+                                    <th class="text-center">Cours | Examen</th>
+                                    <th class="text-center">Statut</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
