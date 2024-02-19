@@ -43,11 +43,11 @@
                 <td>{{ $etudiant['nom'] }}</td>
               </tr>
               <tr>
-                <th scope="row">Prenom :</th>
+                <th scope="row">Prénom :</th>
                 <td>{{ $etudiant['prenom'] }}</td>
               </tr>
               <tr>
-                <th scope="row">Date :</th>
+                <th scope="row">Date de naissance :</th>
                 <td>{{ Date('d M, Y', strtotime($etudiant['dateNaissance'])) }}</td>
               </tr>
               <tr>
@@ -80,7 +80,7 @@
                 <td>{{ $auth->nom}}</td>
               </tr>
               <tr>
-                <th scope="row">Prenom :</th>
+                <th scope="row">Prénom :</th>
                 <td>{{ $auth->prenom}}</td>
               </tr>
               <tr>
@@ -96,7 +96,7 @@
                 <td> {{ $auth->adresse}} </td>
               </tr>
               <tr>
-                <th scope="row">Role chez Alliance :</th>
+                <th scope="row">Rôle chez Alliance :</th>
                 <td> {{ $auth->roles->implode('name', ' | ')}} </td>
               </tr>
             </tbody>
