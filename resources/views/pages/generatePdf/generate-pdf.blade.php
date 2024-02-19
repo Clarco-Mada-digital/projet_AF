@@ -13,7 +13,7 @@
       font-size: 11px;
     }
   </style>
-  <title>Reçu de Paiement</title>
+  <title id="titlePage">Reçu de Paiement du {{ $etudiant->nom }}</title>
 </head>
 
 <body>
@@ -45,7 +45,7 @@
               </tr>
               <tr>
                 <th scope="row">Date :</th>
-                <td>{{ $etudiant['dateNaissance'] }}</td>
+                <td>{{ Date('d M, Y', strtotime($etudiant['dateNaissance'])) }}</td>
               </tr>
               <tr>
                 <th scope="row">Email :</th>
@@ -109,6 +109,7 @@
         <div class="card">
           <div class="card-body">
             <table class="table">
+              {{-- entête du tableau --}}
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -116,6 +117,8 @@
                   <th scope="col">Montant</th>
                 </tr>
               </thead>
+
+              {{-- contenu du tableau --}}
               <tbody>
                 @if ($paiements->type == "Inscription a un cour" || $paiements->type == "Reinscription a un cour")
                 <tr>
@@ -141,6 +144,8 @@
                 @endif
 
               </tbody>
+
+              {{-- pied du tableau --}}
               <tfoot>
                 <tr>
                   <th scope="text-lg">Total</th>
@@ -166,6 +171,7 @@
                   @endif
                 </tr>
               </tfoot>
+
             </table>
           </div>
         </div>
@@ -179,9 +185,10 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
     var element = document.getElementById('element-to-print');
+    const titlePage = document.querySelector('#titlePage');
     var opt = {
       hMargin:       0.3,
-      filename:     "Facture.pdf",
+      filename:     titlePage.textContent + ".pdf",
       image:        { type: 'jpeg', quality: 0.98 },
       jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
       pagebreaks: { mode: ['css', 'legacy'], avoid: 'img' }

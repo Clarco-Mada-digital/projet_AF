@@ -104,17 +104,17 @@
                                         cours</button>
                                 </td>
                                 <td class="text-center">
-                                    <button class="btn btn-info btn-icon" data-toggle="modal" data-target="#newCours"
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#newCours"
                                         spellcheck="false"> <i class="fa fa-plus"></i> <span
                                             class="btn-icon-title d-none">cours</span> </button>
-                                    <button class="btn btn-info btn-icon" data-toggle="modal"
+                                    <button class="btn btn-info" data-toggle="modal"
                                         data-target="#editPromotion" spellcheck="false"> <i class="fa fa-gift"></i>
                                         <span class="btn-icon-title d-none">Promotion</span> </button>
-                                    <button class="btn btn-warning btn-icon"
+                                    <button class="btn btn-warning"
                                         wire:click="updateSession({{ $editSession['id'] }})"> <i class="fa fa-edit"></i>
                                         <i class="fa fa-spinner fa-spin" wire:loading wire:target="updateSession"></i>
                                         <span class="btn-icon-title d-none">Modifier</span> </button>
-                                    <button class="btn btn-danger btn-icon"
+                                    <button class="btn btn-danger"
                                         wire:click="initUpdateSession({{ $editSession['id'] }}, 'True')"> <i
                                             class="fa fa-ban"></i> <span class="btn-icon-title d-none">Annuler</span>
                                     </button>
@@ -194,7 +194,8 @@
                                         @endif
                                     </button> </td>
                                 <td class="text-center">
-                                    <button class="btn btn-link" title="Modifier la session">
+                                    <button class="btn btn-link" title="Modifier la session" data-toggle="modal"
+                                    data-target="#view-cours{{ $session->id }}" spellcheck="false">
                                         <i class="fa fa-eye"></i></button>
                                     <button class="btn btn-link @cannot('sessions.edit') disabled @endcannot" wire:click="initUpdateSession({{ $session->id }})"
                                         title="Modifier la session">
@@ -203,6 +204,19 @@
                                             class="fa fa-trash" style="color: #DC3545;"></i></button>
                                 </td>
                             </tr>
+
+                            {{-- Partie Modal view --}}
+                            <div class="modal fade" id="view-cours{{ $session->id }}" style="display: none; "
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-xl modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body p-0 ">
+                                            @include('livewire.sessions.view')
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             @empty
                             <tr>
                                 <td class="text-center" colspan="7"> <img src="{{ asset('images/no_data.svg') }}"
