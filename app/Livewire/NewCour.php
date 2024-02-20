@@ -13,6 +13,7 @@ use Livewire\Component;
 class NewCour extends Component
 {
     // Nos variable global
+    public $salles;
     public $professeurs;
     public $levels;
     public $categories;
@@ -29,6 +30,7 @@ class NewCour extends Component
         $this->professeurs = Professeur::all()->toArray();
         $this->levels = Level::all()->toArray();
         $this->categories = Categorie::all()->toArray();
+        $this->salles = ['Salle 01', 'Salle 02', 'Salle 03', 'Salle 4','Salle 5','Salle 6','Salle 7','Salle 8','Salle 9','Salle 10', 'Salle de réunion', 'Salle de spectacle', 'Médiathèque', 'Hall'];
     }
 
     public function rules()

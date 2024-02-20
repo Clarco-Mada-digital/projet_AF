@@ -39,6 +39,7 @@ class Sessions extends Component
     public $orderDirection = 'ASC';
     public $orderField = 'nom';
 
+    public $salles;
     public $newCour = [];
     public $newCourList = [];
     public $dateInput;
@@ -53,6 +54,7 @@ class Sessions extends Component
         $this->categories = Categorie::all()->toArray();
         $this->now = Carbon::now();
         $sessions = Session::all();
+        $this->salles = ['Salle 01', 'Salle 02', 'Salle 03', 'Salle 4','Salle 5','Salle 6','Salle 7','Salle 8','Salle 9','Salle 10', 'Salle de réunion', 'Salle de spectacle', 'Médiathèque', 'Hall'];
         foreach ($sessions as $session) {
             if ($session->statue) {
                 if ($session->dateFin < $this->now) {

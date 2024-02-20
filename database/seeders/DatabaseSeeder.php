@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(UserTableSeeder::class);
 
-        \App\Models\User::factory(2)->create();
+        \App\Models\User::factory(1)->create();
         
         \App\Models\Professeur::factory(3)-> create();
 
