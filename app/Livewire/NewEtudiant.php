@@ -37,6 +37,10 @@ class NewEtudiant extends Component
     public $paiement_id = 0;
     public $statue = 'Totalement';
     public float $montantInscription = 0;
+    public float $montantAdhesion;
+    public float $montantExam = 0;
+    public float $montantPaye = 0;
+    public float $montantRestant;
     public string $typeInscription = "cour";
 
     public bool $noMember = false;
@@ -62,7 +66,7 @@ class NewEtudiant extends Component
         };
 
         foreach (Examen::all() as $examen) {
-            array_push($this->nscList['examens'], ['id' => $examen->id, 'libelle' => $examen->libelle, 'active' => false]);
+            array_push($this->nscList['examens'], ['id' => $examen->id, 'libelle' => $examen->libelle, "level"=> $examen->level->libelle, 'active' => false]);
         }        
 
         if ($this->listSession->toArray() == null) {
@@ -104,9 +108,9 @@ class NewEtudiant extends Component
             'newEtudiant.nationalite' => ['required'],
             'newEtudiant.dateNaissance' => ['required'],
             'newEtudiant.profession' => ['nullable'],
-            'newEtudiant.email' => ['required', 'email'],
-            'newEtudiant.telephone1' => ['required'],
-            'newEtudiant.telephone2' => [''],
+            'newEtudiant.email' => ['email'],
+            'newEtudiant.telephone1' => ['min:10', 'max:10', 'nullable'],
+            'newEtudiant.telephone2' => ['min:10', 'max:10', 'nullable'],
             'newEtudiant.adresse' => ['required'],
             'newEtudiant.numCarte' => [Rule::unique('etudiants', 'numCarte')],
             'newEtudiant.categorie_id' => ['required'],
@@ -142,7 +146,7 @@ class NewEtudiant extends Component
         // if ($this->newEtudiant['categorie_id'] == '3') {
         //     $montantAdhesion = DB::table('prices')->where('id', 3)->value('montant');
         // }
-        $montantAdhesion = DB::table('prices')->where('id', $this->newEtudiant['categorie_id'])->value('montant');
+        $this->montantAdhesion = DB::table('prices')->where('id', $this->newEtudiant['categorie_id'])->value('montant');
 
         // pour inscription au cours
         if ($this->sessionSelected != null) {
@@ -152,21 +156,36 @@ class NewEtudiant extends Component
                 $this->montantInscription = $this->sessionSelected->montant;
             }
 
-            $this->noMember ? $this->montantInscription = ($this->montantInscription + $montantAdhesion) : "";
+            $this->noMember ? $this->montantInscription = ($this->montantInscription + $this->montantAdhesion) : "";
         }
         // pour l'inscription au examen
         if ($this->typeInscription == 'examen') {
             $this->montantInscription = 0;
+            $this->montantExam = 0;
             if ($this->nscList['examens'] != null) {
                 foreach ($this->nscList['examens'] as $examen) {
                     if ($examen['active']) {
                         $examenData = Examen::find($examen['id']);
                         $this->montantInscription += $examenData->price->montant;
+                        $this->montantExam += $examenData->price->montant;
                     }
                 }
             }
-            $this->noMember ? $this->montantInscription = ($this->montantInscription + $montantAdhesion) : "";
+            $this->noMember ? $this->montantInscription = ($this->montantInscription + $this->montantAdhesion) : "";
         }
+
+        $this->updateMontantRestant();
+    }
+
+    public function updateMontantRestant()
+    {
+        if ($this->montantPaye > $this->montantInscription) {
+            $this->dispatch("showModalSimpleMsg", ['message' => "Montant payé supérieur au montant de l'inscription", 'type' => 'warning']);
+            $this->montantPaye = 0;
+        }
+        $this->montantRestant = 0;
+        $this->montantRestant = $this->montantInscription - $this->montantPaye;
+
     }
 
     // Enregistrement un nouveau étudiant
@@ -217,6 +236,7 @@ class NewEtudiant extends Component
         // Pour la base donné de paiement
         $paiementData = [
             'montant' => $this->montantInscription,
+            'montantRestant' => $this->montantRestant != 0 ? $this->montantRestant : 0,
             'statue' => $this->statue,
             'motif' => $inscrOuReinscr." du " . $this->newEtudiant['nom'],
             'moyenPaiement' => $this->moyenPaiement,
@@ -232,6 +252,7 @@ class NewEtudiant extends Component
             'etudiant_id' => $newEtud->id,
             'paiement_id' => $paiement->id,
             'idCourOrExam' => $idCourOrExam,
+            'statut' => $this->montantRestant == 0 ? true : false,
         ];
 
         $inscription = Inscription::create($inscriValue);

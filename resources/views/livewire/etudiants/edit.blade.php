@@ -6,7 +6,7 @@
                 <i class="fas fa-expand"></i>
             </button>
             <button type="button" class="btn btn-warning" data-toggle="modal" spellcheck="false" data-dismiss="modal"
-                @if ($editEtudiant != []) wire:click='updateEtudiant({{ $editEtudiant['id'] }})' @endif>
+                @if ($editEtudiant !=[]) wire:click='updateEtudiant({{ $editEtudiant['id'] }})' @endif>
                 <i class="fa fa-save"></i> <i class="fa fa-spinner fa-spin" wire:loading
                     wire:target='updateEtudiant'></i> Enregistrer la modification</button>
             <button type="button" class="btn btn-danger" wire:click="toogleStateName('view')">
@@ -22,25 +22,22 @@
                 <div class="row">
                     <div class="col-12 d-flex flex-md-column">
                         @if ($editEtudiant != [])
-                            <label class="d-flex flex-column justify-content-center w-25 mx-auto">
-                                @if ($photo)
-                                    <img class="profile-user-img img-fluid img-circle"
-                                        src="{{ $photo->temporaryUrl() }}">
-                                    <button class="btn btn-warning btn-sm mt-2"
-                                        wire:click="set('photo', '')">Reset</button>
-                                @else
-                                    <img class="profile-user-img img-fluid img-circle"
-                                        src="{{ $editEtudiant['profil'] ? asset('storage/' . $editEtudiant['profil']) : 'https://eu.ui-avatars.com/api/?name=' . $editEtudiant['nom'] . '&background=random' }}"
-                                        alt="Etudiant profile picture">
-                                @endif
-                                <input type="file" wire:model='photo' style="display: none;">
-                                @error('editEtudiant.profil')
-                                    <span class="invalid-feedback">Image invalide</span>
-                                @enderror
-                            </label>
-                        @else
-                            <img class="profile-user-img img-fluid img-circle" src=""
+                        <label class="d-flex flex-column justify-content-center w-25 mx-auto">
+                            @if ($photo)
+                            <img class="profile-user-img img-fluid img-circle" src="{{ $photo->temporaryUrl() }}">
+                            <button class="btn btn-warning btn-sm mt-2" wire:click="set('photo', '')">Reset</button>
+                            @else
+                            <img class="profile-user-img img-fluid img-circle"
+                                src="{{ $editEtudiant['profil'] ? asset('storage/' . $editEtudiant['profil']) : 'https://eu.ui-avatars.com/api/?name=' . $editEtudiant['nom'] . '&background=random' }}"
                                 alt="Etudiant profile picture">
+                            @endif
+                            <input type="file" wire:model='photo' style="display: none;">
+                            @error('editEtudiant.profil')
+                            <span class="invalid-feedback">Image invalide</span>
+                            @enderror
+                        </label>
+                        @else
+                        <img class="profile-user-img img-fluid img-circle" src="" alt="Etudiant profile picture">
                         @endif
                         <i class="fa fa-spinner fa-spin text-center fa-2x" wire:loading wire:target='photo'
                             style="position: absolute; top:20%; left:48%; color:#FFC107;"></i>
@@ -58,8 +55,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="etudiantPrenom">Prénom</label>
-                            <input type="text"
-                                class="form-control @error('editEtudiant.prenom') is-invalid @enderror"
+                            <input type="text" class="form-control @error('editEtudiant.prenom') is-invalid @enderror"
                                 id="etudiantPrenom" wire:model='editEtudiant.prenom'>
                         </div>
                     </div>
@@ -99,16 +95,14 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="etudiantAddr">Adresse</label>
-                            <input type="text"
-                                class="form-control @error('editEtudiant.adresse') is-invalid @enderror"
+                            <input type="text" class="form-control @error('editEtudiant.adresse') is-invalid @enderror"
                                 id="etudiantAddr" wire:model='editEtudiant.adresse'>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="etudiantEmail">Email</label>
-                            <input type="text"
-                                class="form-control @error('editEtudiant.email') is-invalid @enderror"
+                            <input type="text" class="form-control @error('editEtudiant.email') is-invalid @enderror"
                                 id="etudiantEmail" wire:model='editEtudiant.email'>
                         </div>
                     </div>
@@ -140,11 +134,11 @@
                         <div class="form-group">
                             <label for="Sessions">Session</label>
                             <select class="custom-select" spellcheck="false" id="Sessions"
-                                wire:model='$etudiantSession'>
+                                wire:model='$etudiantSession' disabled>
                                 @if ($listSession != null)
-                                    @foreach ($listSession as $session)
-                                        <option value="{{ $session['id'] }}"> {{ $session['nom'] }} </option>
-                                    @endforeach
+                                @foreach ($listSession as $session)
+                                <option value="{{ $session['id'] }}"> {{ $session['nom'] }} </option>
+                                @endforeach
                                 @endif
                                 {{-- <option>Session 001 24</option>
                                 <option>Session 002 24</option> --}}
@@ -158,35 +152,45 @@
                                 wire:model='editEtudiant.level_id'>
                                 <option> --- --- </option>
                                 @foreach ($allLevel as $level)
-                                    <option value="{{ $level->id }}">{{ $level->libelle }}</option>
+                                <option value="{{ $level->id }}">{{ $level->libelle }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <h4>List des cours</h4>
+                        @if ($nscList["examens"] != [])
+                        <h4>List des examens</h4>
                         <div class="row mt-4">
-                            @foreach ($nscList['cours'] as $cour)
-                                <div class="custom-control custom-radio mx-3">
-                                    <input
-                                        class="custom-control-input custom-control-input-warning custom-control-input-outline"
-                                        type="checkbox" id="cour{{ $cour['cour_id'] }}" name="etudiantCourList"
-                                        @if ($cour['active']) checked @endif
-                                        wire:model.lazy="nscList.cours.{{ $loop->index }}.active" />
-                                    <label for="cour{{ $cour['cour_id'] }}"
-                                        class="custom-control-label">{{ $cour['cour_libelle'] }}</label>
-                                </div>
+                            <ul class="list-group ml-3">
+                                @foreach ($nscList['examens'] as $examen)
+                                @if ($examen['active'])
+                                <li> {{ $examen['examen_libelle'] }} </li>
+                                @endif
+                            </ul>
                             @endforeach
                         </div>
+                        @endif
+                        @if ($nscList["cours"] != [])
+                        <h4>List des cours</h4>
+                        <div class="row mt-4">
+                            <ul class="list-group ml-3">
+                                @foreach ($nscList['cours'] as $cour)
+                                @if ($our['active'])
+                                <li> {{ $cour['cour_libelle'] }} </li>
+                                @endif
+                            </ul>
+                            @endforeach
+                        </div>
+                        @endif
+
                     </div>
                     {{-- <div class="form-group col-md-3">
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox"
-                                    id="courFrancais">
-                                <label for="courFrancais" class="custom-control-label">Cour
-                                    Français</label>
-                            </div>
-                        </div> --}}
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="courFrancais">
+                            <label for="courFrancais" class="custom-control-label">Cour
+                                Français</label>
+                        </div>
+                    </div> --}}
 
                 </div>
             </div>

@@ -309,15 +309,17 @@ class ParametreGenerale extends Component
             [
                 'newExamen' => ['required'],
                 'dataExamens.price_id' => ['required'],
+                'dataExamens.level_id' => ['required'],
             ],
             messages: ['required' => 'Ce champ est obligatoire !']
         );
-        Examen::create(["libelle" => $this->newExamen, "price_id" => $this->dataExamens['price_id']]);
+        Examen::create(["libelle" => $this->newExamen, "price_id" => $this->dataExamens['price_id'], "level_id" => $this->dataExamens['level_id']]);
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Creation de examen avec success!', 'type' => 'success']);
 
         $this->newExamen = "";
         $this->dataExamens = ["price_id" => ""];
+        $this->dataExamens = ["level_id" => ""];
     }
 
     public function updateExamen()

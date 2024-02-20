@@ -21,12 +21,13 @@
 
     <div class="header">
       <div class="logo w-75 text-center m-0 p-0">
-        <img class="m-0 p-0" src="../../images/logo/alliance-francaise-d-antsiranana-logo.png" alt="logo AF" width="120px">
+        <img class="m-0 p-0" src="../../images/logo/alliance-francaise-d-antsiranana-logo.png" alt="logo AF"
+          width="120px">
       </div>
       <div class="title-container w-100 row">
-        <div class="col-md-6" style="background: red;"></div>
-        <h2 class="mx-2 col-md-2">Reçu de Paiement</h2>
-        <div class="col-md-3" style="background: red; margin-left: auto;"></div>
+        <div style="background: red; width: 55%;"></div>
+        <h2 style="width: 35%">Reçu de Paiement</h2>
+        <div style="background: red; margin-left: auto; width:10%;"></div>
       </div>
     </div>
 
@@ -36,7 +37,7 @@
 
           {{-- table --}}
           <h3>Facturé à :</h3>
-          <table class="table table-sm table-striped table-borderless">
+          <table class="table table-sm table-borderless">
             <tbody>
               <tr>
                 <th scope="row">Nom :</th>
@@ -107,8 +108,8 @@
     </section>
     <hr class="w-50" style="margin: auto;">
     <section class="w-100 row">
-      <div class="col-md-5"></div>
-      <div class="col-md-7">
+      <div class="col-md-4"></div>
+      <div class="col-md-8">
         <h3>Détails de la facture :</h3>
         <div class="card">
           <div class="card-body">
@@ -128,7 +129,10 @@
                 <tr>
                   <th scope="row">1</th>
                   <td>{{ $paiements->type }} @if ($cours != null) ({{ $cours->libelle }}) @endif</td>
-                  <td class="text-end"> <span class="@if ($session->dateFinPromo > Carbon\Carbon::now()) text-decoration-line-through @endif">{{ $session->montant }} Ar</span> @if ($session->dateFinPromo > Carbon\Carbon::now()) {{ $session->montantPromo }} @endif</td>
+                  <td class="text-end"> <span
+                      class="@if ($session->dateFinPromo > Carbon\Carbon::now()) text-decoration-line-through @endif">{{
+                      $session->montant }} Ar</span> @if ($session->dateFinPromo > Carbon\Carbon::now()) {{
+                    $session->montantPromo }} @endif</td>
                 </tr>
                 @endif
                 @if ($paiements->type == "Inscription a un examen" || $paiements->type == "Reinscription a un examen")
@@ -152,26 +156,40 @@
               {{-- pied du tableau --}}
               <tfoot>
                 <tr>
-                  <th scope="text-lg">Total</th>
+                  <th class="text-lg fs-3">Total</th>
                   @if ($paiements->type == "Inscription a un cour")
-                    @if ($session->dateFinPromo > Carbon\Carbon::now())
-                    <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montantPromo + $price->montant }} Ar</td>
-                    @else
-                    <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montant + $price->montant }} Ar</td>
-                    @endif
+                  @if ($session->dateFinPromo > Carbon\Carbon::now())
+                  <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montantPromo + $price->montant }} Ar <br>
+                    <span class="nomberToLetter">{{ $session->montantPromo + $price->montant }}</span></td>
+                  @else
+                  <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montant + $price->montant }} Ar <br>
+                    <span class="nomberToLetter">{{ $session->montant + $price->montant }}</span></td>
+                  @endif
                   @endif
                   @if ($paiements->type == "Inscription a un examen")
-                  <td colspan="2" class="text-end fw-bold fs-4">{{ $examen->price->montant + $price->montant }} Ar</td>
+                  <td colspan="2" class="text-end fw-bold fs-4">{{ $examen->price->montant + $price->montant }} Ar <br>
+                    <span class="nomberToLetter">{{ $examen->price->montant + $price->montant }}</span></td>
                   @endif
                   @if ($paiements->type == "Reinscription a un cour")
-                    @if ($session->dateFinPromo > Carbon\Carbon::now())
-                    <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montantPromo }} Ar</td>
-                    @else
-                    <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montant }} Ar</td>
-                    @endif
+                  @if ($session->dateFinPromo > Carbon\Carbon::now())
+                  <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montantPromo }} Ar <br>
+                    <span class="nomberToLetter">{{ $session->montantPromo }}</span></td>
+                  @else
+                  <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montant }} Ar <br>
+                    <span class="nomberToLetter">{{ $session->montant }}</span></td>
+                  @endif
                   @endif
                   @if ($paiements->type == "Reinscription a un examen")
-                  <td colspan="2" class="text-end fw-bold fs-4">{{ $examen->price->montant }} Ar</td>
+                  <td colspan="2" class="text-end fw-bold fs-4">{{ $examen->price->montant }} Ar <br>
+                    <span class="nomberToLetter">{{ $examen->price->montant }}</span></td>
+                  @endif
+                </tr>
+                <tr>
+                  @if ($paiements->montantRestant != 0)
+                  <th class="fs-5 text-success">Montant payé : {{ $paiements->montant - $paiements->montantRestant }} Ar <br><span class="nomberToLetter">{{ $paiements->montant - $paiements->montantRestant }}</span>
+                  </th>
+                  <td class="fs-5 text-end text-danger fw-bold" colspan="2">Montant restant : {{
+                    $paiements->montantRestant }} Ar <br><span class="nomberToLetter">{{ $paiements->montantRestant }}</span></td>
                   @endif
                 </tr>
               </tfoot>
@@ -183,13 +201,20 @@
     </section>
   </div>
 
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
     integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="../../js/nombreEnLettre.js"></script>
   <script>
     var element = document.getElementById('element-to-print');
     const titlePage = document.querySelector('#titlePage');
+    let nbToLetter = document.querySelectorAll('.nomberToLetter');
+    nbToLetter.forEach(element => {
+      chiffre = Number(element.textContent);
+      element.textContent = NumberToLetter(chiffre)+" ariary";
+      console.log(chiffre);
+    });
+
     var opt = {
       hMargin:       0.3,
       filename:     titlePage.textContent + ".pdf",

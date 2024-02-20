@@ -24,7 +24,7 @@
                   placeholder="Montant" type="number" wire:model='dataTarifs.montant'>
 
                 <select class="form-control w-100 @error('dataTarifs.level_id') is-invalid @enderror" multiple
-                  id="codeLevel" wire:model='dataTarifs.level_id'>
+                  id="tarifLevel" wire:model='dataTarifs.level_id'>
                   @foreach ($levels as $level)
                   <option value="{{ $level['id'] }}">{{ $level['libelle'] }}</option>
                   @endforeach
@@ -32,11 +32,18 @@
                 @endif
 
                 @if ($titleModal == 'nouveau examens')
-                <select class="form-control w-100 mx-2 @error('dataTarifs.level_id') is-invalid @enderror"
+                <select class="form-control w-100 mx-2 @error('dataExamens.level_id') is-invalid @enderror"
+                  id="examLevel" wire:model='dataExamens.level_id'>
+                  @foreach ($levels as $level)
+                  <option value="{{ $level['id'] }}">{{ $level['libelle'] }}</option>
+                  @endforeach
+                </select>
+                <select class="form-control w-100 @error('dataExamens.price_id') is-invalid @enderror"
                   id="codeExamen" wire:model='dataExamens.price_id'>
                   <option> --- Tarification --- </option>
                   @foreach ($prices as $price)
-                  <option value="{{ $price['id'] }}">{{ $price['nom'] }} - {{ $price->levels->implode("libelle", " | ")}}</option>
+                  <option value="{{ $price['id'] }}">{{ $price['nom'] }} - {{ $price->levels->implode("libelle", " |
+                    ")}}</option>
                   @endforeach
                 </select>
                 @endif

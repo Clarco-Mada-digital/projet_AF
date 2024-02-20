@@ -55,7 +55,7 @@
                             @if ($key == 'Tarifs')
                             {{ $niveau->nom }} - {{ $niveau->levels->implode("libelle", " | ")}}                            
                             @elseif ($key == 'Examens')
-                            {{ $niveau->libelle }} - {{ $niveau->price->levels->implode("libelle", " | ") }} 
+                            {{ $niveau->libelle }} - {{ $niveau->level->libelle }} 
                             @else
                             {{ $niveau->libelle }}
                             @endif

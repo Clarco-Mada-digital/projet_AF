@@ -9,14 +9,15 @@
                 <div class="w-25 mb-3">
                     <div class="form-group">
                         <label for="filteredForm">Filtrer le statut/niveaux par :</label>
-                        <select class="form-control" id="filteredForm" aria-label="Filter form" wire:model.live="filteredBy">
-                        <option value="" selected>Tout</option>
-                        @foreach ($allLevel as $level)
-                        <option value="{{ $level->id }}">{{ $level->libelle }}</option>
-                        @endforeach
-                    </select>
+                        <select class="form-control" id="filteredForm" aria-label="Filter form"
+                            wire:model.live="filteredBy">
+                            <option value="" selected>Tout</option>
+                            @foreach ($allLevel as $level)
+                            <option value="{{ $level->id }}">{{ $level->libelle }}</option>
+                            @endforeach
+                        </select>
                     </div>
-                    
+
                 </div>
                 <div class="card">
                     <div class="card-header bg-gradient-primary">
@@ -50,6 +51,7 @@
                                     <th wire:click="setOrderField('prenom')">Prénom</th>
                                     <th class="text-center">Téléphone</th>
                                     <th class="text-center">Cours | Examen</th>
+                                    <th class="text-center">Session</th>
                                     <th class="text-center">Statut</th>
                                     <th class="text-center">Action</th>
                                 </tr>
@@ -74,9 +76,15 @@
                                     <td>{{ $etudiant->nom }}</td>
                                     <td>{{ $etudiant->prenom }}</td>
                                     <td class="text-center">{{ $etudiant->telephone1 }}</td>
-                                    <td class="text-center"> {{ $etudiant->cours->implode('libelle', ' | ') }} {{
-                                        $etudiant->examens->implode('libelle', ' | ') }} - ({{ $etudiant->session->nom
-                                        }}) </td>
+                                    <td class="text-center">
+                                        @if ($etudiant->cours->count() > 0)
+                                        {{ 'Cours '.$etudiant->cours->implode('libelle', ' | ') }}
+                                        @endif
+                                        @if ($etudiant->examens->count() > 0)
+                                        {{'Examen '.$etudiant->examens->implode('libelle', ' | ') }}
+                                        @endif
+                                    </td>
+                                    <td class="text-center"> {{ $etudiant->session->nom }} </td>
                                     <td
                                         class="text-center @if ($etudiant->level->id == 1) text-danger @else text-success @endif">
                                         {{ $etudiant->level->libelle }} </td>
@@ -105,7 +113,7 @@
 
                                 @empty
                                 <tr>
-                                    <td class="text-center" colspan="8"> <img src="{{ asset('images/no_data.svg') }}"
+                                    <td class="text-center" colspan="9"> <img src="{{ asset('images/no_data.svg') }}"
                                             alt="Data empty" width="200px">
                                     </td>
                                 </tr>

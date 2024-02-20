@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Cour;
 use App\Models\Etudiant;
+use App\Models\Examen;
 use App\Models\Inscription;
 use App\Models\Level;
 use App\Models\Session;
@@ -43,7 +44,7 @@ class Etudiants extends Component
     public $dataInscri = [];
 
     public $allLevel;
-    public $nscList = ["cours" => [], "level" => []];
+    public $nscList = ["cours" => [], "level" => [], "examens" => []];
 
 
 
@@ -94,7 +95,7 @@ class Etudiants extends Component
     public function toogleStateName($stateName)
     {
         if ($stateName == 'view') {
-            $this->nscList = ["cours" => [], "level" => []];
+            $this->nscList = ["cours" => [], "level" => [], "examens" => []];
             $this->state = 'view';
         }
         if ($stateName == 'edit') {
@@ -119,6 +120,7 @@ class Etudiants extends Component
         };
 
         $cours = array_map($mapData, Etudiant::find($this->editEtudiant['id'])->cours->toArray());
+        $examen = array_map($mapData, Etudiant::find($this->editEtudiant['id'])->examens->toArray());
 
         $this->editEtudiant['level_id'] = Etudiant::find($this->editEtudiant['id'])->level->id;
 
@@ -127,6 +129,14 @@ class Etudiants extends Component
                 array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => true]);
             } else {
                 array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
+            }
+        }
+
+        foreach (Examen::all() as $exam) {
+            if (in_array($exam->id, $examen)) {
+                array_push($this->nscList['examens'], ['examen_id' => $exam->id, 'examen_libelle' => $exam->libelle, 'active' => true]);
+            } else {
+                array_push($this->nscList['examens'], ['examen_id' => $exam->id, 'examen_libelle' => $exam->libelle,'cour_horaire' => $cour->horaire, 'active' => false]);
             }
         }
 

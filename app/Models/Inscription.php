@@ -12,11 +12,16 @@ class Inscription extends Model
     protected $fillable = [        
         'remarque',
         'idCourOrExam',
+        'statut',
         'etudiant_id',
-        'paiement_id'
+        'paiement_id',
     ];
 
     public function sessions(){
         return $this->belongsToMany(Session::class,"inscripiton_sessions", 'inscription_id', 'session_id');
+    }
+
+    public function paiement(){
+        return $this->belongsTo(Paiement::class);
     }
 }

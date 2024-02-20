@@ -47,7 +47,11 @@
                                     <td> {{ $paiement->type }} {{ $paiement->motif != null ? "- (".$paiement->motif.")" : "" }} </td>
                                     <td class="text-center">{{ $paiement->montant }}</td>
                                     <td class="text-center">{{ $paiement->moyenPaiement }}</td>
-                                    <td class="text-center">{{ $paiement->statue }} payée</td>
+                                    <td class="text-center">{{ $paiement->statue }} payée 
+                                        @if ($paiement->montantRestant != 0)
+                                            (Reste: {{ $paiement->montantRestant }} Ar)
+                                        @endif
+                                    </td>
                                     <td class="text-center"> <a href="#" data-toggle="modal"
                                         data-target="#viewUser" spellcheck="false" wire:click='intiUserShow({{ $paiement->user->id }})'> {{ $paiement->user->nom }} {{ $paiement->user->prenom }} </a>
                                     </td>

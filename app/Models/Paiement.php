@@ -11,6 +11,7 @@ class Paiement extends Model
 
     protected $fillable = [
         'montant',
+        'montantRestant',
         'statue',
         'motif',
         'numRecue',
@@ -22,6 +23,7 @@ class Paiement extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+    
     public function inscription(){
         return $this->belongsTo(Inscription::class);
     }

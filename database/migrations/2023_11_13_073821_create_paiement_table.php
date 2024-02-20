@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('paiements', function (Blueprint $table) {
             $table->id();
             $table->float('montant');
+            $table->float('montantRestant');
             $table->string('type');
             $table->string('statue');
             $table->string('moyenPaiement');

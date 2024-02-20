@@ -13,7 +13,8 @@
                     <h3 class="card-title d-flex align-items-center"> <i class="fa fa-users fa-2x mr-2"></i> Liste des
                         sessions</h3>
                     <div class="card-tools d-flex align-items-center">
-                        <button class="btn btn-link text-light mr-4 @cannot('sessions.create') disabled @endcannot" wire:click='toogleFormSession'>
+                        <button class="btn btn-link text-light mr-4 @cannot('sessions.create') disabled @endcannot"
+                            wire:click='toogleFormSession'>
                             <i class="fa fa-user-plus"></i> Nouvelle session</button>
                         <div class="input-group input-group-md" style="width: 250px;">
                             <input type="search" name="table_search" class="form-control float-right"
@@ -61,25 +62,26 @@
                                     <input class="form-control" type="number" wire:model='newSession.montant'>
                                 </td>
                                 <td class="text-center">
-                                    <button class="btn btn-info" data-bs-toggle="tooltip" 
-                                        title="Choisir le cour"
+                                    <button class="btn btn-info" data-bs-toggle="tooltip" title="Choisir le cour"
                                         wire:click='toogleFormCours'> Choisir le cour
                                     </button>
-                                </td>
-                                <td class="text-center">
                                     <button class="btn btn-primary" data-toggle="modal" data-target="#newCours"
                                         spellcheck="false" data-bs-toggle="tooltip" title="Nouveau cour"> <i
                                             class="fa fa-plus"></i> <span class="btn-icon-title d-none">Cours</span>
                                     </button>
-                                    <button class="btn btn-warning" data-toggle="modal"
-                                        data-target="#newPromotion" spellcheck="false" data-bs-toggle="tooltip" title="Promotion"> <i class="fa fa-gift"></i>
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn btn-warning" data-toggle="modal" data-target="#newPromotion"
+                                        spellcheck="false" data-bs-toggle="tooltip" title="Promotion"> <i
+                                            class="fa fa-gift"></i>
                                         <span class="btn-icon-title d-none">Promotion</span> </button>
-                                    <button class="btn btn-success" data-bs-toggle="tooltip" title="Sauvegarde"       wire:click='addNewSession'> <i
-                                            class="fa fa-save"></i> <i class="fa fa-spinner fa-spin" wire:loading
-                                            wire:target='addNewSession'></i> <span
-                                            class="btn-icon-title d-none">Save</span> </button>
-                                    <button class="btn btn-danger" data-bs-toggle="tooltip" title="Annuler" wire:click='toogleFormSession'> <i
-                                            class="fa fa-ban"></i> <span class="btn-icon-title d-none">Annuler</span>
+                                    <button class="btn btn-success" data-bs-toggle="tooltip" title="Sauvegarde"
+                                        wire:click='addNewSession'> <i class="fa fa-save"></i> <i
+                                            class="fa fa-spinner fa-spin" wire:loading wire:target='addNewSession'></i>
+                                        <span class="btn-icon-title d-none">Save</span> </button>
+                                    <button class="btn btn-danger" data-bs-toggle="tooltip" title="Annuler"
+                                        wire:click='toogleFormSession'> <i class="fa fa-ban"></i> <span
+                                            class="btn-icon-title d-none">Annuler</span>
                                     </button>
                                 </td>
                             </tr>
@@ -102,16 +104,16 @@
                                 <td class="text-center">
                                     <button class="btn btn-info" wire:click='toogleFormCours'>Choisir les
                                         cours</button>
-                                </td>
-                                <td class="text-center">
                                     <button class="btn btn-primary" data-toggle="modal" data-target="#newCours"
                                         spellcheck="false"> <i class="fa fa-plus"></i> <span
                                             class="btn-icon-title d-none">cours</span> </button>
-                                    <button class="btn btn-info" data-toggle="modal"
-                                        data-target="#editPromotion" spellcheck="false"> <i class="fa fa-gift"></i>
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn btn-info" data-toggle="modal" data-target="#editPromotion"
+                                        spellcheck="false"> <i class="fa fa-gift"></i>
                                         <span class="btn-icon-title d-none">Promotion</span> </button>
                                     <button class="btn btn-warning"
-                                        wire:click="updateSession({{ $editSession['id'] }})"> <i class="fa fa-edit"></i>
+                                        wire:click="updateSession({{ $editSession['id'] }})"> <i class="fa fa-save"></i>
                                         <i class="fa fa-spinner fa-spin" wire:loading wire:target="updateSession"></i>
                                         <span class="btn-icon-title d-none">Modifier</span> </button>
                                     <button class="btn btn-danger"
@@ -195,13 +197,14 @@
                                     </button> </td>
                                 <td class="text-center">
                                     <button class="btn btn-link" title="Modifier la session" data-toggle="modal"
-                                    data-target="#view-cours{{ $session->id }}" spellcheck="false">
+                                        data-target="#view-cours{{ $session->id }}" spellcheck="false">
                                         <i class="fa fa-eye"></i></button>
-                                    <button class="btn btn-link @cannot('sessions.edit') disabled @endcannot" wire:click="initUpdateSession({{ $session->id }})"
-                                        title="Modifier la session">
+                                    <button class="btn btn-link @cannot('sessions.edit') disabled @endcannot"
+                                        wire:click="initUpdateSession({{ $session->id }})" title="Modifier la session">
                                         <i class="fa fa-edit" style="color: #FFC107;"></i></button>
-                                    <button class="btn btn-link bounce @cannot('sessions.create') disabled @endcannot" title="Supprimer la session"> <i
-                                            class="fa fa-trash" style="color: #DC3545;"></i></button>
+                                    <button class="btn btn-link bounce @cannot('sessions.create') disabled @endcannot"
+                                        title="Supprimer la session"> <i class="fa fa-trash"
+                                            style="color: #DC3545;"></i></button>
                                 </td>
                             </tr>
 
@@ -349,8 +352,8 @@
                                                 spellcheck="false">
                                                 <i class="fas fa-expand"></i>
                                             </button>
-                                            <button type="button" class="btn btn-success" data-dismiss="modal">
-                                                <i class="fa fa-save"></i> Confirmer
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                                <i class="fa fa-times"></i>
                                             </button>
                                         </div>
 
@@ -404,7 +407,8 @@
                                                                 id="codeCategorie" wire:model='newCour.categorie_id'>
                                                                 <option>-- Catégorie --</option>
                                                                 @foreach ($categories as $categorie)
-                                                                    <option value="{{ $categorie['id'] }}">{{ $categorie['libelle'] }}</option>
+                                                                <option value="{{ $categorie['id'] }}">{{
+                                                                    $categorie['libelle'] }}</option>
                                                                 @endforeach
                                                             </select>
                                                             @error('newCour.categorie_id')

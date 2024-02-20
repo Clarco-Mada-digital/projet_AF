@@ -2,6 +2,7 @@ import './bootstrap';
 import './intlTelInput';
 
 // Mes import
+
 // import "admin-lte/plugins/jquery/jquery";
 import "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js";
 

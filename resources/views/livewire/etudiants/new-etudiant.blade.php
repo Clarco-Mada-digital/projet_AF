@@ -269,19 +269,21 @@
                                     <div class="col-md-12 mb-3">
                                         <label> Inscrit pour : </label>
                                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                            <label class="btn bg-info active">
+                                            <label class="btn bg-info @if ($typeInscription == 'cour') active @endif">
                                                 <input type="radio" name="options" id="option_b1" autocomplete="off"
                                                     spellcheck="false" value="cour" wire:model.live='typeInscription'>
-                                                Un cour
+                                                Un cours
                                             </label>
-                                            <label class="btn bg-info">
+                                            <label
+                                                class="btn bg-warning @if ($typeInscription == 'examen') active @endif">
                                                 <input type="radio" name="options" id="option_b2" autocomplete="off"
-                                                    spellcheck="false" value="examen" wire:model.live='typeInscription' wire:click.live="updateCoursList">
-                                                Examen
+                                                    spellcheck="false" value="examen" wire:model.live='typeInscription'
+                                                    wire:click.live="updateCoursList">
+                                                Un examen
                                             </label>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="Sessions">Session</label>
@@ -312,7 +314,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12 card card-info">
+                                    <div
+                                        class="col-md-12 card @if ($typeInscription == 'cour') card-info @else card-warning @endif">
                                         <div class="card-header">
                                             <h3 class="card-title">Liste des {{ Str::plural($typeInscription) }}</h3>
                                         </div>
@@ -343,7 +346,7 @@
                                                         wire:model.lazy="nscList.examens.{{ $loop->index }}.active"
                                                         wire:click.live="updateCoursList">
                                                     <label for="examen{{ $examen['id'] }}"
-                                                        class="custom-control-label">{{ $examen['libelle'] }}</label>
+                                                        class="custom-control-label">{{ $examen['libelle'] }} - {{ $examen['level'] }} </label>
                                                 </div>
                                             </div>
                                             @empty
@@ -358,17 +361,77 @@
                                 <a class="btn btn-primary" wire:click="bsSteepPrevNext('next')">Suivant</a>
                             </div>
                             <div id="paiement-part" @if ($bsSteepActive !=3) style="display: none;" @endif>
-                                <div class="row">
-                                    <div class="info-box col-md-3 mb-3 bg-warning">
+                                <div class="row m-auto">
+                                    <div class="col-md-6">
+                                        <h5 class="text-center">Detail du paiement :</h5>
+                                        <table class="table table-borderless table-striped">
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">1</th>
+                                                    <td>Inscription au {{ $typeInscription }}</td>
+                                                    @if ($typeInscription == 'cour')
+                                                    <td class="text-end">
+                                                        @isset($sessionSelected)
+                                                        <span @if($session->dateFinPromo > Carbon\Carbon::now())
+                                                            style="text-decoration: line-through; color: #a22;" @endif>
+                                                            {{ $sessionSelected->montant }} Ar</span>
+                                                        @if ($session->dateFinPromo > Carbon\Carbon::now())
+                                                        {{ $sessionSelected->montantPromo }} Ar
+                                                        @endif
+                                                        @endisset
+                                                    </td>
+                                                    @endif
+                                                    @if ($typeInscription == 'examen')
+                                                    <td class="text-end">
+                                                        {{ $montantExam }} Ar
+                                                    </td>
+                                                    @endif
+                                                </tr>
+                                                @if ($noMember)
+                                                <tr>
+                                                    <th scope="row">2</th>
+                                                    <td> Adhesion au membre AF </td>
+                                                    <td class="text-end"> {{ $montantAdhesion }} Ar</td>
+                                                </tr>
+                                                @endif
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="info-box col-md-3 mb-3 mx-3 bg-warning">
                                         <span class="info-box-icon"><i class="fas fa-tag"></i></span>
                                         <div class="info-box-content">
                                             <span class="info-box-text">Montant total</span>
                                             <span class="info-box-number" style="font-size: 1.5rem;">
                                                 {{ $montantInscription }} Ar</span>
                                         </div>
-
                                     </div>
-                                    <div class="col-md-12 card card-warning">
+
+                                    <div class="col-md-6">
+                                        <div class="for-group">
+                                            <label for="montantPaye">Montant payé en Ar</label>
+                                            <input type="number" class="form-control" id="montantPaye"
+                                                wire:model.lazy="montantPaye" wire:change="updateMontantRestant">
+                                            <small class="text-danger">
+                                                @error('montantPaye')
+                                                {{ $message }}
+                                                @enderror
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="info-box col-md-3 mb-3 mx-3 bg-success">
+                                        <span class="info-box-icon"><i class="fas fa-coins"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Montant payé</span>
+                                            <span class="info-box-number" style="font-size: 1.5rem;">
+                                                {{ $montantPaye }} Ar</span>
+                                            <span class="info-box-text">Montant restant</span>
+                                            <span class="info-box-number" style="font-size: 1.5rem;">
+                                                {{ $montantRestant }} Ar</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 card card-warning">
                                         <div class="card-header">
                                             <h3 class="card-title">Paiement par</h3>
                                         </div>
@@ -392,7 +455,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-12 card card-warning">
+                                    <div class="col-md-6 ml-2 card card-warning">
                                         <div class="card-header">
                                             <h3 class="card-title">Status de paiement</h3>
                                         </div>
@@ -431,16 +494,20 @@
                                         <div class="custom-control custom-switch text-center my-3">
                                             {{-- <input class="custom-control-input custom-control-input-info"
                                                 type="checkbox" id="generetFactur">
-                                            <label for="generetFactur" class="custom-control-label">Imprimer la facture
+                                            <label for="generetFactur" class="custom-control-label">Imprimer la
+                                                facture
                                                 après l'inscription.</label> --}}
-                                            <a href="/generate-pdf/{{ $paiement_id }}" target="_blank" class="btn btn-info mr-3"> <i class="fa fa-print"></i> Imprimer
+                                            <a href="/generate-pdf/{{ $paiement_id }}" target="_blank"
+                                                class="btn btn-info mr-3"> <i class="fa fa-print"></i> Imprimer
                                             </a>
-                                            <a href="/generate-pdf/{{ $paiement_id }}" target="_blank" class="btn btn-warning"> <i class="fa fa-download"></i> Télécharger
+                                            <a href="/generate-pdf/{{ $paiement_id }}" target="_blank"
+                                                class="btn btn-warning"> <i class="fa fa-download"></i> Télécharger
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-                                {{-- <a class="btn btn-primary" wire:click="bsSteepPrevNext('prev')">Précédent</a> --}}
+                                {{-- <a class="btn btn-primary" wire:click="bsSteepPrevNext('prev')">Précédent</a>
+                                --}}
                                 <a href="{{route('etudiants-list')}}" class="btn btn-primary"> Fermer </a>
                             </div>
                         </form>
