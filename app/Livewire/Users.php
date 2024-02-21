@@ -53,7 +53,7 @@ class Users extends Component
                 'editUser.email' => ['required', 'email', Rule::unique('etudiants', 'email')->ignore($this->editUser['id'])],
                 'editUser.telephone1' => ['required'],
                 'editUser.telephone2' => [''],
-                'editUser.adresse' => ['require', 'string'],
+                'editUser.adresse' => ['required', 'string'],
             ];
         }
         if ($this->sectionName == 'new') {
@@ -66,7 +66,7 @@ class Users extends Component
                 'newUser.email' => ['required', 'email', Rule::unique('etudiants', 'email')],
                 'newUser.telephone1' => ['required'],
                 'newUser.telephone2' => [''],
-                'newUser.adresse' => ['require','string'],
+                'newUser.adresse' => ['required','string'],
             ];
         }
         return $rule;
