@@ -25,4 +25,9 @@ class Examen extends Model
     {
         return $this->belongsTo(Level::class);
     }
+
+    public function session()
+    {
+        return $this->belongsTo(Session::class);
+    }
 }

@@ -137,7 +137,7 @@ class Etudiants extends Component
             if (in_array($exam->id, $examen)) {
                 array_push($this->nscList['examens'], ['examen_id' => $exam->id, 'examen_libelle' => $exam->libelle, 'active' => true]);
             } else {
-                array_push($this->nscList['examens'], ['examen_id' => $exam->id, 'examen_libelle' => $exam->libelle,'cour_horaire' => $cour->horaire, 'active' => false]);
+                array_push($this->nscList['examens'], ['examen_id' => $exam->id, 'examen_libelle' => $exam->libelle, 'active' => false]);
             }
         }
 

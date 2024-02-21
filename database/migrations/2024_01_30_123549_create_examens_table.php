@@ -2,6 +2,7 @@
 
 use App\Models\Level;
 use App\Models\Price;
+use App\Models\Session;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,6 +22,7 @@ return new class extends Migration
 
             $table->foreignIdFor(Price::class)->constrained();
             $table->foreignIdFor(Level::class)->constrained();
+            $table->foreignIdFor(Session::class)->constrained();
         });
     }
 
@@ -30,7 +32,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('examens', function (Blueprint $table) {
-            $table->dropColumn(['price_id', 'level_id']);;
+            $table->dropColumn(['price_id', 'level_id', "session_id"]);
         });
 
         Schema::dropIfExists('examens');

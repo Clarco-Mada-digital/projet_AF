@@ -70,9 +70,13 @@
                 <strong><i class="fa fa-book mr-1"></i> Cours choisie</strong>
                 <p class="text-muted d-flex justify-content-between align-items-center">
                     @foreach ($etudiant->cours as $cour)
+                    {{ $cour->libelle }} - ({{ $cour->session->nom }})
                     @foreach ($etudiant->inscription as $inscription)
                     @if ($cour->id == $inscription->idCourOrExam)
-                        <span class=" {{ $inscription->statut? '' : "text-danger" }} ">{{ $cour->libelle }} - {{ $inscription->paiement->montantRestant }} Ar à payer</span> <button class="btn btn-sm btn-success">Régler le paiement</button> </br>
+                    @if ($inscription->paiement->montantRestant != 0)
+                        <span class=" {{ $inscription->statut? '' : "text-danger" }} ">{{ $cour->libelle }} - {{ $inscription->paiement->montantRestant }} Ar à payer</span> <button class="btn btn-sm btn-success">Régler le paiement</button>
+                    @endif
+                        </br>
                     @endif                        
                     @endforeach                        
                     @endforeach
@@ -87,11 +91,15 @@
                 @endif
                 @if ($etudiant->examens->count() != 0)
                 <strong><i class="fa fa-book mr-1"></i> Examen choisie</strong>
-                <p class="text-muted">
+                <p class="text-muted d-flex justify-content-between align-items-center">
                     @foreach ($etudiant->examens as $examen)
+                    {{ $examen->libelle }} - ({{ $examen->session->nom }})
                     @foreach ($etudiant->inscription as $inscription)
                     @if ($examen->id == $inscription->idCourOrExam)
-                        <span class=" {{ $inscription->statut? '' : "text-danger" }} ">{{ $examen->libelle }} - {{ $inscription->paiement->montantRestant }} Ar à payer</span> <button class="btn btn-sm btn-success">Régler le paiement</button> </br>
+                    @if ($inscription->paiement->montantRestant != 0)
+                        <span class=" {{ $inscription->statut? '' : "text-danger" }} ">{{ $examen->libelle }} - {{ $inscription->paiement->montantRestant }} Ar à payer</span> <button class="btn btn-sm btn-success">Régler le paiement</button>
+                    @endif
+                        </br>
                     @endif                        
                     @endforeach                        
                     @endforeach
