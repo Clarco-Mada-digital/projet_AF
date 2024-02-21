@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cour;
 use App\Models\Etudiant;
 use Carbon\Carbon;
-use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Date;
 
 class HomeController extends Controller
 {

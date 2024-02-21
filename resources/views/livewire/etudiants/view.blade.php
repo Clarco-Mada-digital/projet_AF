@@ -68,12 +68,19 @@
             <div class="card-body">
                 @if ($etudiant->cours->count() != 0)
                 <strong><i class="fa fa-book mr-1"></i> Cours choisie</strong>
-                <p class="text-muted">
-                    {{ $etudiant->cours->implode('libelle', ' | ') }} - ({{ $etudiant->session->nom }})
+                <p class="text-muted d-flex justify-content-between align-items-center">
+                    @foreach ($etudiant->cours as $cour)
+                    @foreach ($etudiant->inscription as $inscription)
+                    @if ($cour->id == $inscription->idCourOrExam)
+                        <span class=" {{ $inscription->statut? '' : "text-danger" }} ">{{ $cour->libelle }} - {{ $inscription->paiement->montantRestant }} Ar à payer</span> <button class="btn btn-sm btn-success">Régler le paiement</button> </br>
+                    @endif                        
+                    @endforeach                        
+                    @endforeach
+                    {{-- {{ $etudiant->cours->implode('libelle', ' | ') }} - ({{ $etudiant->session->nom }}) --}}
                 </p>
                 <hr>
                 <strong><i class="fa fa-hourglass mr-1" aria-hidden="true"></i> Heure de cour</strong>
-                <p class="text-muted">
+                <p class="text-muted">                    
                     <span class="tag tag-danger"> {{ $etudiant->cours->implode('horaireDuCour', ', ') }} </span>
                 </p>
                 <hr>
@@ -81,7 +88,14 @@
                 @if ($etudiant->examens->count() != 0)
                 <strong><i class="fa fa-book mr-1"></i> Examen choisie</strong>
                 <p class="text-muted">
-                    {{ $etudiant->examens->implode('libelle', ' | ') }} - ({{ $etudiant->session->nom }})
+                    @foreach ($etudiant->examens as $examen)
+                    @foreach ($etudiant->inscription as $inscription)
+                    @if ($examen->id == $inscription->idCourOrExam)
+                        <span class=" {{ $inscription->statut? '' : "text-danger" }} ">{{ $examen->libelle }} - {{ $inscription->paiement->montantRestant }} Ar à payer</span> <button class="btn btn-sm btn-success">Régler le paiement</button> </br>
+                    @endif                        
+                    @endforeach                        
+                    @endforeach
+                    {{-- {{ $etudiant->examens->implode('libelle', ' | ') }} - ({{ $etudiant->session->nom }}) --}}
                 </p>
                 <hr>
                 @endif

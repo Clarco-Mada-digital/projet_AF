@@ -2,6 +2,7 @@
 
 use App\Models\Categorie;
 use App\Models\Professeur;
+use App\Models\Session;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->foreignIdFor(Categorie::class)->constrained()->default('1');
+            $table->foreignIdFor(Session::class)->constrained();
             $table->foreignIdFor(Professeur::class)->constrained()->default('NULL');
         });
 
@@ -36,7 +38,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('cours', function (Blueprint $table) {
-            $table->dropColumn(['professeur_id','level_id' ]);
+            $table->dropColumn(['professeur_id','Categorie_id', 'session_id' ]);
         });
 
         Schema::dropIfExists('cours');

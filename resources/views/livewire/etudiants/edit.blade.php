@@ -175,7 +175,7 @@
                         <div class="row mt-4">
                             <ul class="list-group ml-3">
                                 @foreach ($nscList['cours'] as $cour)
-                                @if ($our['active'])
+                                @if ($cour['active'])
                                 <li> {{ $cour['cour_libelle'] }} </li>
                                 @endif
                             </ul>

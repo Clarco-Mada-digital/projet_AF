@@ -28,7 +28,8 @@ class Etudiants extends Component
     use WithFileUploads;
 
     public string $search = "";
-    public string $filteredBy = "";
+    public string $filteredByLevel = "";
+    public string $filteredByCourExamen = "";
     protected $paginationTheme = "bootstrap";
 
     public string $orderField = 'nom';
@@ -209,7 +210,7 @@ class Etudiants extends Component
                 ->orWhere("prenom", "LIKE", "%{$this->search}%")
                 ->orWhere("numCarte", "LIKE", "%{$this->search}%");
             })
-            ->where([['level_id', 'LIKE', "%{$this->filteredBy}%"]])
+            ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])
             ->paginate(5);
 
         $data = [

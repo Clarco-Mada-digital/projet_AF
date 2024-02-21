@@ -23,7 +23,7 @@ class Session extends Model
     use HasFactory, SoftDeletes;
 
     public function cours(){
-        return $this->belongsToMany(Cour::class,"session_cours", 'session_id', 'cour_id');
+        return $this->hasMany(Cour::class);
     }
 
     public function inscriptons(){

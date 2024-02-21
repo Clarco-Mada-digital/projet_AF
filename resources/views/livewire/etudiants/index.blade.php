@@ -6,19 +6,33 @@
         <h3 class="mb-2 pt-3">Liste des étudiants</h3>
         <div class="row mt-4 mx-2">
             <div class="col-12">
-                <div class="w-25 mb-3">
-                    <div class="form-group">
-                        <label for="filteredForm">Filtrer le statut/niveaux par :</label>
-                        <select class="form-control" id="filteredForm" aria-label="Filter form"
-                            wire:model.live="filteredBy">
-                            <option value="" selected>Tout</option>
-                            @foreach ($allLevel as $level)
-                            <option value="{{ $level->id }}">{{ $level->libelle }}</option>
-                            @endforeach
-                        </select>
+                <div class="d-flex align-items-center">
+                    <div class="mb-3" style="width: 15%;">
+                        <div class="form-group">
+                            <label for="filteredLevelForm">Filtrer le statut/niveaux par :</label>
+                            <select class="form-control" id="filteredLevelForm" aria-label="Filter form"
+                                wire:model.live="filteredByLevel">
+                                <option value="" selected>Tout</option>
+                                @foreach ($allLevel as $level)
+                                <option value="{{ $level->id }}">{{ $level->libelle }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-
+                    {{-- <div class="mb-3 mx-3" style="width: 20%;">
+                        <div class="form-group">
+                            <label for="filteredPaiementForm">Filtrer le type d'inscription par :</label>
+                            <select class="form-control" id="filteredPaiementForm" aria-label="Filter form"
+                                wire:model.live="filteredByCourExamen">
+                                <option value="" selected>Tout</option>
+                                <option value="cours" selected>Cours</option>
+                                <option value="examen" selected>Examen</option>
+                            </select>
+                        </div>
+                    </div> --}}
                 </div>
+
+
                 <div class="card">
                     <div class="card-header bg-gradient-primary">
                         <h3 class="card-title d-flex align-items-center"> <i class="fa fa-users fa-2x mr-2"></i> Liste
@@ -53,6 +67,7 @@
                                     <th class="text-center">Cours | Examen</th>
                                     <th class="text-center">Session</th>
                                     <th class="text-center">Statut</th>
+                                    <th class="text-center">Paiement</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -60,16 +75,17 @@
                             {{-- table body --}}
                             <tbody>
                                 @forelse ($etudiants as $etudiant)
-                                <tr>
+                                <tr class=" @foreach ($etudiant->inscription as $inscription)
+                                    {{ $inscription->statut ? '' : " text-danger" }} @endforeach ">
                                     <td>
                                         @if ($etudiant->profil != null)
-                                        <img class="img-circle" src="{{ asset('storage/' . $etudiant->profil) }}"
-                                            width='50' alt="profil etudiant">
-                                        @else
-                                        <img class="img-circle"
-                                            src="{{ 'https://eu.ui-avatars.com/api/?name=' . $etudiant->nom . '&background=random' }}"
-                                            width='50' alt="profil etudiant">
-                                        @endif
+                                        <img class=" img-circle" src="{{ asset('storage/' . $etudiant->profil) }}"
+                                    width='50' alt="profil etudiant">
+                                    @else
+                                    <img class="img-circle"
+                                        src="{{ 'https://eu.ui-avatars.com/api/?name=' . $etudiant->nom . '&background=random' }}"
+                                        width='50' alt="profil etudiant">
+                                    @endif
 
                                     </td>
                                     <td class="text-center">{{ $etudiant->numCarte }}</td>
@@ -86,8 +102,14 @@
                                     </td>
                                     <td class="text-center"> {{ $etudiant->session->nom }} </td>
                                     <td
-                                        class="text-center @if ($etudiant->level->id == 1) text-danger @else text-success @endif">
+                                        class="text-center">
                                         {{ $etudiant->level->libelle }} </td>
+                                    <td
+                                        class="text-center">
+                                        @foreach ($etudiant->inscription as $inscription)
+                                             {{ $inscription->statut ? "OK" : "A moitie" }}
+                                        @endforeach                                        
+                                    </td>
                                     <td class="text-center">
                                         <button class="btn btn-link" data-toggle="modal"
                                             data-target="#view-etudiant{{ $etudiant->id }}" spellcheck="false"> <i
@@ -113,7 +135,7 @@
 
                                 @empty
                                 <tr>
-                                    <td class="text-center" colspan="9"> <img src="{{ asset('images/no_data.svg') }}"
+                                    <td class="text-center" colspan="10"> <img src="{{ asset('images/no_data.svg') }}"
                                             alt="Data empty" width="200px">
                                     </td>
                                 </tr>

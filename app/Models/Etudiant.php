@@ -64,4 +64,9 @@ class Etudiant extends Model
     {
         return $this->belongsTo(Session::class);
     }
+
+    public function inscription()
+    {
+        return $this->hasMany(Inscription::class);
+    }
 }

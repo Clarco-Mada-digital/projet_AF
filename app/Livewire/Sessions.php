@@ -62,7 +62,10 @@ class Sessions extends Component
                     $session->update(['statue' => false]);
 
                     // Supprimer les cours appartient au session fermer
-                    DB::table("session_cours")->where("session_id", $session->id)->delete();
+                    $session->cours->each(function ($cour) {
+                        $cour->delete();
+                    });
+                    // DB::table("session_cours")->where("session_id", $session->id)->delete();
                 }
             }
         }

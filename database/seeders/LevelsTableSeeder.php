@@ -12,7 +12,9 @@ class LevelsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $LEVELS = ['A1.1 P1',
+        $LEVELS = [
+        'A définir',
+        'A1.1 P1',
         'A1.1 P2',
         'A1.1 P3',
         'A1.1 P4',

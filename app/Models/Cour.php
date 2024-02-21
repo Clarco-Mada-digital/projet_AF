@@ -44,6 +44,6 @@ class Cour extends Model
 
     public function sessions()
     {
-        return $this->belongsToMany(Cour::class, "session_cours", 'cour_id', 'session_id');
+        return $this->belongsTo(Session::class);
     }
 }
