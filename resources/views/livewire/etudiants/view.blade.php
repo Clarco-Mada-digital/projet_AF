@@ -71,7 +71,7 @@
                 <p class="text-muted d-flex justify-content-between align-items-center">
                     @foreach ($etudiant->cours as $cours)
 
-                        <span class=" {{ $inscription->statut ? '' : "text-danger" }} ">{{ $cours->libelle }} ({{ $cours->session->nom }}) 
+                        <span class=" {{ $inscription->statut && $inscription->type == "cours" && $cours->id == $inscription->idCourOrExam ? '' : "text-danger" }} ">{{ $cours->libelle }} ({{ $cours->session->nom }}) 
 
                         @foreach ($etudiant->inscription as $inscription)
                             @if ($inscription->type == "cours" && $cours->id == $inscription->idCourOrExam && $inscription->paiement->montantRestant != 0)

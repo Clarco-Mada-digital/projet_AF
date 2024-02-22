@@ -507,7 +507,7 @@
                                     </div>
                                     <div class="card-body mx-auto w-100">
                                         <div class="text-center">
-                                            <img class="w-25" src="{{ asset('images/facture.jpg') }}"
+                                            <img src="{{ asset('images/facture.jpg') }}"
                                                 alt="prevision facture">
                                         </div>
                                         <div class="custom-control custom-switch text-center my-3">

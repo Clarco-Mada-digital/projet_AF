@@ -67,7 +67,7 @@
                                     <th class="text-center">Cours | Examen</th>
                                     <th class="text-center">Session</th>
                                     <th class="text-center">Statut</th>
-                                    <th class="text-center">Paiement</th>
+                                    {{-- <th class="text-center">Paiement</th> --}}
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -104,12 +104,13 @@
                                     <td
                                         class="text-center">
                                         {{ $etudiant->level->libelle }} </td>
-                                    <td
+                                    {{-- <td
                                         class="text-center">
                                         @foreach ($etudiant->inscription as $inscription)
-                                             {{ $inscription->statut ? "OK" : "A moitie" }}
-                                        @endforeach                                        
-                                    </td>
+                                             {{ $inscription->statut ? $paiementStatus = "" : $paiementStatus = "A moitie" }}
+                                        @endforeach
+                                        {{ $paiementStatus }}                                   
+                                    </td> --}}
                                     <td class="text-center">
                                         <button class="btn btn-link" data-toggle="modal"
                                             data-target="#view-etudiant{{ $etudiant->id }}" spellcheck="false"> <i
@@ -135,7 +136,7 @@
 
                                 @empty
                                 <tr>
-                                    <td class="text-center" colspan="10"> <img src="{{ asset('images/no_data.svg') }}"
+                                    <td class="text-center" colspan="9"> <img src="{{ asset('images/no_data.svg') }}"
                                             alt="Data empty" width="200px">
                                     </td>
                                 </tr>

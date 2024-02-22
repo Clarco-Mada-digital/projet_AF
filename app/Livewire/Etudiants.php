@@ -43,6 +43,7 @@ class Etudiants extends Component
     public $etudiantSession;
 
     public $dataInscri = [];
+    public string $paiementStatus = 'OK';
 
     public $allLevel;
     public $nscList = ["cours" => [], "level" => [], "examens" => []];
