@@ -14,7 +14,7 @@
                     </button>
                 </div>
             </div>
-            @if ($search != "" && count($memberResult) > 0)
+            @if ($search != "")
             <div style="position: absolute; inset: 0px auto auto 0px; left: 0px; top: 50px; width: 400px; z-index: 10;">
                 <div class=" list-group w-100 border bg-light border-primary rounded"
                     style="max-height: 300px; overflow-y: scroll;">
