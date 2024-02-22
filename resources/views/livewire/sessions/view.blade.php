@@ -4,7 +4,8 @@
     <div class="card-header">
         <h3 class="card-title text-center">
             {{ $session->nom }}
-            <span class="btn btn-sm @if ($session->statue) btn-success @else btn-danger @endif"> @if ($session->statue) Active
+            <span class="btn btn-sm @if ($session->statue) btn-success @else btn-danger @endif"> @if ($session->statue)
+                Active
                 @else Inactive @endif </span>
         </h3>
         <div class="card-tools">
@@ -38,14 +39,27 @@
         @else
         <strong><i class="fa fa-book mr-1"></i> Montant du session </strong>
         <p class="text-muted">
-           {{$session->montant }} Ar
+            {{$session->montant }} Ar
         </p>
         <hr>
         @endif
 
+        @if ($session->cours->count() > 0)
         <strong><i class="fa fa-book mr-1"></i> List des cours </strong>
         <p class="text-muted">
-            {{ $session->cours->implode('libelle', ' | ') }}
+            @foreach ($session->cours as $cour)
+            {{ $cour->libelle }} - {{ $cour->level->implode('libelle', ', ') }} </br>  
+            @endforeach
         </p>
+        @endif
+        @if ($session->examens->count() > 0)
+        <strong><i class="fa fa-book mr-1"></i> List des examens </strong>
+        <p class="text-muted">
+            @foreach ($session->examens as $examen)
+                {{ $examen->libelle }} - {{ $examen->level->libelle }} </br>
+            @endforeach
+        </p>
+        @endif
+
     </div>
 </div>

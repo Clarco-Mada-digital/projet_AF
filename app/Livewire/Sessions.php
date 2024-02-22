@@ -153,6 +153,7 @@ class Sessions extends Component
         ]);
 
         $this->newCour['horaireDuCour'] = $this->dateHeurCour;
+        $this->newCour['session_id'] = $this->editSession['id'];
         $myCour = Cour::create($this->newCour);
 
         array_push($this->newCourList, $myCour->id);
@@ -238,14 +239,14 @@ class Sessions extends Component
         Session::find($session->id)->update($this->editSession);
 
         // Vider les ancien donné
-        DB::table("session_cours")->where("session_id", $this->editSession['id'])->delete();
+        // DB::table("session_cours")->where("session_id", $this->editSession['id'])->delete();
 
         // add les cours correspondant au session a la base
-        foreach ($this->coursList as $cour) {
-            if ($cour['active']) {
-                Session::find($this->editSession['id'])->cours()->attach($cour['id']);
-            }
-        }
+        // foreach ($this->coursList as $cour) {
+        //     if ($cour['active']) {
+        //         Session::find($this->editSession['id'])->cours()->attach($cour['id']);
+        //     }
+        // }
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Session mise à jour avec success!', 'type' => 'success']);
 

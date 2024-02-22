@@ -57,7 +57,7 @@
 
             </div>
         </div>
-        <div class="col-md-7 card card-primary">
+        <div class="col-md-7 w-100 card card-primary">
 
             {{-- cards header --}}
             <div class="card-header">
@@ -69,16 +69,20 @@
                 @if ($etudiant->cours->count() != 0)
                 <strong><i class="fa fa-book mr-1"></i> Cours choisie</strong>
                 <p class="text-muted d-flex justify-content-between align-items-center">
-                    @foreach ($etudiant->cours as $cour)
-                    {{ $cour->libelle }} - ({{ $cour->session->nom }})
-                    @foreach ($etudiant->inscription as $inscription)
-                    @if ($cour->id == $inscription->idCourOrExam)
-                    @if ($inscription->paiement->montantRestant != 0)
-                        <span class=" {{ $inscription->statut? '' : "text-danger" }} ">{{ $cour->libelle }} - {{ $inscription->paiement->montantRestant }} Ar à payer</span> <button class="btn btn-sm btn-success">Régler le paiement</button>
-                    @endif
-                        </br>
-                    @endif                        
-                    @endforeach                        
+                    @foreach ($etudiant->cours as $cours)
+
+                        <span class=" {{ $inscription->statut ? '' : "text-danger" }} ">{{ $cours->libelle }} ({{ $cours->session->nom }}) 
+
+                        @foreach ($etudiant->inscription as $inscription)
+                            @if ($inscription->type == "cours" && $cours->id == $inscription->idCourOrExam && $inscription->paiement->montantRestant != 0)
+
+                                - {{ $inscription->paiement->montantRestant }} Ar à payer
+                                <button class="btn btn-sm btn-success">Régler le paiement</button>
+
+                            @endif                        
+                        @endforeach                        
+                    </span>
+                    </br>
                     @endforeach
                     {{-- {{ $etudiant->cours->implode('libelle', ' | ') }} - ({{ $etudiant->session->nom }}) --}}
                 </p>
@@ -93,15 +97,19 @@
                 <strong><i class="fa fa-book mr-1"></i> Examen choisie</strong>
                 <p class="text-muted d-flex justify-content-between align-items-center">
                     @foreach ($etudiant->examens as $examen)
-                    {{ $examen->libelle }} - ({{ $examen->session->nom }})
-                    @foreach ($etudiant->inscription as $inscription)
-                    @if ($examen->id == $inscription->idCourOrExam)
-                    @if ($inscription->paiement->montantRestant != 0)
-                        <span class=" {{ $inscription->statut? '' : "text-danger" }} ">{{ $examen->libelle }} - {{ $inscription->paiement->montantRestant }} Ar à payer</span> <button class="btn btn-sm btn-success">Régler le paiement</button>
-                    @endif
-                        </br>
-                    @endif                        
-                    @endforeach                        
+
+                        <span class=" {{ $inscription->statut? '' : "text-danger" }} ">{{ $examen->libelle }} ({{ $examen->session->nom }}) 
+
+                        @foreach ($etudiant->inscription as $inscription)
+                            @if ($inscription->type == "examen" && $examen->id == $inscription->idCourOrExam && $inscription->paiement->montantRestant != 0)
+                             
+                                - {{ $inscription->paiement->montantRestant }} Ar à payer
+                                <button class="btn btn-sm btn-success">Régler le paiement</button>                    
+                    
+                            @endif                        
+                        @endforeach  
+                    </span>
+                    </br>                    
                     @endforeach
                     {{-- {{ $etudiant->examens->implode('libelle', ' | ') }} - ({{ $etudiant->session->nom }}) --}}
                 </p>

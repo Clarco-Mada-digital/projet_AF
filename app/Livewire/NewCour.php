@@ -6,6 +6,7 @@ use App\Models\Categorie;
 use App\Models\Cour;
 use App\Models\Level;
 use App\Models\Professeur;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -17,6 +18,7 @@ class NewCour extends Component
     public $professeurs;
     public $levels;
     public $categories;
+    public $sessions;
     public $newCour = [];
     public $dateInput;
     public $dateHeurCour;
@@ -30,6 +32,7 @@ class NewCour extends Component
         $this->professeurs = Professeur::all()->toArray();
         $this->levels = Level::all()->toArray();
         $this->categories = Categorie::all()->toArray();
+        $this->sessions = DB::table('sessions')->where('statue', '=', true)->get();
         $this->salles = ['Salle 01', 'Salle 02', 'Salle 03', 'Salle 4','Salle 5','Salle 6','Salle 7','Salle 8','Salle 9','Salle 10', 'Salle de réunion', 'Salle de spectacle', 'Médiathèque', 'Hall'];
     }
 
@@ -39,6 +42,7 @@ class NewCour extends Component
             'newCour.code' => ['required', 'string'],
             'newCour.libelle' => ['required'],
             'newCour.categorie_id' => ['required'],
+            'newCour.session_id' => ['required'],
             'newCour.salle' => ['string'],
             'newCour.professeur_id' => ['string'],
         ];

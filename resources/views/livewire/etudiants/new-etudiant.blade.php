@@ -3,17 +3,34 @@
         <h3>Nouvel étudiant: </h3>
 
         {{-- section recherche --}}
-        <form action="">
+        <div style="position: relative;">
             <div class="input-group input-group-lg">
                 <input type="search" class="form-control form-control-lg"
-                    placeholder="Chercher les informations du membre" value="" spellcheck="false" style="width:400px;">
+                    placeholder="Chercher les informations du membre" value="" spellcheck="false" style="width:400px;"
+                    wire:model.live="search" wire:keydown.enter="showEtudiant" />
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-lg btn-info">
                         <i class="fa fa-search"></i>
                     </button>
                 </div>
             </div>
-        </form>
+            @if ($search != "" && count($memberResult) > 0)
+            <div style="position: absolute; inset: 0px auto auto 0px; left: 0px; top: 50px; width: 400px; z-index: 10;">
+                <div class=" list-group w-100 border bg-light border-primary rounded"
+                    style="max-height: 300px; overflow-y: scroll;">
+                    @forelse ($memberResult as $member)
+                    <a href="#" class="list-group-item list-group-item-action"
+                    wire:click='initData({{ $member->id }})'
+                    >{{ $member->nom }} {{ $member->prenom
+                        }}</a>
+                    @empty
+                    <p class="text-center pt-2">Aucun résultat trouvé 😔</p>
+                    @endforelse
+                </div>
+            </div>
+            @endif
+
+        </div>
 
     </div>
     <div class="col-md-12" wire:ignore.self>
@@ -255,7 +272,8 @@
                                         <div class="form-group">
                                             <div class="custom-control custom-switch">
                                                 <input class="custom-control-input custom-control-input-info"
-                                                    type="checkbox" id="newMembre" wire:model='noMember'>
+                                                    type="checkbox" id="newMembre" wire:model='noMember'
+                                                    @if ($MemberPmb) disabled @endif>
                                                 <label for="newMembre" class="custom-control-label">Confirmer que
                                                     c'est un nouveau membre</label>
                                             </div>
@@ -346,7 +364,8 @@
                                                         wire:model.lazy="nscList.examens.{{ $loop->index }}.active"
                                                         wire:click.live="updateCoursList">
                                                     <label for="examen{{ $examen['id'] }}"
-                                                        class="custom-control-label">{{ $examen['libelle'] }} - {{ $examen['level'] }} </label>
+                                                        class="custom-control-label">{{ $examen['libelle'] }} - {{
+                                                        $examen['level'] }} </label>
                                                 </div>
                                             </div>
                                             @empty

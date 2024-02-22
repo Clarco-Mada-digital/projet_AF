@@ -66,8 +66,7 @@ class Etudiants extends Component
                 $storage->delete($pathFileName);
             }
         }
-    }
-
+    }   
 
     protected function rules()
     {

@@ -13,6 +13,7 @@ class Inscription extends Model
         'remarque',
         'idCourOrExam',
         'statut',
+        'type',
         'etudiant_id',
         'paiement_id',
     ];

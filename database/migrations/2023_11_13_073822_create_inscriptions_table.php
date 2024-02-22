@@ -18,6 +18,7 @@ return new class extends Migration
             $table->longText('remarque')->nullable();
             $table->integer('idCourOrExam')->nullable();
             $table->boolean("statut");
+            $table->string("type");
             $table->timestamps();
 
             $table->foreignIdFor(Etudiant::class)->constrained();

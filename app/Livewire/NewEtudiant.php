@@ -22,7 +22,9 @@ class NewEtudiant extends Component
 {
     use WithFileUploads;
 
-    // ----------- Nos variable --------------
+    // ----------- Nos variable --------------    
+    public string $search = "";
+    public $memberResult = [];
     public $newEtudiant = ['profil' => '', 'level_id' => '1'];
     public $photo;
     public int $bsSteepActive = 1;
@@ -44,6 +46,7 @@ class NewEtudiant extends Component
     public string $typeInscription = "cour";
 
     public bool $noMember = false;
+    public bool $MemberPmb = false;
 
     public function defineStatue($nomStatue)
     {
@@ -75,12 +78,32 @@ class NewEtudiant extends Component
         }
     }
 
+    public function initData(Etudiant $etudiant)
+    {
+        $this->search = "";
+        $this->newEtudiant = $etudiant->toArray();
+        $this->reset("noMember");
+        $this->MemberPmb = true;
+    }
+
+    public function updatedSearch()
+    {
+        // $this->reset($this->memberResult);
+        
+        $this->memberResult = Etudiant::where("nom", "LIKE", "%{$this->search}%")
+                                        ->orWhere("prenom", "LIKE", "%{$this->search}%")
+                                        ->orWhere("numCarte", "LIKE", "%{$this->search}%")
+                                        ->get();
+
+    
+    }
+
     // Fonction pour les etape du formulaire de l'enregistrement des étudiants
     public function bsSteepPrevNext($crèment)
     {
         if ($crèment == 'next') {
             if ($this->bsSteepActive == 1) {
-                $this->validate();
+                $this->MemberPmb ? "" : $this->validate();
                 $this->bsSteepActive += 1;
                 return null;
             } elseif ($this->bsSteepActive == 3) {
@@ -196,7 +219,7 @@ class NewEtudiant extends Component
         $this->newEtudiant['numCarte'] = "AF-" . random_int(100, 9000);
         $idCourOrExam = null;
         
-        $this->validate();
+        $this->MemberPmb ? "" : $this->validate();
         
         if ($this->photo != '') {
             $photoName = $this->photo->store('profil', 'public');
@@ -204,7 +227,7 @@ class NewEtudiant extends Component
         }
         
         
-        $newEtud = Etudiant::create($this->newEtudiant);
+        $this->MemberPmb ? $newEtud = Etudiant::find($this->newEtudiant['id'])  : $newEtud = Etudiant::create($this->newEtudiant);
         // $newEtud = Etudiant::where('email', $this->newEtudiant['email'])->first();
 
         if ($this->nscList['examens'] != null) {
@@ -228,9 +251,9 @@ class NewEtudiant extends Component
 
         $inscrOuReinscr = "";
         if ($this->noMember) {
-            $inscrOuReinscr = "Inscription";
+            $inscrOuReinscr = "Inscription + Adhésion";
         } else {
-            $inscrOuReinscr = "Reinscription";
+            $inscrOuReinscr = "Inscription";
         }
 
         // Pour la base donné de paiement
@@ -253,6 +276,7 @@ class NewEtudiant extends Component
             'paiement_id' => $paiement->id,
             'idCourOrExam' => $idCourOrExam,
             'statut' => $this->montantRestant == 0 ? true : false,
+            'type' => $this->typeInscription == "cour" ? "cours" : "examen",
         ];
 
         $inscription = Inscription::create($inscriValue);

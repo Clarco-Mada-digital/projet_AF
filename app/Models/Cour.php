@@ -20,6 +20,7 @@ class Cour extends Model
         'coment',
         'professeur_id',
         'categorie_id',
+        'session_id',
     ];
 
     public function professeur()
@@ -42,7 +43,7 @@ class Cour extends Model
         return $this->belongsToMany(Level::class, "cours_levels", 'cour_id', 'level_id');
     }
 
-    public function sessions()
+    public function session()
     {
         return $this->belongsTo(Session::class);
     }

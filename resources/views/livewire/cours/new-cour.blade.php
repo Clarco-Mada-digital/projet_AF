@@ -64,7 +64,7 @@
                         </select>
                         @error('newCour.professeur_id') <span class="invalid-feedback">Ce champ est obligatoire</span> @enderror
                     </div>
-                    <div class="col-md-4 form-group">
+                    <div class="col-md-2 form-group">
                         <label class="form-label" for="codeSalle">Niveau</label>
                         <select multiple class="form-control @error('newCour.level_id') is-invalid @enderror" id="courNiveau" wire:model='newLevels'>
                             {{-- <option >-- Niveau --</option> --}}
@@ -74,6 +74,16 @@
                         </select>
                         @error('newCour.level_id') <span class="invalid-feedback">Ce champ est obligatoire</span> @enderror
                         <span class="text-info">**Pour effectuer une sélection multiple, appuyez sur Ctrl ou Cmd.**</span>
+                    </div>
+                    <div class="col-md-2 form-group">
+                        <label class="form-label" for="codeSalle">Session</label>
+                        <select class="form-control @error('newCour.session_id') is-invalid @enderror" id="sessionNiveau" wire:model='newSession'>
+                            <option >-- Session --</option>
+                            @foreach ($sessions as $session)
+                                <option value="{{ $session->id }}"> {{ $session->nom }} </option>                                
+                            @endforeach
+                        </select>
+                        @error('newCour.session_id') <span class="invalid-feedback">Ce champ est obligatoire</span> @enderror
                     </div>
                     <div class="col-md-8 form-group row">
                         <div class="col-md-6">

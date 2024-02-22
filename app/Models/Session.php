@@ -26,6 +26,10 @@ class Session extends Model
         return $this->hasMany(Cour::class);
     }
 
+    public function examens(){
+        return $this->hasMany(Examen::class);
+    }
+
     public function inscriptons(){
         return $this->belongsToMany(Inscription::class,"inscripiton_sessions", 'session_id', 'inscription_id');
     }
