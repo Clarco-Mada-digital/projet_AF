@@ -251,7 +251,7 @@ class NewEtudiant extends Component
 
         $inscrOuReinscr = "";
         if ($this->noMember) {
-            $inscrOuReinscr = "Inscription + Adhésion";
+            $inscrOuReinscr = "Adhésion + Inscription";
         } else {
             $inscrOuReinscr = "Inscription";
         }
