@@ -49,7 +49,7 @@
                                         <td> {{ $loop->index + 1 }} </td>
                                         <td> {{ $cour->code }} </td>
                                         <td> {{ $cour->libelle }} </td>
-                                        <td class="text-center"> {{ Str::words($cour->horaireDuCour, 6, "...") }} </td>
+                                        <td class="text-center"> {{ Str::words($cour->horaireDuCour, 5, "...") }} </td>
                                         <td class="text-center">
                                             {{ $cour->professeur->sexe == 'F' ? 'Mme/Mlle' : 'Mr' }}
                                             {{ $cour->professeur->nom }} </td>

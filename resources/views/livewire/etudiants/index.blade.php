@@ -58,9 +58,8 @@
                             {{-- table header --}}
                             <thead>
                                 <tr>
-                                    <th style="width: 5%"></th>
-                                    <th class="text-center" style="width: 10%" wire:click="setOrderField('numCarte')">N°
-                                        de carte</th>
+                                    <th style="width: 5%;"></th>
+                                    <th class="text-center" wire:click="setOrderField('numCarte')">N° de carte</th>
                                     <th wire:click="setOrderField('nom')">Nom</th>
                                     <th wire:click="setOrderField('prenom')">Prénom</th>
                                     <th class="text-center">Téléphone</th>
@@ -94,10 +93,11 @@
                                     <td class="text-center">{{ $etudiant->telephone1 }}</td>
                                     <td class="text-center">
                                         @if ($etudiant->cours->count() > 0)
-                                        {{ 'Cours '.$etudiant->cours->implode('libelle', ' | ') }}
+                                        {{ Str::words($etudiant->cours->implode('libelle', ' | '), 3, '...') }}
                                         @endif
+                                        |
                                         @if ($etudiant->examens->count() > 0)
-                                        {{'Examen '.$etudiant->examens->implode('libelle', ' | ') }}
+                                        {{ Str::words('Examen '.$etudiant->examens->implode('libelle', ' | '), 3, '...')  }}
                                         @endif
                                     </td>
                                     <td class="text-center"> {{ $etudiant->session->nom }} </td>

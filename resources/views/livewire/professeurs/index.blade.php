@@ -30,14 +30,14 @@
                         <table class="table table-head-fixed text-nowrap">
                             <thead>
                                 <tr>
-                                    <th style="width: 5%;"></th>
-                                    <th style="width: 20%" wire:click="setOrderField('nom')">Nom</th>
-                                    <th class="text-center" style="width: 20%" wire:click="setOrderField('prenom')">Prénom</th>
-                                    <th class="text-center" style="width: 10%" wire:click="setOrderField('nationalite')">nationalité</th>
-                                    <th class="text-center" style="width: 10%">Téléphone</th>
-                                    <th class="text-center" style="width: 10%">Email</th>
-                                    <th class="text-center" style="width: 25%">Cours</th>
-                                    <th class="text-center" style="width: 5%">Action</th>
+                                    <th></th>
+                                    <th wire:click="setOrderField('nom')">Nom</th>
+                                    <th class="text-center" wire:click="setOrderField('prenom')">Prénom</th>
+                                    <th class="text-center" wire:click="setOrderField('nationalite')">nationalité</th>
+                                    <th class="text-center">Téléphone</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Cours</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
 

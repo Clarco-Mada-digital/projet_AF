@@ -1,4 +1,4 @@
-<div class="col-6">
+<div class="col-lg-12 col-xl-6">
     <div class="card" style="min-height: 350px;">
         {{-- card header --}}
         <div class="card-header bg-gradient-primary">
