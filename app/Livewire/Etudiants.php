@@ -61,9 +61,9 @@ class Etudiants extends Component
         foreach ($storage->allFiles("livewire-tmp") as $pathFileName) {
             if (!$storage->exists($pathFileName)) continue;
 
-            $fiveSecondDel = now()->subSecond(10)->timestamp;
+            $tenSecondDel = now()->subSecond(10)->timestamp;
 
-            if ($fiveSecondDel > $storage->lastModified($pathFileName)) {
+            if ($tenSecondDel > $storage->lastModified($pathFileName)) {
                 $storage->delete($pathFileName);
             }
         }

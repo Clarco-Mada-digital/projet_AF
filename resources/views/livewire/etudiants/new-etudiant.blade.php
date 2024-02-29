@@ -250,7 +250,7 @@
                                                 class="form-control phone @error('newEtudiant.telephone1') is-invalid @enderror"
                                                 id="etudiantPhone" wire:model='newEtudiant.telephone1'>
                                             @error('newEtudiant.telephone1')
-                                            <span class="invalid-feedback"> Ce champ est obligatoire</span>
+                                            <span class="invalid-feedback"> Le numéro de téléphone doit être au format: 032.00.000.00</span>
                                             @enderror
                                         </div>
                                     </div>
@@ -261,7 +261,7 @@
                                                 <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                             </div> --}}
                                             <input type="text"
-                                                class="form-control phone @error('newEtudiant.telephone1') is-invalid @enderror"
+                                                class="form-control phone @error('newEtudiant.telephone2') is-invalid @enderror"
                                                 id="etudiantPhone2" wire:model='newEtudiant.telephone2'>
                                             @error('newEtudiant.telephone2')
                                             <span class="invalid-feedback"> Ce champ est obligatoire</span>
@@ -387,7 +387,7 @@
                                             <tbody>
                                                 <tr>
                                                     <th scope="row">1</th>
-                                                    <td>Inscription au {{ $typeInscription }}</td>
+                                                    <td>Inscription au {{ Str::plural($typeInscription) }}</td>
                                                     @if ($typeInscription == 'cour')
                                                     <td class="text-end">
                                                         @isset($sessionSelected)
@@ -409,7 +409,7 @@
                                                 @if ($noMember)
                                                 <tr>
                                                     <th scope="row">2</th>
-                                                    <td> Adhesion au membre AF </td>
+                                                    <td> Adhésion au membre AF </td>
                                                     <td class="text-end"> {{ $montantAdhesion }} Ar</td>
                                                 </tr>
                                                 @endif

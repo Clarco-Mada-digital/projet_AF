@@ -2,7 +2,7 @@
     
     {{-- Card header --}}
     <div class="card-header">
-        <h3 class="card-title">Apropos du cours</h3>
+        <h3 class="card-title">A propos du cours</h3>
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="maximize" spellcheck="false">
                 <i class="fas fa-expand"></i>
