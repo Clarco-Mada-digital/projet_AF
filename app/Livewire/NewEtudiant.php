@@ -35,9 +35,9 @@ class NewEtudiant extends Component
     public $now;
     public $etudiantSession;
     public $sessionSelected;
-    public $moyenPaiement = 'Espèce';
+    public $moyenPaiement;
     public $paiement_id = 0;
-    public $statue = 'Totalement';
+    public $statue;
     public float $montantInscription = 0;
     public float $montantAdhesion;
     public float $montantExam = 0;
@@ -69,8 +69,8 @@ class NewEtudiant extends Component
         };
 
         foreach (Examen::all() as $examen) {
-            array_push($this->nscList['examens'], ['id' => $examen->id, 'libelle' => $examen->libelle, "level"=> $examen->level->libelle, 'active' => false]);
-        }        
+            array_push($this->nscList['examens'], ['id' => $examen->id, 'libelle' => $examen->libelle, "level" => $examen->level->libelle, 'session_id' => $examen->session_id, 'active' => false]);
+        }
 
         if ($this->listSession->toArray() == null) {
             $this->dispatch("showModalSimpleMsg", ['message' => "Avant d'inscrire un étudiant, soyer sûr qu'il y a de la session active !", 'type' => 'warning']);
@@ -89,13 +89,11 @@ class NewEtudiant extends Component
     public function updatedSearch()
     {
         // $this->reset($this->memberResult);
-        
-        $this->memberResult = Etudiant::where("nom", "LIKE", "%{$this->search}%")
-                                        ->orWhere("prenom", "LIKE", "%{$this->search}%")
-                                        ->orWhere("numCarte", "LIKE", "%{$this->search}%")
-                                        ->get();
 
-    
+        $this->memberResult = Etudiant::where("nom", "LIKE", "%{$this->search}%")
+            ->orWhere("prenom", "LIKE", "%{$this->search}%")
+            ->orWhere("numCarte", "LIKE", "%{$this->search}%")
+            ->get();
     }
 
     // Fonction pour les etape du formulaire de l'enregistrement des étudiants
@@ -107,8 +105,12 @@ class NewEtudiant extends Component
                 $this->bsSteepActive += 1;
                 return null;
             } elseif ($this->bsSteepActive == 3) {
-                $this->submitNewEtudiant();
-                $this->bsSteepActive += 1;
+                if ($this->statue == "" || $this->moyenPaiement == "") {
+                    $this->dispatch("showModalSimpleMsg", ['message' => "Veuillez sélectionner le statut et le moyen de paiement", 'type' => 'warning']);
+                } else {
+                    $this->submitNewEtudiant();
+                    $this->bsSteepActive += 1;
+                }
                 return null;
             } elseif ($this->bsSteepActive == 4) {
                 return redirect(route('etudiants-list'));
@@ -152,10 +154,16 @@ class NewEtudiant extends Component
         $this->montantInscription = 0;
         if ($this->etudiantSession != null && $this->etudiantSession != 'null') {
             $this->nscList['cours'] = [];
+            $this->nscList['examens'] = [];
             $this->sessionSelected = Session::find($this->etudiantSession);
             $cours = Session::find($this->etudiantSession)->cours;
             foreach ($cours as $cour) {
                 array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
+            };
+            foreach (Examen::all() as $examen) {
+                if ($examen->session_id == $this->etudiantSession) {
+                    array_push($this->nscList['examens'], ['id' => $examen->id, 'libelle' => $examen->libelle, "level" => $examen->level->libelle, 'session_id' => $examen->session_id, 'active' => false]);
+                }
             }
         }
 
@@ -169,6 +177,11 @@ class NewEtudiant extends Component
         // if ($this->newEtudiant['categorie_id'] == '3') {
         //     $montantAdhesion = DB::table('prices')->where('id', 3)->value('montant');
         // }
+
+    }
+
+    public function updateMontant()
+    {
         $this->montantAdhesion = DB::table('prices')->where('id', $this->newEtudiant['categorie_id'])->value('montant');
 
         // pour inscription au cours
@@ -208,7 +221,6 @@ class NewEtudiant extends Component
         }
         $this->montantRestant = 0;
         $this->montantRestant = $this->montantInscription - $this->montantPaye;
-
     }
 
     // Enregistrement un nouveau étudiant
@@ -218,15 +230,15 @@ class NewEtudiant extends Component
         $this->newEtudiant['session_id'] = $this->etudiantSession;
         $this->newEtudiant['numCarte'] = "AF-" . random_int(100, 9000);
         $idCourOrExam = null;
-        
+
         $this->MemberPmb ? "" : $this->validate();
-        
+
         if ($this->photo != '') {
             $photoName = $this->photo->store('profil', 'public');
             $this->newEtudiant['profil'] = $photoName;
         }
-        
-        
+
+
         $this->MemberPmb ? $newEtud = Etudiant::find($this->newEtudiant['id'])  : $newEtud = Etudiant::create($this->newEtudiant);
         // $newEtud = Etudiant::where('email', $this->newEtudiant['email'])->first();
 
@@ -256,14 +268,14 @@ class NewEtudiant extends Component
             $inscrOuReinscr = "Inscription";
         }
 
-        // Pour la base donné de paiement
+        // Pour la base donné de paiement               
         $paiementData = [
             'montant' => $this->montantInscription,
             'montantRestant' => $this->montantRestant != 0 ? $this->montantRestant : 0,
             'statue' => $this->statue,
-            'motif' => $inscrOuReinscr." du " . $this->newEtudiant['nom'],
+            'motif' => $inscrOuReinscr . " du " . $this->newEtudiant['nom'],
             'moyenPaiement' => $this->moyenPaiement,
-            'type' => $inscrOuReinscr.' a un ' . $this->typeInscription,
+            'type' => $inscrOuReinscr . ' a un ' . $this->typeInscription,
             'numRecue' => "AFPN°" . random_int(50, 9000),
             'user_id' => Auth::user()->id
         ];
@@ -281,10 +293,9 @@ class NewEtudiant extends Component
 
         $inscription = Inscription::create($inscriValue);
 
-        if ($this->typeInscription == 'cour')
-        {
+        if ($this->typeInscription == 'cour') {
             $inscription->sessions()->attach($this->sessionSelected->id);
-        }        
+        }
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant enregistrer avec success!', 'type' => 'success']);
         $this->photo = '';

@@ -64,7 +64,12 @@
           <div class="card-body">
               <strong><i class="fa fa-book mr-1"></i> Cour choisie</strong>
               <p class="text-muted">
-                {{ $professeur->cours != '[]' ? $professeur->cours->implode('libelle', ' | ') : 'Aucun cours trouvé !' }}
+                {{-- {{ $professeur->cours != '[]' ? $professeur->cours->implode('libelle', ' | ') : 'Aucun cours trouvé !' }} --}}
+                @forelse ($professeur->cours as $cours)
+                {{ $cours->libelle }} - {{ $cours->session->nom }}                    
+                @empty
+                Aucun cours trouvé !
+                @endforelse
               </p>
               <hr>
               {{-- <strong><i class="fa fa-thermometer mr-1"></i> Niveaux</strong>

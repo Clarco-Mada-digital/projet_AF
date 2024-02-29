@@ -69,11 +69,13 @@ class RoleTableSeeder extends Seeder
         // Permission::create(['name' => 'supprimer catégories', 'guard_name'=>'web']);
 
         // Role and assign existing permissions
-        $manager = Role::create(['name' => 'Manager', 'guard_name'=>'web']);
-        $manager->givePermissionTo('étudiants.*');
+        $accueil = Role::create(['name' => 'Accueil', 'guard_name'=>'web']);
+        $accueil->givePermissionTo('étudiants.*');
 
         $Admin = Role::create(['name' => 'Admin', 'guard_name'=>'web']);
         $Admin->givePermissionTo('utilisateurs.*');
+
+        $Admin = Role::create(['name' => 'Pédagogique', 'guard_name'=>'web']);
 
         $superAdmin = Role::create(['name' => 'Super-Admin', 'guard_name'=>'web']);
 

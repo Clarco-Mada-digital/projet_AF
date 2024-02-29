@@ -61,7 +61,7 @@
                                         <td class="text-center">{{ $professeur->nationalite }}</td>
                                         <td class="text-center">{{ $professeur->telephone1 }}</td>
                                         <td class="text-center"> {{ $professeur->email }} </td>
-                                        <td class="text-center"> {{ $professeur->cours->implode('libelle', ' | ') }} </td>
+                                        <td class="text-center"> {{ Str::words($professeur->cours->implode('libelle', ' | '), 5, '...') }} </td>
                                         <td class="text-center">
                                             <button class="btn btn-link"><i class="fa fa-eye" data-toggle="modal"
                                                     data-target="#view-professeur{{ $professeur->id }}"

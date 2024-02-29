@@ -28,14 +28,15 @@
 
                         <thead>
                             <tr>
-                                <th style="width: 5%;" wire:click="setOrderField('numRecue')">N° reçue</th>
-                                <th style="width: 20%;" wire:click="setOrderField('type')">Paiement pour</th>
-                                <th style="width: 15%;" class="text-center" wire:click="setOrderField('montant')">Montant en Ar</th>
+                                <th wire:click="setOrderField('numRecue')">N° reçue</th>
+                                <th wire:click="setOrderField('type')">Paiement pour</th>
+                                <th wire:click="setOrderField('type')" wire:click="setOrderField('created_at')">Date de paiement</th>
+                                <th class="text-center" wire:click="setOrderField('montant')">Montant en Ar</th>
                                 <th style="width: 20%;" class="text-center" wire:click="setOrderField('moyentPaiement')">Moyen de paiement
                                 </th>
-                                <th class="text-center" style="width: 15%;">Statue paiement</th>
-                                <th class="text-center" style="width: 20%;">Effectuer par</th>
-                                <th class="text-center" style="width: 5%;">Action</th>
+                                <th class="text-center">Statue paiement</th>
+                                <th class="text-center">Effectuer par</th>
+                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
 
@@ -44,7 +45,8 @@
                             @forelse ($paiements as $paiement)
                                 <tr>
                                     <td> {{ $paiement->numRecue }} </td>
-                                    <td> {{ $paiement->type }} {{ $paiement->motif != null ? "- (".$paiement->motif.")" : "" }} </td>
+                                    <td> {{ Str::words($paiement->type, 3, "...") }} {{ Str::words($paiement->motif != null ? "- (".$paiement->motif.")" : "", 3, "...") }} </td>
+                                    <td class="text-center">{{ $paiement->created_at->diffForHumans() }}</td>
                                     <td class="text-center">{{ $paiement->montant }}</td>
                                     <td class="text-center">{{ $paiement->moyenPaiement }}</td>
                                     <td class="text-center">{{ $paiement->statue }} payée 
@@ -66,7 +68,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td class="text-center" colspan="7">
+                                    <td class="text-center" colspan="8">
                                         <img src="{{ asset('images/no_data.svg') }}" alt="Data empty" width="200px">
                                     </td>
                                 </tr>

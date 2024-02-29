@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Paiement;
 use App\Models\User;
+use Carbon\Carbon;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -40,6 +41,8 @@ class Paiements extends Component
 
     public function render()
     {
+        Carbon::setLocale('fr');
+        
         $datas = [
             'paiements' => Paiement::where("numRecue", "LIKE", "%{$this->search}%")
                 ->orWhere("motif", "LIKE", "%{$this->search}%")

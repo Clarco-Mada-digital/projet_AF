@@ -22,10 +22,10 @@ class PdfController extends Controller
         $examen = null;
         $cours = null;
 
-        if($paiement->type == "Reinscription a un examen" || $paiement->type == "Inscription a un examen"){
+        if($paiement->type == "Inscription a un examen" || $paiement->type == "Adhésion + Inscription a un examen"){
             $examen = Examen::where('id', '=', $iscription->idCourOrExam)->first();
         }
-        if($paiement->type == "Reinscription a un cour" || $paiement->type == "Inscription a un cour"){
+        if($paiement->type == "Inscription a un cour" || $paiement->type == "Adhésion + Inscription a un cour"){
             $cours = Cour::where('id', '=', $iscription->idCourOrExam)->first();
         }
 

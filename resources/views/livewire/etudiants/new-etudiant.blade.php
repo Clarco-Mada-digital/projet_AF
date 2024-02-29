@@ -317,7 +317,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-3 @if ($typeInscription == 'examen') d-none @endif">
                                         <div class="form-group">
                                             <label for="etudiantNiveau">Niveau</label>
                                             <select class="custom-select" spellcheck="false" id="etudiantNiveau"
@@ -329,7 +329,7 @@
                                                 <option value="2"> Donné non trouvé </option>
                                                 @endforelse
                                             </select>
-                                        </div>
+                                        </div>                                        
                                     </div>
 
                                     <div
@@ -345,7 +345,7 @@
                                                     <input class="custom-control-input" type="checkbox"
                                                         id="cour{{ $cour['cour_id'] }}" @if ($cour['active']) checked
                                                         @endif
-                                                        wire:model.lazy="nscList.cours.{{ $loop->index }}.active">
+                                                        wire:model.lazy="nscList.cours.{{ $loop->index }}.active" wire:click='updateMontant'>
                                                     <label for="cour{{ $cour['cour_id'] }}"
                                                         class="custom-control-label">{{ $cour['cour_libelle'] }}</label>
                                                 </div>
@@ -354,20 +354,19 @@
                                             <h3>Aucun donnée trouvé !</h3>
                                             @endforelse
                                             @endif
-                                            @if ($typeInscription == 'examen')
-                                            @forelse ($nscList['examens'] as $examen)
+                                            @if ($typeInscription == 'examen')                                            @forelse ($nscList['examens'] as $examen)
                                             <div class="form-group col-md-3">
                                                 <div class="custom-control custom-checkbox">
                                                     <input class="custom-control-input" type="checkbox"
                                                         id="examen{{ $examen['id'] }}" @if ($examen['active']) checked
                                                         @endif
                                                         wire:model.lazy="nscList.examens.{{ $loop->index }}.active"
-                                                        wire:click.live="updateCoursList">
+                                                        wire:click.live="updateMontant">
                                                     <label for="examen{{ $examen['id'] }}"
                                                         class="custom-control-label">{{ $examen['libelle'] }} - {{
                                                         $examen['level'] }} </label>
                                                 </div>
-                                            </div>
+                                            </div>                                           
                                             @empty
                                             <h3>Aucun donnée trouvé !</h3>
                                             @endforelse
@@ -482,8 +481,8 @@
                                             <div class="custom-control custom-radio col-md-3">
                                                 <input class="custom-control-input" type="radio" id="moitier"
                                                     name="statuePaiement" wire:click="defineStatue('A moitié')">
-                                                <label for="moitier" class="custom-control-label"> A moitié
-                                                    payé</label>
+                                                <label for="moitier" class="custom-control-label">Partiellement payé
+                                                </label>
                                             </div>
                                             <div class="custom-control custom-radio col-md-3">
                                                 <input class="custom-control-input" type="radio" id="totale"

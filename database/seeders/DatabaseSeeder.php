@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
         $user2 = \App\Models\User::find(2);
         $user2->assignRole('Admin');
         $user3 = \App\Models\User::find(3);
-        $user3->assignRole('Manager');
+        $user3->assignRole('Accueil');
 
         // \App\Models\Etudiant::factory(10)->create();
         
