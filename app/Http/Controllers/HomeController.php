@@ -7,6 +7,7 @@ use App\Models\Etudiant;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -19,9 +20,9 @@ class HomeController extends Controller
      * @return void
      */
     public function __construct()
-    {        
+    {
         $this->now = Carbon::now();
-        $this->middleware('auth');        
+        $this->middleware('auth');
     }
 
     /**
@@ -31,19 +32,40 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        Carbon::setLocale('fr');
+
+        // Test pour charte js
+        $correspondanceJours = [
+            "Sunday" => "Dimanche",
+            "Monday" => "Lundi",
+            "Tuesday" => "Mardi",
+            "Wednesday" => "Mercredi",
+            "Thursday" => "Jeudi",
+            "Friday" => "Vendredi",
+            "Saturday" => "Samedi"
+        ];
+        $record = Etudiant::select(DB::raw("COUNT(*) as count"), DB::raw("DAYNAME(created_at) as day_name"), DB::raw("DAY(created_at) as day"))->where('created_at', '>', Carbon::today()->subDay(6))
+            ->groupBy('day_name', 'day')
+            ->orderBy('day')
+            ->get();
+
+        foreach ($record as $row) {
+            $myRecord['label'][] = $correspondanceJours[$row->day_name];
+            $myRecord['data'][] = (int) $row->count;
+        }
+
         $etudiants = Etudiant::all();
         $cours = Cour::all();
 
-        $datas =['etudiants'=>$etudiants, 'cours'=>$cours];
+        $datas = ['etudiants' => $etudiants, 'cours' => $cours, 'chartData' => json_encode($myRecord)];
 
-        $salutationList = ['Bienvenu', 'Salut', 'Bonjour', 'Hola', 'Salama', 'Bolatsara'];
+        $salutationList = ['Bienvenu', 'Salut', 'Bonjour', 'Hola', 'Salama', 'Bolatsara', 'Zdravstvuyte', 'Nǐn hǎo', 'Salve', 'Konnichiwa', 'Guten Tag', 'Olá', 'Anyoung haseyo', 'Asalaam alaikum', 'Goddag', 'Shikamoo', 'Goedendag', 'Yassas', 'Dzień dobry', 'Selamat siang', 'Namaste, Namaskar', 'God dag', 'Merhaba', 'Shalom'];
 
         $Salutation = array_rand($salutationList);
 
-        $request->session()->flash('message', $salutationList[$Salutation].' '.Auth::user()->prenom." ".Auth::user()->nom);
-        
+        $request->session()->flash('message', $salutationList[$Salutation] . ' ' . Auth::user()->prenom . " " . Auth::user()->nom);
+
 
         return view('pages.home', $datas);
     }
-
 }
