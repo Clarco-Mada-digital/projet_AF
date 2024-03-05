@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('sessions', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
+            $table->string('type');
             $table->float('montant');
             $table->date('dateDebut');
             $table->date('dateFin');

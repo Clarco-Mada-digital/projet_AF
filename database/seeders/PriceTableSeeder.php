@@ -21,10 +21,10 @@ class PriceTableSeeder extends Seeder
         ];
 
         $Sessions = [
-            ["nom"=> "Cours du soir Session 1", "dateDebut"=> '2024-01-18 00:00:00', "dateFin"=>'2024-02-12 00:00:00', "montant"=> "55000", "montantPromo"=> "45000", "dateFinPromo"=> '2024-01-11'],
-            ["nom"=> "Cours du soir Session 2", "dateDebut"=> '2024-03-18 00:00:00', "dateFin"=>'2024-04-15 00:00:00', "montant"=> "55000", "montantPromo"=> "45000", "dateFinPromo"=> '2024-03-09'],
-            ["nom"=> "Cours du journée Session 3", "dateDebut"=> '2024-04-08 00:00:00', "dateFin"=>'2024-05-02 00:00:00', "montant"=> "55000", "montantPromo"=> "45000", "dateFinPromo"=> '2024-03-30'],
-            ["nom"=> "DELF Junior Mars", "dateDebut"=> '2024-02-21 00:00:00', "dateFin"=>'2024-04-02 00:00:00', "montant"=> "30000"],
+            ["nom"=> "Cours du soir Session 1", "type"=>"cours", "dateDebut"=> '2024-01-18 00:00:00', "dateFin"=>'2024-02-12 00:00:00', "montant"=> "55000", "montantPromo"=> "45000", "dateFinPromo"=> '2024-01-11'],
+            ["nom"=> "Cours du soir Session 2", "type"=>"cours", "dateDebut"=> '2024-03-18 00:00:00', "dateFin"=>'2024-04-15 00:00:00', "montant"=> "55000", "montantPromo"=> "45000", "dateFinPromo"=> '2024-03-09'],
+            ["nom"=> "Cours du journée Session 3", "type"=>"cours", "dateDebut"=> '2024-04-08 00:00:00', "dateFin"=>'2024-05-02 00:00:00', "montant"=> "55000", "montantPromo"=> "45000", "dateFinPromo"=> '2024-03-30'],
+            ["nom"=> "DELF Junior Mars", "type"=>"examens", "dateDebut"=> '2024-02-21 00:00:00', "dateFin"=>'2024-04-02 00:00:00', "montant"=> "30000"],
         ];
 
         DB::table('prices')->insert([
@@ -48,6 +48,7 @@ class PriceTableSeeder extends Seeder
             if ($price->id == $i) {
             $price->levels()->attach($Tarifs[$y]['level_id']);
             $i += 1;
+            $y += 1;
             }
         }
     }

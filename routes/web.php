@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PdfController;
+use App\Livewire\ContactMadaDigital;
 use App\Livewire\Cours;
 use App\Livewire\Etudiants;
 use App\Livewire\NewCour;
@@ -31,9 +32,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::match(['get', 'post'], '/mada-contact', function () {
-    return view('pages.mada-contact');
-})->name('mada-contact');
+Route::match(['get', 'post'], '/mada-contact', ContactMadaDigital::class)->name('mada-contact');
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

@@ -6,6 +6,7 @@ use App\Models\Categorie;
 use App\Models\Examen;
 use App\Models\Level;
 use App\Models\Price;
+use App\Models\Session;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -56,10 +57,12 @@ class ParametreGenerale extends Component
     protected $listeners = ["deleteConfirmedLevel" => 'deleteLevel', "deleteConfirmedCategorie" => 'deleteCategorie', "deleteConfirmedTarifs" => "deleteTarif", "deleteConfirmedExamens" => "deleteExamen"];
 
     public $levels;
+    public $sessions;
     public $prices;
     public function __construct()
     {
         $this->levels = Level::all();
+        $this->sessions = Session::where("statue", "=", "1")->where("type", "=", "examens")->get();
         $this->prices = Price::all();
     }
 
@@ -118,10 +121,11 @@ class ParametreGenerale extends Component
             $this->submitFunction = "updateTarif";
         }
         if ($key == "Examens") {
+            $this->sessions = Session::where("statue", "=", "1")->where("type", "=", "examens")->get();
             $this->editExamenId = Examen::find($id);
             $this->editExamen = $this->editExamenId->libelle;
             $this->champ = 'editExamen';
-            $this->dataTarifs = $this->editExamenId->toArray();
+            $this->dataExamens = $this->editExamenId->toArray();
             $this->submitFunction = "updateExamen";
         }
     }
@@ -305,15 +309,17 @@ class ParametreGenerale extends Component
     // section examen
     public function addNewExamen()
     {
+        // dd($this->dataExamens['session_id']);
         $this->validate(
             [
                 'newExamen' => ['required'],
                 'dataExamens.price_id' => ['required'],
                 'dataExamens.level_id' => ['required'],
+                'dataExamens.session_id' => ['required'],
             ],
             messages: ['required' => 'Ce champ est obligatoire !']
         );
-        Examen::create(["libelle" => $this->newExamen, "price_id" => $this->dataExamens['price_id'], "level_id" => $this->dataExamens['level_id']]);
+        Examen::create(["libelle" => $this->newExamen, "price_id" => $this->dataExamens['price_id'], "level_id" => $this->dataExamens['level_id'], "session_id" => $this->dataExamens['session_id']]);
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Creation de examen avec success!', 'type' => 'success']);
 
@@ -328,6 +334,7 @@ class ParametreGenerale extends Component
             [
                 'editExamen' => ['required'],
                 'dataExamens.price_id' => ['required'],
+                'dataExamens.level_id' => ['required'],
             ],
             messages: ['required' => 'Ce champ est obligatoire !']
         );

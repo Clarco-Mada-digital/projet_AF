@@ -46,10 +46,9 @@ class Professeur extends Component
                 'newProfesseur.nom' => ['required'],
                 'newProfesseur.prenom' => 'required',
                 'newProfesseur.sexe' => ['required'],
-                'newProfesseur.nationalite' => ['required'],
                 'newProfesseur.email' => ['required', 'email', Rule::unique('professeurs', 'email')],
-                'newProfesseur.telephone1' => ['required'],
-                'newProfesseur.telephone2' => [''],
+                'newProfesseur.telephone1' => ['min:10', 'max:10', 'required'],
+                'newProfesseur.telephone2' => ['min:10', 'max:10', 'nullable'],
                 'newProfesseur.adresse' => ['required'],
     
             ];
@@ -61,10 +60,9 @@ class Professeur extends Component
                 'editProfesseur.nom' => ['required'],
                 'editProfesseur.prenom' => 'required',
                 'editProfesseur.sexe' => ['required'],
-                'editProfesseur.nationalite' => ['required'],
                 'editProfesseur.email' => ['required', 'email', Rule::unique('professeurs', 'email')->ignore($this->editProfesseur['id'])],
-                'editProfesseur.telephone1' => ['required'],
-                'editProfesseur.telephone2' => [''],
+                'editProfesseur.telephone1' => ['min:10', 'max:10', 'required'],
+                'editProfesseur.telephone2' => ['min:10', 'max:10', 'nullable'],
                 'editProfesseur.adresse' => ['required'],
     
             ];

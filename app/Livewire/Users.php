@@ -49,10 +49,9 @@ class Users extends Component
                 'editUser.nom' => ['required'],
                 'editUser.prenom' => 'required',
                 'editUser.sexe' => ['required'],
-                'editUser.nationalite' => ['string'],
                 'editUser.email' => ['required', 'email', Rule::unique('etudiants', 'email')->ignore($this->editUser['id'])],
-                'editUser.telephone1' => ['required'],
-                'editUser.telephone2' => [''],
+                'editUser.telephone1' => ['min:10', 'max:10', 'required'],
+                'editUser.telephone2' => ['min:10', 'max:10', 'nullable'],
                 'editUser.adresse' => ['required', 'string'],
             ];
         }
@@ -62,10 +61,9 @@ class Users extends Component
                 'newUser.nom' => ['required'],
                 'newUser.prenom' => 'required',
                 'newUser.sexe' => ['required'],
-                'newUser.nationalite' => ['string'],
                 'newUser.email' => ['required', 'email', Rule::unique('etudiants', 'email')],
-                'newUser.telephone1' => ['required'],
-                'newUser.telephone2' => [''],
+                'newUser.telephone1' => ['min:10', 'max:10', 'required'],
+                'newUser.telephone2' => ['min:10', 'max:10', 'nullable'],
                 'newUser.adresse' => ['required','string'],
             ];
         }

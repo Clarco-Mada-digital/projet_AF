@@ -37,8 +37,6 @@
                                     <th wire:click="setOrderField('nom')">Nom</th>
                                     <th class="text-center" wire:click="setOrderField('prenom')">
                                         Prénom</th>
-                                    <th class="text-center"
-                                        wire:click="setOrderField('nationalite')">nationalité</th>
                                     <th class="text-center">Téléphone</th>
                                     <th class="text-center">Email</th>
                                     <th class="text-center wire:click="setOrderField('role_id')">
@@ -62,7 +60,6 @@
                                     </td>
                                     <td>{{ $user->nom }}</td>
                                     <td class="text-center">{{ $user->prenom }}</td>
-                                    <td class="text-center">{{ $user->nationalite }}</td>
                                     <td class="text-center">{{ $user->telephone1 }}</td>
                                     <td class="text-center"> {{ $user->email }} </td>
                                     <td class="text-center"> {{ $user->roles->implode('name', ' | ') }} </td>

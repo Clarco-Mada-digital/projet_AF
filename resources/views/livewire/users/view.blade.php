@@ -46,9 +46,6 @@
                           </li>
                       @endif
                       <li class="list-group-item">
-                          <b>Nationalité</b> <a class="float-right">{{ $user->nationalite }}</a>
-                      </li>
-                      <li class="list-group-item">
                           <b>Adresse</b> <a class="float-right">{{ $user->adresse }}</a>
                       </li>
                   </ul>

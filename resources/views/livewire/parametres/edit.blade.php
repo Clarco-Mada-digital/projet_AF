@@ -30,9 +30,22 @@
                 {{-- section pour examen --}}
                 @if ($titleModal == 'edit examens')
                 <select class="form-control w-100 mx-2 @error('dataTarifs.level_id') is-invalid @enderror"
+                  id="codeExamen" wire:model='dataExamens.level_id'>
+                  @foreach ($levels as $level)
+                  <option value="{{ $level['id'] }}">{{ $level['libelle'] }}</option>
+                  @endforeach
+                </select>
+                <select class="form-control w-100 mx-2 @error('dataTarifs.session_id') is-invalid @enderror"
+                  id="codeExamen" wire:model='dataExamens.session_id'>
+                  <option> --- Sessions --- </option>
+                  @foreach ($sessions as $session)
+                  <option value="{{ $session['id'] }}">{{ $session['nom'] }}</option>
+                  @endforeach
+                </select>
+                <select class="form-control w-100 mx-2 @error('dataTarifs.price_id') is-invalid @enderror"
                   id="codeExamen" wire:model='dataExamens.price_id'>
                   @foreach ($prices as $price)
-                  <option value="{{ $price['id'] }}">{{ $price['nom'] }}</option>
+                  <option value="{{ $price['id'] }}">{{ $price['nom'] }} - {{ $price->levels->implode("libelle", " | ")}}</option>
                   @endforeach
                 </select>
                 @endif

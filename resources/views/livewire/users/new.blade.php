@@ -82,14 +82,14 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    {{-- <div class="col-md-4">
                         <div class="form-group">
                             <label for="userNationalite">Nationalité</label>
                             <input type="text" class="form-control" id="userNationalite"
                                 wire:model='newUser.nationalite'>
                         </div>
-                    </div>
-                    <div class="col-md-8">
+                    </div> --}}
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="userAddr">Adresse</label>
                             <input type="text" class="form-control @error('newUser.adresse') is-invalid @enderror"

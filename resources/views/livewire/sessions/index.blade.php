@@ -61,14 +61,37 @@
                                 <td>
                                     <input class="form-control" type="number" wire:model='newSession.montant'>
                                 </td>
-                                <td class="text-center">
-                                    <button class="btn btn-info" data-bs-toggle="tooltip" title="Choisir le cour"
-                                        wire:click='toogleFormCours'> Choisir le cour
-                                    </button>
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#newCours"
-                                        spellcheck="false" data-bs-toggle="tooltip" title="Nouveau cour"> <i
-                                            class="fa fa-plus"></i> <span class="btn-icon-title d-none">Cours</span>
-                                    </button>
+                                <td class="text-center d-flex flex-column">
+                                    <div class="chose my-2 d-flex">
+                                        <div class="form-check form-check-inline custom-control custom-radio">
+                                            <input class="custom-control-input" type="radio" name="sessionType"
+                                                id="sessionCours" value="cours" wire:model.live='newSession.type'>
+                                            <label class="custom-control-label" for="sessionCours">Session Cours</label>
+                                        </div>
+                                        <div class="form-check form-check-inline custom-control custom-radio">
+                                            <input class="custom-control-input" type="radio" name="sessionType"
+                                                id="sessionExamen" value="examens" wire:model.live='newSession.type'>
+                                            <label class="custom-control-label" for="sessionExamen">Session Examen</label>
+                                        </div>
+                                    </div>
+                                    <div class="btnAction">
+                                        <button class="btn btn-info @if ($newSession["type"] !='cours' ) d-none @endif"
+                                            data-bs-toggle="tooltip" title="Choisir le cour"
+                                            wire:click='toogleFormCours'>
+                                            Choisir le cours
+                                        </button>
+                                        <button
+                                            class="btn btn-info  @if ($newSession['type'] != 'examens') d-none @endif"
+                                            data-bs-toggle="tooltip" title="Choisir le cour"
+                                            wire:click='toogleFormCours'>
+                                            Choisir l'examens
+                                        </button>
+                                        <button class="btn btn-primary  @if ($newSession["type"] !='cours' ) d-none
+                                            @endif" data-toggle="modal" data-target="#newCours" spellcheck="false"
+                                            data-bs-toggle="tooltip" title="Nouveau cour">
+                                            <i class="fa fa-plus"></i> <span class="btn-icon-title d-none">Cours</span>
+                                        </button>
+                                    </div>
                                 </td>
                                 <td class="text-center">
                                     <button class="btn btn-warning" data-toggle="modal" data-target="#newPromotion"
@@ -102,11 +125,31 @@
                                     <input class="form-control" type="number" wire:model='editSession.montant'>
                                 </td>
                                 <td class="text-center">
-                                    <button class="btn btn-info" wire:click='toogleFormCours'>Choisir les
-                                        cours</button>
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#newCours"
+                                    <div class="chose my-2 d-flex">
+                                        <div class="form-check form-check-inline custom-control custom-radio">
+                                            <input class="custom-control-input" type="radio" name="editSessionType"
+                                                id="editSessionCours" value="cours" wire:model.live='editSession.type'>
+                                            <label class="custom-control-label" for="editSessionCours">Session Cours</label>
+                                        </div>
+                                        <div class="form-check form-check-inline custom-control custom-radio">
+                                            <input class="custom-control-input" type="radio" name="editSessionType"
+                                                id="editSessionExamen" value="examens" wire:model.live='editSession.type'>
+                                            <label class="custom-control-label" for="editSessionExamen">Session Examen</label>
+                                        </div>
+                                    </div>
+                                    {{-- <button class="btn btn-info @if ($editSession['type'] != 'cours') d-none @endif" wire:click='toogleFormCours'>Choisir les
+                                        cours
+                                    </button>
+                                    <button class="btn btn-primary @if ($editSession['type'] != 'cours') d-none @endif" data-toggle="modal" data-target="#newCours"
                                         spellcheck="false"> <i class="fa fa-plus"></i> <span
-                                            class="btn-icon-title d-none">cours</span> </button>
+                                            class="btn-icon-title d-none">cours</span> 
+                                    </button>
+                                    <button class="btn btn-info  @if ($editSession['type'] != 'examens') d-none @endif"
+                                        data-bs-toggle="tooltip" title="Choisir le cour"
+                                        wire:click='toogleFormCours'>
+                                        Choisir l'examens
+                                    </button>
+                                     --}}
                                 </td>
                                 <td class="text-center">
                                     <button class="btn btn-info" data-toggle="modal" data-target="#editPromotion"
@@ -419,10 +462,12 @@
 
                                                         <div class="col-md-2 form-group">
                                                             <label class="form-label" for="codeSalle">Salle</label>
-                                                            <select class="form-control @error('newCour.salle') is-invalid @enderror" id="codeSalle" wire:model='newCour.salle'>
-                                                                <option >-- Salle --</option>
+                                                            <select
+                                                                class="form-control @error('newCour.salle') is-invalid @enderror"
+                                                                id="codeSalle" wire:model='newCour.salle'>
+                                                                <option>-- Salle --</option>
                                                                 @foreach ($salles as $salle)
-                                                                    <option value={{$salle}}>{{ $salle }}</option>                                
+                                                                <option value={{$salle}}>{{ $salle }}</option>
                                                                 @endforeach
                                                             </select>
                                                             @error('newCour.salle')
@@ -551,7 +596,7 @@
         <div class="card card-outline card-info w-100 my-0"
             style="height: 200px; overflow: hidden; overflow-y: scroll;">
             <div class="card-header py-0" style="position: sticky">
-                <h3 class="card-title">List des cours</h3>
+                <h3 class="card-title">List des {{$newSession['type']}} {{$editSession['type']}}</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                         data-source="widgets.html" data-source-selector="#card-refresh-content"
@@ -561,23 +606,37 @@
                     <button type="button" class="btn btn-tool" data-card-widget="maximize">
                         <i class="fas fa-expand"></i>
                     </button>
-                    <button type="button" class="btn btn-info btn-sm" wire:click='toogleFormCours'>
-                        <i class="fas fa-save"> Confirmer</i>
+                    <button type="button" class="btn btn-danger btn-sm" wire:click='toogleFormCours'>
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
 
             </div>
 
             <div class="card-body d-flex justify-content-center row">
-                @foreach ($coursList as $cour)
+                @if ($newSession['type'] == 'cours' || $editSession['type'] == 'cours')
+                    @foreach ($coursList as $cour)
+                        <div class="form-group col-md-4">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" type="checkbox" id="cour{{ $cour['id'] }}"
+                                    wire:model.lazy="coursList.{{ $loop->index }}.active">
+                                <label for="cour{{ $cour['id'] }}" class="custom-control-label">{{ $cour['libelle'] }}</label>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+                @if ($newSession['type'] == 'examens' || $editSession['type'] == 'examens')
+                @foreach ($examensList as $examen)
                 <div class="form-group col-md-4">
                     <div class="custom-control custom-checkbox">
-                        <input class="custom-control-input" type="checkbox" id="cour{{ $cour['id'] }}"
-                            wire:model.lazy="coursList.{{ $loop->index }}.active">
-                        <label for="cour{{ $cour['id'] }}" class="custom-control-label">{{ $cour['libelle'] }}</label>
+                        <input class="custom-control-input" type="checkbox" id="cour{{ $examen['id'] }}"
+                            wire:model.lazy="examensList.{{ $loop->index }}.active">
+                        <label for="cour{{ $examen['id'] }}" class="custom-control-label">{{ $examen['libelle'] }}</label>
                     </div>
                 </div>
-                @endforeach
+            @endforeach
+                @endif
+
             </div>
 
         </div>

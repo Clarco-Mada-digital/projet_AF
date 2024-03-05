@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Categorie;
 use App\Models\Cour;
+use App\Models\Examen;
 use App\Models\Level;
 use App\Models\Professeur;
 use App\Models\Session;
@@ -26,14 +27,15 @@ class Sessions extends Component
     public $search;
     public $formNewSession = False;
     public $formEditSession = False;
-    public $newSession = [];
-    public $editSession = [];
+    public $newSession = ["type"=>""];
+    public $editSession = ["type" => ""];
     public $now;
     public $professeurs;
     public $levels;
     public $categories;
     public $newLevels = [];
     public $coursList = [];
+    public $examensList = [];
     public $showFormCours = False;
 
     public $orderDirection = 'ASC';
@@ -100,6 +102,10 @@ class Sessions extends Component
         foreach (Cour::all() as $cour) {
             array_push($this->coursList, ['id' => $cour->id, 'libelle' => $cour->libelle, 'horaire' => $cour->horaire, 'active' => false]);
         }
+        $this->examensList = [];
+        foreach (Examen::all() as $examen) {
+            array_push($this->examensList, ['id' => $examen->id, 'libelle' => $examen->libelle, 'horaire' => $examen->horaire, 'active' => false]);
+        }
     }
 
     public function toogleFormSession()
@@ -116,6 +122,11 @@ class Sessions extends Component
     {
         $this->showFormCours ? [$this->showFormCours = false] : [$this->showFormCours = true];
     }
+
+    // public function setNewSessionType()
+    // {
+        
+    // }
 
     // Fonction pour récupérer les heurs du cour
     public function setDateHourCour()
@@ -182,19 +193,32 @@ class Sessions extends Component
         $mySession = Session::create($this->newSession);
 
         // add les cours correspondant au session a la base
-        foreach ($this->coursList as $cour) {
-            if ($cour['active']) {
-                $mySession->cours()->attach($cour['id']);
+        if ($this->newSession['type'] == 'cours')
+        {
+            foreach ($this->coursList as $cour) {
+                if ($cour['active']) {
+                    $mySession->cours()->attach($cour['id']);
+                }
+            }
+            foreach ($this->newCourList as $cour) {
+                $mySession->cours()->attach($cour);
             }
         }
-        foreach ($this->newCourList as $cour) {
-            $mySession->cours()->attach($cour);
+        // add les examens correspondant au session a la base
+        if ($this->newSession['type'] == 'examen')
+        {
+            foreach ($this->examensList as $examen) {
+                if ($examen['active']) {
+                    $mySession->examens()->attach($examen['id']);
+                }
+            }
         }
+        
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Creation de session avec success!', 'type' => 'success']);
 
         $this->newCourList = [];
-        $this->newSession = [];
+        $this->newSession = ['type' => ""];
         $this->coursList = [];
         $this->dateHeurCour = "";
         $this->formNewSession = False;
@@ -204,8 +228,9 @@ class Sessions extends Component
     public function initUpdateSession(Session $session, $cancel = False)
     {
         $this->coursList = [];
+        $this->examensList = [];
         if ($cancel) {
-            $this->editSession = [];
+            $this->editSession = ['type' =>""];
             $this->showFormCours = False;
             $this->formEditSession = false;
         } else {
@@ -225,6 +250,14 @@ class Sessions extends Component
                     array_push($this->coursList, ['id' => $cour->id, 'libelle' => $cour->libelle, 'horaire' => $cour->horaire, 'active' => true]);
                 } else {
                     array_push($this->coursList, ['id' => $cour->id, 'libelle' => $cour->libelle, 'horaire' => $cour->horaire, 'active' => false]);
+                }
+            }
+            $examens = array_map($mapData, Session::find($this->editSession['id'])->examens->toArray());
+            foreach (Examen::all() as $examen) {
+                if (in_array($examen->id, $examens)) {
+                    array_push($this->examensList, ['id' => $examen->id, 'libelle' => $examen->libelle, 'active' => true]);
+                } else {
+                    array_push($this->examensList, ['id' => $examen->id, 'libelle' => $examen->libelle, 'active' => false]);
                 }
             }
         }
@@ -250,7 +283,7 @@ class Sessions extends Component
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Session mise à jour avec success!', 'type' => 'success']);
 
-        $this->newSession = [];
+        $this->editSession = ['type' => ""];
         $this->formNewSession = False;
         $this->showFormCours = False;
         $this->formEditSession = false;

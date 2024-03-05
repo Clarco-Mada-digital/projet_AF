@@ -38,12 +38,18 @@
                   <option value="{{ $level['id'] }}">{{ $level['libelle'] }}</option>
                   @endforeach
                 </select>
+                <select class="form-control w-100 mx-2 @error('dataExamens.session_id') is-invalid @enderror"
+                  id="examSession" wire:model='dataExamens.session_id'>
+                  <option> --- Sessions --- </option>
+                  @foreach ($sessions as $session)
+                  <option value="{{ $session['id'] }}">{{ $session['nom'] }}</option>
+                  @endforeach
+                </select>
                 <select class="form-control w-100 @error('dataExamens.price_id') is-invalid @enderror"
                   id="codeExamen" wire:model='dataExamens.price_id'>
                   <option> --- Tarification --- </option>
                   @foreach ($prices as $price)
-                  <option value="{{ $price['id'] }}">{{ $price['nom'] }} - {{ $price->levels->implode("libelle", " |
-                    ")}}</option>
+                  <option value="{{ $price['id'] }}">{{ $price['nom'] }} - {{ $price->levels->implode("libelle", " | ")}}</option>
                   @endforeach
                 </select>
                 @endif

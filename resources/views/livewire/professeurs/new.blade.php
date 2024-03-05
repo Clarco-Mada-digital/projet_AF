@@ -71,14 +71,14 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    {{-- <div class="col-md-4">
                         <div class="form-group">
                             <label for="etudiantProfession">Nationalité</label>
                             <input type="text" class="form-control" id="etudiantNationalite"
                                 wire:model='newProfesseur.nationalite'>
                         </div>
-                    </div>
-                    <div class="col-md-8">
+                    </div> --}}
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="etudiantAddr">Adresse</label>
                             <input type="text"

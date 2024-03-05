@@ -14,6 +14,7 @@ class Examen extends Model
         'libelle',
         'price_id',
         'level_id',
+        'session_id',
     ];
 
     public function price()
