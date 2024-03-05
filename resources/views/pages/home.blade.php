@@ -132,7 +132,8 @@
         </a>
     </div>
 
-    @if (Auth::user()->role == 'admin' || $chartData = '[]')
+    
+    @if (Auth::user()->roles->first()->name == 'Admin' || $chartData == '[]')
     <div class="col-md-6 mt-3">
         <div class="card ">
             <div class="card-header border-0">
