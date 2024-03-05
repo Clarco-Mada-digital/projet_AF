@@ -2,7 +2,6 @@
 
 use App\Models\Categorie;
 use App\Models\Level;
-use App\Models\Niveaux;
 use App\Models\Session;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -22,12 +21,12 @@ return new class extends Migration
             $table->string('prenom');
             $table->date('dateNaissance');
             $table->char('sexe');
-            $table->string('nationalite');
+            $table->string('nationalite')->nullable();
             $table->string('profession')->nullable();
-            $table->string('telephone1');
+            $table->string('telephone1')->nullable();
             $table->string('telephone2')->nullable();
-            $table->string('adresse');
-            $table->string('email');
+            $table->string('adresse')->nullable();
+            $table->string('email')->nullable();
             $table->string('numCarte')->unique();
             $table->string('profil')->nullable();
             $table->string('comment')->nullable();
