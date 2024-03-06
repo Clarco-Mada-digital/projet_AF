@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cour;
 use App\Models\Etudiant;
+use App\Models\Paiement;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,7 +46,7 @@ class HomeController extends Controller
             "Saturday" => "Samedi"
         ];
         $myRecord = [];
-        $record = Etudiant::select(DB::raw("COUNT(*) as count"), DB::raw("DAYNAME(created_at) as day_name"), DB::raw("DAY(created_at) as day"))->where('created_at', '>', Carbon::today()->subDay(6))
+        $record = Paiement::select(DB::raw("COUNT(*) as count"), DB::raw("DAYNAME(created_at) as day_name"), DB::raw("DAY(updated_at) as day"))->where('updated_at', '>', Carbon::today()->subDay(6))
             ->groupBy('day_name', 'day')
             ->orderBy('day')
             ->get();
