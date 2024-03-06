@@ -7,6 +7,7 @@ use App\Models\Etudiant;
 use App\Models\Examen;
 use App\Models\Inscription;
 use App\Models\Level;
+use App\Models\Paiement;
 use App\Models\Session;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,7 @@ class Etudiants extends Component
     public string $filteredByLevel = "";
     public string $filteredByCourExamen = "";
     public string $filteredBySessions = "";
+    public string $filteredByPaiement = "";
     protected $paginationTheme = "bootstrap";
 
     public string $orderField = 'nom';
@@ -43,6 +45,9 @@ class Etudiants extends Component
     public $etudiantSession;
 
     public $dataInscri = [];
+    public bool $payRestant = False;
+    public $montantPayer;
+    public $montantRestant;
     public string $paiementStatus = 'OK';
 
     public $allLevel;
@@ -68,7 +73,7 @@ class Etudiants extends Component
                 $storage->delete($pathFileName);
             }
         }
-    }   
+    }
 
     protected function rules()
     {
@@ -190,6 +195,35 @@ class Etudiants extends Component
         $this->toogleStateName('view');
     }
 
+    public function toogleFormPayRestant()
+    {
+        $this->payRestant = !$this->payRestant;
+        $this->montantPayer = 0;
+        $this->montantRestant = 0;
+        $this->montantPayer = 0;
+    }
+    public function payRestantSubmit(Paiement $paiement)
+    {
+        $inscription = Inscription::where('paiement_id', $paiement->id)->first();
+        $this->montantRestant = $paiement->montantRestant;
+        if (floatval($this->montantPayer) > floatval($this->montantRestant)) {
+            $this->dispatch("showModalSimpleMsg", ['message' => "Le montant payé ne doit pas dépasser le montant restant", 'type' => 'warning']);
+        } else {
+            $paiement->montantRestant = $this->montantRestant - $this->montantPayer;
+            if ($paiement->montantRestant == 0) {
+                $paiement->statue = 'Totalement';
+                $inscription->statut = true;
+                $inscription->save();
+            }
+            $paiement->save();
+            $this->dispatch("ShowSuccessMsg", ['message' => 'Paiement effectué avec success!', 'type' => 'success']);
+            $this->toogleFormPayRestant();
+            $this->montantPayer = 0;
+            $this->montantRestant = 0;
+            $this->montantPayer = 0;
+        }
+    }
+
     public function setOrderField(string $name)
     {
         if ($name === $this->orderField) {
@@ -207,55 +241,70 @@ class Etudiants extends Component
         $this->allLevel = Level::all();
         $this->sessions = Session::all();
 
-        if ($this->filteredByCourExamen == 'examen')
-        {
+        if ($this->filteredByCourExamen == 'examen') {
             $etudiants = Etudiant::with("session", "level", "cours", "examens")
-            ->where(function ($query) {
-            $query->where("nom", "LIKE", "%{$this->search}%")
-                ->orWhere("prenom", "LIKE", "%{$this->search}%")
-                ->orWhere("numCarte", "LIKE", "%{$this->search}%");
-            })
-            ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])
-            ->whereHas("examens", function ($query) {
-                if ($this->filteredByCourExamen == 'examen' || $this->filteredByCourExamen == '') {
-                    $query->where("libelle", "!=", "null");
-                }else{
-                    $query->where("libelle", "LIKE", "null");
-                }
-            })
-            ->where([["session_id", 'LIKE', "%{$this->filteredBySessions}%"]])
-            ->paginate(5);
-        }
-        if ($this->filteredByCourExamen == 'cours')
-        {
-            $etudiants = Etudiant::with("session", "level", "cours", "examens")
-            ->where(function ($query) {
-            $query->where("nom", "LIKE", "%{$this->search}%")
-                ->orWhere("prenom", "LIKE", "%{$this->search}%")
-                ->orWhere("numCarte", "LIKE", "%{$this->search}%");
-            })
-            ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])
-            ->whereHas("cours", function ($query) {
-                if ($this->filteredByCourExamen == 'cours' || $this->filteredByCourExamen == '') {
+                ->where(function ($query) {
+                    $query->where("nom", "LIKE", "%{$this->search}%")
+                        ->orWhere("prenom", "LIKE", "%{$this->search}%")
+                        ->orWhere("numCarte", "LIKE", "%{$this->search}%");
+                })
+                ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])
+                ->whereHas("examens", function ($query) {
                     if ($this->filteredByCourExamen == 'examen' || $this->filteredByCourExamen == '') {
                         $query->where("libelle", "!=", "null");
-                    }else{
+                    } else {
                         $query->where("libelle", "LIKE", "null");
                     }
-                }
-            })
-            ->where([["session_id", 'LIKE', "%{$this->filteredBySessions}%"]])
-            ->paginate(5);
+                })
+                ->where([["session_id", 'LIKE', "%{$this->filteredBySessions}%"]])
+                ->paginate(5);
         }
-        else
+        if ($this->filteredByCourExamen == 'cours') {
+            $etudiants = Etudiant::with("session", "level", "cours", "examens")
+                ->where(function ($query) {
+                    $query->where("nom", "LIKE", "%{$this->search}%")
+                        ->orWhere("prenom", "LIKE", "%{$this->search}%")
+                        ->orWhere("numCarte", "LIKE", "%{$this->search}%");
+                })
+                ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])
+                ->whereHas("cours", function ($query) {
+                    if ($this->filteredByCourExamen == 'cours' || $this->filteredByCourExamen == '') {
+                        if ($this->filteredByCourExamen == 'examen' || $this->filteredByCourExamen == '') {
+                            $query->where("libelle", "!=", "null");
+                        } else {
+                            $query->where("libelle", "LIKE", "null");
+                        }
+                    }
+                })
+                ->where([["session_id", 'LIKE', "%{$this->filteredBySessions}%"]])
+                ->paginate(5);
+        }
+        if ($this->filteredByPaiement != '') {
+            $etudiants = Etudiant::with("session", "level", "cours", "examens", "inscription")
+                ->where(function ($query) {
+                    $query->where("nom", "LIKE", "%{$this->search}%")
+                        ->orWhere("prenom", "LIKE", "%{$this->search}%")
+                        ->orWhere("numCarte", "LIKE", "%{$this->search}%");
+                })
+                ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])
+                ->whereHas("inscription", function ($query) {
+                    $query->with("paiement")
+                    ->whereHas("paiement", function ($query) {
+                        $query ->where("statue", "LIKE", "%{$this->filteredByPaiement}%");
+                    });
+                })
+                ->where([["session_id", 'LIKE', "%{$this->filteredBySessions}%"]])
+                ->paginate(5);
+        } 
+        else 
         {
             $etudiants = Etudiant::with("session", "level", "cours", "examens")
                 ->where(function ($query) {
-                $query->where("nom", "LIKE", "%{$this->search}%")
-                    ->orWhere("prenom", "LIKE", "%{$this->search}%")
-                    ->orWhere("numCarte", "LIKE", "%{$this->search}%");
+                    $query->where("nom", "LIKE", "%{$this->search}%")
+                        ->orWhere("prenom", "LIKE", "%{$this->search}%")
+                        ->orWhere("numCarte", "LIKE", "%{$this->search}%");
                 })
-                ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])            
+                ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])
                 ->where([["session_id", 'LIKE', "%{$this->filteredBySessions}%"]])
                 ->paginate(5);
         }

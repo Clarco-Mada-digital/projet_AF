@@ -30,7 +30,8 @@
                     <p class="text-muted text-center">Membre {{ $etudiant->created_at->diffForHumans() }}</p>
                     <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
-                            <b>Date de naissance</b> <a class="float-right">{{ Date('d M, Y', strtotime($etudiant->dateNaissance)) }}</a>
+                            <b>Date de naissance</b> <a class="float-right">{{ Date('d M, Y',
+                                strtotime($etudiant->dateNaissance)) }}</a>
                         </li>
                         <li class="list-group-item">
                             <b>Profession</b> <a class="float-right">{{ $etudiant->profession }}</a>
@@ -70,17 +71,14 @@
                 <strong><i class="fa fa-book mr-1"></i> Cours choisie</strong>
                 <p class="text-muted d-flex justify-content-between align-items-center">
                     @foreach ($etudiant->cours as $cours)
-
-                        <span class=" {{ $inscription->statut && $inscription->type == "cours" && $cours->id == $inscription->idCourOrExam ? '' : "text-danger" }} ">{{ $cours->libelle }} ({{ $cours->session->nom }}) 
-
+                    <span>{{ $cours->libelle }} - {{ $cours->level->libelle }} ({{ $cours->session->nom }})
                         @foreach ($etudiant->inscription as $inscription)
-                            @if ($inscription->type == "cours" && $cours->id == $inscription->idCourOrExam && $inscription->paiement->montantRestant != 0)
-
-                                - {{ $inscription->paiement->montantRestant }} Ar à payer
-                                <button class="btn btn-sm btn-success">Régler le paiement</button>
-
-                            @endif                        
-                        @endforeach                        
+                        @if ($inscription->type == "cours" && $cours->id == $inscription->idCourOrExam &&
+                        $inscription->paiement->montantRestant != 0)
+                        - {{ $inscription->paiement->montantRestant }} Ar à payer
+                        <button class="btn btn-sm btn-success">Régler le paiement</button>
+                        @endif
+                        @endforeach
                     </span>
                     </br>
                     @endforeach
@@ -88,30 +86,36 @@
                 </p>
                 <hr>
                 <strong><i class="fa fa-hourglass mr-1" aria-hidden="true"></i> Heure de cour</strong>
-                <p class="text-muted">                    
+                <p class="text-muted">
                     <span class="tag tag-danger"> {{ $etudiant->cours->implode('horaireDuCour', ', ') }} </span>
                 </p>
                 <hr>
                 @endif
                 @if ($etudiant->examens->count() != 0)
                 <strong><i class="fa fa-book mr-1"></i> Examen choisie</strong>
-                <p class="text-muted d-flex justify-content-between align-items-center">
+                <p class="text-muted d-flex justify-content-between align-items-center p-0 m-0">
                     @foreach ($etudiant->examens as $examen)
-
-                        <span class=" {{ $inscription->statut? '' : "text-danger" }} ">{{ $examen->libelle }} ({{ $examen->session->nom }}) 
-
-                        @foreach ($etudiant->inscription as $inscription)
-                            @if ($inscription->type == "examen" && $examen->id == $inscription->idCourOrExam && $inscription->paiement->montantRestant != 0)
-                             
-                                - {{ $inscription->paiement->montantRestant }} Ar à payer
-                                <button class="btn btn-sm btn-success">Régler le paiement</button>                    
-                    
-                            @endif                        
-                        @endforeach  
-                    </span>
-                    </br>                    
+                <section>{{ $examen->libelle }} - {{ $examen->level->libelle }} ({{ $examen->session->nom }})
+                    @foreach ($etudiant->inscription as $inscription)
+                    @if ($inscription->type == "examen" && $examen->id == $inscription->idCourOrExam &&
+                    $inscription->paiement->montantRestant != 0)
+                    - {{ $inscription->paiement->montantRestant }} Ar à payer
+                    <button class="btn btn-sm btn-warning" wire:click.prevent="toogleFormPayRestant()">Régler le paiement</button>
+                    <div class="input-group mt-2 @if($payRestant == false) d-none @endif">
+                        <input type="number" class="form-control" placeholder="Montant à payer" wire:model.live="montantPayer">
+                        <div class="input-group-append">
+                            <span class="input-group-text">Ar</span>
+                        </div>
+                        <button class="mx-2 btn btn-sm btn-success" wire:click="payRestantSubmit({{$inscription->paiement->id}})">Payer</button>
+                        <button class="btn btn-sm btn-danger" wire:click='toogleFormPayRestant'>
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    @endif
                     @endforeach
-                    {{-- {{ $etudiant->examens->implode('libelle', ' | ') }} - ({{ $etudiant->session->nom }}) --}}
+                </section>
+                @endforeach
+                {{-- {{ $etudiant->examens->implode('libelle', ' | ') }} - ({{ $etudiant->session->nom }}) --}}
                 </p>
                 <hr>
                 @endif

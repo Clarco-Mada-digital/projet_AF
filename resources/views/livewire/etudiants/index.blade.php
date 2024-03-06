@@ -23,7 +23,7 @@
                     <div class="mb-3 mx-3" style="width: 20vmin;">
                         <div class="form-group">
                             <label for="filteredPaiementForm">Types d'inscriptions :</label>
-                            <select class="form-control" id="filteredPaiementForm" aria-label="Filter form"
+                            <select class="form-control" id="filteredInscriptionForm" aria-label="Filter form"
                                 wire:model.live="filteredByCourExamen">
                                 <option value="" selected>Tout</option>
                                 <option value="cours">Cours</option>
@@ -34,12 +34,23 @@
                     <div class="mb-3 mx-3" style="width: 20vmin;">
                         <div class="form-group">
                             <label for="filteredPaiementForm">Sessions :</label>
-                            <select class="form-control" id="filteredPaiementForm" aria-label="Filter form"
+                            <select class="form-control" id="filteredSessionForm" aria-label="Filter form"
                                 wire:model.live="filteredBySessions">
                                 <option value="" selected>Tout</option>
                                 @foreach ($sessions as $session)
                                 <option value="{{ $session->id }}">{{ $session->nom }}</option>
                                 @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 mx-3" style="width: 20vmin;">
+                        <div class="form-group">
+                            <label for="filteredPaiementForm">Payé :</label>
+                            <select class="form-control" id="filteredPaiementForm" aria-label="Filter form"
+                                wire:model.live="filteredByPaiement">
+                                <option value="" selected>Tout</option>
+                                <option value="Totalement">Totalement</option>
+                                <option value="A moitié">Partialement</option>
                             </select>
                         </div>
                     </div>
@@ -136,7 +147,7 @@
 
                                 {{-- Partie Modal view --}}
                                 <div class="modal fade" id="view-etudiant{{ $etudiant->id }}" style="display: none; "
-                                    aria-hidden="true">
+                                    aria-hidden="true" wire:ignore.self>
                                     <div class="modal-dialog modal-xl modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-body p-0 ">

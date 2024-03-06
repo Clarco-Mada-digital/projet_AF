@@ -69,4 +69,9 @@ class Etudiant extends Model
     {
         return $this->hasMany(Inscription::class);
     }
+
+    public function paiements()
+    {
+        return $this->hasMany(Paiement::class);
+    }
 }
