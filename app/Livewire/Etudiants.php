@@ -9,7 +9,6 @@ use App\Models\Inscription;
 use App\Models\Level;
 use App\Models\Session;
 use Carbon\Carbon;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -30,6 +29,7 @@ class Etudiants extends Component
     public string $search = "";
     public string $filteredByLevel = "";
     public string $filteredByCourExamen = "";
+    public string $filteredBySessions = "";
     protected $paginationTheme = "bootstrap";
 
     public string $orderField = 'nom';
@@ -46,6 +46,7 @@ class Etudiants extends Component
     public string $paiementStatus = 'OK';
 
     public $allLevel;
+    public $sessions;
     public $nscList = ["cours" => [], "level" => [], "examens" => []];
 
 
@@ -204,14 +205,60 @@ class Etudiants extends Component
         Carbon::setLocale('fr');
 
         $this->allLevel = Level::all();
+        $this->sessions = Session::all();
 
-        $etudiants = Etudiant::where(function (Builder $query) {
+        if ($this->filteredByCourExamen == 'examen')
+        {
+            $etudiants = Etudiant::with("session", "level", "cours", "examens")
+            ->where(function ($query) {
             $query->where("nom", "LIKE", "%{$this->search}%")
                 ->orWhere("prenom", "LIKE", "%{$this->search}%")
                 ->orWhere("numCarte", "LIKE", "%{$this->search}%");
             })
             ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])
+            ->whereHas("examens", function ($query) {
+                if ($this->filteredByCourExamen == 'examen' || $this->filteredByCourExamen == '') {
+                    $query->where("libelle", "!=", "null");
+                }else{
+                    $query->where("libelle", "LIKE", "null");
+                }
+            })
+            ->where([["session_id", 'LIKE', "%{$this->filteredBySessions}%"]])
             ->paginate(5);
+        }
+        if ($this->filteredByCourExamen == 'cours')
+        {
+            $etudiants = Etudiant::with("session", "level", "cours", "examens")
+            ->where(function ($query) {
+            $query->where("nom", "LIKE", "%{$this->search}%")
+                ->orWhere("prenom", "LIKE", "%{$this->search}%")
+                ->orWhere("numCarte", "LIKE", "%{$this->search}%");
+            })
+            ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])
+            ->whereHas("cours", function ($query) {
+                if ($this->filteredByCourExamen == 'cours' || $this->filteredByCourExamen == '') {
+                    if ($this->filteredByCourExamen == 'examen' || $this->filteredByCourExamen == '') {
+                        $query->where("libelle", "!=", "null");
+                    }else{
+                        $query->where("libelle", "LIKE", "null");
+                    }
+                }
+            })
+            ->where([["session_id", 'LIKE', "%{$this->filteredBySessions}%"]])
+            ->paginate(5);
+        }
+        else
+        {
+            $etudiants = Etudiant::with("session", "level", "cours", "examens")
+                ->where(function ($query) {
+                $query->where("nom", "LIKE", "%{$this->search}%")
+                    ->orWhere("prenom", "LIKE", "%{$this->search}%")
+                    ->orWhere("numCarte", "LIKE", "%{$this->search}%");
+                })
+                ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])            
+                ->where([["session_id", 'LIKE', "%{$this->filteredBySessions}%"]])
+                ->paginate(5);
+        }
 
         $data = [
             "etudiants" => $etudiants,

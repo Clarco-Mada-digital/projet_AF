@@ -6,10 +6,11 @@
         <h3 class="mb-2 pt-3">Liste des étudiants</h3>
         <div class="row mt-4 mx-2">
             <div class="col-12">
+                <h6 class="fw-bold">Filtre :</h6>
                 <div class="d-flex align-items-center">
-                    <div class="mb-3" style="width: 15%;">
+                    <div class="mb-3" style="width: 18vmin;">
                         <div class="form-group">
-                            <label for="filteredLevelForm">Filtrer le statut/niveaux par :</label>
+                            <label for="filteredLevelForm">Statut/niveaux par :</label>
                             <select class="form-control" id="filteredLevelForm" aria-label="Filter form"
                                 wire:model.live="filteredByLevel">
                                 <option value="" selected>Tout</option>
@@ -19,17 +20,29 @@
                             </select>
                         </div>
                     </div>
-                    {{-- <div class="mb-3 mx-3" style="width: 20%;">
+                    <div class="mb-3 mx-3" style="width: 20vmin;">
                         <div class="form-group">
-                            <label for="filteredPaiementForm">Filtrer le type d'inscription par :</label>
+                            <label for="filteredPaiementForm">Types d'inscriptions :</label>
                             <select class="form-control" id="filteredPaiementForm" aria-label="Filter form"
                                 wire:model.live="filteredByCourExamen">
                                 <option value="" selected>Tout</option>
-                                <option value="cours" selected>Cours</option>
-                                <option value="examen" selected>Examen</option>
+                                <option value="cours">Cours</option>
+                                <option value="examen">Examen</option>
                             </select>
                         </div>
-                    </div> --}}
+                    </div>
+                    <div class="mb-3 mx-3" style="width: 20vmin;">
+                        <div class="form-group">
+                            <label for="filteredPaiementForm">Sessions :</label>
+                            <select class="form-control" id="filteredPaiementForm" aria-label="Filter form"
+                                wire:model.live="filteredBySessions">
+                                <option value="" selected>Tout</option>
+                                @foreach ($sessions as $session)
+                                <option value="{{ $session->id }}">{{ $session->nom }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
 

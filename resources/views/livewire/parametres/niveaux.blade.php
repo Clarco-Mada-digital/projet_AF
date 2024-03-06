@@ -2,23 +2,23 @@
     <div class="card" style="min-height: 350px;">
         {{-- card header --}}
         <div class="card-header bg-gradient-primary">
-            <h3 class="card-title d-flex align-items-center">
+            <h3 class="card-title d-flex align-items-center" style="font-size: 1.1em;">
                 @if ($key == 'Niveaux')
-                <i class="fa fa-bars fa-2x mr-2"></i>
+                <i class="fa fa-bars mr-2" style="font-size: 1.7em;"></i>
                 @elseif ($key == 'Categories')
-                <i class="fa fa-tag fa-2x mr-2"></i>
+                <i class="fa fa-tag mr-2" style="font-size: 1.7em;"></i>
                 @elseif ($key == 'Tarifs')
-                <i class="far fa-credit-card fa-2x mr-2"></i>
-                @elseif ($key == 'Permissions')
-                <i class="fas fa-fingerprint fa-2x mr-2"></i>
+                <i class="far fa-credit-card mr-2" style="font-size: 1.7em;"></i>
+                @elseif ($key == 'Examens')
+                <i class="fas fa-book mr-2" style="font-size: 1.7em;"></i>
                 @endif
                 Liste des {{ $key }}
             </h3>
             <div class="card-tools d-flex align-items-center">
                 <button class="btn btn-link text-light mr-4" data-toggle="modal" data-target="#view-params"
-                    spellcheck="false" wire:click="initModal('{{ $key }}')">
+                    spellcheck="false" wire:click="initModal('{{ $key }}')" style="font-size: 1em;">
                     <i class="fa fa-plus"></i> {{ $key }}</button>
-                <div class="input-group input-group-md" style="width: 250px;">
+                <div class="input-group input-group-md" style="width: 10vmax;">
                     <input type="search" name="table_search" class="form-control float-right" placeholder="Rechercher "
                         wire:model.live.debounce.500ms="search{{ $key }}">
                     <div class="input-group-append">
