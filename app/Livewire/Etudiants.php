@@ -216,6 +216,17 @@ class Etudiants extends Component
                 $inscription->save();
             }
             $paiement->save();
+            $paiementData = [
+                'montant' => $this->montantPayer,
+                'montantRestant' => 0,
+                'statue' => "Totalement",
+                'motif' => "Réglage du paiement ".$paiement->id,
+                'moyenPaiement' => "Espèce",
+                'type' => "Réglage du paiement restant du paiemnt ".$paiement->id,
+                'numRecue' => "AFPN°" . random_int(50, 9000),
+                'user_id' => Auth::user()->id
+            ];
+            Paiement::create($paiementData);
             $this->dispatch("ShowSuccessMsg", ['message' => 'Paiement effectué avec success!', 'type' => 'success']);
             $this->toogleFormPayRestant();
             $this->montantPayer = 0;
