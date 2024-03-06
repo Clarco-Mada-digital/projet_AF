@@ -153,6 +153,13 @@ class Users extends Component
 
     public function addNewUser()
     {
+        $roleGivePermission = 
+        [
+            "Accueil" => ["utilisateurs.*", "étudiants.*", "sessions.*"], 
+            "Pédagogique" => ["cours.*", "niveaux.*", "sessions.*", "professeurs.*", "examens.*", "catégories.*"], 
+            "Admin" => ["cours.*", "niveaux.*", "sessions.*", "utilisateurs.*", "étudiants.*", "professeurs.*", "rôles.*", "tarifs.*", "examens.*", "catégories.*"]
+        ];        
+
         if ($this->photo != '') {
             $photoName = $this->photo->store('profil', 'public');
             $this->newUser['profil'] = $photoName;
@@ -169,10 +176,21 @@ class Users extends Component
 
         // Ajout le Role selection pour l'utilisateur crée.
         $user->assignRole($this->newUser['role_id']);
+        $rolePermission = True;
+
         // Ajout de permission au utilisateur crée.
-        foreach ($this->rolePermissionList['permissions'] as $permission) {
-            if ($permission['active']) {
-                $user->givePermissionTo($permission['nom']);
+        if (count($this->rolePermissionList['permissions']) > 0) {
+            foreach ($this->rolePermissionList['permissions'] as $permission) {
+                if ($permission['active']) {
+                    $user->givePermissionTo($permission['nom']);
+                    $rolePermission = False;
+                }
+            }
+        }
+        if ($rolePermission)
+        {
+            foreach ($roleGivePermission[$this->newUser['role_id']] as $perm) {
+                $user->givePermissionTo($perm);
             }
         }
 
