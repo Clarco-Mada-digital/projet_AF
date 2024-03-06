@@ -1,4 +1,15 @@
 <nav class="mt-2" style="font-size: .9rem;">
+    @guest
+    <blockquote class="blockquote text-right">
+        'La technologie seule ne suffit pas.'
+        <footer class="blockquote-footer">Steve Jobs</footer>
+    </blockquote>
+    <blockquote class="blockquote text-right">
+        'L'esprit humain doit prévaloir sur la technologie.'
+        <footer class="blockquote-footer">Albert Einstein</footer>
+    </blockquote>
+    
+    @else
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
         <li class="nav-item">
@@ -199,5 +210,6 @@
         </li>
         @endhasrole
 
-    </ul>
+    </ul>    
+    @endguest
 </nav>

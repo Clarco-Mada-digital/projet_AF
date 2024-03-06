@@ -116,7 +116,7 @@
                     <hr />
                 </div>
                 <div class="col-sm-4">
-                    <span>ou continuer avec</span>
+                    <span>ou</span>
                 </div>
                 <div class="col-sm-4">
                     <hr />
@@ -124,8 +124,8 @@
             </div>
 
             <div class="social-auth-links text-center mt-2 mb-3">
-                <a href="#" class="btn btn-block btn-danger">
-                    <i class="fab fa-google-plus mr-2"></i> Connecté avec Google+
+                <a href="{{ route("mada-contact") }}" class="btn btn-block btn-danger">
+                    <i class="fa fa-envelope mr-2"></i> Contacter MADA-Digital
                 </a>
             </div>
 
