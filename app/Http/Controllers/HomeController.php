@@ -46,9 +46,9 @@ class HomeController extends Controller
             "Saturday" => "Samedi"
         ];
         $myRecord = [];
-        $record = Paiement::select(DB::raw("COUNT(*) as count"), DB::raw("DAYNAME(created_at) as day_name"), DB::raw("DAY(updated_at) as day"))->where('updated_at', '>', Carbon::today()->subDay(6))
+        $record = Paiement::select(DB::raw("COUNT(*) as count"), DB::raw("DAYNAME(updated_at) as day_name"), DB::raw("DAY(updated_at) as day"))->where('updated_at', '>', Carbon::today()->subDay(6))
             ->groupBy('day_name', 'day')
-            ->orderBy('day')
+            ->orderBy('day', 'DESC')
             ->get();
 
         foreach ($record as $row) {

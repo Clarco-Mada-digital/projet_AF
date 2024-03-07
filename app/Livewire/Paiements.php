@@ -18,6 +18,7 @@ class Paiements extends Component
     protected $paginationTheme = "bootstrap"; 
 
     public string $search = "";
+    public string $filteredByDatePaiement = '';
     public $showUser ;
 
     public $orderDirection = 'ASC';
@@ -44,8 +45,11 @@ class Paiements extends Component
         Carbon::setLocale('fr');
         
         $datas = [
-            'paiements' => Paiement::where("numRecue", "LIKE", "%{$this->search}%")
-                ->orWhere("motif", "LIKE", "%{$this->search}%")
+            'paiements' => Paiement::where(function ($query) {
+                $query->where("numRecue", "LIKE", "%{$this->search}%")
+                ->orWhere("motif", "LIKE", "%{$this->search}%");
+                })
+                // ->where("created_at", "<", Carbon::today()->subDay("%{$this->filteredByDatePaiement}%"))        
                 ->orderBy($this->orderField, $this->orderDirection)
                 ->paginate(5)
         ];

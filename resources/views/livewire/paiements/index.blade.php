@@ -6,6 +6,23 @@
     <h3 class="mb-5 pt-3">Liste des paiements</h3>
     <div class="row mt-4 mx-2">
         <div class="col-12">
+
+            <h6 class="fw-bold">Filtre :</h6>
+            <div class="d-flex align-items-center">                
+                <div class="mb-3 mx-3" style="width: 20vmin;">
+                    <div class="form-group">
+                        <label for="filteredPaiementForm">Date de paiement :</label>
+                        <select class="form-control" id="filteredPaiementForm" aria-label="Filter form"
+                            wire:model.live="filteredByDatePaiement">
+                            <option value="" selected>Tout</option>
+                            <option value="1">Aujourd'hui</option>
+                            <option value="6">Cette semaine</option>
+                            <option value="30">Ce mois</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <div class="card" style="min-height: 350px;">
                 <div class="card-header bg-gradient-primary">
                     <h3 class="card-title d-flex align-items-center"> <i class="fa fa-users fa-2x mr-2"></i> Liste des
@@ -30,9 +47,11 @@
                             <tr>
                                 <th wire:click="setOrderField('numRecue')">N° reçue</th>
                                 <th wire:click="setOrderField('type')">Paiement pour</th>
-                                <th wire:click="setOrderField('type')" wire:click="setOrderField('created_at')">Date de paiement</th>
+                                <th wire:click="setOrderField('type')" wire:click="setOrderField('created_at')">Date de
+                                    paiement</th>
                                 <th class="text-center" wire:click="setOrderField('montant')">Montant en Ar</th>
-                                <th style="width: 20%;" class="text-center" wire:click="setOrderField('moyentPaiement')">Moyen de paiement
+                                <th style="width: 20%;" class="text-center"
+                                    wire:click="setOrderField('moyentPaiement')">Moyen de paiement
                                 </th>
                                 <th class="text-center">Statue paiement</th>
                                 <th class="text-center">Effectuer par</th>
@@ -43,37 +62,40 @@
                         <tbody>
                             {{-- Content du tableau --}}
                             @forelse ($paiements as $paiement)
-                                <tr>
-                                    <td> {{ $paiement->numRecue }} </td>
-                                    <td> {{ Str::words($paiement->type, 3, "...") }} {{ Str::words($paiement->motif != null ? "- (".$paiement->motif.")" : "", 3, "...") }} </td>
-                                    <td class="text-center">{{ $paiement->created_at->diffForHumans() }}</td>
-                                    <td class="text-center">{{ $paiement->montant }}</td>
-                                    <td class="text-center">{{ $paiement->moyenPaiement }}</td>
-                                    <td class="text-center">{{ $paiement->statue }} payée 
-                                        @if ($paiement->montantRestant != 0)
-                                            (Reste: {{ $paiement->montantRestant }} Ar)
-                                        @endif
-                                    </td>
-                                    <td class="text-center"> <a href="#" data-toggle="modal"
-                                        data-target="#viewUser" spellcheck="false" wire:click='intiUserShow({{ $paiement->user->id }})'> {{ $paiement->user->nom }} {{ $paiement->user->prenom }} </a>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="/generate-pdf/{{ $paiement->id }}" target="_blank" class="btn btn-link bounce">
-                                            <i class="fa fa-download"></i>
-                                        </a>
-                                        <a href="/generate-pdf/{{ $paiement->id }}" target="_blank" class="btn btn-link">
-                                            <i class="fa fa-print" ></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td> {{ $paiement->numRecue }} </td>
+                                <td> {{ Str::words($paiement->type, 3, "...") }} {{ Str::words($paiement->motif != null
+                                    ? "- (".$paiement->motif.")" : "", 3, "...") }} </td>
+                                <td class="text-center">{{ $paiement->created_at->diffForHumans() }}</td>
+                                <td class="text-center">{{ $paiement->montant }}</td>
+                                <td class="text-center">{{ $paiement->moyenPaiement }}</td>
+                                <td class="text-center">{{ $paiement->statue }} payée
+                                    @if ($paiement->montantRestant != 0)
+                                    (Reste: {{ $paiement->montantRestant }} Ar)
+                                    @endif
+                                </td>
+                                <td class="text-center"> <a href="#" data-toggle="modal" data-target="#viewUser"
+                                        spellcheck="false" wire:click='intiUserShow({{ $paiement->user->id }})'> {{
+                                        $paiement->user->nom }} {{ $paiement->user->prenom }} </a>
+                                </td>
+                                <td class="text-center">
+                                    <a href="/generate-pdf/{{ $paiement->id }}" target="_blank"
+                                        class="btn btn-link bounce">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                    <a href="/generate-pdf/{{ $paiement->id }}" target="_blank" class="btn btn-link">
+                                        <i class="fa fa-print"></i>
+                                    </a>
+                                </td>
+                            </tr>
                             @empty
-                                <tr>
-                                    <td class="text-center" colspan="8">
-                                        <img src="{{ asset('images/no_data.svg') }}" alt="Data empty" width="200px">
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td class="text-center" colspan="8">
+                                    <img src="{{ asset('images/no_data.svg') }}" alt="Data empty" width="200px">
+                                </td>
+                            </tr>
                             @endforelse
-                        
+
                         </tbody>
                     </table>
 
@@ -90,7 +112,8 @@
     {{-- Partie Modal view --}}
     <div class="modal fade" id="viewUser" style="display: none; " aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog modal-sm modal-dialog-centered">
-            <div class="modal-content bg-transparent" style="background: url('{{asset('images/logo/alliance-francaise-d-antsiranana-logo.png')}}') center center /cover;">
+            <div class="modal-content bg-transparent"
+                style="background: url('{{asset('images/logo/alliance-francaise-d-antsiranana-logo.png')}}') center center /cover;">
                 <div class="modal-body p-0">
                     @include('livewire.paiements.viewUser')
                 </div>
