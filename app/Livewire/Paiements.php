@@ -76,8 +76,15 @@ class Paiements extends Component
                         ->paginate(5);
         // $paiements = Paiement::paginate(5);
 
+        $totauxPaiement = 0;
+        foreach($paiements as $paiement)
+        {
+            $totauxPaiement += $paiement->montant;
+        }
+        
         $datas = [
             "paiements" => $paiements,
+            "paiementTotal" => $totauxPaiement
         ];
         return view('livewire.paiements.index', $datas);
     }

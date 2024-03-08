@@ -33,6 +33,17 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="resumPaiement ml-auto w-25">
+                    <div class="form-group">
+                        <label for="filteredPaiementForm" style="text-align: end; width: 100%; font-size:1rem;">Totaux du paiement: </label>
+                        <p class="w-100" style="text-align: end;">Avec {{count($paiements)}} paiement(s) : 
+                            <span style="font-weight: bold;display: inline-block; font-size:1.1rem; margin-left: 1.3em;">{{$paiementTotal}} Ar</span> <br>
+                            {{-- <span class="nomberToLetter" style="font-weight: bold;display: inline-block;width: 100%;text-align: end;">{{ $paiementTotal }}</span></td> --}}
+                        </p>
+                    </div>
+                    
+                </div>
             </div>
 
             <div class="card" style="min-height: 350px;">
@@ -134,3 +145,14 @@
     </div>
 
 </div>
+
+{{-- <script src="../../js/nombreEnLettre.js"></script>
+<script>
+    let nbToLetter = document.querySelectorAll('.nomberToLetter');
+
+    nbToLetter.forEach(element => {
+        chiffre = Number(element.textContent);
+        element.textContent = NumberToLetter(chiffre)+" Ariary";
+        console.log(chiffre);
+    });
+</script> --}}
