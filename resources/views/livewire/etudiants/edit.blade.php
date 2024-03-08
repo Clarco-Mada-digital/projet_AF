@@ -132,17 +132,23 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
+                            @if ($etudiantSession!= null)
                             <label for="Sessions">Session</label>
-                            <select class="custom-select" spellcheck="false" id="Sessions"
+                            <ul>
+                                @foreach ($etudiantSession as $session)
+                                <li>{{ $session->nom }} - ({{$session->type}})</li>                                    
+                                @endforeach
+                            </ul>
+                            @endif
+                            
+                            {{-- <select class="custom-select" spellcheck="false" id="Sessions"
                                 wire:model='$etudiantSession' disabled>
                                 @if ($listSession != null)
                                 @foreach ($listSession as $session)
                                 <option value="{{ $session['id'] }}"> {{ $session['nom'] }} </option>
                                 @endforeach
                                 @endif
-                                {{-- <option>Session 001 24</option>
-                                <option>Session 002 24</option> --}}
-                            </select>
+                            </select> --}}
                         </div>
                     </div>
                     <div class="col-md-6">

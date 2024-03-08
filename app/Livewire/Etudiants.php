@@ -157,8 +157,9 @@ class Etudiants extends Component
     {
         $this->editEtudiant = Etudiant::find($id)->toArray();
         $this->listSession = Session::all()->toArray();
-        $this->etudiantSession = Inscription::where('etudiant_id', $this->editEtudiant['id'])->first()->sessions;
-        $cours = $this->etudiantSession->toArray();
+        $this->etudiantSession = Etudiant::find($id)->session;
+        // dd($this->etudiantSession);
+        // $cours = $this->etudiantSession->toArray();
         // dd($cours);
         // foreach ($cours as $cour) {
         //     array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
