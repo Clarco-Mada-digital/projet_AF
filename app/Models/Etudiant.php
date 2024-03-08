@@ -27,7 +27,6 @@ class Etudiant extends Model
         'user_id',
         'level_id',
         'categorie_id',
-        'session_id',
     ];
 
     public function user()
@@ -62,7 +61,7 @@ class Etudiant extends Model
 
     public function session()
     {
-        return $this->belongsTo(Session::class);
+        return $this->belongsToMany(Session::class, "etudiant_sessions", 'etudiant_id', 'session_id');
     }
 
     public function inscription()

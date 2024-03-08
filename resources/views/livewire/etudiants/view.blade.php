@@ -67,16 +67,32 @@
 
             {{-- cards body --}}
             <div class="card-body">
+                <div class="input-group mb-3 @if($payRestant == false) d-none @endif">
+                    <input type="number" class="form-control" placeholder="Montant à payer"
+                        wire:model.live="montantPayer">
+                    <div class="input-group-append">
+                        <span class="input-group-text">Ar</span>
+                    </div>
+                    <button class="mx-2 btn btn-sm btn-success" wire:click="payRestantSubmit()">Payer</button>
+                    <button class="btn btn-sm btn-danger" wire:click='toogleFormPayRestant'>
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
                 @if ($etudiant->cours->count() != 0)
                 <strong><i class="fa fa-book mr-1"></i> Cours choisie</strong>
                 <p class="text-muted d-flex justify-content-between align-items-center">
                     @foreach ($etudiant->cours as $cours)
                     <span>{{ $cours->libelle }} - {{ $cours->level->libelle }} ({{ $cours->session->nom }})
                         @foreach ($etudiant->inscription as $inscription)
-                        @if ($inscription->type == "cours" && $cours->id == $inscription->idCourOrExam &&
-                        $inscription->paiement->montantRestant != 0)
-                        - {{ $inscription->paiement->montantRestant }} Ar à payer
-                        <button class="btn btn-sm btn-success">Régler le paiement</button>
+                        @if ($inscription->type == "cours" && $cours->id == $inscription->idCourOrExam)
+                        @foreach ($inscription->paiements as $paiement)
+                        @if ( $paiement->montantRestant != 0)
+                        - {{$inscription->paiement->montantRestant}} Ar à payer
+                        <button class='btn btn-sm btn-success'
+                            wire:click.prevent='toogleFormPayRestant({{$paiement->id, $inscription->id}})'>Régler le paiement</button>
+                        @endif
+                        @endforeach
+
                         @endif
                         @endforeach
                     </span>
@@ -91,26 +107,38 @@
                 </p>
                 <hr>
                 @endif
+                @foreach ($etudiant->inscription as $inscription)
+                    @if ($inscription->idCourOrExam == null)
+                    <strong><i class="fa fa-book mr-1"></i> Cours choisie</strong>
+                    <p class="text-muted d-flex justify-content-between align-items-center">
+                        {{ $inscription->session->nom }}
+                        @foreach ($inscription->paiements as $paiement)
+                        @if ( $paiement->montantRestant != 0)
+                        - {{$paiement->montantRestant}} Ar à payer
+                        <button class='btn btn-sm btn-warning'
+                            wire:click.prevent='toogleFormPayRestant({{$paiement->id}}, {{$inscription->id}})'>Régler le paiement</button>
+                        @endif
+                        @endforeach
+                    </p>
+                    <hr>
+                    @endif
+                @endforeach
+                
                 @if ($etudiant->examens->count() != 0)
                 <strong><i class="fa fa-book mr-1"></i> Examen choisie</strong>
                 <p class="text-muted d-flex justify-content-between align-items-center p-0 m-0">
                     @foreach ($etudiant->examens as $examen)
                 <section>{{ $examen->libelle }} - {{ $examen->level->libelle }} ({{ $examen->session->nom }})
                     @foreach ($etudiant->inscription as $inscription)
-                    @if ($inscription->type == "examen" && $examen->id == $inscription->idCourOrExam &&
-                    $inscription->paiement->montantRestant != 0)
-                    - {{ $inscription->paiement->montantRestant }} Ar à payer
-                    <button class="btn btn-sm btn-warning" wire:click.prevent="toogleFormPayRestant()">Régler le paiement</button>
-                    <div class="input-group mt-2 @if($payRestant == false) d-none @endif">
-                        <input type="number" class="form-control" placeholder="Montant à payer" wire:model.live="montantPayer">
-                        <div class="input-group-append">
-                            <span class="input-group-text">Ar</span>
-                        </div>
-                        <button class="mx-2 btn btn-sm btn-success" wire:click="payRestantSubmit({{$inscription->paiement->id}})">Payer</button>
-                        <button class="btn btn-sm btn-danger" wire:click='toogleFormPayRestant'>
-                            <i class="fa fa-times"></i>
-                        </button>
-                    </div>
+                    @if ($inscription->type == "examen" && $examen->id == $inscription->idCourOrExam)                    
+                    @foreach ($inscription->paiements as $paiement)
+                    @if ( $paiement->montantRestant != 0)
+                    - {{$paiement->montantRestant}} Ar à payer
+                    <button class='btn btn-sm btn-success'
+                        wire:click.prevent='toogleFormPayRestant({{$paiement->id}}, {{$inscription->id}})'>Régler le paiement</button>
+                    @endif
+                    @endforeach
+                    
                     @endif
                     @endforeach
                 </section>

@@ -15,14 +15,20 @@ class Inscription extends Model
         'statut',
         'type',
         'etudiant_id',
-        'paiement_id',
+        'session_id',
     ];
 
-    public function sessions(){
-        return $this->belongsToMany(Session::class,"inscripiton_sessions", 'inscription_id', 'session_id');
+    public function session(){
+        return $this->belongsTo(Session::class);
     }
 
-    public function paiement(){
-        return $this->belongsTo(Paiement::class);
+    public function paiements(){
+        return $this->belongsToMany(Paiement::class, 'inscription_paiements', 'inscription_id', 'paiement_id');
     }
+
+    public function etudiant()
+    {
+        return $this->belongsTo(Etudiant::class);
+    }
+
 }

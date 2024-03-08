@@ -27,18 +27,20 @@
                                 wire:model.live="filteredByCourExamen">
                                 <option value="" selected>Tout</option>
                                 <option value="cours">Cours</option>
-                                <option value="examen">Examen</option>
+                                <option value="examens">Examen</option>
                             </select>
                         </div>
                     </div>
-                    <div class="mb-3 mx-3" style="width: 20vmin;">
+                    <div class="mb-3 mx-3 @if ($filteredByCourExamen == "") d-none @endif" style="width: 20vmin;">
                         <div class="form-group">
                             <label for="filteredPaiementForm">Sessions :</label>
                             <select class="form-control" id="filteredSessionForm" aria-label="Filter form"
                                 wire:model.live="filteredBySessions">
                                 <option value="" selected>Tout</option>
                                 @foreach ($sessions as $session)
-                                <option value="{{ $session->id }}">{{ $session->nom }}</option>
+                                @if ($session->type == $filteredByCourExamen)
+                                <option value="{{ $session->id }}">{{ $session->nom }}</option>                                    
+                                @endif
                                 @endforeach
                             </select>
                         </div>
@@ -49,8 +51,8 @@
                             <select class="form-control" id="filteredPaiementForm" aria-label="Filter form"
                                 wire:model.live="filteredByPaiement">
                                 <option value="" selected>Tout</option>
-                                <option value="Totalement">Totalement</option>
-                                <option value="A moitié">Partialement</option>
+                                <option value='1'>Totalement</option>
+                                <option value='0'>Partialement</option>
                             </select>
                         </div>
                     </div>
@@ -124,7 +126,7 @@
                                         {{ Str::words('Examen '.$etudiant->examens->implode('libelle', ' | '), 3, '...')  }}
                                         @endif
                                     </td>
-                                    <td class="text-center"> {{ $etudiant->session->nom }} </td>
+                                    <td class="text-center"> {{ Str::words($etudiant->session->implode("nom", ' | '), 5, '...') }} </td>
                                     <td
                                         class="text-center">
                                         {{ $etudiant->level->libelle }} </td>

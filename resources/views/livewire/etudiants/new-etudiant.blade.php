@@ -287,15 +287,15 @@
                                     <div class="col-md-12 mb-3">
                                         <label> Inscrit pour : </label>
                                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                            <label class="btn bg-info @if ($typeInscription == 'cour') active @endif">
+                                            <label class="btn bg-info @if ($typeInscription == 'cours') active @endif">
                                                 <input type="radio" name="options" id="option_b1" autocomplete="off"
-                                                    spellcheck="false" value="cour" wire:model.live='typeInscription'>
+                                                    spellcheck="false" value="cours" wire:model.live='typeInscription'>
                                                 Un cours
                                             </label>
                                             <label
-                                                class="btn bg-warning @if ($typeInscription == 'examen') active @endif">
+                                                class="btn bg-warning @if ($typeInscription == 'examens') active @endif">
                                                 <input type="radio" name="options" id="option_b2" autocomplete="off"
-                                                    spellcheck="false" value="examen" wire:model.live='typeInscription'
+                                                    spellcheck="false" value="examens" wire:model.live='typeInscription'
                                                     wire:click.live="updateCoursList">
                                                 Un examen
                                             </label>
@@ -309,7 +309,7 @@
                                                 wire:model='etudiantSession' wire:click.live='updateCoursList'>
                                                 <option value='null'> --- Session --- </option>
                                                 @foreach ($listSession as $session)
-                                                @if ($session->dateFin > $now)
+                                                @if ($session->dateFin > $now && $session->type == $typeInscription)
                                                 <option value="{{ $session->id }}"> {{ $session->nom }}
                                                 </option>
                                                 @endif
@@ -317,7 +317,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 @if ($typeInscription == 'examen') d-none @endif">
+                                    <div class="col-md-3 @if ($typeInscription == 'examens') d-none @endif">
                                         <div class="form-group">
                                             <label for="etudiantNiveau">Niveau</label>
                                             <select class="custom-select" spellcheck="false" id="etudiantNiveau"
@@ -333,12 +333,12 @@
                                     </div>
 
                                     <div
-                                        class="col-md-12 card @if ($typeInscription == 'cour') card-info @else card-warning @endif">
+                                        class="col-md-12 card @if ($typeInscription == 'cours') card-info @else card-warning @endif">
                                         <div class="card-header">
                                             <h3 class="card-title">Liste des {{ Str::plural($typeInscription) }}</h3>
                                         </div>
                                         <div class="card-body row">
-                                            @if ($typeInscription == 'cour')
+                                            @if ($typeInscription == 'cours')
                                             @forelse ($nscList['cours'] as $cour)
                                             <div class="form-group col-md-3">
                                                 <div class="custom-control custom-checkbox">
@@ -354,7 +354,7 @@
                                             <h3>Aucun donnée trouvé !</h3>
                                             @endforelse
                                             @endif
-                                            @if ($typeInscription == 'examen')                                            @forelse ($nscList['examens'] as $examen)
+                                            @if ($typeInscription == 'examens')                                            @forelse ($nscList['examens'] as $examen)
                                             <div class="form-group col-md-3">
                                                 <div class="custom-control custom-checkbox">
                                                     <input class="custom-control-input" type="checkbox"
@@ -387,7 +387,7 @@
                                                 <tr>
                                                     <th scope="row">1</th>
                                                     <td>Inscription au {{ Str::plural($typeInscription) }}</td>
-                                                    @if ($typeInscription == 'cour')
+                                                    @if ($typeInscription == 'cours')
                                                     <td class="text-end">
                                                         @isset($sessionSelected)
                                                         <span @if($session->dateFinPromo > Carbon\Carbon::now())
@@ -399,7 +399,7 @@
                                                         @endisset
                                                     </td>
                                                     @endif
-                                                    @if ($typeInscription == 'examen')
+                                                    @if ($typeInscription == 'examens')
                                                     <td class="text-end">
                                                         {{ $montantExam }} Ar
                                                     </td>

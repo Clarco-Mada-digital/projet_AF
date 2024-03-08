@@ -25,7 +25,7 @@ class Paiement extends Model
     }
     
     public function inscription(){
-        return $this->belongsTo(Inscription::class);
+        return $this->belongsToMany(Inscription::class, 'inscription_paiements', 'paiement_id', 'inscription_id');
     }
 
 }

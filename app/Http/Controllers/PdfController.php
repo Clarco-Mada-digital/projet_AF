@@ -13,29 +13,37 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PdfController extends Controller
 {
+    public $session;
+
+
     public function generatePDF(Paiement $paiement)
     {
         // retreive all records from db
-        $iscription = Inscription::where('paiement_id', '=', $paiement->id)->first();
-        $etudiant = Etudiant::find($iscription->etudiant_id);
+        $inscription = $paiement->inscription;
+        foreach($inscription as $insc)
+        {
+            $this->session = $insc->session;
+            $etudiant = Etudiant::find($insc->etudiant_id);
+        
+        
         $price = Price::find($etudiant->categorie_id);
         $examen = null;
         $cours = null;
 
-        if($paiement->type == "Inscription a un examen" || $paiement->type == "Adhésion + Inscription a un examen"){
-            $examen = Examen::where('id', '=', $iscription->idCourOrExam)->first();
+        if($paiement->type == "Inscription a un examens" || $paiement->type == "Adhésion + Inscription a un examens"){
+            $examen = Examen::where('id', '=', $insc->idCourOrExam)->first();
         }
-        if($paiement->type == "Inscription a un cour" || $paiement->type == "Adhésion + Inscription a un cour"){
-            $cours = Cour::where('id', '=', $iscription->idCourOrExam)->first();
+        if($paiement->type == "Inscription a un cours" || $paiement->type == "Adhésion + Inscription a un cours"){
+            $cours = Cour::where('id', '=', $insc->idCourOrExam)->first();
         }
-
+        }
             
         
         $nameDuFichier = 'Facture' . "_" . $etudiant->nom . "_". $etudiant->prenom . ".pdf";
        
         $data = [
             "etudiant" => $etudiant,
-            "session" => $etudiant->session,
+            "session" => $this->session,
             "auth" => auth()->user(),
             "paiements" => $paiement,
             "price" => $price,

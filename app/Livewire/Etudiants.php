@@ -46,6 +46,8 @@ class Etudiants extends Component
 
     public $dataInscri = [];
     public bool $payRestant = False;
+    public $paiementSelected;
+    public $inscriptionSelected;
     public $montantPayer;
     public $montantRestant;
     public string $paiementStatus = 'OK';
@@ -195,38 +197,49 @@ class Etudiants extends Component
         $this->toogleStateName('view');
     }
 
-    public function toogleFormPayRestant()
+    public function toogleFormPayRestant(Paiement $paiement = null, Inscription $inscription = null)
     {
-        $this->payRestant = !$this->payRestant;
-        $this->montantPayer = 0;
-        $this->montantRestant = 0;
-        $this->montantPayer = 0;
+        if ($this->payRestant)
+        {
+            $this->payRestant = !$this->payRestant;
+            $this->montantPayer = 0;
+            $this->montantRestant = 0;
+            $this->montantPayer = 0;
+        }
+        else
+        {
+            $this->payRestant = !$this->payRestant;
+            $this->paiementSelected = $paiement;
+            $this->inscriptionSelected = $inscription;
+        }
+        
     }
-    public function payRestantSubmit(Paiement $paiement)
+    public function payRestantSubmit()
     {
-        $inscription = Inscription::where('paiement_id', $paiement->id)->first();
-        $this->montantRestant = $paiement->montantRestant;
+        $this->montantRestant = $this->paiementSelected->montantRestant;
         if (floatval($this->montantPayer) > floatval($this->montantRestant)) {
             $this->dispatch("showModalSimpleMsg", ['message' => "Le montant payé ne doit pas dépasser le montant restant", 'type' => 'warning']);
         } else {
-            $paiement->montantRestant = $this->montantRestant - $this->montantPayer;
-            if ($paiement->montantRestant == 0) {
-                $paiement->statue = 'Totalement';
-                $inscription->statut = true;
-                $inscription->save();
+            $this->paiementSelected->montantRestant = $this->montantRestant - $this->montantPayer;
+            if ($this->paiementSelected->montantRestant == 0) {
+                $this->paiementSelected->statue = 'Totalement';
+                $this->inscriptionSelected->statut = true;
+                $this->inscriptionSelected->save();
             }
-            $paiement->save();
+            $this->paiementSelected->save();
             $paiementData = [
                 'montant' => $this->montantPayer,
                 'montantRestant' => 0,
                 'statue' => "Totalement",
-                'motif' => "Réglage du paiement ".$paiement->id,
+                'motif' => "Suite au paiement du reçue n° : ".$this->paiementSelected->numRecue,
                 'moyenPaiement' => "Espèce",
-                'type' => "Réglage du paiement restant du paiemnt ".$paiement->id,
+                'type' => "Réglage du paiement restant",
                 'numRecue' => "AFPN°" . random_int(50, 9000),
                 'user_id' => Auth::user()->id
             ];
-            Paiement::create($paiementData);
+            $myPaiement = Paiement::create($paiementData);
+            $this->inscriptionSelected->paiements()->attach($myPaiement->id);
+            
             $this->dispatch("ShowSuccessMsg", ['message' => 'Paiement effectué avec success!', 'type' => 'success']);
             $this->toogleFormPayRestant();
             $this->montantPayer = 0;
@@ -252,7 +265,8 @@ class Etudiants extends Component
         $this->allLevel = Level::all();
         $this->sessions = Session::all();
 
-        if ($this->filteredByCourExamen == 'examen') {
+        if ($this->filteredByCourExamen == 'examens') 
+        {
             $etudiants = Etudiant::with("session", "level", "cours", "examens")
                 ->where(function ($query) {
                     $query->where("nom", "LIKE", "%{$this->search}%")
@@ -260,51 +274,36 @@ class Etudiants extends Component
                         ->orWhere("numCarte", "LIKE", "%{$this->search}%");
                 })
                 ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])
-                ->whereHas("examens", function ($query) {
-                    if ($this->filteredByCourExamen == 'examen' || $this->filteredByCourExamen == '') {
-                        $query->where("libelle", "!=", "null");
-                    } else {
-                        $query->where("libelle", "LIKE", "null");
-                    }
-                })
-                ->where([["session_id", 'LIKE', "%{$this->filteredBySessions}%"]])
+                ->whereHas("examens", function ($qr) {
+                    $qr->with('session')->whereHas("session", function($q){
+                        $q->where("id", "LIKE", "%{$this->filteredBySessions}%")
+                        ->where('type', 'LIKE', 'examens')
+                        ->with("inscriptions")->whereHas("inscriptions", function ($query) {
+                            $query->where("statut", "LIKE", "%{$this->filteredByPaiement}%");
+                        });
+                    });                    
+                }) 
                 ->paginate(5);
         }
-        if ($this->filteredByCourExamen == 'cours') {
+        elseif ($this->filteredByCourExamen == 'cours')
+        {
             $etudiants = Etudiant::with("session", "level", "cours", "examens")
                 ->where(function ($query) {
                     $query->where("nom", "LIKE", "%{$this->search}%")
                         ->orWhere("prenom", "LIKE", "%{$this->search}%")
                         ->orWhere("numCarte", "LIKE", "%{$this->search}%");
                 })
-                ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])
-                ->whereHas("cours", function ($query) {
-                    if ($this->filteredByCourExamen == 'cours' || $this->filteredByCourExamen == '') {
-                        if ($this->filteredByCourExamen == 'examen' || $this->filteredByCourExamen == '') {
-                            $query->where("libelle", "!=", "null");
-                        } else {
-                            $query->where("libelle", "LIKE", "null");
-                        }
-                    }
-                })
-                ->where([["session_id", 'LIKE', "%{$this->filteredBySessions}%"]])
-                ->paginate(5);
-        }
-        if ($this->filteredByPaiement != '') {
-            $etudiants = Etudiant::with("session", "level", "cours", "examens", "inscription")
-                ->where(function ($query) {
-                    $query->where("nom", "LIKE", "%{$this->search}%")
-                        ->orWhere("prenom", "LIKE", "%{$this->search}%")
-                        ->orWhere("numCarte", "LIKE", "%{$this->search}%");
-                })
-                ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])
-                ->whereHas("inscription", function ($query) {
-                    $query->with("paiement")
-                    ->whereHas("paiement", function ($query) {
-                        $query ->where("statue", "LIKE", "%{$this->filteredByPaiement}%");
+                ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])                  
+                ->whereHas("session", function ($res) {
+                    // dd($qr);
+                    return $res->where("id", "LIKE", "%{$this->filteredBySessions}%")
+                    ->where('type', 'LIKE', 'cours')
+                    ->with("inscriptions")
+                    ->whereHas("inscriptions", function ($qr) {
+                        $qr->where("statut", "LIKE", "%{$this->filteredByPaiement}%");
                     });
                 })
-                ->where([["session_id", 'LIKE', "%{$this->filteredBySessions}%"]])
+                                       
                 ->paginate(5);
         } 
         else 
@@ -315,8 +314,10 @@ class Etudiants extends Component
                         ->orWhere("prenom", "LIKE", "%{$this->search}%")
                         ->orWhere("numCarte", "LIKE", "%{$this->search}%");
                 })
+                ->whereHas("inscription", function ($query) {
+                    $query->where("statut", "LIKE", "%{$this->filteredByPaiement}%");
+                })
                 ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])
-                ->where([["session_id", 'LIKE', "%{$this->filteredBySessions}%"]])
                 ->paginate(5);
         }
 

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Paiement;
+use App\Models\Session;
 use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Attributes\Layout;
@@ -18,13 +19,18 @@ class Paiements extends Component
     protected $paginationTheme = "bootstrap"; 
 
     public string $search = "";
-    public string $filteredByDatePaiement = '';
+    public $filteredByDatePaiement = '';
+    public $filteredBySessions = '';
+    public $sessions = ""; 
     public $showUser ;
 
-    public $orderDirection = 'ASC';
-    public $orderField = 'numRecue';
+    public $orderDirection = 'DESC';
+    public $orderField = 'created_at';
 
-
+    public function __construct() {
+        $this->sessions = Session::all();
+    }
+    
     public function setOrderField(string $name)
     {
         if ($name === $this->orderField) {
@@ -35,7 +41,8 @@ class Paiements extends Component
         }
     }
 
-    public function intiUserShow(User $idUser){
+    public function intiUserShow(User $idUser)
+    {
         $this->showUser = $idUser;
         // dd($this->showUser);
     }
@@ -43,15 +50,34 @@ class Paiements extends Component
     public function render()
     {
         Carbon::setLocale('fr');
-        
+        $paiements = Paiement::with("inscription")
+                        ->where(function ($query) {
+                            $query->where("numRecue", "LIKE", "%{$this->search}%")
+                            ->orWhere("motif", "LIKE", "%{$this->search}%");
+                        })                        
+                        // ->whereHas("inscription", function($qr){
+                        //     $qr->where('session_id', 'LIKE', "%{$this->filteredBySessions}%");
+                        // })
+                        ->where(function($qr) {
+                            if($this->filteredByDatePaiement == "toDay"){
+                                $qr->whereDate('created_at', Carbon::today());
+                            }
+                            if($this->filteredByDatePaiement == "thisWeek"){
+                                $qr->whereBetween("created_at", [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                            }
+                            if($this->filteredByDatePaiement == "thisMonth"){
+                                $qr->whereMonth('created_at', Carbon::now()->month);
+                            }
+                            else{
+                                return $qr;
+                            }
+                        })        
+                        ->orderBy($this->orderField, $this->orderDirection)
+                        ->paginate(5);
+        // $paiements = Paiement::paginate(5);
+
         $datas = [
-            'paiements' => Paiement::where(function ($query) {
-                $query->where("numRecue", "LIKE", "%{$this->search}%")
-                ->orWhere("motif", "LIKE", "%{$this->search}%");
-                })
-                // ->where("created_at", "<", Carbon::today()->subDay("%{$this->filteredByDatePaiement}%"))        
-                ->orderBy($this->orderField, $this->orderDirection)
-                ->paginate(5)
+            "paiements" => $paiements,
         ];
         return view('livewire.paiements.index', $datas);
     }

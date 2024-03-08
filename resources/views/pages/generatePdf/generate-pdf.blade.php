@@ -26,7 +26,7 @@
       </div>
       <div class="title-container w-100 row">
         <div style="background: red; width: 55%;"></div>
-        <h2 style="width: 35%">Reçu de Paiement</h2>
+        <h2 style="width: 35%">Reçu de Paiement n° {{" ".$paiements->numRecue." "}}</h2>
         <div style="background: red; margin-left: auto; width:10%;"></div>
       </div>
     </div>
@@ -125,7 +125,14 @@
 
               {{-- contenu du tableau --}}
               <tbody>
-                @if ($paiements->type == "Adhésion + Inscription a un cour" || $paiements->type == "Inscription a un cour")
+                @if ($paiements->type == "Réglage du paiement restant")
+                <tr>
+                  <th scope="row">1</th>
+                  <td>{{ $paiements->motif }}</td>
+                  <td class="text-end"> <span>{{ $paiements->montant }} Ar</span> </td>
+                </tr>        
+                @endif
+                @if ($paiements->type == "Adhésion + Inscription a un cours" || $paiements->type == "Inscription a un cours")
                 <tr>
                   <th scope="row">1</th>
                   <td>{{ $paiements->type }} @if ($cours != null) ({{ $cours->libelle }}) @endif</td>
@@ -135,7 +142,7 @@
                     $session->montantPromo }} @endif</td>
                 </tr>
                 @endif
-                @if ($paiements->type == "Adhésion + Inscription a un examen"  || $paiements->type == "Inscription a un examen")
+                @if ($paiements->type == "Adhésion + Inscription a un examens"  || $paiements->type == "Inscription a un examens")
                 <tr>
                   <th scope="row">1</th>
                   <td>{{ $paiements->type }} ({{ $examen->libelle }})</td>
@@ -143,7 +150,7 @@
                 </tr>
                 @endif
 
-                @if ($paiements->type == "Adhésion + Inscription a un cour" || $paiements->type == "Adhésion + Inscription a un examen" )
+                @if ($paiements->type == "Adhésion + Inscription a un cours" || $paiements->type == "Adhésion + Inscription a un examens" )
                 <tr>
                   <th scope="row">2</th>
                   <td> Adhesion au membre AF </td>
@@ -157,7 +164,11 @@
               <tfoot>
                 <tr>
                   <th class="text-lg fs-3">Total</th>
-                  @if ($paiements->type == "Adhésion + Inscription a un cour")
+                  @if ($paiements->type == "Réglage du paiement restant")
+                  <td colspan="2" class="text-end fw-bold fs-4">{{ $paiements->montant }} Ar <br>
+                    <span class="nomberToLetter">{{ $paiements->montant }}</span></td>
+                  @endif
+                  @if ($paiements->type == "Adhésion + Inscription a un cours")
                   @if ($session->dateFinPromo > Carbon\Carbon::now())
                   <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montantPromo + $price->montant }} Ar <br>
                     <span class="nomberToLetter">{{ $session->montantPromo + $price->montant }}</span></td>
@@ -166,11 +177,11 @@
                     <span class="nomberToLetter">{{ $session->montant + $price->montant }}</span></td>
                   @endif
                   @endif
-                  @if ($paiements->type == "Adhésion + Inscription a un examen")
+                  @if ($paiements->type == "Adhésion + Inscription a un examens")
                   <td colspan="2" class="text-end fw-bold fs-4">{{ $examen->price->montant + $price->montant }} Ar <br>
                     <span class="nomberToLetter">{{ $examen->price->montant + $price->montant }}</span></td>
                   @endif
-                  @if ($paiements->type == "Reinscription a un cour")
+                  @if ($paiements->type == "Inscription a un cours")
                   @if ($session->dateFinPromo > Carbon\Carbon::now())
                   <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montantPromo }} Ar <br>
                     <span class="nomberToLetter">{{ $session->montantPromo }}</span></td>
@@ -179,7 +190,7 @@
                     <span class="nomberToLetter">{{ $session->montant }}</span></td>
                   @endif
                   @endif
-                  @if ($paiements->type == "Reinscription a un examen")
+                  @if ($paiements->type == "Inscription a un examens")
                   <td colspan="2" class="text-end fw-bold fs-4">{{ $examen->price->montant }} Ar <br>
                     <span class="nomberToLetter">{{ $examen->price->montant }}</span></td>
                   @endif

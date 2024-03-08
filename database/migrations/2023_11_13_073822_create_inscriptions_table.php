@@ -2,6 +2,7 @@
 
 use App\Models\Etudiant;
 use App\Models\Paiement;
+use App\Models\Session;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,7 +23,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreignIdFor(Etudiant::class)->constrained();
-            $table->foreignIdFor(Paiement::class)->constrained();
+            $table->foreignIdFor(Session::class)->constrained();
         });
     }
 
@@ -32,7 +33,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('inscriptions', function (Blueprint $table) {
-            $table->dropColumn(['etudiant_id', 'paiement_id']);
+            $table->dropColumn(['etudiant_id', "session_id"]);
         });
 
         Schema::dropIfExists('inscriptions');

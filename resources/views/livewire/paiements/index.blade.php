@@ -8,16 +8,28 @@
         <div class="col-12">
 
             <h6 class="fw-bold">Filtre :</h6>
-            <div class="d-flex align-items-center">                
+            <div class="d-flex align-items-center">
                 <div class="mb-3 mx-3" style="width: 20vmin;">
                     <div class="form-group">
                         <label for="filteredPaiementForm">Date de paiement :</label>
                         <select class="form-control" id="filteredPaiementForm" aria-label="Filter form"
                             wire:model.live="filteredByDatePaiement">
                             <option value="" selected>Tout</option>
-                            <option value="1">Aujourd'hui</option>
-                            <option value="6">Cette semaine</option>
-                            <option value="30">Ce mois</option>
+                            <option value="toDay">Aujourd'hui</option>
+                            <option value="thisWeek">Cette semaine</option>
+                            <option value="thisMonth">Ce mois</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3 mx-3" style="width: 20vmin;">
+                    <div class="form-group">
+                        <label for="filteredPaiementForm">Sessions :</label>
+                        <select class="form-control" id="filteredSessionForm" aria-label="Filter form"
+                            wire:model.live="filteredBySessions">
+                            <option value="" selected>Tout</option>
+                            @foreach ($sessions as $session)
+                            <option value="{{ $session->id }}">{{ $session->nom }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>

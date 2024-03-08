@@ -35,7 +35,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained();
             $table->foreignIdFor(Level::class)->constrained();
             $table->foreignIdFor(Categorie::class)->constrained();
-            $table->foreignIdFor(Session::class)->constrained();
+            // $table->foreignIdFor(Session::class)->constrained();
         });
 
         Schema::enableForeignKeyConstraints();
@@ -47,7 +47,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('etudiants', function (Blueprint $table) {
-            $table->dropColumn(['user_id', 'level_id', 'categorie_id', 'session_id']);
+            $table->dropColumn(['user_id', 'level_id', 'categorie_id']);
         });
 
         Schema::dropIfExists('etudiants');

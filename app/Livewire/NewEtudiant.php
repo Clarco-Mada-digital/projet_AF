@@ -43,7 +43,7 @@ class NewEtudiant extends Component
     public float $montantExam = 0;
     public float $montantPaye = 0;
     public float $montantRestant;
-    public string $typeInscription = "cour";
+    public string $typeInscription = "cours";
 
     public bool $noMember = false;
     public bool $MemberPmb = false;
@@ -61,8 +61,8 @@ class NewEtudiant extends Component
     public function __construct()
     {
         $this->now = Carbon::now();
-        $this->listSession = Session::all();
         $this->levels = Level::all();
+        $this->listSession = Session::all();
         $this->categories = Categorie::all();
         foreach (Cour::all() as $cour) {
             array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
@@ -76,6 +76,7 @@ class NewEtudiant extends Component
             $this->dispatch("showModalSimpleMsg", ['message' => "Avant d'inscrire un étudiant, soyer sûr qu'il y a de la session active !", 'type' => 'warning']);
             // return redirect(route('session'));
         }
+        
     }
 
     public function initData(Etudiant $etudiant)
@@ -167,6 +168,7 @@ class NewEtudiant extends Component
             }
         }
 
+        $this->updateMontant();
         // Définir le montant d'inscription
         // if ($this->newEtudiant['categorie_id'] == '1') {
         //     $montantAdhesion = DB::table('prices')->where('id', 1)->value('montant');
@@ -191,11 +193,11 @@ class NewEtudiant extends Component
             } else {
                 $this->montantInscription = $this->sessionSelected->montant;
             }
-
+            
             $this->noMember ? $this->montantInscription = ($this->montantInscription + $this->montantAdhesion) : "";
         }
         // pour l'inscription au examen
-        if ($this->typeInscription == 'examen') {
+        if ($this->typeInscription == 'examens') {
             $this->montantInscription = 0;
             $this->montantExam = 0;
             if ($this->nscList['examens'] != null) {
@@ -240,6 +242,10 @@ class NewEtudiant extends Component
 
 
         $this->MemberPmb ? $newEtud = Etudiant::find($this->newEtudiant['id'])  : $newEtud = Etudiant::create($this->newEtudiant);
+
+        // inclure l'étudiant dans la session
+        $newEtud->session()->attach($this->etudiantSession);
+
         // $newEtud = Etudiant::where('email', $this->newEtudiant['email'])->first();
 
         if ($this->nscList['examens'] != null) {
@@ -285,17 +291,18 @@ class NewEtudiant extends Component
         // Pour la base donné de inscription
         $inscriValue = [
             'etudiant_id' => $newEtud->id,
-            'paiement_id' => $paiement->id,
+            'session_id' => $this->sessionSelected->id,
             'idCourOrExam' => $idCourOrExam,
             'statut' => $this->montantRestant == 0 ? true : false,
-            'type' => $this->typeInscription == "cour" ? "cours" : "examen",
+            'type' => $this->typeInscription == "cours" ? "cours" : "examen",
         ];
 
         $inscription = Inscription::create($inscriValue);
+        $inscription->paiements()->attach($this->paiement_id);
 
-        if ($this->typeInscription == 'cour') {
-            $inscription->sessions()->attach($this->sessionSelected->id);
-        }
+        // if ($this->typeInscription == 'cours') {
+        //     $inscription->sessions()->attach($this->sessionSelected->id);
+        // }
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant enregistrer avec success!', 'type' => 'success']);
         $this->photo = '';
@@ -319,6 +326,7 @@ class NewEtudiant extends Component
     // Fonction render
     public function render()
     {
+
         return view('livewire.etudiants.new-etudiant');
     }
 }
