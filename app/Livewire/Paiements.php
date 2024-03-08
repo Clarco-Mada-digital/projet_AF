@@ -55,9 +55,9 @@ class Paiements extends Component
                             $query->where("numRecue", "LIKE", "%{$this->search}%")
                             ->orWhere("motif", "LIKE", "%{$this->search}%");
                         })                        
-                        // ->whereHas("inscription", function($qr){
-                        //     $qr->where('session_id', 'LIKE', "%{$this->filteredBySessions}%");
-                        // })
+                        ->whereHas("inscription", function($qr){
+                            $qr->where('session_id', 'LIKE', "%{$this->filteredBySessions}%");
+                        })
                         ->where(function($qr) {
                             if($this->filteredByDatePaiement == "toDay"){
                                 $qr->whereDate('created_at', Carbon::today());
