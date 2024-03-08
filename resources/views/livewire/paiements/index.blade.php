@@ -87,7 +87,8 @@
                             @forelse ($paiements as $paiement)
                             <tr>
                                 <td> {{ $paiement->numRecue }} </td>
-                                <td> {{ Str::words($paiement->type, 3, "...") }} {{ Str::words($paiement->motif != null
+                                <td title="{{ $paiement->type}} {{ $paiement->motif != null
+                                    ? "- (".$paiement->motif.")" : "" }}"> {{ Str::words($paiement->type, 3, "...") }} {{ Str::words($paiement->motif != null
                                     ? "- (".$paiement->motif.")" : "", 3, "...") }} </td>
                                 <td class="text-center">{{ $paiement->created_at->diffForHumans() }}</td>
                                 <td class="text-center">{{ $paiement->montant }}</td>
