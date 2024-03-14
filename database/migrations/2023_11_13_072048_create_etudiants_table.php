@@ -1,8 +1,7 @@
 <?php
 
-use App\Models\Categorie;
+use App\Models\Adhesion;
 use App\Models\Level;
-use App\Models\Session;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,27 +14,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('etudiants', function (Blueprint $table) {
+        Schema::create('etudiants', function (Blueprint $table) {            
             $table->id();
-            $table->string('nom');
-            $table->string('prenom');
-            $table->date('dateNaissance');
-            $table->char('sexe');
-            $table->string('nationalite')->nullable();
-            $table->string('profession')->nullable();
-            $table->string('telephone1')->nullable();
-            $table->string('telephone2')->nullable();
-            $table->string('adresse')->nullable();
-            $table->string('email')->nullable();
-            $table->string('numCarte')->unique();
-            $table->string('profil')->nullable();
-            $table->string('comment')->nullable();
-            $table->timestamps();
-
+            $table->foreignIdFor(Adhesion::class)->constrained();
             $table->foreignIdFor(User::class)->constrained();
             $table->foreignIdFor(Level::class)->constrained();
-            $table->foreignIdFor(Categorie::class)->constrained();
-            // $table->foreignIdFor(Session::class)->constrained();
+            $table->timestamps();
         });
 
         Schema::enableForeignKeyConstraints();
@@ -47,7 +31,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('etudiants', function (Blueprint $table) {
-            $table->dropColumn(['user_id', 'level_id', 'categorie_id']);
+            $table->dropColumn(['user_id', 'level_id', 'adhesion_id']);
         });
 
         Schema::dropIfExists('etudiants');

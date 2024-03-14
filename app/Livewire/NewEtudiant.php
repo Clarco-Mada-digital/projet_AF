@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Adhesion;
 use App\Models\Categorie;
 use App\Models\Cour;
 use Livewire\Component;
@@ -44,6 +45,7 @@ class NewEtudiant extends Component
     public float $montantPaye = 0;
     public float $montantRestant;
     public string $typeInscription = "cours";
+    public $adhesionSelect;
 
     public bool $noMember = false;
     public bool $MemberPmb = false;
@@ -79,19 +81,21 @@ class NewEtudiant extends Component
         
     }
 
-    public function initData(Etudiant $etudiant)
+    public function initData(Adhesion $adhesion)
     {
-        $this->search = "";
-        $this->newEtudiant = $etudiant->toArray();
+        $this->search = "";        
         $this->reset("noMember");
         $this->MemberPmb = true;
+        $this->newEtudiant = $adhesion->toArray();
+        $this->adhesionSelect = $adhesion;
+        $this->newEtudiant['level_id'] = '1';
     }
 
     public function updatedSearch()
     {
         // $this->reset($this->memberResult);
 
-        $this->memberResult = Etudiant::where("nom", "LIKE", "%{$this->search}%")
+        $this->memberResult = Adhesion::where("nom", "LIKE", "%{$this->search}%")
             ->orWhere("prenom", "LIKE", "%{$this->search}%")
             ->orWhere("numCarte", "LIKE", "%{$this->search}%")
             ->get();
@@ -101,11 +105,22 @@ class NewEtudiant extends Component
     public function bsSteepPrevNext($crèment)
     {
         if ($crèment == 'next') {
-            if ($this->bsSteepActive == 1) {
+            if ($this->bsSteepActive == 1) 
+            {
                 $this->MemberPmb ? "" : $this->validate();
                 $this->bsSteepActive += 1;
                 return null;
-            } elseif ($this->bsSteepActive == 3) {
+            }
+            elseif ($this->bsSteepActive == 2)
+            {
+                if($this->sessionSelected == null || $this->sessionSelected == "") {
+                    $this->dispatch("showModalSimpleMsg", ['message' => "Veuillez sélectionner une session", 'type' => 'warning']);
+                }else{
+                    $this->bsSteepActive += 1;
+                }
+            }
+            elseif ($this->bsSteepActive == 3) 
+            {
                 if ($this->statue == "" || $this->moyenPaiement == "") {
                     $this->dispatch("showModalSimpleMsg", ['message' => "Veuillez sélectionner le statut et le moyen de paiement", 'type' => 'warning']);
                 } else {
@@ -113,9 +128,13 @@ class NewEtudiant extends Component
                     $this->bsSteepActive += 1;
                 }
                 return null;
-            } elseif ($this->bsSteepActive == 4) {
+            } 
+            elseif ($this->bsSteepActive == 4) 
+            {
                 return redirect(route('etudiants-list'));
-            } else {
+            } 
+            else 
+            {
                 $this->bsSteepActive += 1;
             }
         } else {
@@ -230,7 +249,7 @@ class NewEtudiant extends Component
     {
         $this->newEtudiant['user_id'] = Auth::user()->id;
         $this->newEtudiant['session_id'] = $this->etudiantSession;
-        $this->newEtudiant['numCarte'] = "AF-" . random_int(100, 9000);
+        // $this->newEtudiant['numCarte'] = "AF-" . random_int(100, 9000);
         $idCourOrExam = null;
 
         $this->MemberPmb ? "" : $this->validate();
@@ -239,9 +258,25 @@ class NewEtudiant extends Component
             $photoName = $this->photo->store('profil', 'public');
             $this->newEtudiant['profil'] = $photoName;
         }
-
-
-        $this->MemberPmb ? $newEtud = Etudiant::find($this->newEtudiant['id'])  : $newEtud = Etudiant::create($this->newEtudiant);
+        
+        if ($this->MemberPmb)
+        {
+            if (Etudiant::where("adhesion_id", $this->adhesionSelect->id)->first() != null)
+            {
+                $newEtud = Etudiant::where("adhesion_id", $this->adhesionSelect->id)->first();                
+            }
+            else
+            {
+                $newEtud = Etudiant::create(["Adhesion_id" => $this->adhesionSelect->id, "user_id" => Auth::user()->id, "session_id" => $this->etudiantSession, "level_id" => $this->newEtudiant['level_id']]);
+            }
+        }
+        else
+        {
+            $newAdhesion = Adhesion::create($this->newEtudiant);
+            $newEtud = Etudiant::create(["Adhesion_id" => $newAdhesion->id, "user_id" => Auth::user()->id, "session_id" => $this->etudiantSession, "level_id" => $this->newEtudiant['level_id']]);
+        }
+        
+        
 
         // inclure l'étudiant dans la session
         $newEtud->session()->attach($this->etudiantSession);
@@ -290,14 +325,15 @@ class NewEtudiant extends Component
 
         // Pour la base donné de inscription
         $inscriValue = [
-            'etudiant_id' => $newEtud->id,
-            'session_id' => $this->sessionSelected->id,
+            'adhesion_id' => $newEtud->adhesion_id,
+            // 'session_id' => $this->sessionSelected->id,
             'idCourOrExam' => $idCourOrExam,
             'statut' => $this->montantRestant == 0 ? true : false,
             'type' => $this->typeInscription == "cours" ? "cours" : "examen",
         ];
 
         $inscription = Inscription::create($inscriValue);
+        $inscription->session()->attach($this->sessionSelected->id);
         $inscription->paiements()->attach($this->paiement_id);
 
         // if ($this->typeInscription == 'cours') {

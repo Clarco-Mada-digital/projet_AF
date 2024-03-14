@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PdfController;
+use App\Livewire\Adhesions;
 use App\Livewire\ContactMadaDigital;
 use App\Livewire\Cours;
 use App\Livewire\Etudiants;
@@ -11,6 +12,7 @@ use App\Livewire\ParametreGenerale;
 use App\Livewire\Professeur;
 use App\Livewire\Sessions;
 use App\Livewire\Users;
+use App\Models\Adhesion;
 use App\Models\Cour;
 use App\Models\Etudiant;
 use App\Models\Level;
@@ -46,6 +48,15 @@ Route::group([
 ], function () {
     Route::match(['get', 'post'], '/list', Etudiants::class)->name('list');
     Route::match(['get', 'post'], '/nouveau', [App\Http\Controllers\EtudiantController::class, 'index'])->name('nouveau')->middleware('permission:étudiants.create');
+});
+
+Route::group([
+    'middleware' => ['auth'],
+    'prefix' => 'adhesions',
+    'as' => 'adhesions-',
+    'middleware' => ['role:Manager|Super-Admin|Admin']
+], function () {
+    Route::match(['get', 'post'], '/nouveau', Adhesions::class)->name('nouveau');
 });
 
 Route::group([

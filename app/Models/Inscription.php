@@ -14,12 +14,11 @@ class Inscription extends Model
         'idCourOrExam',
         'statut',
         'type',
-        'etudiant_id',
-        'session_id',
+        'adhesion_id',
     ];
 
     public function session(){
-        return $this->belongsTo(Session::class);
+        return $this->belongsToMany(Paiement::class, 'inscription_sessions', 'inscription_id', 'session_id');
     }
 
     public function paiements(){

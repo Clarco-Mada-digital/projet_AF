@@ -1,7 +1,7 @@
 <?php
 
+use App\Models\Adhesion;
 use App\Models\Etudiant;
-use App\Models\Paiement;
 use App\Models\Session;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string("type");
             $table->timestamps();
 
-            $table->foreignIdFor(Etudiant::class)->constrained();
-            $table->foreignIdFor(Session::class)->constrained();
+            $table->foreignIdFor(Adhesion::class)->constrained();
+            // $table->foreignIdFor(Session::class)->constrained()->nullable();
         });
     }
 
@@ -33,7 +33,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('inscriptions', function (Blueprint $table) {
-            $table->dropColumn(['etudiant_id', "session_id"]);
+            $table->dropColumn(['adhesion_id', "session_id"]);
         });
 
         Schema::dropIfExists('inscriptions');

@@ -11,18 +11,7 @@ class Etudiant extends Model
 
     protected $fillable =
     [
-        'numCarte',
-        'profil',
-        'nom',
-        'prenom',
-        'sexe',
-        'dateNaissance',
-        'nationalite',
-        'profession',
-        'adresse',
-        'email',
-        'telephone1',
-        'telephone2',
+        "Adhesion_id",
         'coment',
         'user_id',
         'level_id',
@@ -32,6 +21,11 @@ class Etudiant extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function adhesion()
+    {
+        return $this->belongsTo(Adhesion::class);
     }
 
     public function cours()
@@ -48,11 +42,7 @@ class Etudiant extends Model
     {
         return $this->belongsTo(Level::class);
     }
-
-    public function categorie()
-    {
-        return $this->belongsTo(Categorie::class);
-    }
+    
 
     public function categories()
     {

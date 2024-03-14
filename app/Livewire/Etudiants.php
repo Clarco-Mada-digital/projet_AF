@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Adhesion;
 use App\Models\Cour;
 use App\Models\Etudiant;
 use App\Models\Examen;
@@ -81,17 +82,17 @@ class Etudiants extends Component
     {
         $rule = [
             'photo' => ['image', 'max:1024', 'nullable'],
-            'editEtudiant.nom' => ['required'],
-            'editEtudiant.prenom' => 'required',
-            'editEtudiant.sexe' => ['required'],
-            'editEtudiant.nationalite' => ['required'],
-            'editEtudiant.dateNaissance' => ['required'],
+            'editEtudiant.adhesion.nom' => ['required'],
+            'editEtudiant.adhesion.prenom' => 'required',
+            'editEtudiant.adhesion.sexe' => ['required'],
+            'editEtudiant.adhesion.nationalite' => ['required'],
+            'editEtudiant.adhesion.dateNaissance' => ['required'],
             'editEtudiant.profession' => [''],
-            'editEtudiant.email' => ['required', 'email', Rule::unique('etudiants', 'email')->ignore($this->editEtudiant['id'])],
-            'editEtudiant.telephone1' => ['min:10', 'max:10', 'nullable'],
-            'editEtudiant.telephone2' => ['min:10', 'max:10', 'nullable'],
-            'editEtudiant.adresse' => ['required'],
-            'editEtudiant.numCarte' => [Rule::unique('etudiants', 'numCarte')->ignore($this->editEtudiant['id'])],
+            'editEtudiant.adhesion.email' => ['required', 'email', Rule::unique('Adhesions', 'email')->ignore($this->editEtudiant['adhesion']['id'])],
+            'editEtudiant.adhesion.telephone1' => ['min:10', 'max:10', 'nullable'],
+            'editEtudiant.adhesion.telephone2' => ['min:10', 'max:10', 'nullable'],
+            'editEtudiant.adhesion.adresse' => ['required'],
+            'editEtudiant.adhesion.numCarte' => [Rule::unique('Adhesions', 'numCarte')->ignore($this->editEtudiant['adhesion']['id'])],
             'editEtudiant.user_id' => [''],
             'editEtudiant.level_id' => [''],
 
@@ -155,7 +156,10 @@ class Etudiants extends Component
 
     public function initDataEtudiant($id)
     {
-        $this->editEtudiant = Etudiant::find($id)->toArray();
+        $this->editEtudiant = Etudiant::find($id);
+        $adhesion = $this->editEtudiant->adhesion;
+        $this->editEtudiant = $this->editEtudiant->toArray();
+        $this->editEtudiant['adhesion'] = $adhesion->toArray();
         $this->listSession = Session::all()->toArray();
         $this->etudiantSession = Etudiant::find($id)->session;
         // dd($this->etudiantSession);
@@ -172,7 +176,7 @@ class Etudiants extends Component
         $this->validate();
         if ($this->photo != '') {
             $photoName = $this->photo->store('profil', 'public');
-            $this->editEtudiant['profil'] = $photoName;
+            $this->editEtudiant['adhesion']['profil'] = $photoName;
 
             // $imageName = "profil/". Str::uuid() . $this->editEtudiant['nom'] . "webp";
             // Image::make($this->photo)->save($imageName, 60);
@@ -180,16 +184,17 @@ class Etudiants extends Component
             // $image->save();
         }
         // suprimer les cours appartient au utilisateur au paravant
-        DB::table("etudiant_cours")->where("etudiant_id", $this->editEtudiant['id'])->delete();
+        // DB::table("etudiant_cours")->where("etudiant_id", $this->editEtudiant['id'])->delete();
 
-        Etudiant::find($this->editEtudiant['id'])->update($this->editEtudiant);
+        Adhesion::find($this->editEtudiant['adhesion']['id'])->update($this->editEtudiant['adhesion']);
+        Etudiant::find($this->editEtudiant['id'])->update(['level_id', $this->editEtudiant['level_id']]);
 
         // Ajout des cour au etudiant
-        foreach ($this->nscList['cours'] as $cour) {
-            if ($cour['active']) {
-                Etudiant::find($this->editEtudiant['id'])->cours()->attach($cour['cour_id']);
-            }
-        }
+        // foreach ($this->nscList['cours'] as $cour) {
+        //     if ($cour['active']) {
+        //         Etudiant::find($this->editEtudiant['id'])->cours()->attach($cour['cour_id']);
+        //     }
+        // }
         // $validateAtributes['editEtudiant']['user_id'] = Auth::user()->profil;
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant modifier avec success!', 'type' => 'success']);
@@ -309,15 +314,19 @@ class Etudiants extends Component
         } 
         else 
         {
-            $etudiants = Etudiant::with("session", "level", "cours", "examens")
-                ->where(function ($query) {
-                    $query->where("nom", "LIKE", "%{$this->search}%")
-                        ->orWhere("prenom", "LIKE", "%{$this->search}%")
-                        ->orWhere("numCarte", "LIKE", "%{$this->search}%");
+            $etudiants = Etudiant::with("session", "level", "cours", "examens", "adhesion")
+                ->whereHas("adhesion", function ($query) {
+                    $query->where(function ($query) {
+                        $query->where("nom", "LIKE", "%{$this->search}%")
+                            ->orWhere("prenom", "LIKE", "%{$this->search}%")
+                            ->orWhere("numCarte", "LIKE", "%{$this->search}%");
+                    });
                 })
-                ->whereHas("inscription", function ($query) {
-                    $query->where("statut", "LIKE", "%{$this->filteredByPaiement}%");
-                })
+                ->whereHas('session', function ($q){
+                    $q->with('inscriptions')->whereHas("inscriptions", function ($qr) { 
+                        $qr->where("statut", "LIKE", "%{$this->filteredByPaiement}%");
+                    });
+                })                             
                 ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])
                 ->paginate(5);
         }

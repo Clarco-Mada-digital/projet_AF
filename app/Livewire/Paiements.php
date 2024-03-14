@@ -50,30 +50,60 @@ class Paiements extends Component
     public function render()
     {
         Carbon::setLocale('fr');
-        $paiements = Paiement::with("inscription")
-                        ->where(function ($query) {
-                            $query->where("numRecue", "LIKE", "%{$this->search}%")
-                            ->orWhere("motif", "LIKE", "%{$this->search}%");
-                        })                        
-                        ->whereHas("inscription", function($qr){
-                            $qr->where('session_id', 'LIKE', "%{$this->filteredBySessions}%");
-                        })
-                        ->where(function($qr) {
-                            if($this->filteredByDatePaiement == "toDay"){
-                                $qr->whereDate('created_at', Carbon::today());
-                            }
-                            if($this->filteredByDatePaiement == "thisWeek"){
-                                $qr->whereBetween("created_at", [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
-                            }
-                            if($this->filteredByDatePaiement == "thisMonth"){
-                                $qr->whereMonth('created_at', Carbon::now()->month);
-                            }
-                            else{
-                                return $qr;
-                            }
-                        })        
-                        ->orderBy($this->orderField, $this->orderDirection)
-                        ->paginate(5);
+        if ($this->filteredBySessions != '')
+        {
+            $paiements = Paiement::with("inscription")                        
+                ->where(function ($query) {
+                    $query->where("numRecue", "LIKE", "%{$this->search}%")
+                    ->orWhere("motif", "LIKE", "%{$this->search}%");
+                })
+                ->WhereHas("inscription", function($qr){
+                    $qr->with('session')->WhereHas("session", function($q){
+                        $q->where("id", "LIKE", "%{$this->filteredBySessions}%");
+                    });
+                })                 
+                ->where(function($qr) {
+                    if($this->filteredByDatePaiement == "toDay"){
+                        $qr->whereDate('created_at', Carbon::today());
+                    }
+                    if($this->filteredByDatePaiement == "thisWeek"){
+                        $qr->whereBetween("created_at", [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                    }
+                    if($this->filteredByDatePaiement == "thisMonth"){
+                        $qr->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()]);
+                    }
+                    else{
+                        return $qr;
+                    }
+                })        
+                ->orderBy($this->orderField, $this->orderDirection)
+                ->paginate(5);
+        }
+        else
+        {
+            $paiements = Paiement::with("inscription")                        
+                ->where(function ($query) {
+                    $query->where("numRecue", "LIKE", "%{$this->search}%")
+                    ->orWhere("motif", "LIKE", "%{$this->search}%");
+                })                
+                ->where(function($qr) {
+                    if($this->filteredByDatePaiement == "toDay"){
+                        $qr->whereDate('created_at', Carbon::today());
+                    }
+                    if($this->filteredByDatePaiement == "thisWeek"){
+                        $qr->whereBetween("created_at", [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                    }
+                    if($this->filteredByDatePaiement == "thisMonth"){
+                        $qr->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()]);
+                    }
+                    else{
+                        return $qr;
+                    }
+                })        
+                ->orderBy($this->orderField, $this->orderDirection)
+                ->paginate(5);
+        }
+        
         // $paiements = Paiement::paginate(5);
 
         $totauxPaiement = 0;

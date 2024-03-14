@@ -32,6 +32,6 @@ class Session extends Model
     }
 
     public function inscriptions(){
-        return $this->hasMany(Inscription::class);
+        return $this->belongsToMany(Inscription::class, 'inscription_sessions', 'session_id', 'inscription_id');
     }
 }

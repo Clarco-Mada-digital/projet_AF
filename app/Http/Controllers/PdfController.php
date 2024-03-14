@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Adhesion;
 use App\Models\Cour;
 use App\Models\Etudiant;
 use App\Models\Examen;
@@ -23,23 +24,35 @@ class PdfController extends Controller
         foreach($inscription as $insc)
         {
             $this->session = $insc->session;
-            $etudiant = Etudiant::find($insc->etudiant_id);
-        
-        
-        $price = Price::find($etudiant->categorie_id);
-        $examen = null;
-        $cours = null;
+            $etudiant = Etudiant::find($insc->adhesion_id);
 
-        if($paiement->type == "Inscription a un examens" || $paiement->type == "Adhésion + Inscription a un examens"){
-            $examen = Examen::where('id', '=', $insc->idCourOrExam)->first();
-        }
-        if($paiement->type == "Inscription a un cours" || $paiement->type == "Adhésion + Inscription a un cours"){
-            $cours = Cour::where('id', '=', $insc->idCourOrExam)->first();
-        }
+            if ($etudiant == null)
+            {
+                $etudiant['adhesion'] = Adhesion::find($insc->adhesion_id)->toArray();                
+            }
+
+            $categories_id = $etudiant['adhesion']['categorie_id'];
+            if ($categories_id == 4)
+            {
+                $price = $paiement->montant;
+            }
+            else{
+                $price = Price::find($categories_id);
+            }
+
+            $examen = null;
+            $cours = null;
+
+            if($paiement->type == "Inscription a un examens" || $paiement->type == "Adhésion + Inscription a un examens"){
+                $examen = Examen::where('id', '=', $insc->idCourOrExam)->first();
+            }
+            if($paiement->type == "Inscription a un cours" || $paiement->type == "Adhésion + Inscription a un cours"){
+                $cours = Cour::where('id', '=', $insc->idCourOrExam)->first();
+            }
         }
             
         
-        $nameDuFichier = 'Facture' . "_" . $etudiant->nom . "_". $etudiant->prenom . ".pdf";
+        $nameDuFichier = 'Facture' . "_" . $etudiant['adhesion']['nom'] . "_". $etudiant['adhesion']['prenom'] . ".pdf";
        
         $data = [
             "etudiant" => $etudiant,

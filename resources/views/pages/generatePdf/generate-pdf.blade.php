@@ -13,7 +13,7 @@
       font-size: 11px;
     }
   </style>
-  <title id="titlePage">Reçu de Paiement du {{ $etudiant->nom }}</title>
+  <title id="titlePage">Reçu de Paiement du {{ $etudiant['adhesion']['nom'] }}</title>
 </head>
 
 <body>
@@ -41,27 +41,27 @@
             <tbody>
               <tr>
                 <th scope="row">Nom :</th>
-                <td>{{ $etudiant['nom'] }}</td>
+                <td>{{ $etudiant['adhesion']['nom'] }}</td>
               </tr>
               <tr>
                 <th scope="row">Prénom :</th>
-                <td>{{ $etudiant['prenom'] }}</td>
+                <td>{{ $etudiant['adhesion']['prenom'] }}</td>
               </tr>
               <tr>
                 <th scope="row">Date de naissance :</th>
-                <td>{{ Date('d M, Y', strtotime($etudiant['dateNaissance'])) }}</td>
+                <td>{{ Date('d M, Y', strtotime($etudiant['adhesion']['dateNaissance'])) }}</td>
               </tr>
               <tr>
                 <th scope="row">Email :</th>
-                <td>{{ $etudiant['email'] }}</td>
+                <td>{{ $etudiant['adhesion']['email'] }}</td>
               </tr>
               <tr>
                 <th scope="row">Téléphones :</th>
-                <td>{{ $etudiant['telephone1'] }} - {{ $etudiant['telephone2'] }}</td>
+                <td>{{ $etudiant['adhesion']['telephone1'] }} - {{ $etudiant['adhesion']['telephone2'] }}</td>
               </tr>
               <tr>
                 <th scope="row">Adresse :</th>
-                <td>{{ $etudiant['adresse'] }}</td>
+                <td>{{ $etudiant['adhesion']['adresse'] }}</td>
               </tr>
               <tr>
                 <th scope="row">Méthode de paiement :</th>
@@ -125,6 +125,13 @@
 
               {{-- contenu du tableau --}}
               <tbody>
+                @if ($paiements->type == "Inscription pour devenir membre")
+                <tr>
+                  <th scope="row">1</th>
+                  <td>{{ $paiements->motif }}</td>
+                  <td class="text-end"> <span>{{ $paiements->montant }} Ar</span> </td>
+                </tr>        
+                @endif
                 @if ($paiements->type == "Réglage du paiement restant")
                 <tr>
                   <th scope="row">1</th>
@@ -164,7 +171,7 @@
               <tfoot>
                 <tr>
                   <th class="text-lg fs-3">Total</th>
-                  @if ($paiements->type == "Réglage du paiement restant")
+                  @if ($paiements->type == "Réglage du paiement restant" || $paiements->type == 'Inscription pour devenir membre')
                   <td colspan="2" class="text-end fw-bold fs-4">{{ $paiements->montant }} Ar <br>
                     <span class="nomberToLetter">{{ $paiements->montant }}</span></td>
                   @endif
@@ -204,7 +211,8 @@
                   @endif
                 </tr>
               </tfoot>
-
+              <p class="fs-3 text-success text-center @if ($etudiant['adhesion']['categorie_id'] != 4) d-none @endif">
+              “Votre soutien à l’Alliance Française est grandement apprécié. Merci pour votre confiance !”</p>
             </table>
           </div>
         </div>

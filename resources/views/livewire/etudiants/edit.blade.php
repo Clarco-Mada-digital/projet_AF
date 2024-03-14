@@ -28,7 +28,7 @@
                             <button class="btn btn-warning btn-sm mt-2" wire:click="set('photo', '')">Reset</button>
                             @else
                             <img class="profile-user-img img-fluid img-circle"
-                                src="{{ $editEtudiant['profil'] ? asset('storage/' . $editEtudiant['profil']) : 'https://eu.ui-avatars.com/api/?name=' . $editEtudiant['nom'] . '&background=random' }}"
+                                src="{{ $editEtudiant['adhesion']['profil'] ? asset('storage/' . $editEtudiant['adhesion']['profil']) : 'https://eu.ui-avatars.com/api/?name=' . $editEtudiant['adhesion']['nom'] . '&background=random' }}"
                                 alt="Etudiant profile picture">
                             @endif
                             <input type="file" wire:model='photo' style="display: none;">
@@ -43,27 +43,27 @@
                             style="position: absolute; top:20%; left:48%; color:#FFC107;"></i>
                         <label class="text-center"> N° Carte : <input type="text"
                                 class="form-control text-center bg-primary" disabled
-                                wire:model='editEtudiant.numCarte'></label>
+                                wire:model='editEtudiant.adhesion.numCarte'></label>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="etudiantNom">Nom</label>
                             <input type="text" class="form-control @error('editEtudiant.nom') is-invalid @enderror"
-                                id="etudiantNom" wire:model='editEtudiant.nom'>
+                                id="etudiantNom" wire:model='editEtudiant.adhesion.nom'>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="etudiantPrenom">Prénom</label>
                             <input type="text" class="form-control @error('editEtudiant.prenom') is-invalid @enderror"
-                                id="etudiantPrenom" wire:model='editEtudiant.prenom'>
+                                id="etudiantPrenom" wire:model='editEtudiant.adhesion.prenom'>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="etudiantPrenom">Sexe</label>
                             <select class="custom-select @error('editEtudiant.sexe') is-invalid @enderror"
-                                spellcheck="false" id="etudiantPrenom" wire:model='editEtudiant.sexe'>
+                                spellcheck="false" id="etudiantPrenom" wire:model='editEtudiant.adhesion.sexe'>
                                 <option value=""> --- --- </option>
                                 <option value="M">Homme</option>
                                 <option value="F">Femme</option>
@@ -75,35 +75,35 @@
                             <label for="etudiantBirth">Date de naissance</label>
                             <input type="date"
                                 class="form-control @error('editEtudiant.dateNaissance') is-invalid @enderror"
-                                id="etudiantBirth" wire:model='editEtudiant.dateNaissance'>
+                                id="etudiantBirth" wire:model='editEtudiant.adhesion.dateNaissance'>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="etudiantProfession">Nationalité</label>
                             <input type="text" class="form-control" id="etudiantNationalite"
-                                wire:model='editEtudiant.nationalite'>
+                                wire:model='editEtudiant.adhesion.nationalite'>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="etudiantProfession">Profession</label>
                             <input type="text" class="form-control" id="etudiantProfession"
-                                wire:model='editEtudiant.profession'>
+                                wire:model='editEtudiant.adhesion.profession'>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="etudiantAddr">Adresse</label>
                             <input type="text" class="form-control @error('editEtudiant.adresse') is-invalid @enderror"
-                                id="etudiantAddr" wire:model='editEtudiant.adresse'>
+                                id="etudiantAddr" wire:model='editEtudiant.adhesion.adresse'>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="etudiantEmail">Email</label>
                             <input type="text" class="form-control @error('editEtudiant.email') is-invalid @enderror"
-                                id="etudiantEmail" wire:model='editEtudiant.email'>
+                                id="etudiantEmail" wire:model='editEtudiant.adhesion.email'>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -111,14 +111,14 @@
                             <label for="etudiantPhone">Téléphone</label>
                             <input type="text"
                                 class="form-control @error('editEtudiant.telephone1') is-invalid @enderror"
-                                id="etudiantPhone" wire:model='editEtudiant.telephone1'>
+                                id="etudiantPhone" wire:model='editEtudiant.adhesion.telephone1'>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="etudiantPhone">Seconde téléphone</label>
                             <input type="text" class="form-control" id="etudiantPhone"
-                                wire:model='editEtudiant.telephone2'>
+                                wire:model='editEtudiant.adhesion.telephone2'>
                         </div>
                     </div>
                 </div>

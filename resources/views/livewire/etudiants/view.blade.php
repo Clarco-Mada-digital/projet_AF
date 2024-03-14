@@ -22,36 +22,36 @@
                 <div class="card-body box-profile">
                     <div class="text-center">
                         <img class="profile-user-img img-fluid img-circle"
-                            src="{{ $etudiant->profil != '' ? asset('storage/'.$etudiant->profil) : 'https://eu.ui-avatars.com/api/?name=' . $etudiant->nom . '&background=random' }}"
+                            src="{{ $etudiant->adhesion->profil != '' ? asset('storage/'.$etudiant->adhesion->profil) : 'https://eu.ui-avatars.com/api/?name=' . $etudiant->adhesion->nom . '&background=random' }}"
                             alt="Etudiant profile picture">
                     </div>
-                    <h3 class="profile-username text-center">{{ $etudiant->sexe == 'F' ? 'Mme/Mlle' : 'Mr' }} {{
-                        $etudiant->nom }} {{ $etudiant->prenom }}</h3>
+                    <h3 class="profile-username text-center">{{ $etudiant->adhesion->sexe == 'F' ? 'Mme/Mlle' : 'Mr' }} {{
+                        $etudiant->adhesion->nom }} {{ $etudiant->adhesion->prenom }}</h3>
                     <p class="text-muted text-center">Membre {{ $etudiant->created_at->diffForHumans() }}</p>
                     <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
                             <b>Date de naissance</b> <a class="float-right">{{ Date('d M, Y',
-                                strtotime($etudiant->dateNaissance)) }}</a>
+                                strtotime($etudiant->adhesion->dateNaissance)) }}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Profession</b> <a class="float-right">{{ $etudiant->profession }}</a>
+                            <b>Profession</b> <a class="float-right">{{ $etudiant->adhesion->profession }}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Email</b> <a class="float-right">{{ $etudiant->email }}</a>
+                            <b>Email</b> <a class="float-right">{{ $etudiant->adhesion->email }}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Téléphone</b> <a class="float-right">{{ $etudiant->telephone1 }}</a>
+                            <b>Téléphone</b> <a class="float-right">{{ $etudiant->adhesion->telephone1 }}</a>
                         </li>
-                        @if ($etudiant->telephone2 != '')
+                        @if ($etudiant->adhesion->telephone2 != '')
                         <li class="list-group-item">
-                            <b>Seconde téléphone</b> <a class="float-right">{{ $etudiant->telephone2 }}</a>
+                            <b>Seconde téléphone</b> <a class="float-right">{{ $etudiant->adhesion->telephone2 }}</a>
                         </li>
                         @endif
                         <li class="list-group-item">
-                            <b>Nationalité</b> <a class="float-right">{{ $etudiant->nationalite }}</a>
+                            <b>Nationalité</b> <a class="float-right">{{ $etudiant->adhesion->nationalite }}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Adresse</b> <a class="float-right">{{ $etudiant->adresse }}</a>
+                            <b>Adresse</b> <a class="float-right">{{ $etudiant->adhesion->adresse }}</a>
                         </li>
                     </ul>
                 </div>

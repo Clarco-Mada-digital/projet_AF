@@ -100,23 +100,23 @@
                             {{-- table body --}}
                             <tbody>
                                 @forelse ($etudiants as $etudiant)
-                                <tr class=" @foreach ($etudiant->inscription as $inscription)
+                                <tr class=" @foreach ($etudiant->adhesion->inscription as $inscription)
                                     {{ $inscription->statut ? '' : " text-danger" }} @endforeach ">
                                     <td>
-                                        @if ($etudiant->profil != null)
-                                        <img class=" img-circle" src="{{ asset('storage/' . $etudiant->profil) }}"
+                                        @if ($etudiant->adhesion->profil != null)
+                                        <img class=" img-circle" src="{{ asset('storage/' . $etudiant->adhesion->profil) }}"
                                     width='50' alt="profil etudiant">
                                     @else
                                     <img class="img-circle"
-                                        src="{{ 'https://eu.ui-avatars.com/api/?name=' . $etudiant->nom . '&background=random' }}"
+                                        src="{{ 'https://eu.ui-avatars.com/api/?name=' . $etudiant->adhesion->nom . '&background=random' }}"
                                         width='50' alt="profil etudiant">
                                     @endif
 
                                     </td>
-                                    <td class="text-center">{{ $etudiant->numCarte }}</td>
-                                    <td>{{ $etudiant->nom }}</td>
-                                    <td>{{ $etudiant->prenom }}</td>
-                                    <td class="text-center">{{ $etudiant->telephone1 }}</td>
+                                    <td class="text-center">{{ $etudiant->adhesion->numCarte }}</td>
+                                    <td>{{ $etudiant->adhesion->nom }}</td>
+                                    <td>{{ $etudiant->adhesion->prenom }}</td>
+                                    <td class="text-center">{{ $etudiant->adhesion->telephone1 }}</td>
                                     <td class="text-center">
                                         @if ($etudiant->cours->count() > 0)
                                         {{ Str::words($etudiant->cours->implode('libelle', ' | '), 3, '...') }}

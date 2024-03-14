@@ -27,7 +27,7 @@
 @endif
 
 <div class="row mt-2">
-    <div class="col-md-3 col-sm-6 col-12">
+    {{-- <div class="col-md-3 col-sm-6 col-12">
         <div class="info-box">
             <span class="info-box-icon bg-gradient-warning"><i class="fa fa-graduation-cap"
                     aria-hidden="true"></i></span>
@@ -91,7 +91,88 @@
             </div>
 
         </div>
+    </div> --}}
+    <div class="col-md-6 @if ($paiementData == '[]') d-none @endif">
+        <div class="card">
+            <div class="card-header">
+                 <h3 class="card-title"> <i class="fab fa-chart"></i> Étudiants </h3> 
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div> 
+            </div>
+            <div class="card-body">
+                <canvas id="studentChart"
+                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+        </div>
     </div>
+
+    {{-- @if (Auth::user()->roles->first()->name == 'Admin' || $paiementData == '[]')
+    <div class="col-md-6">
+        <div class="card ">
+            <div class="card-header border-0">
+                <h3 class="card-title">
+                    <i class="far fa-calendar-alt"></i>
+                    Calendrier
+                </h3>
+
+                <div class="card-tools">
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown"
+                            data-offset="-52">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <div class="dropdown-menu" role="menu">
+                            <a href="#" class="dropdown-item">Ajouter un nouvel événement </a>
+                            <a href="#" class="dropdown-item">Effacer les événements</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">Voir le calendrier</a>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-info btn-sm" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="card-body pt-0 pb-0">
+
+                <div id="calendar" style="width: 100%"></div>
+            </div>
+
+        </div>
+    </div>
+    @else --}}
+    <div class="col-md-6 @if ($paiementData == '[]') d-none @endif">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"> <i class="fab fa-chart"></i> Paiements</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <canvas id="paiementChart"
+                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+        </div>
+    </div>
+    {{-- @endif --}}
 </div>
 
 <h3 class="mt-2">Vos actions</h3>
@@ -132,88 +213,27 @@
         </a>
     </div>
 
-    
-    @if (Auth::user()->roles->first()->name == 'Admin' || $chartData == '[]')
-    <div class="col-md-6 mt-3">
-        <div class="card ">
-            <div class="card-header border-0">
-                <h3 class="card-title">
-                    <i class="far fa-calendar-alt"></i>
-                    Calendrier
-                </h3>
 
-                <div class="card-tools">
-
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown"
-                            data-offset="-52">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                        <div class="dropdown-menu" role="menu">
-                            <a href="#" class="dropdown-item">Ajouter un nouvel événement </a>
-                            <a href="#" class="dropdown-item">Effacer les événements</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">Voir le calendrier</a>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-info btn-sm" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-danger btn-sm" data-card-widget="remove">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-
-            </div>
-
-            <div class="card-body pt-0 pb-0">
-
-                <div id="calendar" style="width: 100%"></div>
-            </div>
-
-        </div>
-    </div>
-    @else
-    <div class="col-md-6 mt-3">
-        <div class="card card-info">
-            <div class="card-header">
-                <h3 class="card-title"> <i class="fab fa-chart"></i> Resume des paiements</h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="card-body">
-                <canvas id="pieChart"
-                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-            </div>
-        </div>
-    </div>
-    @endif
-
-
-    <div class="col-md-6 mt-3">
+    <div class="col-md-12 mt-3">
         <h4>Aides & Astuces</h4>
         <span>Toutes nos ressources pour vous aider dans votre gestion de cours</span>
-        <div class="info-box text-secondary">
-            <span class="info-box-icon bg-gradient-primary"><i class="fa fa-info" aria-hidden="true"></i></span>
-            <div class="info-box-content">
-                <span class="info-box-text"> Info </span>
-                <span class="info-box-number">Besoin d'aide</span>
+        <div class="d-flex">
+            <div class="info-box text-secondary mx-2">
+                <span class="info-box-icon bg-gradient-primary"><i class="fa fa-info" aria-hidden="true"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text"> Info </span>
+                    <span class="info-box-number">Besoin d'aide</span>
+                </div>
+    
             </div>
-
+            <a class="info-box text-secondary mx-2" href="{{ route('mada-contact') }}">
+                <span class="info-box-icon bg-gradient-primary"><i class="fa fa-comments" aria-hidden="true"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text"> Contact </span>
+                    <span class="info-box-number">Contactez MADA-Digital</span>
+                </div>
+            </a>
         </div>
-        <a class="info-box text-secondary" href="{{ route('mada-contact') }}">
-            <span class="info-box-icon bg-gradient-primary"><i class="fa fa-comments" aria-hidden="true"></i></span>
-            <div class="info-box-content">
-                <span class="info-box-text"> Contact </span>
-                <span class="info-box-number">Contactez MADA-Digital</span>
-            </div>
-        </a>
     </div>
 
 </div>
@@ -259,31 +279,49 @@
     //- PIE CHART -
     //-------------
     // Get context with jQuery - using jQuery's .get() method.
-    var CData = JSON.parse(`<?php echo $chartData;?>`);
-    var donutData = {
-      labels: CData.label,
+    var PData = JSON.parse(`<?php echo $paiementData;?>`);
+    var SData = JSON.parse(`<?php echo $studentData;?>`);
+    var paiementData = {
+      labels: PData.label,
       datasets: [
         {
-            data: CData.data,
+            data: PData.data,
             backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
             // borderColor: ["#CDA776", "#989898", "#CB252B", "#E39371", "#1D7A46", "#F4A460", "#CDA776"],
             // borderWidth: [2, 2, 2, 2, 2, 2, 2]
         }
       ]
     }
-    var pieChartCanvas = document.querySelector('#pieChart').getContext('2d');
-    var pieData        = donutData;
-    var pieOptions     = {
+    var studentData = {
+      labels: SData.label,
+      datasets: [
+        {
+            data: SData.data,
+            backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+            // borderColor: ["#CDA776", "#989898", "#CB252B", "#E39371", "#1D7A46", "#F4A460", "#CDA776"],
+            // borderWidth: [2, 2, 2, 2, 2, 2, 2]
+        }
+      ]
+    }
+    var paiementChartCanvas = document.querySelector('#paiementChart').getContext('2d');
+    var studentChartCanvas = document.querySelector('#studentChart').getContext('2d');
+    // var paiementData        = paiementData;
+    var paiementOptions     = {
       maintainAspectRatio : false,
       responsive : true,
     }
     //Create pie or douhnut chart
     // You can switch between pie and douhnut using the method below.
     document.addEventListener('DOMContentLoaded', () => {
-        new Chart(pieChartCanvas, {
+        new Chart(paiementChartCanvas, {
             type: 'pie',
-            data: pieData,
-            options: pieOptions
+            data: paiementData,
+            options: paiementOptions
+        })
+        new Chart(studentChartCanvas, {
+            type: 'pie',
+            data: studentData,
+            options: paiementOptions
         })
     });
     

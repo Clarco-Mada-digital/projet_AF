@@ -64,6 +64,16 @@
                 </li>
             </ul>
         </li>
+        <li @class(['nav-item','menu-open'=> Str::contains(request()->route()->getName(),'adhesions'),])>
+            <a href="{{route('adhesions-nouveau')}}" @class(['nav-link d-flex align-items-center','active'=>
+                Str::contains(request()->route()->getName(),'adhesions'),])>
+                {{-- <ion-icon class="nav-icon" name="card"></ion-icon> --}}
+                <i class="nav-icon fa-fw fa fa-user-plus"></i>
+                <p>
+                    ADHESIONS
+                </p>
+            </a>
+        </li>
         <li @class([ 'nav-item' , 'menu-open'=> Str::contains(
             request()->route()->getName(),
             'cours'),

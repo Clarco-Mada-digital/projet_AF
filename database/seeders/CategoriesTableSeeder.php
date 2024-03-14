@@ -16,6 +16,7 @@ class CategoriesTableSeeder extends Seeder
             ["libelle"=>'Adulte'],
             ["libelle"=>'Étudiants'],
             ["libelle"=>'Enfants'],
+            ["libelle"=>'ME'],
         ]);
     }
 }
