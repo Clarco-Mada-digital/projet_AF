@@ -157,7 +157,7 @@ class NewEtudiant extends Component
             'newEtudiant.telephone1' => ['min:10', 'max:10', 'nullable'],
             'newEtudiant.telephone2' => ['min:10', 'max:10', 'nullable'],
             'newEtudiant.adresse' => ['required'],
-            'newEtudiant.numCarte' => [Rule::unique('etudiants', 'numCarte')],
+            'newEtudiant.numCarte' => [Rule::unique('adhesions', 'numCarte')],
             'newEtudiant.categorie_id' => ['required'],
             'newEtudiant.user_id' => ['integer'],
             'newEtudiant.level_id' => ['integer'],
@@ -249,7 +249,7 @@ class NewEtudiant extends Component
     {
         $this->newEtudiant['user_id'] = Auth::user()->id;
         $this->newEtudiant['session_id'] = $this->etudiantSession;
-        // $this->newEtudiant['numCarte'] = "AF-" . random_int(100, 9000);
+        $this->newEtudiant['numCarte'] = "AF-" . random_int(100, 9000);
         $idCourOrExam = null;
 
         $this->MemberPmb ? "" : $this->validate();
@@ -267,13 +267,13 @@ class NewEtudiant extends Component
             }
             else
             {
-                $newEtud = Etudiant::create(["Adhesion_id" => $this->adhesionSelect->id, "user_id" => Auth::user()->id, "session_id" => $this->etudiantSession, "level_id" => $this->newEtudiant['level_id']]);
+                $newEtud = Etudiant::create(["adhesion_id" => $this->adhesionSelect->id, "user_id" => Auth::user()->id, "session_id" => $this->etudiantSession, "level_id" => $this->newEtudiant['level_id']]);
             }
         }
         else
         {
             $newAdhesion = Adhesion::create($this->newEtudiant);
-            $newEtud = Etudiant::create(["Adhesion_id" => $newAdhesion->id, "user_id" => Auth::user()->id, "session_id" => $this->etudiantSession, "level_id" => $this->newEtudiant['level_id']]);
+            $newEtud = Etudiant::create(["adhesion_id" => $newAdhesion->id, "user_id" => Auth::user()->id, "session_id" => $this->etudiantSession, "level_id" => $this->newEtudiant['level_id']]);
         }
         
         

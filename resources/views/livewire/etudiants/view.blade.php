@@ -107,11 +107,11 @@
                 </p>
                 <hr>
                 @endif
-                @foreach ($etudiant->inscription as $inscription)
-                    @if ($inscription->idCourOrExam == null)
+                @foreach ($etudiant->adhesion->inscriptions as $inscription)
+                    @if ($inscription->idCourOrExam == null && $inscription->type == "cours")
                     <strong><i class="fa fa-book mr-1"></i> Cours choisie</strong>
                     <p class="text-muted d-flex justify-content-between align-items-center">
-                        {{ $inscription->session->nom }}
+                        {{ $inscription->session->implode('nom', ' | ') }}
                         @foreach ($inscription->paiements as $paiement)
                         @if ( $paiement->montantRestant != 0)
                         - {{$paiement->montantRestant}} Ar à payer
@@ -129,7 +129,7 @@
                 <p class="text-muted d-flex justify-content-between align-items-center p-0 m-0">
                     @foreach ($etudiant->examens as $examen)
                 <section>{{ $examen->libelle }} - {{ $examen->level->libelle }} ({{ $examen->session->nom }})
-                    @foreach ($etudiant->inscription as $inscription)
+                    @foreach ($etudiant->adhesion->inscriptions as $inscription)
                     @if ($inscription->type == "examen" && $examen->id == $inscription->idCourOrExam)                    
                     @foreach ($inscription->paiements as $paiement)
                     @if ( $paiement->montantRestant != 0)

@@ -100,7 +100,7 @@
                             {{-- table body --}}
                             <tbody>
                                 @forelse ($etudiants as $etudiant)
-                                <tr class=" @foreach ($etudiant->adhesion->inscription as $inscription)
+                                <tr class=" @foreach ($etudiant->adhesion->inscriptions as $inscription)
                                     {{ $inscription->statut ? '' : " text-danger" }} @endforeach ">
                                     <td>
                                         @if ($etudiant->adhesion->profil != null)

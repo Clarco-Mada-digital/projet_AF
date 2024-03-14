@@ -11,7 +11,7 @@ class Etudiant extends Model
 
     protected $fillable =
     [
-        "Adhesion_id",
+        "adhesion_id",
         'coment',
         'user_id',
         'level_id',

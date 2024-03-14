@@ -331,6 +331,7 @@ class Etudiants extends Component
                 ->paginate(5);
         }
 
+        // dd($etudiants);
         $data = [
             "etudiants" => $etudiants,
         ];
