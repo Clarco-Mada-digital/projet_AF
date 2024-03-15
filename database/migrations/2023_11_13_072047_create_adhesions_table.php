@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('numCarte')->unique();
             $table->string('profil')->nullable();
             $table->string('comment')->nullable();
-            $table->date('fin adhesion')->default(Carbon::now()->addYear());
+            $table->date('finAdhesion')->default(Carbon::now()->addYear());
             $table->timestamps();
             
             $table->foreignIdFor(Categorie::class)->constrained();

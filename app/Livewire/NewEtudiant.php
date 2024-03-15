@@ -34,6 +34,7 @@ class NewEtudiant extends Component
     public $categories;
     public $nscList = ["cours" => [], "level" => [], "examens" => []];
     public $now;
+    public $toDay;
     public $etudiantSession;
     public $sessionSelected;
     public $moyenPaiement;
@@ -63,6 +64,7 @@ class NewEtudiant extends Component
     public function __construct()
     {
         $this->now = Carbon::now();
+        $this->toDay = Carbon::today();
         $this->levels = Level::all();
         $this->listSession = Session::all();
         $this->categories = Categorie::all();

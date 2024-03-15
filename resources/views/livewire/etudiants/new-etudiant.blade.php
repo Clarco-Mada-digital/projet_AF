@@ -19,10 +19,12 @@
                 <div class=" list-group w-100 border bg-light border-primary rounded"
                     style="max-height: 300px; overflow-y: scroll;">
                     @forelse ($memberResult as $member)
-                    <a href="#" class="list-group-item list-group-item-action"
-                    wire:click='initData({{ $member->id }})'
-                    >{{ $member->nom }} {{ $member->prenom
-                        }}</a>
+                    <a href="#" class="list-group-item list-group-item-action 
+                    @if ((Carbon\Carbon::parse($member->finAdhesion)->isPast())) text-danger @endif"
+                    @if (!(Carbon\Carbon::parse($member->finAdhesion)->isPast())) wire:click='initData({{ $member->id }})' @endif >
+                    {{ $member->nom }} {{ $member->prenom }} @if ($member->finAdhesion < Carbon\Carbon::today())
+                        <i class="fa fa-info-circle text-right fa-2xl" title="Votre date de l'imite d'adhesion est dépassé !"></i>
+                    @endif</a>
                     @empty
                     <p class="text-center pt-2">Aucun résultat trouvé 😔</p>
                     @endforelse

@@ -7,6 +7,7 @@ use App\Models\Categorie;
 use App\Models\Inscription;
 use App\Models\Paiement;
 use App\Models\Price;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -32,6 +33,7 @@ class Adhesions extends Component
     public $moyenPaiement;
     public $statue;
     public $paiement_id;
+    
 
     function __construct() 
     {
