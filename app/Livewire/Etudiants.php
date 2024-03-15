@@ -101,7 +101,6 @@ class Etudiants extends Component
         return $rule;
     }
 
-
     public function toogleStateName($stateName)
     {
         if ($stateName == 'view') {
@@ -132,23 +131,32 @@ class Etudiants extends Component
         $cours = array_map($mapData, Etudiant::find($this->editEtudiant['id'])->cours->toArray());
         $examen = array_map($mapData, Etudiant::find($this->editEtudiant['id'])->examens->toArray());
 
+        $this->nscList = ["cours" => [], "examens" => []];
         $this->editEtudiant['level_id'] = Etudiant::find($this->editEtudiant['id'])->level->id;
 
-        foreach (Cour::all() as $cour) {
-            if (in_array($cour->id, $cours)) {
-                array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => true]);
-            } else {
-                array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
+        if ($cours != [])
+        {
+            foreach (Cour::all() as $cour) {
+                if (in_array($cour->id, $cours)) {
+                    array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => true]);
+                } else {
+                    array_push($this->nscList['cours'], ['cour_id' => $cour->id, 'cour_libelle' => $cour->libelle, 'cour_horaire' => $cour->horaire, 'active' => false]);
+                }
+            }
+        }
+        
+        if ($examen!= [])
+        {
+            foreach (Examen::all() as $exam) {
+                if (in_array($exam->id, $examen)) {
+                    array_push($this->nscList['examens'], ['examen_id' => $exam->id, 'examen_libelle' => $exam->libelle, 'active' => true]);
+                } else {
+                    array_push($this->nscList['examens'], ['examen_id' => $exam->id, 'examen_libelle' => $exam->libelle, 'active' => false]);
+                }
             }
         }
 
-        foreach (Examen::all() as $exam) {
-            if (in_array($exam->id, $examen)) {
-                array_push($this->nscList['examens'], ['examen_id' => $exam->id, 'examen_libelle' => $exam->libelle, 'active' => true]);
-            } else {
-                array_push($this->nscList['examens'], ['examen_id' => $exam->id, 'examen_libelle' => $exam->libelle, 'active' => false]);
-            }
-        }
+        
 
         // dd($this->coursList);
 
@@ -274,10 +282,12 @@ class Etudiants extends Component
         if ($this->filteredByCourExamen == 'examens') 
         {
             $etudiants = Etudiant::with("session", "level", "cours", "examens")
-                ->where(function ($query) {
-                    $query->where("nom", "LIKE", "%{$this->search}%")
-                        ->orWhere("prenom", "LIKE", "%{$this->search}%")
-                        ->orWhere("numCarte", "LIKE", "%{$this->search}%");
+                ->whereHas("adhesion", function ($query) {
+                    $query->where(function ($query) {
+                        $query->where("nom", "LIKE", "%{$this->search}%")
+                            ->orWhere("prenom", "LIKE", "%{$this->search}%")
+                            ->orWhere("numCarte", "LIKE", "%{$this->search}%");
+                    });
                 })
                 ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])
                 ->whereHas("examens", function ($qr) {
@@ -294,10 +304,12 @@ class Etudiants extends Component
         elseif ($this->filteredByCourExamen == 'cours')
         {
             $etudiants = Etudiant::with("session", "level", "cours", "examens")
-                ->where(function ($query) {
-                    $query->where("nom", "LIKE", "%{$this->search}%")
-                        ->orWhere("prenom", "LIKE", "%{$this->search}%")
-                        ->orWhere("numCarte", "LIKE", "%{$this->search}%");
+                ->whereHas("adhesion", function ($query) {
+                    $query->where(function ($query) {
+                        $query->where("nom", "LIKE", "%{$this->search}%")
+                            ->orWhere("prenom", "LIKE", "%{$this->search}%")
+                            ->orWhere("numCarte", "LIKE", "%{$this->search}%");
+                    });
                 })
                 ->where([['level_id', 'LIKE', "%{$this->filteredByLevel}%"]])                  
                 ->whereHas("session", function ($res) {
