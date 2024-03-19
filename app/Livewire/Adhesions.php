@@ -8,17 +8,20 @@ use App\Models\Inscription;
 use App\Models\Paiement;
 use App\Models\Price;
 use Carbon\Carbon;
+use DeepCopy\f001\A;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
+use Livewire\WithPagination;
 
 #[Layout('layouts.mainLayout')]
 class Adhesions extends Component
 {
+    use WithPagination;
     use WithFileUploads;
 
-    public string $search = "";
+    public string $search_membre = "";
     public $memberResult = [];
     public $newAdhesion = ['profil' => '', 'categorie_id' => ""];
     public $photo;
@@ -28,6 +31,7 @@ class Adhesions extends Component
     public float $montantExam = 0;
     public float $montantPaye = 0;
     public float $montantRestant;
+    public $stapes = "new";
 
     public $categories;
     public $moyenPaiement;
@@ -67,6 +71,14 @@ class Adhesions extends Component
         } else {
             $this->bsSteepActive -= 1;
         }
+    }
+
+    public function initUpdate(Adhesion $adhesion)
+    {
+        $this->newAdhesion = [];
+        $this->newAdhesion = $adhesion->toArray();
+        $this->stapes = "update";
+        // dd($this->newAdhesion);
     }
 
     public function defineStatue($nomStatue)
@@ -189,8 +201,36 @@ class Adhesions extends Component
         $this->newAdhesion = ['profil' => '', 'categorie_id' => ""];
     }
 
+    public function updateAdhesion()
+    {
+        $this->validate();
+
+        if ($this->photo != '') {
+            $photoName = $this->photo->store('profil', 'public');
+            $this->newAdhesion['profil'] = $photoName;
+        }
+
+        Adhesion::find($this->newAdhesion['id'])->update($this->newAdhesion);
+
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant modifier avec success!', 'type' => 'success']);
+        $this->photo = '';
+        $this->newAdhesion = ['profil' => '', 'categorie_id' => ""];
+        $this->stapes = "new";
+    }
+
     public function render()
     {
-        return view('livewire.adhesions.index');
+        Carbon::setLocale('fr');
+
+        $membres = Adhesion::where("nom", 'LIKE', "%{$this->search_membre}%")
+                            ->orWhere("prenom", "LIKE", "%{$this->search_membre}%")
+                            ->orWhere("numCarte", "LIKE", "%{$this->search_membre}%")
+                            ->paginate(5);
+
+        $data = [
+            'membres' => $membres,
+        ];
+
+        return view('livewire.adhesions.index', $data);
     }
 }

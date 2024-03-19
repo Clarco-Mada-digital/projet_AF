@@ -144,8 +144,8 @@
                   <th scope="row">1</th>
                   <td>{{ $paiements->type }} @if ($cours != null) ({{ $cours->libelle }}) @endif</td>
                   <td class="text-end"> <span
-                      class="@if ($session->dateFinPromo > Carbon\Carbon::now()) text-decoration-line-through @endif">{{
-                      $session->montant }} Ar</span> @if ($session->dateFinPromo > Carbon\Carbon::now()) {{
+                      class="@if ($session->dateFinPromo > $paiements->created_at) text-decoration-line-through @endif">{{
+                      $session->montant }} Ar</span> @if ($session->dateFinPromo > $paiements->created_at) {{
                     $session->montantPromo }} @endif</td>
                 </tr>
                 @endif
@@ -176,7 +176,7 @@
                     <span class="nomberToLetter">{{ $paiements->montant }}</span></td>
                   @endif
                   @if ($paiements->type == "Adhésion + Inscription a un cours")
-                  @if ($session->dateFinPromo > Carbon\Carbon::now())
+                  @if ($session->dateFinPromo > $paiements->created_at)
                   <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montantPromo + $price->montant }} Ar <br>
                     <span class="nomberToLetter">{{ $session->montantPromo + $price->montant }}</span></td>
                   @else
@@ -189,7 +189,7 @@
                     <span class="nomberToLetter">{{ $examen->price->montant + $price->montant }}</span></td>
                   @endif
                   @if ($paiements->type == "Inscription a un cours")
-                  @if ($session->dateFinPromo > Carbon\Carbon::now())
+                  @if ($session->dateFinPromo > $paiements->created_at)
                   <td colspan="2" class="text-end fw-bold fs-4">{{ $session->montantPromo }} Ar <br>
                     <span class="nomberToLetter">{{ $session->montantPromo }}</span></td>
                   @else

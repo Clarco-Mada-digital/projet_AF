@@ -16,14 +16,15 @@
                 <button type="button" class="btn btn-tool" data-card-widget="maximize" spellcheck="false">
                     <i class="fas fa-expand"></i>
                 </button>
-                <a href="{{ route('etudiants-list') }}" type="button" class="btn btn-info">
-                    <i class="fa fa-list mr-2"></i> Voir la liste des mambres
+                <a type="button" class="btn btn-info" data-toggle="modal" data-target="#view-list-adhesion" spellcheck="false">
+                    <i class="fa fa-list mr-2"></i> Voir la liste des membres
                 </a>
             </div>
 
             {{-- Card body --}}
             <div class="card-body p-0">
                 <div class="bs-stepper" id="bs-stepper">
+                    @if ($stapes == "new")
                     <div class="bs-stepper-header" role="tablist">
 
                         <div class="step @if ($bsSteepActive == 1) active @endif" data-target="#info-part">
@@ -50,8 +51,9 @@
                             </button>
                         </div>
                     </div>
+                    @endif
                     <div class="bs-stepper-content">
-                        <form wire:submit="submitnewAdhesion">
+                        <form>
                             <div id="info-part" @if ($bsSteepActive !=1) style="display: none;" @endif>
                                 <div class="row">
                                     <div class="col-md-12 d-flex justify-content">
@@ -179,7 +181,7 @@
                                             <select
                                                 class="custom-select  @error('newAdhesion.categorie_id') is-invalid @enderror"
                                                 spellcheck="false" id="etudiantNiveau"
-                                                wire:model='newAdhesion.categorie_id'>
+                                                wire:model='newAdhesion.categorie_id' @if ($stapes != "new") disabled @endif>
                                                 <option> --- --- </option>
                                                 @forelse ($categories as $categorie)
                                                 <option value="{{ $categorie->id }}"> {{ $categorie->libelle }}</option>
@@ -210,9 +212,6 @@
                                     <div class="col-md-3">
                                         <label for="etudiantPhone2">Second téléphone</label>
                                         <div class="input-group">
-                                            {{-- <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                            </div> --}}
                                             <input type="text"
                                                 class="form-control phone @error('newAdhesion.telephone2') is-invalid @enderror"
                                                 id="etudiantPhone2" wire:model='newAdhesion.telephone2'>
@@ -222,7 +221,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if ($stapes == "new")
                                 <a class="btn btn-primary" wire:click="bsSteepPrevNext('next')">Suivant</a>
+                                @else
+                                <button class="btn btn-primary" wire:click.prevent='updateAdhesion'>Mettre à jour</button>    
+                                @endif
                             </div>
                             <div id="paiement-part" @if ($bsSteepActive != 2) style="display: none;" @endif>
                                 <div class="row m-auto">
@@ -355,6 +358,20 @@
                     </div>
                 </div>
             </div>
+
+            {{-- Partie Modal view --}}
+            <div class="modal fade" id="view-list-adhesion" style="display: none; "
+                aria-hidden="true" wire:ignore.self>
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body p-0 ">
+                            @include('livewire.adhesions.view')
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

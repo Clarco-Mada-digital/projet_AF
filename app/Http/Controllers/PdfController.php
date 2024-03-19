@@ -21,9 +21,14 @@ class PdfController extends Controller
     {
         // retreive all records from db
         $inscription = $paiement->inscription;
+        
         foreach($inscription as $insc)
         {
-            $this->session = $insc->session;
+            if ($paiement->type != "Inscription pour devenir membre")
+            {
+                $this->session = $insc->session->first();
+            }
+
             $etudiant = Etudiant::find($insc->adhesion_id);
 
             if ($etudiant == null)

@@ -249,9 +249,15 @@ class NewEtudiant extends Component
     // Enregistrement un nouveau étudiant
     public function submitNewEtudiant()
     {
+        $categorie_indication = [
+            1 => "AD",
+            2 => "ET",
+            3 => "ENF",
+            4 => "ME",
+        ];
         $this->newEtudiant['user_id'] = Auth::user()->id;
         $this->newEtudiant['session_id'] = $this->etudiantSession;
-        $this->newEtudiant['numCarte'] = "AF-" . random_int(100, 9000);
+        $this->newEtudiant['numCarte'] = "AF-" .  $categorie_indication[$this->newAdhesion['categorie_id']] . '.' . random_int(100, 9000);
         $idCourOrExam = null;
 
         $this->MemberPmb ? "" : $this->validate();
