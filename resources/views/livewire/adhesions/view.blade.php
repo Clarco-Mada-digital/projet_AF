@@ -13,13 +13,30 @@
   </div>
 
   <div class="card-body">
-    <div class="input-group w-50 mb-3 ml-auto">
-      <input type="search" class="form-control" spellcheck="false" name="membre_search"
-        placeholder="Rechercher un membre" wire:model.live.debounce.500ms="search_membre" autocomplete="false">
-      <div class="input-group-append">
-        <span class="input-group-text"><i class="fa fa-search"></i></span>
+    <div class="d-flex justify-content-between aligne-items-center">
+      <div class="d-flex align-items-center">
+        <div class="mb-3" style="width: 18vmin;">
+          <div class="form-group">
+            {{-- <label for="filteredLevelForm">Catégories :</label> --}}
+            <select class="form-control" id="filteredCat" aria-label="Filter form"
+              wire:model.live="filterByCat">
+              <option value="" selected>Catégories</option>
+              @foreach ($categories as $categorie)
+              <option value="{{ $categorie->id }}">{{ $categorie->libelle }}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="input-group w-50 mb-4 pb-2">
+        <input type="search" class="form-control" spellcheck="false" name="membre_search"
+          placeholder="Rechercher un membre" wire:model.live.debounce.500ms="search_membre" autocomplete="false">
+        <div class="input-group-append">
+          <span class="input-group-text"><i class="fa fa-search"></i></span>
+        </div>
       </div>
     </div>
+
     <table class="table table-head-fixed text-nowrap table-striped table-bordered">
       {{-- table header --}}
       <thead>
@@ -29,6 +46,7 @@
           <th wire:click="setOrderField('nom')">Nom</th>
           <th wire:click="setOrderField('prenom')">Prénom</th>
           <th class="text-center">Téléphone</th>
+          <th class="text-center">Catégorie</th>
           {{-- <th class="text-center">Paiement</th> --}}
           <th class="text-center">Action</th>
         </tr>
@@ -52,8 +70,10 @@
           <td>{{ $membre->nom }}</td>
           <td>{{ $membre->prenom }}</td>
           <td class="text-center">{{ $membre->telephone1 }}</td>
+          <td class="text-center">{{ $membre->categorie->libelle }}</td>
           <td class="text-center">
-            <button class="btn btn-link @cannot('étudiants.edit') disabled @endcannot" spellcheck="false" wire:click='initUpdate({{ $membre->id }})' data-dismiss="modal">
+            <button class="btn btn-link @cannot('étudiants.edit') disabled @endcannot" spellcheck="false"
+              wire:click='initUpdate({{ $membre->id }})' data-dismiss="modal">
               <i class="fa fa-edit" style="color: #FFC107;"></i>
             </button>
           </td>
@@ -61,7 +81,7 @@
 
         @empty
         <tr>
-          <td class="text-center" colspan="6"> <img src="{{ asset('images/no_data.svg') }}" alt="Data empty"
+          <td class="text-center" colspan="7"> <img src="{{ asset('images/no_data.svg') }}" alt="Data empty"
               width="200px">
           </td>
         </tr>

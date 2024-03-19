@@ -8,12 +8,13 @@ use App\Models\Inscription;
 use App\Models\Paiement;
 use App\Models\Price;
 use Carbon\Carbon;
-use DeepCopy\f001\A;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Livewire\WithPagination;
+use PhpParser\Builder\Function_;
+use PhpParser\Node\Expr\FuncCall;
 
 #[Layout('layouts.mainLayout')]
 class Adhesions extends Component
@@ -22,6 +23,7 @@ class Adhesions extends Component
     use WithFileUploads;
 
     public string $search_membre = "";
+    public $filterByCat = "";
     public $memberResult = [];
     public $newAdhesion = ['profil' => '', 'categorie_id' => ""];
     public $photo;
@@ -222,9 +224,12 @@ class Adhesions extends Component
     {
         Carbon::setLocale('fr');
 
-        $membres = Adhesion::where("nom", 'LIKE', "%{$this->search_membre}%")
-                            ->orWhere("prenom", "LIKE", "%{$this->search_membre}%")
-                            ->orWhere("numCarte", "LIKE", "%{$this->search_membre}%")
+        $membres = Adhesion::where("categorie_id", "LIKE", "%{$this->filterByCat}%")
+                            ->where(function ($query) {
+                                $query->where("nom", "LIKE", "%{$this->search_membre}%")
+                                    ->orWhere("prenom", "LIKE", "%{$this->search_membre}%")
+                                    ->orWhere("numCarte", "LIKE", "%{$this->search_membre}%");
+                            })
                             ->paginate(5);
 
         $data = [
