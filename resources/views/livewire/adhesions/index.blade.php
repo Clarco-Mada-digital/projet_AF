@@ -352,7 +352,7 @@
                                 </div>
                                 {{-- <a class="btn btn-primary" wire:click="bsSteepPrevNext('prev')">Précédent</a>
                                 --}}
-                                <a href="{{route('etudiants-list')}}" class="btn btn-primary"> Fermer </a>
+                                <a href="{{route('adhesions-nouveau')}}" class="btn btn-primary"> Fermer </a>
                             </div>
                         </form>
                     </div>
