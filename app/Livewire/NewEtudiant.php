@@ -257,7 +257,8 @@ class NewEtudiant extends Component
         ];
         $this->newEtudiant['user_id'] = Auth::user()->id;
         $this->newEtudiant['session_id'] = $this->etudiantSession;
-        $this->newEtudiant['numCarte'] = "AF-" .  $categorie_indication[$this->newAdhesion['categorie_id']] . '.' . random_int(100, 9000);
+         
+        $this->newEtudiant['numCarte'] = "AF-" . $categorie_indication[$this->newEtudiant['categorie_id']] . "." . random_int(100, 9000);
         $idCourOrExam = null;
 
         $this->MemberPmb ? "" : $this->validate();
