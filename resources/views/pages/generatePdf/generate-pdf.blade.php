@@ -142,7 +142,7 @@
                 @if ($paiements->type == "Adhésion + Inscription a un cours" || $paiements->type == "Inscription a un cours")
                 <tr>
                   <th scope="row">1</th>
-                  <td>{{ $paiements->type }} @if ($cours != null) ({{ $cours->libelle }}) @endif</td>
+                  <td> Inscription au cours @if ($cours != null) ({{ $cours->libelle }}) @endif</td>
                   <td class="text-end"> <span
                       class="@if ($session->dateFinPromo > $paiements->created_at) text-decoration-line-through @endif">{{
                       $session->montant }} Ar</span> @if ($session->dateFinPromo > $paiements->created_at) {{
@@ -152,7 +152,7 @@
                 @if ($paiements->type == "Adhésion + Inscription a un examens"  || $paiements->type == "Inscription a un examens")
                 <tr>
                   <th scope="row">1</th>
-                  <td>{{ $paiements->type }} ({{ $examen->libelle }})</td>
+                  <td> Inscription au examen ({{ $examen->libelle }})</td>
                   <td class="text-end"> {{ $examen->price->montant }} Ar</td>
                 </tr>
                 @endif
