@@ -22,6 +22,8 @@ class Adhesions extends Component
     use WithPagination;
     use WithFileUploads;
 
+    protected $paginationTheme = "bootstrap";
+
     public string $search_membre = "";
     public $filterByCat = "";
     public $memberResult = [];
