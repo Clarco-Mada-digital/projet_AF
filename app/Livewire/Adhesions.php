@@ -13,8 +13,6 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Livewire\WithPagination;
-use PhpParser\Builder\Function_;
-use PhpParser\Node\Expr\FuncCall;
 
 #[Layout('layouts.mainLayout')]
 class Adhesions extends Component
@@ -46,6 +44,7 @@ class Adhesions extends Component
     function __construct() 
     {
         $this->categories = Categorie::all();
+        // $this->newAdhesion = Adhesion::find(1)->toArray();
     }
 
     public function bsSteepPrevNext($crèment)
@@ -207,6 +206,7 @@ class Adhesions extends Component
 
     public function updateAdhesion()
     {
+        dd($this->newAdhesion);
         $this->validate();
 
         if ($this->photo != '') {
@@ -225,6 +225,7 @@ class Adhesions extends Component
     public function render()
     {
         Carbon::setLocale('fr');
+        $this->newAdhesion;
 
         $membres = Adhesion::where("categorie_id", "LIKE", "%{$this->filterByCat}%")
                             ->where(function ($query) {

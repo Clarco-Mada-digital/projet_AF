@@ -15,7 +15,6 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-
 #[Layout('layouts.mainLayout')]
 class Sessions extends Component
 {
@@ -40,6 +39,9 @@ class Sessions extends Component
 
     public $orderDirection = 'ASC';
     public $orderField = 'nom';
+    public Bool $promotionShowIndicator = False;
+    public Bool $SaveShowIndicator = False;
+    public Bool $DeleteShowIndicator = False;
 
     public $salles;
     public $newCour = [];
@@ -74,6 +76,22 @@ class Sessions extends Component
         $this->initDataCours();
         // $this->cours= Cour::all()->toArray();
 
+    }
+
+    public function showIndicator(String $name)
+    {
+        if ($name == "Promotion")
+        {
+            $this->promotionShowIndicator = !$this->promotionShowIndicator;
+        }
+        if ($name == "Save")
+        {
+            $this->SaveShowIndicator = !$this->SaveShowIndicator;
+        }
+        if ($name == "Delete")
+        {
+            $this->DeleteShowIndicator = !$this->DeleteShowIndicator;
+        }
     }
 
     public function rules()

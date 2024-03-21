@@ -17,6 +17,7 @@ class Session extends Model
         'montantPromo',
         'horaireDuCour',
         'statue',
+        'type',
         'session_id',
         'updated_at',
     ];

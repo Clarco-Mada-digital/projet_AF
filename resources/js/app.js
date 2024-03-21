@@ -26,6 +26,13 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import swal from 'sweetalert';
 window.Swal = Swal
 
+// Alpine JS
+import Alpine from 'alpinejs'
+ 
+window.Alpine = Alpine
+ 
+Alpine.start()
+
 // Input Mask
 // $(".phone").inputmask("(999)-99-99-999-99");
 let PhoneInputList = document.querySelectorAll('.phone');
@@ -34,8 +41,8 @@ let phoneList = [...PhoneInputList].map(PhoneInput => new intlTelInput(PhoneInpu
 }));
 
 // Tooltip definition
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+// const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+// const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
 window.addEventListener('ShowSuccessMsg', (e) => {
   console.log(e)
@@ -62,21 +69,22 @@ window.addEventListener('showModalSimpleMsg', (e) => {
 window.addEventListener('AlertDeleteConfirmModal', (e) => {
   swal({
     title: "êtes-vous sûr?",
-    text:  e.detail[0]['message'] || 'Attention au opération effectué',
-    icon:  e.detail[0]['type'],
+    text: e.detail[0]['message'] || 'Attention au opération effectué',
+    icon: e.detail[0]['type'],
     buttons: true,
     dangerMode: true,
     confirmButtonText: "Oui"
   })
-  .then((willDelete) => {
-    if (willDelete) {
-      Livewire.dispatch('deleteConfirmed' + e.detail[0]['thinkDelete']);
-      console.log('deleteConfirmed' + e.detail[0]['thinkDelete'])
-    } else {
-      swal("OK ! Opération annuler");
-    }
-  });
+    .then((willDelete) => {
+      if (willDelete) {
+        Livewire.dispatch('deleteConfirmed' + e.detail[0]['thinkDelete']);
+        console.log('deleteConfirmed' + e.detail[0]['thinkDelete'])
+      } else {
+        swal("OK ! Opération annuler");
+      }
+    });
 })
+
 
 
 // checker pretty bootstrap

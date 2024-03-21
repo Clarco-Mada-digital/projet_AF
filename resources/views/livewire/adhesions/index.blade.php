@@ -89,9 +89,9 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="etudiantNom">Nom</label>
+                                            <label for="adhesionNom">Nom</label>
                                             <input type="text" class="form-control 
-                                                @error('newAdhesion.nom') is-invalid @enderror" id="etudiantNom"
+                                                @error('newAdhesion.nom') is-invalid @enderror" id="adhesionNom"
                                                 wire:model="newAdhesion.nom">
                                             @error('newAdhesion.nom')
                                             <span class="invalid-feedback"> Ce champ est obligatoire</span>

@@ -71,7 +71,8 @@
                                         <div class="form-check form-check-inline custom-control custom-radio">
                                             <input class="custom-control-input" type="radio" name="sessionType"
                                                 id="sessionExamen" value="examens" wire:model.live='newSession.type'>
-                                            <label class="custom-control-label" for="sessionExamen">Session Examen</label>
+                                            <label class="custom-control-label" for="sessionExamen">Session
+                                                Examen</label>
                                         </div>
                                     </div>
                                     <div class="btnAction">
@@ -93,19 +94,22 @@
                                         </button>
                                     </div>
                                 </td>
-                                <td class="text-center">
-                                    <button class="btn btn-warning" data-toggle="modal" data-target="#newPromotion"
-                                        spellcheck="false" data-bs-toggle="tooltip" title="Promotion"> <i
-                                            class="fa fa-gift"></i>
+                                <td x-data="{ showTooltip : {promo:false, save:false, del:false}}" class="text-center">
+                                    <button class="btn btn-info" data-toggle="modal" data-target="#newPromotion"
+                                        spellcheck="false" data-bs-toggle="tooltip" @mouseover = "showTooltip.promo = true" @mouseover.away = "showTooltip.promo = false"> <i class="fa fa-gift"></i>
                                         <span class="btn-icon-title d-none">Promotion</span> </button>
-                                    <button class="btn btn-success" data-bs-toggle="tooltip" title="Sauvegarde"
-                                        wire:click='addNewSession'> <i class="fa fa-save"></i> <i
-                                            class="fa fa-spinner fa-spin" wire:loading wire:target='addNewSession'></i>
+                                    <button class="btn btn-success" data-bs-toggle="tooltip" wire:click='addNewSession'
+                                    @mouseover = "showTooltip.save = true" @mouseover.away = "showTooltip.save = false"> <i
+                                            class="fa fa-save"></i> <i class="fa fa-spinner fa-spin" wire:loading
+                                            wire:target='addNewSession'></i>
                                         <span class="btn-icon-title d-none">Save</span> </button>
-                                    <button class="btn btn-danger" data-bs-toggle="tooltip" title="Annuler"
-                                        wire:click='toogleFormSession'> <i class="fa fa-ban"></i> <span
+                                    <button class="btn btn-danger" data-bs-toggle="tooltip"
+                                        wire:click='toogleFormSession' @mouseover = "showTooltip.del = true" @mouseover.away = "showTooltip.del = false"> <i class="fa fa-ban"></i> <span
                                             class="btn-icon-title d-none">Annuler</span>
-                                    </button>
+                                    </button> <br>
+                                    <span x-show="showTooltip.promo" class="text-info p-2 rounded mt-4">Promotion</span>
+                                    <span x-show="showTooltip.save" class="text-success p-2 rounded mt-4">Enregistrer</span>
+                                    <span x-show="showTooltip.del" class="text-danger p-2 rounded mt-4">Annuler</span>
                                 </td>
                             </tr>
                             @endif
@@ -129,40 +133,51 @@
                                         <div class="form-check form-check-inline custom-control custom-radio">
                                             <input class="custom-control-input" type="radio" name="editSessionType"
                                                 id="editSessionCours" value="cours" wire:model.live='editSession.type'>
-                                            <label class="custom-control-label" for="editSessionCours">Session Cours</label>
+                                            <label class="custom-control-label" for="editSessionCours">Session
+                                                Cours</label>
                                         </div>
                                         <div class="form-check form-check-inline custom-control custom-radio">
                                             <input class="custom-control-input" type="radio" name="editSessionType"
-                                                id="editSessionExamen" value="examens" wire:model.live='editSession.type'>
-                                            <label class="custom-control-label" for="editSessionExamen">Session Examen</label>
+                                                id="editSessionExamen" value="examens"
+                                                wire:model.live='editSession.type'>
+                                            <label class="custom-control-label" for="editSessionExamen">Session
+                                                Examen</label>
                                         </div>
                                     </div>
-                                    {{-- <button class="btn btn-info @if ($editSession['type'] != 'cours') d-none @endif" wire:click='toogleFormCours'>Choisir les
+                                    {{-- <button
+                                        class="btn btn-info @if ($editSession['type'] != 'cours') d-none @endif"
+                                        wire:click='toogleFormCours'>Choisir les
                                         cours
                                     </button>
-                                    <button class="btn btn-primary @if ($editSession['type'] != 'cours') d-none @endif" data-toggle="modal" data-target="#newCours"
-                                        spellcheck="false"> <i class="fa fa-plus"></i> <span
-                                            class="btn-icon-title d-none">cours</span> 
+                                    <button class="btn btn-primary @if ($editSession['type'] != 'cours') d-none @endif"
+                                        data-toggle="modal" data-target="#newCours" spellcheck="false"> <i
+                                            class="fa fa-plus"></i> <span class="btn-icon-title d-none">cours</span>
                                     </button>
                                     <button class="btn btn-info  @if ($editSession['type'] != 'examens') d-none @endif"
-                                        data-bs-toggle="tooltip" title="Choisir le cour"
-                                        wire:click='toogleFormCours'>
+                                        data-bs-toggle="tooltip" title="Choisir le cour" wire:click='toogleFormCours'>
                                         Choisir l'examens
                                     </button>
-                                     --}}
+                                    --}}
                                 </td>
-                                <td class="text-center">
+                                <td x-data="{ showTooltip : {promo:false, save:false, del:false}}" class="text-center">
                                     <button class="btn btn-info" data-toggle="modal" data-target="#editPromotion"
-                                        spellcheck="false"> <i class="fa fa-gift"></i>
+                                        spellcheck="false" @mouseover = "showTooltip.promo = true" @mouseover.away = "showTooltip.promo = false"> <i class="fa fa-gift"></i>
                                         <span class="btn-icon-title d-none">Promotion</span> </button>
-                                    <button class="btn btn-warning"
-                                        wire:click="updateSession({{ $editSession['id'] }})"> <i class="fa fa-save"></i>
+                                    <button class="btn btn-success"
+                                        wire:click="updateSession({{ $editSession['id'] }})" @mouseover = "showTooltip.save = true" @mouseover.away = "showTooltip.save = false"> 
+                                        <i class="fa fa-save"></i>
                                         <i class="fa fa-spinner fa-spin" wire:loading wire:target="updateSession"></i>
                                         <span class="btn-icon-title d-none">Modifier</span> </button>
                                     <button class="btn btn-danger"
-                                        wire:click="initUpdateSession({{ $editSession['id'] }}, 'True')"> <i
-                                            class="fa fa-ban"></i> <span class="btn-icon-title d-none">Annuler</span>
-                                    </button>
+                                        wire:click="initUpdateSession({{ $editSession['id'] }}, 'True')"
+                                        @mouseover = "showTooltip.del = true" @mouseover.away = "showTooltip.del = false"> <i class="fa fa-ban"></i> <span
+                                            class="btn-icon-title d-none">Annuler</span>
+                                    </button><br>
+                                    <div>
+                                        <span x-show="showTooltip.promo" class="text-info p-2 rounded mt-4">Promotion</span>
+                                        <span x-show="showTooltip.save" class="text-success p-2 rounded mt-4">Mettre à jour</span>
+                                        <span x-show="showTooltip.del" class="text-danger p-2 rounded mt-4">Annuler</span>
+                                    </div>                                    
                                 </td>
                             </tr>
 
@@ -615,15 +630,15 @@
 
             <div class="card-body d-flex justify-content-center row">
                 @if ($newSession['type'] == 'cours' || $editSession['type'] == 'cours')
-                    @foreach ($coursList as $cour)
-                        <div class="form-group col-md-4">
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="cour{{ $cour['id'] }}"
-                                    wire:model.lazy="coursList.{{ $loop->index }}.active">
-                                <label for="cour{{ $cour['id'] }}" class="custom-control-label">{{ $cour['libelle'] }}</label>
-                            </div>
-                        </div>
-                    @endforeach
+                @foreach ($coursList as $cour)
+                <div class="form-group col-md-4">
+                    <div class="custom-control custom-checkbox">
+                        <input class="custom-control-input" type="checkbox" id="cour{{ $cour['id'] }}"
+                            wire:model.lazy="coursList.{{ $loop->index }}.active">
+                        <label for="cour{{ $cour['id'] }}" class="custom-control-label">{{ $cour['libelle'] }}</label>
+                    </div>
+                </div>
+                @endforeach
                 @endif
                 @if ($newSession['type'] == 'examens' || $editSession['type'] == 'examens')
                 @foreach ($examensList as $examen)
@@ -631,10 +646,11 @@
                     <div class="custom-control custom-checkbox">
                         <input class="custom-control-input" type="checkbox" id="cour{{ $examen['id'] }}"
                             wire:model.lazy="examensList.{{ $loop->index }}.active">
-                        <label for="cour{{ $examen['id'] }}" class="custom-control-label">{{ $examen['libelle'] }}</label>
+                        <label for="cour{{ $examen['id'] }}" class="custom-control-label">{{ $examen['libelle']
+                            }}</label>
                     </div>
                 </div>
-            @endforeach
+                @endforeach
                 @endif
 
             </div>
