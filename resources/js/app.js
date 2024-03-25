@@ -45,8 +45,7 @@ let phoneList = [...PhoneInputList].map(PhoneInput => new intlTelInput(PhoneInpu
 // const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
 window.addEventListener('ShowSuccessMsg', (e) => {
-  console.log(e)
-  Swal.fire({
+  swal({
     position: 'top-end',
     icon: e.detail[0]['type'] || 'info',
     toast: true,
@@ -57,7 +56,7 @@ window.addEventListener('ShowSuccessMsg', (e) => {
 })
 
 window.addEventListener('showModalSimpleMsg', (e) => {
-  Swal.fire({
+  swal({
     title: "Attention !",
     text: e.detail[0]['message'] || 'Attention au Opération effectué !',
     icon: e.detail[0]['type'],
