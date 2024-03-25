@@ -92,7 +92,7 @@ class Etudiants extends Component
             'editEtudiant.adhesion.telephone1' => ['min:10', 'max:10', 'nullable'],
             'editEtudiant.adhesion.telephone2' => ['min:10', 'max:10', 'nullable'],
             'editEtudiant.adhesion.adresse' => ['required'],
-            'editEtudiant.adhesion.numCarte' => [Rule::unique('Adhesions', 'numCarte')->ignore($this->editEtudiant['adhesion']['id'])],
+            'editEtudiant.adhesion.numCarte' => [Rule::unique('adhesions', 'numCarte')->ignore($this->editEtudiant['adhesion']['id'])],
             'editEtudiant.user_id' => [''],
             'editEtudiant.level_id' => [''],
 
