@@ -88,7 +88,7 @@ class Etudiants extends Component
             'editEtudiant.adhesion.nationalite' => ['required'],
             'editEtudiant.adhesion.dateNaissance' => ['required'],
             'editEtudiant.profession' => [''],
-            'editEtudiant.adhesion.email' => ['required', 'email', Rule::unique('Adhesions', 'email')->ignore($this->editEtudiant['adhesion']['id'])],
+            'editEtudiant.adhesion.email' => ['email', 'nullable'],
             'editEtudiant.adhesion.telephone1' => ['min:10', 'max:10', 'nullable'],
             'editEtudiant.adhesion.telephone2' => ['min:10', 'max:10', 'nullable'],
             'editEtudiant.adhesion.adresse' => ['required'],
@@ -195,7 +195,7 @@ class Etudiants extends Component
         // DB::table("etudiant_cours")->where("etudiant_id", $this->editEtudiant['id'])->delete();
 
         Adhesion::find($this->editEtudiant['adhesion']['id'])->update($this->editEtudiant['adhesion']);
-        Etudiant::find($this->editEtudiant['id'])->update(['level_id', $this->editEtudiant['level_id']]);
+        Etudiant::find($this->editEtudiant['id'])->update(['level_id'=> $this->editEtudiant['level_id']]);
 
         // Ajout des cour au etudiant
         // foreach ($this->nscList['cours'] as $cour) {
