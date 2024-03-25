@@ -48,7 +48,7 @@
           <th class="text-center">Téléphone</th>
           <th class="text-center">Catégorie</th>
           {{-- <th class="text-center">Paiement</th> --}}
-          <th class="text-center">Action</th>
+          <th style="width: 10%;" class="text-center">Action</th>
         </tr>
       </thead>
 
@@ -72,9 +72,12 @@
           <td class="text-center">{{ $membre->telephone1 }}</td>
           <td class="text-center">{{ $membre->categorie->libelle }}</td>
           <td class="text-center">
-            <button class="btn btn-link @cannot('étudiants.edit') disabled @endcannot" spellcheck="false"
-              wire:click='initUpdate({{ $membre->id }})' data-dismiss="modal">
-              <i class="fa fa-edit" style="color: #FFC107;"></i>
+            <button class="btn btn-link text-warning @cannot('étudiants.edit') disabled @endcannot"             wire:click="initUpdate({{ $membre->id }}, 'update')" data-dismiss="modal">
+              <i class="fa fa-edit text-warning" ></i><br> Éditer
+            </button>
+            <button class="btn btn-link text-info @cannot('étudiants.new') disabled @endcannot" 
+            wire:click="initUpdate({{ $membre->id }}, 'reInscription')" data-dismiss="modal">
+              <i class="fa fa-pen text-info" ></i><br> Réinscription
             </button>
           </td>
         </tr>

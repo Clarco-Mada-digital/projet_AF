@@ -77,7 +77,7 @@
                     </div>
                     <div class="col-md-2 form-group">
                         <label class="form-label" for="codeSalle">Session</label>
-                        <select class="form-control @error('newCour.session_id') is-invalid @enderror" id="sessionNiveau" wire:model='newSession'>
+                        <select class="form-control @error('newCour.session_id') is-invalid @enderror" id="sessionNiveau" wire:model='newCour.session_id'>
                             <option >-- Session --</option>
                             @foreach ($sessions as $session)
                                 <option value="{{ $session->id }}"> {{ $session->nom }} </option>                                

@@ -27,11 +27,11 @@ import swal from 'sweetalert';
 window.Swal = Swal
 
 // Alpine JS
-import Alpine from 'alpinejs'
+// import Alpine from 'alpinejs'
  
-window.Alpine = Alpine
+// window.Alpine = Alpine
  
-Alpine.start()
+// Alpine.start()
 
 // Input Mask
 // $(".phone").inputmask("(999)-99-99-999-99");

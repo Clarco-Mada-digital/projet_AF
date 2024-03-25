@@ -13,4 +13,9 @@ class Categorie extends Model
     protected $fillable = [
         'libelle',
     ];
+
+    public function prices()
+    {
+        return $this->belongsToMany(Level::class, "price_categories", 'categorie_id', 'price_id');
+    }
 }

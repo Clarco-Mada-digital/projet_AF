@@ -53,7 +53,7 @@
                         <td> {{ $loop->index + 1 }} </td>
                         <td>
                             @if ($key == 'Tarifs')
-                            {{ $niveau->nom }} - {{ $niveau->levels->implode("libelle", " | ")}}                            
+                            {{ $niveau->nom }} - {{ $niveau->categories != '[]' ? $niveau->categories->implode("libelle", " | ") : $niveau->levels->implode("libelle", " | ") }}                         
                             @elseif ($key == 'Examens')
                             {{ $niveau->libelle }} - {{ $niveau->level->libelle }} 
                             @else

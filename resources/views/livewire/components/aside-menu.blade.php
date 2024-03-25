@@ -15,7 +15,6 @@
         <li class="nav-item">
             <a href="{{ route('home') }}" @class(['nav-link d-flex align-items-center','active'=>
                 request()->route()->getName() == 'home',])>
-                {{-- <ion-icon class="nav-icon" name="logo-windows"></ion-icon> --}}
                 <i class="nav-icon fa-fw fab fa-windows"></i>
                 <p>
                     TABLEAU DE BORD
@@ -67,7 +66,6 @@
         <li @class(['nav-item','menu-open'=> Str::contains(request()->route()->getName(),'adhesions'),])>
             <a href="{{route('adhesions-nouveau')}}" @class(['nav-link d-flex align-items-center','active'=>
                 Str::contains(request()->route()->getName(),'adhesions'),])>
-                {{-- <ion-icon class="nav-icon" name="card"></ion-icon> --}}
                 <i class="nav-icon fa-fw fa fa-user-plus"></i>
                 <p>
                     ADHESIONS
@@ -80,7 +78,6 @@
             ])>
             <a href="#" @class(['nav-link d-flex align-items-center','active-ancre'=>
                 Str::contains(request()->route()->getName(),'cours'),])>
-                {{-- <ion-icon class="nav-icon" name="book"></ion-icon> --}}
                 <i class="nav-icon fa-w fa fa-book"></i>
                 <p>
                     COURS
@@ -116,7 +113,6 @@
         <li @class(['nav-item','menu-open'=> Str::contains(request()->route()->getName(),'paiment'),])>
             <a href="{{route('paiements-paiement')}}" @class(['nav-link d-flex align-items-center','active'=>
                 Str::contains(request()->route()->getName(),'paiements')])>
-                {{-- <ion-icon class="nav-icon" name="card"></ion-icon> --}}
                 <i class="nav-icon fa-fw fa fa-credit-card"></i>
                 <p>
                     PAIEMENTS
@@ -131,7 +127,6 @@
                 request()->route()->getName(),
                 'parametres'),
                 ])>
-                {{-- <ion-icon class="nav-icon" name="settings"></ion-icon> --}}
                 <i class="nav-icon fa-fw fa fa-cogs"></i>
                 <p>
                     PARAMÈTRES
@@ -150,7 +145,6 @@
                     <a href="{{ route('parametres-session') }}" @class([ 'nav-link' , 'active'=> request()->url() ==
                         route('parametres-session'),
                         ])>
-                        {{-- <ion-icon class="nav-icon" name="barcode-outline"></ion-icon> --}}
                         <i class="nav-icon far fa-circle"></i>
                         <p> Sessions </p>
                     </a>
@@ -167,7 +161,6 @@
                     <a href="{{ route('parametres-user') }}" @class([ 'nav-link' , 'active'=> request()->url() ==
                         route('parametres-user'),
                         ])>
-                        {{-- <ion-icon class="nav-icon" name="people-circle-outline"></ion-icon> --}}
                         <i class="nav-icon fa fa-user-circle"></i>
                         <p>Utilisateurs</p>
                     </a>
@@ -176,18 +169,16 @@
                     <a href="{{ route('parametres-professeur') }}" @class([ 'nav-link' , 'active'=> request()->url() ==
                         route('parametres-professeur'),
                         ])>
-                        {{-- <ion-icon class="nav-icon" name="briefcase-outline"></ion-icon> --}}
                         <i class="nav-icon fa fa-graduation-cap"></i>
                         <p>Professeurs</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="#" class="nav-link">
-                        {{-- <ion-icon class="nav-icon" name="finger-print-outline"></ion-icon> --}}
                         <i class="nav-icon fa fa-calculator"></i>
                         <p>Statistiques</p>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </li>
         @endhasanyrole

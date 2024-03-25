@@ -19,6 +19,11 @@ class PriceTableSeeder extends Seeder
             ["nom"=>'DELF & DALF', "montant"=> 67000, 'level_id' => 33],
             ["nom"=>'DELF & DALF', "montant"=> 140000, 'level_id' => 36],
         ];
+        $Adhesion = [
+            ["nom"=>'Adhesion', "montant"=> 15000, "categorie"=>1],       
+            ["nom"=>'Adhesion', "montant"=> 12000, "categorie"=>2],            
+            ["nom"=>'Adhesion', "montant"=> 10000, "categorie"=>3]
+        ];
 
         $Sessions = [
             ["nom"=> "Cours du soir Session 1", "type"=>"cours", "dateDebut"=> '2024-01-18 00:00:00', "dateFin"=>'2024-02-12 00:00:00', "montant"=> "55000", "montantPromo"=> "45000", "dateFinPromo"=> '2024-01-11'],
@@ -27,11 +32,13 @@ class PriceTableSeeder extends Seeder
             ["nom"=> "DELF Junior Mars", "type"=>"examens", "dateDebut"=> '2024-02-21 00:00:00', "dateFin"=>'2024-04-02 00:00:00', "montant"=> "30000"],
         ];
 
-        DB::table('prices')->insert([
-            ["nom"=>'Adhesion Adulte', "montant"=> 15000],            
-            ["nom"=>'Adhesion Étudiants', "montant"=> 12000],            
-            ["nom"=>'Adhesion Enfants', "montant"=> 10000]
-        ]);
+        foreach ($Adhesion as $Adh) {
+            DB::table('prices')->insert(["nom"=>$Adh['nom'], "montant"=> $Adh['montant']]);
+        }
+        $price = Price::all();
+        foreach ($price as $key=> $p) {
+            $p->categories()->attach($key + 1);
+        }
 
         foreach ($Sessions as $Session) {
             DB::table('sessions')->insert($Session);

@@ -20,4 +20,8 @@ class Price extends Model
     {
         return $this->belongsToMany(Level::class, "price_levels", 'price_id', 'level_id');
     }
+    public function categories()
+    {
+        return $this->belongsToMany(Categorie::class, "price_categories", 'price_id', 'categorie_id');
+    }
 }

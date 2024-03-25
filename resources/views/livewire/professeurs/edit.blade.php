@@ -99,7 +99,7 @@
                   </div>
                   <div class="col-md-6">
                       <div class="form-group">
-                          <label for="etudiantPhone">Seconde téléphone</label>
+                          <label for="etudiantPhone">Second téléphone</label>
                           <input type="text" class="form-control" id="etudiantPhone"
                               wire:model='editProfesseur.telephone2'>
                       </div>

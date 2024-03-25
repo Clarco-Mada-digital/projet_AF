@@ -82,8 +82,8 @@
                 <strong><i class="fa fa-book mr-1"></i> Cours choisie</strong>
                 <p class="text-muted d-flex justify-content-between align-items-center">
                     @foreach ($etudiant->cours as $cours)
-                    <span>{{ $cours->libelle }} - {{ $cours->level->libelle }} ({{ $cours->session->nom }})
-                        @foreach ($etudiant->inscription as $inscription)
+                    <span>{{ $cours->libelle }} - {{ $cours->level->implode('libelle', ' | ') }} ({{ $cours->session->nom }})
+                        @foreach ($etudiant->adhesion->inscriptions as $inscription)
                         @if ($inscription->type == "cours" && $cours->id == $inscription->idCourOrExam)
                         @foreach ($inscription->paiements as $paiement)
                         @if ( $paiement->montantRestant != 0)

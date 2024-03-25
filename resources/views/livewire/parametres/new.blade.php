@@ -6,7 +6,14 @@
       <div class="card card-primary card-outline bg-transparent">
         <div class="card-body box-profile">
           <div class="text-center">
-            <h2 class="text-white mb-3"> {{ $titleModal }} </h2>
+            <h2 class="text-white mb-3"> {{ Str::upper($titleModal) }} </h2>
+            <div x-show="$wire.titleModal == 'nouveau tarifs'" class="form-group">
+              <div class="custom-control custom-switch custom-switch-off-warning custom-switch-on-info">
+                <label class="text-white mr-4 pr-4" for="customSwitch3">Par Niveaux</label>
+                <input type="checkbox" class="custom-control-input" id="customSwitch3" spellcheck="false" wire:model='typeTarif'>
+                <label class="custom-control-label text-white" for="customSwitch3">Par Catégorie</label>
+              </div>
+            </div>
             <div class="d-flex justify-content-center">
               <div class="w-100 d-flex justify-content-center align-items-center">
 
@@ -23,10 +30,16 @@
                 <input class="form-control mx-2 @error('dataTarifs.montant') border-danger @enderror" type="text"
                   placeholder="Montant" type="number" wire:model='dataTarifs.montant'>
 
-                <select class="form-control w-100 @error('dataTarifs.level_id') is-invalid @enderror" multiple
+                <select x-show="!$wire.typeTarif" class="form-control w-100 @error('dataTarifs.level_id') is-invalid @enderror" multiple
                   id="tarifLevel" wire:model='dataTarifs.level_id'>
                   @foreach ($levels as $level)
                   <option value="{{ $level['id'] }}">{{ $level['libelle'] }}</option>
+                  @endforeach
+                </select>
+                <select x-show="$wire.typeTarif" class="form-control w-100 @error('dataTarifs.categorie_id') is-invalid @enderror"
+                  id="tarifCategorie" wire:model='dataTarifs.categorie_id'>
+                  @foreach ($categories as $categorie)
+                  <option value="{{ $categorie['id'] }}">{{ $categorie['libelle'] }}</option>
                   @endforeach
                 </select>
                 @endif
@@ -45,17 +58,18 @@
                   <option value="{{ $session['id'] }}">{{ $session['nom'] }}</option>
                   @endforeach
                 </select>
-                <select class="form-control w-100 @error('dataExamens.price_id') is-invalid @enderror"
-                  id="codeExamen" wire:model='dataExamens.price_id'>
+                <select class="form-control w-100 @error('dataExamens.price_id') is-invalid @enderror" id="codeExamen"
+                  wire:model='dataExamens.price_id'>
                   <option> --- Tarification --- </option>
                   @foreach ($prices as $price)
-                  <option value="{{ $price['id'] }}">{{ $price['nom'] }} - {{ $price->levels->implode("libelle", " | ")}}</option>
+                  <option value="{{ $price['id'] }}">{{ $price['nom'] }} - {{ $price->levels->implode("libelle", " |
+                    ")}}</option>
                   @endforeach
                 </select>
                 @endif
 
               </div>
-              <button class="btn btn-success ml-3" wire:click='{{$submitFunction}}'>
+              <button class="btn btn-success ml-3" wire:click='{{$submitFunction}}' style="height: 40px;">
                 <i class="fa fa-spinner fa-spin" wire:loading wire:target='{{$submitFunction}}'></i>
                 Enregistrer
               </button>

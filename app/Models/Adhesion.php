@@ -23,6 +23,7 @@ class Adhesion extends Model
         'telephone1',
         'telephone2',
         'coment',
+        'finAdhesion',
         'updated_at',
         'categorie_id',
     ];

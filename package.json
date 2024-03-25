@@ -15,7 +15,6 @@
     },
     "dependencies": {
         "admin-lte": "3.2",
-        "alpinejs": "^3.13.7",
         "sweetalert": "^2.1.2"
     },
     "cspell": {

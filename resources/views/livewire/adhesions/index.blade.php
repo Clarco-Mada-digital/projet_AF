@@ -24,8 +24,8 @@
             {{-- Card body --}}
             <div class="card-body p-0">
                 <div class="bs-stepper" id="bs-stepper">
-                    @if ($stapes == "new")
-                    <div class="bs-stepper-header" role="tablist">
+                    
+                    <div x-show="$wire.stapes != 'update'" class="bs-stepper-header" role="tablist">
 
                         <div class="step @if ($bsSteepActive == 1) active @endif" data-target="#info-part">
                             <button type="button" class="step-trigger" role="tab" aria-controls="info-part"
@@ -51,7 +51,7 @@
                             </button>
                         </div>
                     </div>
-                    @endif
+                    
                     <div class="bs-stepper-content">
                         <form>
                             <div id="info-part" @if ($bsSteepActive !=1) style="display: none;" @endif>
@@ -181,7 +181,7 @@
                                             <select
                                                 class="custom-select  @error('newAdhesion.categorie_id') is-invalid @enderror"
                                                 spellcheck="false" id="etudiantNiveau"
-                                                wire:model='newAdhesion.categorie_id' @if ($stapes != "new") disabled @endif>
+                                                wire:model='newAdhesion.categorie_id' @if ($stapes == "update") disabled @endif>
                                                 <option> --- --- </option>
                                                 @forelse ($categories as $categorie)
                                                 <option value="{{ $categorie->id }}"> {{ $categorie->libelle }}</option>
@@ -221,11 +221,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if ($stapes == "new")
-                                <a class="btn btn-primary" wire:click="bsSteepPrevNext('next')">Suivant</a>
-                                @else
-                                <button class="btn btn-primary" wire:click.prevent='updateAdhesion'>Mettre à jour</button>    
-                                @endif
+                                
+                                <div class="d-flex justify-content-between">
+                                    <a x-show="$wire.stapes != 'update'" class="btn btn-primary" wire:click="bsSteepPrevNext('next')">Suivant</a>
+                                    <button x-show="$wire.stapes == 'update'" class="btn btn-primary" wire:click.prevent='updateAdhesion'>Mettre à jour</button>    
+                                    <a class="btn btn-danger" wire:click="initData">Annuler</a>
+                                </div>                                
+                               
                             </div>
                             <div id="paiement-part" @if ($bsSteepActive != 2) style="display: none;" @endif>
                                 <div class="row m-auto">
@@ -257,7 +259,14 @@
                                     <div class="col-md-6">
                                         <div class="for-group">
                                             <label for="montantPaye">Montant payé en Ar</label>
-                                            <input type="number" class="form-control" id="montantPaye"
+                                            <select x-show="$wire.newAdhesion['categorie_id'] != '4'" name="paiementCategories" id="paiementCategories" wire:model.live='catPaiement' class="form-control mb-3" wire:change.live="defineMontant">
+                                                @foreach ($prices as $price)
+                                                <option class="@if ($price->categories == '[]') d-none @endif" 
+                                                    value="{{ $price->id }}">{{$price->nom}} - {{ $price->categories->implode("libelle", " - ") }}</option>
+                                                @endforeach
+                                            </select>
+
+                                            <input type="number" class="form-control mb-3  @error('montantPayer') is-invalid @enderror" id="montantPaye"
                                                value="{{ $montantAdhesion }}" @if ($newAdhesion['categorie_id'] != 4) disabled @endif wire:model.live='montantPayer' wire:change='montantPayeChange'>
                                             <small class="text-danger">
                                                 @error('montantPaye')
@@ -275,7 +284,7 @@
                                                 {{ $montantPayer }} Ar</span>
                                         </div>
                                     </div>
-                                    <div class="col-md-5 card card-warning">
+                                    <div class="col-md-12 card card-warning">
                                         <div class="card-header">
                                             <h3 class="card-title">Paiement par</h3>
                                         </div>
@@ -299,7 +308,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-6 ml-2 card card-warning">
+                                    {{-- <div class="col-md-6 ml-2 card card-warning">
                                         <div class="card-header">
                                             <h3 class="card-title">Status de paiement</h3>
                                         </div>
@@ -317,7 +326,7 @@
                                                     payé</label>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <a class="btn btn-primary" wire:click="bsSteepPrevNext('prev')">Précédent</a>
                                 <a class="btn btn-primary" wire:click="bsSteepPrevNext('next')"> <i

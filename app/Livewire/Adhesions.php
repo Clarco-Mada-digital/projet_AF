@@ -36,14 +36,17 @@ class Adhesions extends Component
     public $stapes = "new";
 
     public $categories;
+    public $prices;
+    public $catPaiement;
     public $moyenPaiement;
-    public $statue;
+    public $statue = 'Totalement';
     public $paiement_id;
     
 
     function __construct() 
     {
         $this->categories = Categorie::all();
+        $this->prices = Price::all();
         // $this->newAdhesion = Adhesion::find(1)->toArray();
     }
 
@@ -52,6 +55,7 @@ class Adhesions extends Component
         if ($crèment == 'next') {
             if ($this->bsSteepActive == 1) {
                 $this->validate();
+                $this->catPaiement = $this->newAdhesion['categorie_id'];
                 $this->defineMontant();
                 $this->bsSteepActive += 1;
                 return null;
@@ -60,7 +64,7 @@ class Adhesions extends Component
                     $this->dispatch("showModalSimpleMsg", ['message' => "Veuillez sélectionner le statut et le moyen de paiement", 'type' => 'warning']);
                 } else {
                     if ((int) $this->montantPayer < 1) {
-                        $this->dispatch("showModalSimpleMsg", ['message' => "Le montant de la paiement doit être supérieur à 10000", 'type' => 'warning']);
+                        $this->dispatch("showModalSimpleMsg", ['message' => "Le montant de la paiement doit être supérieur à 20000", 'type' => 'warning']);
                     }
                     $this->submitNewMembre();
                     $this->bsSteepActive += 1;
@@ -76,12 +80,18 @@ class Adhesions extends Component
         }
     }
 
-    public function initUpdate(Adhesion $adhesion)
+    public function initData()
+    {
+        $this->newAdhesion = ['profil' => '', 'categorie_id' => ""];
+        $this->stapes = "new";
+    }
+
+    public function initUpdate(Adhesion $adhesion, $stapes)
     {
         $this->newAdhesion = [];
         $this->newAdhesion = $adhesion->toArray();
-        $this->stapes = "update";
-        // dd($this->newAdhesion);
+        $this->stapes = $stapes;
+        // dd($this->stapes);
     }
 
     public function defineStatue($nomStatue)
@@ -96,22 +106,25 @@ class Adhesions extends Component
 
     public function defineMontant()
     {
+        $this->montantPayer = 0;
+
         if($this->newAdhesion['categorie_id'] != 4)
         {
-            $this->montantAdhesion = Price::where('id', $this->newAdhesion['categorie_id'])->first()->montant;
+            $this->montantAdhesion = Price::with("categories")->where('id',  $this->catPaiement)->first()->montant;
             $this->montantPayer = $this->montantAdhesion;
+            // dd($this->montantAdhesion);
         }
         elseif($this->newAdhesion['categorie_id'] == 4)
         {
-            $this->montantAdhesion = "+ 10000 ";
+            $this->montantAdhesion = "+ 20000 ";
         }
         
     }
 
     public function montantPayeChange()
     {
-        if ($this->newAdhesion['categorie_id'] == 4 && (int) $this->montantPayer < 10000) {
-            $this->dispatch("showModalSimpleMsg", ['message' => "Le montant de la paiement doit être supérieur à 10000", 'type' => 'warning']);
+        if ($this->newAdhesion['categorie_id'] == 4 && (int) $this->montantPayer < 20000) {
+            $this->dispatch("showModalSimpleMsg", ['message' => "Le montant de la paiement doit être supérieur à 20000", 'type' => 'warning']);
             $this->montantPayer = 0;
         }
         else
@@ -156,7 +169,9 @@ class Adhesions extends Component
         $this->newAdhesion['user_id'] = Auth::user()->id;
         $this->newAdhesion['numCarte'] = "AF-" .  $categorie_indication[$this->newAdhesion['categorie_id']] . '.' . random_int(100, 9000);
         
-        $this->validate();
+        $this->validate([
+            "montantPayer" => ['required', 'integer','min:1'],
+        ]);
 
         if ($this->photo != '') {
             $photoName = $this->photo->store('profil', 'public');
@@ -164,11 +179,22 @@ class Adhesions extends Component
         }        
 
         // dd($this->newAdhesion);
-        $newMember = Adhesion::create($this->newAdhesion);
+        if ($this->stapes == "new")
+        {
+            $newMember = Adhesion::create($this->newAdhesion);
+        }
+        elseif($this->stapes == "reInscription")
+        {
+            $this->newAdhesion['finAdhesion'] = Carbon::today()->addYear();
+            Adhesion::find($this->newAdhesion['id'])->update($this->newAdhesion);
+            $newMember = Adhesion::find($this->newAdhesion['id']);
+        }
         // $montant = $this->sessionSelected->montant;
 
-        
-        $inscrOuReinscr = "Inscription";
+        if($this->stapes = "new"){
+            $inscrOuReinscr = "Inscription pour devenier membre";
+
+        }else{$inscrOuReinscr = "Réinscription au membre de l’alliance française";}
         // if ($this->newAdhesion['categorie_id'] == 4) {
         //     $this->montantAdhesion = (int) $this->montantPaye;
         // }
@@ -180,7 +206,7 @@ class Adhesions extends Component
             'statue' => $this->statue,
             'motif' => "Adhésion au membre de l’alliance française",
             'moyenPaiement' => $this->moyenPaiement,
-            'type' => "Inscription pour devenir membre",
+            'type' => 'Inscription pour devenir membre',
             'numRecue' => "AFPN°" . random_int(50, 9000),
             'user_id' => Auth::user()->id
         ];
@@ -206,7 +232,6 @@ class Adhesions extends Component
 
     public function updateAdhesion()
     {
-        dd($this->newAdhesion);
         $this->validate();
 
         if ($this->photo != '') {

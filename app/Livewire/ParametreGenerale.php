@@ -48,6 +48,8 @@ class ParametreGenerale extends Component
     public bool $showNewLevelForm = false;
     public bool $showEditLevelForm = false;
 
+    public $categories;
+    public bool $typeTarif = false;
     public $levelDelete;
     public $categorieDelete;
     public $tarifDelete;
@@ -64,6 +66,7 @@ class ParametreGenerale extends Component
         $this->levels = Level::all();
         $this->sessions = Session::where("statue", "=", "1")->where("type", "=", "examens")->get();
         $this->prices = Price::all();
+        $this->categories = Categorie::all();
     }
 
     public function initModal($key)
@@ -263,6 +266,10 @@ class ParametreGenerale extends Component
         foreach ($this->dataTarifs['level_id'] as $level) {
             $newTarification->levels()->attach($level);
         }
+        if ($this->dataTarifs['categorie_id'] != null)
+        {
+            $newTarification->categories()->attach($this->dataTarifs['categorie_id']);
+        }
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Creation de tarif avec success!', 'type' => 'success']);
 
@@ -304,6 +311,14 @@ class ParametreGenerale extends Component
 
         // Envoyé des notifications que toute est effectué avec success
         $this->dispatch("ShowSuccessMsg", ['message' => 'Tarif supprimer avec success!', 'type' => 'success']);
+    }
+
+    public function changeTypeTarif()
+    {
+        if ($this->typeTarif)
+        {$this->dataTarifs['level_id'] = [];}
+        else
+        {$this->dataTarifs['categorie_id'] = null;}
     }
 
     // section examen

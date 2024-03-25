@@ -25,6 +25,9 @@
             ? 'Avec Mme/Mlle '.$cour->professeur->prenom : 'Avec Mr '.$cour->professeur->prenom }}
         </p>
         <hr>
+        <strong><i class="fa fa-list mr-1"></i> Session du cours</strong>
+        <p class="text-muted"> {{ $cour->session->nom }} </p>
+        <hr>
         <strong><i class="fa fa-clock mr-1"></i> Horaire du cours</strong>
         <p class="text-muted"> {{ $cour->horaireDuCour }} </p>
         <hr>

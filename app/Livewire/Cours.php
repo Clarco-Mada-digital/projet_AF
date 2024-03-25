@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Categorie;
 use App\Models\Cour;
+use App\Models\Etudiant;
 use App\Models\Level;
 use App\Models\Professeur;
 use Livewire\Attributes\Layout;
@@ -30,6 +31,10 @@ class Cours extends Component
     public $heurDebInput;
     public $heurFinInput;
     public $courDelete;
+    public $viewListStudent = False;
+    public $studentListAdd = False;
+    public $studentList = [];
+    public $eutdiantCours;
 
     // Fonction constructeur
     public function __construct()
@@ -54,6 +59,11 @@ class Cours extends Component
         return $rule;
     }
 
+    public function toogleStudentListAdd()
+    {
+        $this->studentListAdd =!$this->studentListAdd;
+    }
+
     public function toogleStateName($stateName)
     {
         if ($stateName == 'view') {
@@ -63,6 +73,16 @@ class Cours extends Component
         if ($stateName == 'edit') {
             $this->state = 'edit';
         }
+        if ($stateName == 'list') {
+            $this->state = 'list';
+        }
+    }
+
+    public function initStudentList($value, $cour)
+    {
+        if($value == "True"){$this->viewListStudent = True; }else{$this->viewListStudent = False;}
+        // $cour = Cour::find($cour);
+        $this->eutdiantCours = Etudiant::with("session")->get(); 
     }
 
     // Fonction pour initialiser la valeur du cours
@@ -117,6 +137,31 @@ class Cours extends Component
         $this->dispatch("ShowSuccessMsg", ['message' => 'Cour modifier avec success!', 'type' => 'success']);
         
         $this->toogleStateName('view');
+    }
+
+    public function addStudentCours(Cour $cour)
+    {
+        foreach ($this->studentList as $student)
+        {            
+            $etudiant = Etudiant::find($student);
+            $stydentInCours =[];
+            foreach($cour->etudiants as $student)
+            {
+                array_push($stydentInCours, $student->id);
+            }
+            if(!in_array($etudiant->id, $stydentInCours))
+            {
+                $etudiant->cours()->attach($cour->id);                
+            }
+        
+        }
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant ajouter avec success!', 'type' => 'success']);
+    }
+
+    public function removeToCours(Cour $cour, Etudiant $student)
+    {
+        $cour->etudiants()->detach($student);
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant supprimer avec success!', 'type' => 'success']);
     }
 
     // Fonction pour supprimer le niveau

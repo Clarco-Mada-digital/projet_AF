@@ -19,12 +19,22 @@
                 <input class="form-control mx-2 @error('dataTarifs.montant') border-danger @enderror" type="text"
                   placeholder="Montant" type="number" wire:model='dataTarifs.montant'>
 
+                @if ($editTarifId->categories != "[]")
+                <select class="form-control w-100 @error('dataTarifs.categorie_id') is-invalid @enderror"
+                  id="codeCategorie" wire:model='dataTarifs.categorie_id'>
+                  @foreach ($categories as $categorie)
+                  <option value="{{ $categorie['id'] }}">{{ $categorie['libelle'] }}</option>
+                  @endforeach
+                </select>
+                @else
                 <select class="form-control w-100 @error('dataTarifs.level_id') is-invalid @enderror" multiple
                   id="codeLevel" wire:model='dataTarifs.level_id'>
                   @foreach ($levels as $level)
                   <option value="{{ $level['id'] }}">{{ $level['libelle'] }}</option>
                   @endforeach
                 </select>
+                @endif
+
                 @endif
 
                 {{-- section pour examen --}}
@@ -45,7 +55,8 @@
                 <select class="form-control w-100 mx-2 @error('dataTarifs.price_id') is-invalid @enderror"
                   id="codeExamen" wire:model='dataExamens.price_id'>
                   @foreach ($prices as $price)
-                  <option value="{{ $price['id'] }}">{{ $price['nom'] }} - {{ $price->levels->implode("libelle", " | ")}}</option>
+                  <option value="{{ $price['id'] }}">{{ $price['nom'] }} - {{ $price->levels->implode("libelle", " |
+                    ")}}</option>
                   @endforeach
                 </select>
                 @endif
