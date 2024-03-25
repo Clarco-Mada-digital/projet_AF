@@ -170,7 +170,7 @@ class Adhesions extends Component
         $this->newAdhesion['numCarte'] = "AF-" .  $categorie_indication[$this->newAdhesion['categorie_id']] . '.' . random_int(100, 9000);
         
         $this->validate([
-            "montantPayer" => ['required', 'integer','min:1'],
+            "montantPayer" => ['required'],
         ]);
 
         if ($this->photo != '') {
