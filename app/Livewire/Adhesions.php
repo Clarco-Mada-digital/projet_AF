@@ -225,7 +225,7 @@ class Adhesions extends Component
         $inscription->paiements()->attach($paiement->id);
 
 
-        $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant enregistrer avec success!', 'type' => 'success']);
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant enregistré avec success!', 'type' => 'success']);
         $this->photo = '';
         $this->newAdhesion = ['profil' => '', 'categorie_id' => ""];
     }
