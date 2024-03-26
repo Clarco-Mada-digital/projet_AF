@@ -13,6 +13,8 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Livewire\WithPagination;
+use PDO;
+use PDOException;
 
 #[Layout('layouts.mainLayout')]
 class Adhesions extends Component
@@ -41,12 +43,33 @@ class Adhesions extends Component
     public $moyenPaiement;
     public $statue = 'Totalement';
     public $paiement_id;
+
+    function connectToDb()
+    {
+        $serverName = '192.168.88.212:80';
+        $username = "root";
+        $password = "";
+
+        try{
+            $bdd = new PDO("mysql:host=$serverName;dbname=pmb", $username, $password);	
+            $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $bdd;
+        }
+        catch(PDOException $e){
+            dd("Erreur :".$e->getMessage());
+        }
+    }
     
 
     function __construct() 
     {
         $this->categories = Categorie::all();
         $this->prices = Price::all();
+        $pmb = $this->connectToDb();
+        $sql = 'SELECT * FROM empr';
+        $r = $pmb->query( $sql );
+        dd($r);
+
         // $this->newAdhesion = Adhesion::find(1)->toArray();
     }
 
