@@ -185,9 +185,8 @@
 
 
         @hasrole('Super-Admin')
-        <li class="nav-item">
+        <li @class(['nav-item','menu-open'=> Str::contains(request()->route()->getName(),'save'),])>
             <a href="#" class="nav-link align-items-center">
-                {{-- <ion-icon class="nav-icon" name="save"></ion-icon> --}}
                 <i class="nav-icon fa-fw fa fa-save"></i>
                 <p>
                     SAUVEGARDE
@@ -196,17 +195,18 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{route('save-save')}}" @class(['nav-link d-flex align-items-center','active'=>
+                        Str::contains(request()->route()->getName(),'save')])>
                         <i class="nav-icon fa fa-cloud"></i>
-                        <p>Sauvegarde</p>
+                        <p>Sauvegarde&Restauration</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fa fa-undo"></i>
                         <p>Restoration</p>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </li>
         @endhasrole

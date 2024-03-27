@@ -10,6 +10,7 @@ use App\Livewire\Niveaux;
 use App\Livewire\Paiements;
 use App\Livewire\ParametreGenerale;
 use App\Livewire\Professeur;
+use App\Livewire\Sauvegarde;
 use App\Livewire\Sessions;
 use App\Livewire\Users;
 use App\Models\Adhesion;
@@ -88,6 +89,14 @@ Route::group([
     Route::match(['get', 'post'], '/professeur', Professeur::class)->name('professeur');
     Route::match(['get', 'post'], '/user', Users::class)->name('user');
     // Route::match(['get', 'post'], '/niveau', Niveaux::class)->name('niveau');
+});
+
+Route::group([
+    'prefix' => 'save',
+    'as' => 'save-',
+    'middleware' => ['role:Super-Admin']
+    ], function () {
+    Route::match(['get', 'post'], '/', Sauvegarde::class)->name('save');
 });
 
 // Route::get('/list-etudiant', [App\Http\Controllers\HomeController::class, 'listEtudiant'])->name('list-etudiant');

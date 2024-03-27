@@ -46,18 +46,19 @@ class Adhesions extends Component
 
     function connectToDb()
     {
-        $serverName = '192.168.88.212:80';
+        $serverName = '192.168.88.212:3306';
         $username = "root";
         $password = "";
+        
 
-        try{
-            $bdd = new PDO("mysql:host=$serverName;dbname=pmb", $username, $password);	
-            $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $bdd;
-        }
-        catch(PDOException $e){
-            dd("Erreur :".$e->getMessage());
-        }
+        // try{
+        //     $bdd = new PDO("mysql:host=$serverName;dbname=pmb", $username, $password);	
+        //     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        //     return $bdd;
+        // }
+        // catch(PDOException $e){
+        //     echo "Erreur :".$e->getMessage();
+        // }
     }
     
 
@@ -65,10 +66,10 @@ class Adhesions extends Component
     {
         $this->categories = Categorie::all();
         $this->prices = Price::all();
-        $pmb = $this->connectToDb();
-        $sql = 'SELECT * FROM empr';
-        $r = $pmb->query( $sql );
-        dd($r);
+        // $this->connectToDb();
+        // $sql = 'SELECT * FROM empr';
+        // $r = $pmb->query( $sql );
+        // dd($r);
 
         // $this->newAdhesion = Adhesion::find(1)->toArray();
     }
