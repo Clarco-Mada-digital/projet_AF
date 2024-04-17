@@ -44,6 +44,9 @@ class Adhesions extends Component
     public $statue = 'Totalement';
     public $paiement_id;
 
+    public $inscritBible =  false;
+    public $CB =  "";
+
     function connectToDb()
     {
         $serverName = '192.168.88.212:3306';
@@ -108,6 +111,7 @@ class Adhesions extends Component
     {
         $this->newAdhesion = ['profil' => '', 'categorie_id' => ""];
         $this->stapes = "new";
+        $this->inscritBible =  false;
     }
 
     public function initUpdate(Adhesion $adhesion, $stapes)
@@ -269,6 +273,19 @@ class Adhesions extends Component
         $this->photo = '';
         $this->newAdhesion = ['profil' => '', 'categorie_id' => ""];
         $this->stapes = "new";
+    }
+
+    public function inscritBibleChange()
+    {        
+        $this->newAdhesion['inscritBible'] = $this->inscritBible;
+        if ($this->inscritBible)
+        {
+            $this->CB = "11111";
+        }
+        else
+        {
+            $this->CB = "";
+        }
     }
 
     public function render()

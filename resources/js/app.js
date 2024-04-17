@@ -16,6 +16,10 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import swal from 'sweetalert';
 // window.Swal = Swal
 
+// Importez la bibliothèque dans votre fichier JavaScript :  
+// import Html5Qrcode from 'html5-qrcode';
+
+
 
 window.addEventListener('ShowSuccessMsg', (e) => {
   Swal.fire({

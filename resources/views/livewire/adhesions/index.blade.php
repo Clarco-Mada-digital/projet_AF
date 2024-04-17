@@ -193,7 +193,7 @@
                                             <span class="invalid-feedback"> Ce champ est obligatoire | unique</span>
                                             @enderror
                                         </div>
-                                    </div>
+                                    </div>                                   
                                     <div class="col-md-3">
                                         <label for="etudiantPhone">Téléphone</label>
                                         <div class="input-group">
@@ -214,11 +214,14 @@
                                         <div class="input-group">
                                             <input type="text"
                                                 class="form-control phone @error('newAdhesion.telephone2') is-invalid @enderror"
-                                                id="etudiantPhone2" wire:model='newAdhesion.telephone2'>
+                                                id="etudiantPhone2" wire:model='newAdhesion.telephone2'/>
                                             @error('newAdhesion.telephone2')
                                             <span class="invalid-feedback"> Ce champ est obligatoire</span>
                                             @enderror
                                         </div>
+                                    </div>
+                                    <div class="col-md-3 form-group d-flex align-items-end justify-content-center">
+                                        <a type="button" class="btn btn-info" data-toggle="modal" data-target="#view-scan-code" spellcheck="false"> Inscrit au bibliothèque</a>
                                     </div>
                                 </div>
                                 
@@ -368,6 +371,18 @@
                 </div>
             </div>
 
+            {{-- Modal pour Code Barre --}}
+            <div class="modal fade" id="view-scan-code" style="display: none; "
+                aria-hidden="true" wire:ignore.self>
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body p-0 ">
+                           <div id="reader"> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {{-- Partie Modal view --}}
             <div class="modal fade" id="view-list-adhesion" style="display: none; "
                 aria-hidden="true" wire:ignore.self>
@@ -383,4 +398,38 @@
 
         </div>
     </div>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script>
+        const html5Qrcode = new Html5Qrcode("reader"); // "reader" est l'ID de l'élément HTML où vous voulez afficher la caméra
+
+        function onScanSuccess(decodedText, decodedResult) {
+            // Gérer la réussite de la lecture du code-barre ici
+            console.log(`Code-barre lu : ${decodedText}`);
+            // Exemple : envoyer le code-barre au serveur via AJAX
+            // $.ajax({
+            //     url: "/api/codes",
+            //     method: "POST",
+            //     data: { code: decodedText },
+            //     success: function(response) {
+            //         console.log("Code-barre ajouté avec succès");
+            //     },
+            //     error: function(error) {
+            //         console.error("Erreur lors de l'ajout du code-barre", error);
+            //     }
+            // });
+        }
+
+        function onScanFailure(error) {
+            // Gérer l'échec de la lecture du code-barre ici
+            console.error("Échec de la lecture du code-barre :", error);
+        }
+
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader",
+        { fps: 10, qrbox: {width: 250, height: 250} },
+        /* verbose= */ true);
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+
+    </script>
 </div>
