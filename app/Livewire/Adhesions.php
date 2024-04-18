@@ -103,10 +103,10 @@ class Adhesions extends Component
 
             $newMember = Adhesion::create($this->newAdhesion);
             sleep(2);
-            $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant enregistré avec success!', 'type' => 'success']);
-
+            
         }               
-
+        
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Synchronisation avec success!', 'type' => 'success']);
         $r->closeCursor(); // Termine le traitement de la requête
     }
 
