@@ -85,6 +85,7 @@ class Adhesions extends Component
         {
 
             $this->newAdhesion['numCarte'] = $donnees['empr_cb'];
+            $this->newAdhesion['CB'] = $donnees['empr_cb'];
             $this->newAdhesion['nom'] = $donnees['empr_nom'];
             $this->newAdhesion['prenom'] = $donnees['empr_prenom'];
             $this->newAdhesion['sexe'] = $donnees['empr_sexe'];

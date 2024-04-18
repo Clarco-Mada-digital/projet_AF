@@ -175,7 +175,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantBirth">Date de naissance</label>
-                                            <input type="date" class="form-control 
+                                            <input type="number" class="form-control 
                                                 @error('newEtudiant.dateNaissance') is-invalid @enderror"
                                                 id="etudiantBirth" wire:model='newEtudiant.dateNaissance'>
                                             @error('newEtudiant.dateNaissance')
