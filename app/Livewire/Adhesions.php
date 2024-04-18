@@ -90,8 +90,9 @@ class Adhesions extends Component
             $this->newAdhesion['categorie_id'] = $donnees['empr_categ'];
             $this->newAdhesion['user_id'] = 1;
 
-            $this->submitNewMembre();
-            
+            $newMember = Adhesion::create($this->newAdhesion);
+            $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant enregistré avec success!', 'type' => 'success']);
+
         }               
 
         $r->closeCursor(); // Termine le traitement de la requête
