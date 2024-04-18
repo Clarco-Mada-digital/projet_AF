@@ -425,7 +425,7 @@
                             </div>
                             <div class="card-footer d-flex w-100">
                                 <button class="btn btn-danger" wire:click='cancelCB' data-toggle="modal" spellcheck="false" data-dismiss="modal"> Annuler</button>
-                                <button class="btn btn-success ml-auto" data-toggle="modal" spellcheck="false" data-dismiss="modal"> OK</button>
+                                <button class="btn btn-success ml-auto" data-toggle="modal" spellcheck="false" data-dismiss="modal" wire:click='defineCB("{{$newAdhesion["numCarte"]}}")'> OK</button>
                             </div>
                         </div>
                     </div>
