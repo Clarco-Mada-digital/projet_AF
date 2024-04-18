@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('adhesions', function (Blueprint $table) {
             $table->id();
+            $table->string("CB")->nullable();
             $table->string('nom');
             $table->string('prenom');
-            $table->date('dateNaissance');
+            $table->integer('dateNaissance');
             $table->char('sexe');
             $table->string('nationalite')->nullable();
             $table->string('profession')->nullable();

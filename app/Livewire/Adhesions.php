@@ -27,7 +27,7 @@ class Adhesions extends Component
     public string $search_membre = "";
     public $filterByCat = "";
     public $memberResult = [];
-    public $newAdhesion = ['profil' => '', 'categorie_id' => ""];
+    public $newAdhesion = ['profil' => '', 'categorie_id' => "", 'CB' => null, "numCarte" => null];
     public $photo;
     public int $bsSteepActive = 1;
     public $montantAdhesion;
@@ -45,7 +45,8 @@ class Adhesions extends Component
     public $paiement_id;
 
     public $inscritBible =  false;
-    public $CB =  "";
+
+    protected $listeners = ["code_barre_update" => 'defineCB'];
 
     function connectToDb()
     {
@@ -109,7 +110,7 @@ class Adhesions extends Component
 
     public function initData()
     {
-        $this->newAdhesion = ['profil' => '', 'categorie_id' => ""];
+        $this->newAdhesion = ['profil' => '', 'categorie_id' => "", 'CB' => null, 'numCarte' => null];
         $this->stapes = "new";
         $this->inscritBible =  false;
     }
@@ -184,8 +185,7 @@ class Adhesions extends Component
         return $rule;
     }
 
-    // Enregistrement un nouveau membre
-    public function submitNewMembre()
+    public function generateCB()
     {
         $categorie_indication = [
             1 => "AD",
@@ -193,9 +193,22 @@ class Adhesions extends Component
             3 => "ENF",
             4 => "ME",
         ];
+
+        $this->newAdhesion['numCarte'] = "AF-" .  $categorie_indication[$this->newAdhesion['categorie_id']] . '.' . random_int(100, 9000);
+    }
+
+    public function cancelCB()
+    {
+        $this->newAdhesion['CB'] = null;
+    }
+
+    // Enregistrement un nouveau membre
+    public function submitNewMembre()
+    {        
+        // dd($this->newAdhesion);
         
         $this->newAdhesion['user_id'] = Auth::user()->id;
-        $this->newAdhesion['numCarte'] = "AF-" .  $categorie_indication[$this->newAdhesion['categorie_id']] . '.' . random_int(100, 9000);
+        
         
         $this->validate([
             "montantPayer" => ['required'],
@@ -255,7 +268,7 @@ class Adhesions extends Component
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant enregistré avec success!', 'type' => 'success']);
         $this->photo = '';
-        $this->newAdhesion = ['profil' => '', 'categorie_id' => ""];
+        $this->initData();
     }
 
     public function updateAdhesion()
@@ -271,21 +284,13 @@ class Adhesions extends Component
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant modifier avec success!', 'type' => 'success']);
         $this->photo = '';
-        $this->newAdhesion = ['profil' => '', 'categorie_id' => ""];
-        $this->stapes = "new";
+        
+        $this->initData();
     }
 
-    public function inscritBibleChange()
-    {        
-        $this->newAdhesion['inscritBible'] = $this->inscritBible;
-        if ($this->inscritBible)
-        {
-            $this->CB = "11111";
-        }
-        else
-        {
-            $this->CB = "";
-        }
+    public function defineCB($codeBarre)
+    {
+        $this->newAdhesion['CB'] = $codeBarre;
     }
 
     public function render()

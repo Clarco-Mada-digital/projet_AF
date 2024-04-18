@@ -32,6 +32,30 @@
    animation: rotateAnim infinite 2s alternate ease-in-out;
 }
 
+#reader button{
+   border: 1px solid #117a8b;
+   border-radius: 5px;
+   background: #117a8b;
+   color: #fff;
+   margin: 3px 0 3px 0;
+   transition: all .3s ease-in-out;
+   font-size: 1.1rem;
+
+   &:hover{
+      background: #85141f;
+      color: white;
+   }
+}
+
+#reader span{
+   font-size: 1.1rem;
+   margin-top: 2px;
+
+   &:hover{
+      color: #117a8b;
+   }
+}
+
 @keyframes rotateAnim {
    2%{
       transform: rotate(0deg);

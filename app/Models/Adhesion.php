@@ -10,6 +10,7 @@ class Adhesion extends Model
     use HasFactory;
 
     protected $fillable = [
+        'CB',
         'profil',
         'numCarte',
         'nom',

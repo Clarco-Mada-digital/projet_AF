@@ -126,8 +126,8 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="etudiantBirth">Date de naissance</label>
-                                            <input type="date" class="form-control 
+                                            <label for="etudiantBirth">Année de naissance</label>
+                                            <input type="number" class="form-control 
                                                 @error('newAdhesion.dateNaissance') is-invalid @enderror"
                                                 id="etudiantBirth" wire:model='newAdhesion.dateNaissance'>
                                             @error('newAdhesion.dateNaissance')
@@ -181,7 +181,7 @@
                                             <select
                                                 class="custom-select  @error('newAdhesion.categorie_id') is-invalid @enderror"
                                                 spellcheck="false" id="etudiantNiveau"
-                                                wire:model='newAdhesion.categorie_id' @if ($stapes == "update") disabled @endif>
+                                                wire:model='newAdhesion.categorie_id' wire:change='generateCB' @if ($stapes == "update") disabled @endif>
                                                 <option> --- --- </option>
                                                 @forelse ($categories as $categorie)
                                                 <option value="{{ $categorie->id }}"> {{ $categorie->libelle }}</option>
@@ -220,8 +220,15 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-3 form-group d-flex align-items-end justify-content-center">
-                                        <a type="button" class="btn btn-info" data-toggle="modal" data-target="#view-scan-code" spellcheck="false"> Inscrit au bibliothèque</a>
+                                    <div class="col-md-3 form-group ">
+                                        <label class="form-label">Code Barre </label><span class="text-danger ml-2 fw-light">*Pour ceux qui s’inscrit au bibliothèque*</span>
+                                        <div class="d-flex justify-content-between">
+                                            <a type="button" class="form-control btn btn-info" data-toggle="modal" data-target="#view-scan-code" spellcheck="false" onclick="exemple()"> <i class="fa fa-barcode mr-3"></i>{{ $newAdhesion['CB'] == null ? 'Scanne' : $newAdhesion['CB'] }} </a>
+                                            
+                                            @if ($newAdhesion['CB'] == null)
+                                            <a type="button" class="form-control btn btn-info mx-2" data-toggle="modal" data-target="#view-new-cb" spellcheck="false" onclick='$("#bcTarget").barcode("{{$newAdhesion["numCarte"]}}", "code128",{barWidth:2, barHeight:100, output:"svg"});'> <i class="fa fa-barcode mr-3"></i>Générer </a>                                                
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                                 
@@ -372,12 +379,54 @@
             </div>
 
             {{-- Modal pour Code Barre --}}
-            <div class="modal fade" id="view-scan-code" style="display: none; "
-                aria-hidden="true" wire:ignore.self>
-                <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal fade" id="view-scan-code" style="display: none; " aria-hidden="true" wire:ignore.self>
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-body p-0 ">
-                           <div id="reader"> </div>
+                        <div class="modal-body p-0">
+                            <div class="card-body p-0 m-0">
+                                <div class="d-flex justify-content-centr flex-column mr-1">
+                                    <div class="card card-primary card-outline">
+                                        <div class="card-body box-profile">
+                                            <div id="reader"></div>
+                                            <div class="col-md-12">
+                                                <label for="etudiantPhone2">Code Barre</label>
+                                                <div class="input-group">
+                                                    <input type="text"
+                                                        class="form-control text-center text-success fw-bold"
+                                                        id="resultCB" wire:model.live='newAdhesion.CB' disabled style="font-size: 1.2rem"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex w-100">
+                                <button class="btn btn-danger" wire:click='cancelCB' data-toggle="modal" spellcheck="false" data-dismiss="modal"> Annuler</button>
+                                <button class="btn btn-success ml-auto" data-toggle="modal" spellcheck="false" data-dismiss="modal"> OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Modale pour la génération du code barre --}}
+            <div class="modal fade" id="view-new-cb" style="display: none; " aria-hidden="true" wire:ignore.self>
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body p-0">
+                            <div class="card-body p-0 m-0">
+                                <div class="d-flex justify-content-centr flex-column mr-1">
+                                    <div class="card card-primary card-outline">
+                                        <div class="card-body box-profile m-auto">
+                                            <div id="bcTarget"></div>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex w-100">
+                                <button class="btn btn-danger" wire:click='cancelCB' data-toggle="modal" spellcheck="false" data-dismiss="modal"> Annuler</button>
+                                <button class="btn btn-success ml-auto" data-toggle="modal" spellcheck="false" data-dismiss="modal"> OK</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -398,38 +447,46 @@
 
         </div>
     </div>
+    
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <script>
-        const html5Qrcode = new Html5Qrcode("reader"); // "reader" est l'ID de l'élément HTML où vous voulez afficher la caméra
+        function exemple() {
+            const html5Qrcode = new Html5Qrcode("reader"); // "reader" est l'ID de l'élément HTML où vous voulez afficher la caméra
+            const resultCB = document.getElementById('resultCB')
 
-        function onScanSuccess(decodedText, decodedResult) {
-            // Gérer la réussite de la lecture du code-barre ici
-            console.log(`Code-barre lu : ${decodedText}`);
-            // Exemple : envoyer le code-barre au serveur via AJAX
-            // $.ajax({
-            //     url: "/api/codes",
-            //     method: "POST",
-            //     data: { code: decodedText },
-            //     success: function(response) {
-            //         console.log("Code-barre ajouté avec succès");
-            //     },
-            //     error: function(error) {
-            //         console.error("Erreur lors de l'ajout du code-barre", error);
-            //     }
-            // });
-        }
+            function onScanSuccess(decodedText, decodedResult) {
+                // Gérer la réussite de la lecture du code-barre ici
+                console.log(`Code-barre lu : ${decodedText}`);
+                resultCB.value = decodedText;
+                Livewire.dispatch('code_barre_update', {codeBarre: decodedText});
+                html5QrcodeScanner.clear();
+                // Exemple : envoyer le code-barre au serveur via AJAX
+                // $.ajax({
+                //     url: "/api/codes",
+                //     method: "POST",
+                //     data: { code: decodedText },
+                //     success: function(response) {
+                //         console.log("Code-barre ajouté avec succès");
+                //     },
+                //     error: function(error) {
+                //         console.error("Erreur lors de l'ajout du code-barre", error);
+                //     }
+                // });
+            }
+            
+            
 
-        function onScanFailure(error) {
-            // Gérer l'échec de la lecture du code-barre ici
-            console.error("Échec de la lecture du code-barre :", error);
-        }
+            function onScanFailure(error) {
+                // Gérer l'échec de la lecture du code-barre ici
+                console.error("Échec de la lecture du code-barre :", error);
+            }
 
-        let html5QrcodeScanner = new Html5QrcodeScanner(
-        "reader",
-        { fps: 10, qrbox: {width: 250, height: 250} },
-        /* verbose= */ true);
-        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-
+            let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader",
+            { fps: 10, qrbox: 200 },
+            /* verbose= */ false);
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+        };
 
     </script>
 </div>
