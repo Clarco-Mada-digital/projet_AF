@@ -73,8 +73,29 @@ class Adhesions extends Component
         $pmb = $this->connectToDb();
         $sql = 'SELECT * FROM empr';
         $r = $pmb->query( $sql );
-        $data = $r->fetch();
-        dd($data);
+
+        // On affiche chaque entrée une à une
+        while ($donnees = $r->fetch())
+        {
+            $this->newAdhesion['nom'] = $donnees['empr_nom'];
+            $this->newAdhesion['prenom'] = $donnees['empr_prenom'];
+            $this->newAdhesion['sexe'] = $donnees['empr_sexe'];
+            $this->newAdhesion['nationalite'] = $donnees['empr_pays'];
+            $this->newAdhesion['dateNaissance'] = $donnees['empr_year'];
+            $this->newAdhesion['profession'] = $donnees['empr_prof'];
+            $this->newAdhesion['email'] = $donnees['empr_mail'];
+            $this->newAdhesion['telephone1'] = $donnees['empr_tel1'];
+            $this->newAdhesion['telephone2'] = $donnees['empr_tel2'];
+            $this->newAdhesion['adresse'] = $donnees['empr_adr1'];
+            $this->newAdhesion['categorie_id'] = $donnees['empr_categ'];
+            $this->newAdhesion['user_id'] = 1;
+
+            $this->submitNewMembre();
+            
+        }               
+
+        $r->closeCursor(); // Termine le traitement de la requête
+
 
         // $this->newAdhesion = Adhesion::find(1)->toArray();
     }
