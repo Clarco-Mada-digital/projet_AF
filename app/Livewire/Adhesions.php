@@ -77,6 +77,8 @@ class Adhesions extends Component
         // On affiche chaque entrée une à une
         while ($donnees = $r->fetch())
         {
+
+            $this->newAdhesion['numCarte'] = $donnees['empr_cb'];
             $this->newAdhesion['nom'] = $donnees['empr_nom'];
             $this->newAdhesion['prenom'] = $donnees['empr_prenom'];
             $this->newAdhesion['sexe'] = $donnees['empr_sexe'];
