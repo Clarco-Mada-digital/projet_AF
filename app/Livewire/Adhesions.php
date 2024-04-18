@@ -73,7 +73,7 @@ class Adhesions extends Component
         $pmb = $this->connectToDb();
         $sql = 'SELECT * FROM empr';
         $r = $pmb->query( $sql );
-        $data = $r->fetchAll();
+        $data = $r->fetch();
         dd($data);
 
         // $this->newAdhesion = Adhesion::find(1)->toArray();
