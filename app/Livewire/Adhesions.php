@@ -70,6 +70,12 @@ class Adhesions extends Component
     {
         $this->categories = Categorie::all();
         $this->prices = Price::all();
+
+        // $this->newAdhesion = Adhesion::find(1)->toArray();
+    }
+
+    public function getDataPmb()
+    {
         $pmb = $this->connectToDb();
         $sql = 'SELECT * FROM empr';
         $r = $pmb->query( $sql );
@@ -91,16 +97,16 @@ class Adhesions extends Component
             $this->newAdhesion['adresse'] = $donnees['empr_adr1'];
             $this->newAdhesion['categorie_id'] = 2;
             $this->newAdhesion['user_id'] = 1;
+            $this->newAdhesion['created_at'] = $donnees['empr_date_adhesion'];
+            $this->newAdhesion['finAdhesion'] = $donnees['empr_date_expiration'];
 
             $newMember = Adhesion::create($this->newAdhesion);
+            sleep(2);
             $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant enregistré avec success!', 'type' => 'success']);
 
         }               
 
         $r->closeCursor(); // Termine le traitement de la requête
-
-
-        // $this->newAdhesion = Adhesion::find(1)->toArray();
     }
 
     public function bsSteepPrevNext($crèment)

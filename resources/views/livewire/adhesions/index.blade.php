@@ -4,7 +4,8 @@
 
 <div class="row mx-4 pt-4">
     <div class="col-md-12 d-flex align-items-center justify-content-between my-3">
-        <h3>Nouvel adhésions: </h3>
+        <h3>Nouvel adhésions: </h3> <button class="btn btn-warning" wire:click='getDataPmb'> <i class="fa fa-spinner fa-spin"
+            wire:loading='getDataPmb' wire:target='getDataPmb'></i> Récupérer la base de donné pmb </button>
 
     </div>
     <div class="col-md-12" wire:ignore.self>
