@@ -89,7 +89,7 @@ class Adhesions extends Component
             $this->newAdhesion['telephone1'] = $donnees['empr_tel1'];
             $this->newAdhesion['telephone2'] = $donnees['empr_tel2'];
             $this->newAdhesion['adresse'] = $donnees['empr_adr1'];
-            $this->newAdhesion['categorie_id'] = $donnees['empr_categ'];
+            $this->newAdhesion['categorie_id'] = 5;
             $this->newAdhesion['user_id'] = 1;
 
             $newMember = Adhesion::create($this->newAdhesion);
