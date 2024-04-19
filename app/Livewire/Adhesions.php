@@ -95,7 +95,7 @@ class Adhesions extends Component
             'empr_creation' => $this->newAdhesion['created_at'],
             'empr_modif' => $this->newAdhesion['updated_at'],
             'empr_date_adhesion' => $this->newAdhesion['created_at'],
-            'empr_date_expiration' => $this->newAdhesion['finAdhesion'],
+            'empr_date_expiration' => Carbon::today()->addYear(),
             'empr_codestat' => 2,
             'empr_lang' => 'Fr',
             'empr_statut' => 1,
