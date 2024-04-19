@@ -9,7 +9,7 @@
 
     </div>
     <div class="col-md-12" wire:ignore.self>
-        <div class="card card-default m-0">
+        <div class="card card-default m-0  mb-3">
 
             {{-- Card header --}}
             <div class="card-header bg-gradient-primary w-100 d-flex align-items-center">
@@ -110,39 +110,26 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-3 d-flex justify-content-between">
                                         <div class="form-group">
                                             <label for="etudiantPrenom">Sexe</label>
                                             <select class="custom-select 
                                                 @error('newAdhesion.sexe') is-invalid @enderror" spellcheck="false"
                                                 id="etudiantSexe" wire:model='newAdhesion.sexe'>
                                                 <option> --- --- </option>
-                                                <option value="M">Homme</option>
-                                                <option value="F">Femme</option>
+                                                <option value="M">Masculin</option>
+                                                <option value="F">Féminin</option>
                                             </select>
                                             @error('newAdhesion.sexe')
                                             <span class="invalid-feedback"> Ce champ est obligatoire</span>
                                             @enderror
                                         </div>
-                                    </div>
-                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="etudiantBirth">Année de naissance</label>
                                             <input type="number" class="form-control 
                                                 @error('newAdhesion.dateNaissance') is-invalid @enderror"
                                                 id="etudiantBirth" wire:model='newAdhesion.dateNaissance'>
                                             @error('newAdhesion.dateNaissance')
-                                            <span class="invalid-feedback"> Ce champ est obligatoire</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="etudiantProfession">Nationalité</label>
-                                            <input type="text" class="form-control 
-                                                @error('newAdhesion.nationalite') is-invalid @enderror"
-                                                id="etudiantNationalite" wire:model='newAdhesion.nationalite'>
-                                            @error('newAdhesion.nationalite')
                                             <span class="invalid-feedback"> Ce champ est obligatoire</span>
                                             @enderror
                                         </div>
@@ -161,6 +148,28 @@
                                                 @error('newAdhesion.adresse') is-invalid @enderror" id="etudiantAddr"
                                                 wire:model='newAdhesion.adresse'>
                                             @error('newAdhesion.adresse')
+                                            <span class="invalid-feedback"> Ce champ est obligatoire</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="etudiantVille">Ville</label>
+                                            <input type="text" class="form-control 
+                                                @error('newAdhesion.ville') is-invalid @enderror" id="etudiantVille"
+                                                wire:model='newAdhesion.ville'>
+                                            @error('newAdhesion.ville')
+                                            <span class="invalid-feedback"> Ce champ est obligatoire</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="etudiantPays">Pays</label>
+                                            <input type="text" class="form-control 
+                                                @error('newAdhesion.pays') is-invalid @enderror"
+                                                id="etudiantPays" wire:model='newAdhesion.pays'>
+                                            @error('newAdhesion.pays')
                                             <span class="invalid-feedback"> Ce champ est obligatoire</span>
                                             @enderror
                                         </div>

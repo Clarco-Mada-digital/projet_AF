@@ -20,11 +20,12 @@ return new class extends Migration
             $table->string('prenom');
             $table->integer('dateNaissance');
             $table->char('sexe');
-            $table->string('nationalite')->nullable();
+            $table->string('pays')->nullable();
             $table->string('profession')->nullable();
             $table->string('telephone1')->nullable();
             $table->string('telephone2')->nullable();
             $table->string('adresse')->nullable();
+            $table->string('ville')->nullable();
             $table->string('email')->nullable();
             $table->string('numCarte')->unique();
             $table->string('profil')->nullable();

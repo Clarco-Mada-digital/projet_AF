@@ -20,9 +20,11 @@ class PriceTableSeeder extends Seeder
             ["nom"=>'DELF & DALF', "montant"=> 140000, 'level_id' => 36],
         ];
         $Adhesion = [
-            ["nom"=>'Adhesion', "montant"=> 15000, "categorie"=>1],       
-            ["nom"=>'Adhesion', "montant"=> 12000, "categorie"=>2],            
-            ["nom"=>'Adhesion', "montant"=> 10000, "categorie"=>3]
+            ["nom"=>'Adhesion', "montant"=> 15000, "categorie"=>8],     
+            ["nom"=>'Adhesion', "montant"=> 15000, "categorie"=>7],     
+            ["nom"=>'Adhesion', "montant"=> 10000, "categorie"=>6],
+            ["nom"=>'Adhesion', "montant"=> 12000, "categorie"=>5],            
+            ["nom"=>'Adhesion', "montant"=> 10000, "categorie"=>1]
         ];
 
         $Sessions = [
@@ -37,7 +39,7 @@ class PriceTableSeeder extends Seeder
         }
         $price = Price::all();
         foreach ($price as $key=> $p) {
-            $p->categories()->attach($key + 1);
+            $p->categories()->attach($Adhesion[$key]['categorie']);
         }
 
         foreach ($Sessions as $Session) {
@@ -49,7 +51,7 @@ class PriceTableSeeder extends Seeder
         }
         
         $prices = Price::all();
-        $i = 4;
+        $i = 6;
         $y = 0;
         foreach ($prices as $price) {
             if ($price->id == $i) {

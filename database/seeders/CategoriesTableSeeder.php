@@ -13,10 +13,15 @@ class CategoriesTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('categories')->insert([
-            ["libelle"=>'Adulte'],
-            ["libelle"=>'Étudiants'],
-            ["libelle"=>'Enfants'],
-            ["libelle"=>'ME'],
+            ["id" => 1, "libelle"=>'Jeunesses'],
+            ["id" => 2, "libelle"=>'Professeur AF'],
+            ["id" => 3, "libelle"=>'Professionnel AF'],
+            ["id" => 4, "libelle"=>'Mécénat'],
+            ["id" => 5, "libelle"=>'Lycéen/Étudiants'],
+            ["id" => 6, "libelle"=>'Collégiens'],
+            ["id" => 7, "libelle"=>'Adultes'],
+            ["id" => 8, "libelle"=>'Validé à lire'],
+            // ["libelle"=>'Enfants'],
         ]);
     }
 }

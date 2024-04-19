@@ -185,11 +185,22 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="etudiantProfession">Nationalité</label>
+                                            <label for="etudiantVille">Ville</label>
                                             <input type="text" class="form-control 
-                                                @error('newEtudiant.nationalite') is-invalid @enderror"
-                                                id="etudiantNationalite" wire:model='newEtudiant.nationalite'>
-                                            @error('newEtudiant.nationalite')
+                                                @error('newEtudiant.ville') is-invalid @enderror"
+                                                id="etudiantVille" wire:model='newEtudiant.ville'>
+                                            @error('newEtudiant.ville')
+                                            <span class="invalid-feedback"> Ce champ est obligatoire</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="etudiantProfession">Pays</label>
+                                            <input type="text" class="form-control 
+                                                @error('newEtudiant.pays') is-invalid @enderror"
+                                                id="etudiantPays" wire:model='newEtudiant.pays'>
+                                            @error('newEtudiant.pays')
                                             <span class="invalid-feedback"> Ce champ est obligatoire</span>
                                             @enderror
                                         </div>

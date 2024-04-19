@@ -77,6 +77,37 @@ class Adhesions extends Component
     public function getDataPmb()
     {
         $pmb = $this->connectToDb();
+        $req = $pmb->prepare("INSERT INTO empr('empr_cb', 'empr_nom','empr_prenom', 'empr_sexe','empr_pays','empr_year','empr_ville','empr_prof','empr_mail','empr_tel1','empr_tel2','empr_adr1','empr_categ','empr_creation','empr_modif','empr_date_adhesion','empr_date_expiration','empr_codestat','empr_lang','empr_statut',) VALUES(:'empr_cb',:'empr_nom',:'empr_prenom',:'empr_sexe',:'empr_pays',:'empr_year',:'empr_ville',:'empr_prof',:'empr_mail',:'empr_tel1',:'empr_tel2',:'empr_adr1',:'empr_categ',:'empr_creation',:'empr_modif',:'empr_date_adhesion',:'empr_date_expiration',:'empr_codestat',:'empr_lang',:'empr_statut')");
+
+        $req->execute(array(
+            'empr_cb' => $this->newAdhesion['numCarte'],
+            'empr_nom' => $this->newAdhesion['nom'],
+            'empr_prenom' => $this->newAdhesion['prenom'],
+            'empr_sexe' => $this->newAdhesion['sexe'] == 'M' ? 1 : 2,
+            'empr_pays' =>  $this->newAdhesion['pays'],
+            'empr_year' => $this->newAdhesion['dateNaissance'],
+            'empr_ville' => $this->newAdhesion['ville'],
+            'empr_prof' => $this->newAdhesion['profession'],
+            'empr_mail' => $this->newAdhesion['email'],
+            'empr_tel1' => $this->newAdhesion['telephone1'],
+            'empr_tel2' => $this->newAdhesion['telephone2'],
+            'empr_adr1' => $this->newAdhesion['adresse'],
+            'empr_categ' => $this->newAdhesion['categorie_id'],
+            'empr_creation' => $this->newAdhesion['created_at'],
+            'empr_modif' => $this->newAdhesion['updated_at'],
+            'empr_date_adhesion' => $this->newAdhesion['created_at'],
+            'empr_date_expiration' => $this->newAdhesion['finAdhesion'],
+            'empr_codestat' => 2,
+            'empr_lang' => 'Fr',
+            'empr_statut' => 1,
+            ));              
+        
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Synchronisation avec success!', 'type' => 'success']);
+    }
+
+    public function insertToPmb()
+    {
+        $pmb = $this->connectToDb();
         $sql = 'SELECT * FROM empr';
         $r = $pmb->query( $sql );
 
@@ -115,7 +146,6 @@ class Adhesions extends Component
         if ($crèment == 'next') {
             if ($this->bsSteepActive == 1) {
                 $this->validate();
-                $this->catPaiement = $this->newAdhesion['categorie_id'];
                 $this->defineMontant();
                 $this->bsSteepActive += 1;
                 return null;
@@ -169,15 +199,20 @@ class Adhesions extends Component
     {
         $this->montantPayer = 0;
 
-        if($this->newAdhesion['categorie_id'] != 4)
-        {
-            $this->montantAdhesion = Price::with("categories")->where('id',  $this->catPaiement)->first()->montant;
-            $this->montantPayer = $this->montantAdhesion;
-            // dd($this->montantAdhesion);
-        }
-        elseif($this->newAdhesion['categorie_id'] == 4)
+        if($this->newAdhesion['categorie_id'] == 4)
         {
             $this->montantAdhesion = "+ 20000 ";
+        }
+        else
+        {
+            $price = Price::with("categories")->whereHas("categories", function ($qr) { 
+                $qr->where("id", "LIKE", $this->newAdhesion['categorie_id']);
+            })->first();
+            $this->montantAdhesion = $price->montant;
+            $this->catPaiement = $price->id;
+
+            $this->montantPayer = $this->montantAdhesion;
+            // dd($this->montantAdhesion);
         }
         
     }
@@ -202,7 +237,8 @@ class Adhesions extends Component
             'newAdhesion.nom' => ['required'],
             'newAdhesion.prenom' => 'required',
             'newAdhesion.sexe' => ['required'],
-            'newAdhesion.nationalite' => ['required'],
+            'newAdhesion.ville' => ['required'],
+            'newAdhesion.pays' => ['required'],
             'newAdhesion.dateNaissance' => ['required'],
             'newAdhesion.profession' => ['nullable'],
             'newAdhesion.email' => ['email'],
@@ -219,11 +255,16 @@ class Adhesions extends Component
 
     public function generateCB()
     {
+        $this->newAdhesion['CB'] = null;
         $categorie_indication = [
-            1 => "AD",
-            2 => "ET",
-            3 => "ENF",
+            1 => "JN",
+            2 => "PR",
+            3 => "PR",
             4 => "ME",
+            5 => "ET",
+            6 => "CL",
+            7 => "AD",
+            8 => "VL",
         ];
 
         $this->newAdhesion['numCarte'] = "AF-" .  $categorie_indication[$this->newAdhesion['categorie_id']] . '.' . random_int(100, 9000);
@@ -296,6 +337,12 @@ class Adhesions extends Component
 
         $inscription = Inscription::create($inscriValue);
         $inscription->paiements()->attach($paiement->id);
+
+        if($this->newAdhesion['CB'] != null)
+        {
+            $this->newAdhesion = $newMember->toArray();
+            $this->insertToPmb();
+        }
 
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant enregistré avec success!', 'type' => 'success']);

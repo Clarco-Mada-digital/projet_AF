@@ -1,7 +1,7 @@
 import './bootstrap';
 
 // Mes import
-// import "admin-lte/plugins/jquery/jquery";
+// import "admin-lte/plugins/jquery/jquery.js";
 import "http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js";
 import "./jquery-barcode.min.js";
 
