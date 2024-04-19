@@ -77,7 +77,7 @@ class Adhesions extends Component
     public function insertToPmb()
     {
         $pmb = $this->connectToDb();
-        $req = $pmb->prepare("INSERT INTO empr('empr_cb', 'empr_nom','empr_prenom', 'empr_sexe','empr_pays','empr_year','empr_ville','empr_prof','empr_mail','empr_tel1','empr_adr1','empr_categ','empr_creation','empr_modif','empr_date_adhesion','empr_date_expiration','empr_codestat','empr_lang','empr_statut',) VALUES(:'empr_cb',:'empr_nom',:'empr_prenom',:'empr_sexe',:'empr_pays',:'empr_year',:'empr_ville',:'empr_prof',:'empr_mail',:'empr_tel1',:'empr_tel2',:'empr_adr1',:'empr_categ',:'empr_creation',:'empr_modif',:'empr_date_adhesion',:'empr_date_expiration',:'empr_codestat',:'empr_lang',:'empr_statut')");
+        $req = $pmb->prepare("INSERT INTO empr('empr_cb', 'empr_nom','empr_prenom', 'empr_sexe','empr_pays','empr_year','empr_ville','empr_prof','empr_mail','empr_tel1','empr_adr1','empr_categ','empr_creation','empr_modif','empr_date_adhesion','empr_date_expiration','empr_codestat','empr_lang','empr_statut',) VALUES(:'empr_cb',:'empr_nom',:'empr_prenom',:'empr_sexe',:'empr_pays',:'empr_year',:'empr_ville',:'empr_prof',:'empr_mail',:'empr_tel1',:'empr_adr1',:'empr_categ',:'empr_creation',:'empr_modif',:'empr_date_adhesion',:'empr_date_expiration',:'empr_codestat',:'empr_lang',:'empr_statut')");
 
         $req->execute(array(
             'empr_cb' => $this->newAdhesion['numCarte'],
