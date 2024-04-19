@@ -90,7 +90,6 @@ class Adhesions extends Component
             'empr_prof' => $this->newAdhesion['profession'],
             'empr_mail' => $this->newAdhesion['email'],
             'empr_tel1' => $this->newAdhesion['telephone1'],
-            'empr_tel2' => $this->newAdhesion['telephone2'],
             'empr_adr1' => $this->newAdhesion['adresse'],
             'empr_categ' => $this->newAdhesion['categorie_id'],
             'empr_creation' => $this->newAdhesion['created_at'],
