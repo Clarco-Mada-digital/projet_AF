@@ -104,6 +104,36 @@ class Adhesions extends Component
         $this->dispatch("ShowSuccessMsg", ['message' => 'Synchronisation avec success!', 'type' => 'success']);
     }
 
+    public function updateToPmb()
+    {
+        $pmb = $this->connectToDb();
+        $req = $pmb->prepare('UPDATE emp SET empr_nom = :empr_nom,empr_prenom = :empr_prenom, empr_sexe = :empr_sexe,empr_pays = :empr_pays,empr_year = :empr_year,empr_ville = :empr_ville,empr_prof = :empr_prof,empr_mail = :empr_mail,empr_tel1 = :empr_tel1,empr_adr1 = :empr_adr1,empr_categ = :empr_categ,empr_creation = :empr_creation,empr_modif = :empr_modif,empr_date_adhesion = :empr_date_adhesion,empr_date_expiration = :empr_date_expiration,empr_codestat = :empr_codestat,empr_lang = :empr_lang,empr_statut = :empr_statut WHERE empr_cb = :empr_cb');
+
+        $req->execute(array(
+            'empr_cb' => $this->newAdhesion['CB'],
+            'empr_nom' => $this->newAdhesion['nom'],
+            'empr_prenom' => $this->newAdhesion['prenom'],
+            'empr_sexe' => $this->newAdhesion['sexe'] == 'M' ? 1 : 2,
+            'empr_pays' =>  $this->newAdhesion['pays'],
+            'empr_year' => $this->newAdhesion['dateNaissance'],
+            'empr_ville' => $this->newAdhesion['ville'],
+            'empr_prof' => $this->newAdhesion['profession'],
+            'empr_mail' => $this->newAdhesion['email'],
+            'empr_tel1' => $this->newAdhesion['telephone1'],
+            'empr_adr1' => $this->newAdhesion['adresse'],
+            'empr_categ' => $this->newAdhesion['categorie_id'],
+            'empr_creation' => $this->newAdhesion['created_at'],
+            'empr_modif' => $this->newAdhesion['updated_at'],
+            'empr_date_adhesion' => $this->newAdhesion['created_at'],
+            'empr_date_expiration' => $this->newAdhesion['finAdhesion'],
+            'empr_codestat' => 2,
+            'empr_lang' => 'Fr',
+            'empr_statut' => 1,
+            ));              
+        
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Synchronisation avec success!', 'type' => 'success']);
+    }
+
     public function getDataPmb()
     {
         $pmb = $this->connectToDb();
@@ -358,7 +388,22 @@ class Adhesions extends Component
             $this->newAdhesion['profil'] = $photoName;
         }
 
+        $myNewAdhesion = Adhesion::find($this->newAdhesion['id']);
+
+        if ($myNewAdhesion['CB'] != null)
+        {
+            $this->updateToPmb();
+        }
+        else
+        {
+            if ($this->newAdhesion['CB'] != null)
+            {
+                $this->insertToPmb();
+            }
+        }
+
         Adhesion::find($this->newAdhesion['id'])->update($this->newAdhesion);
+
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant modifier avec success!', 'type' => 'success']);
         $this->photo = '';
