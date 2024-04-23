@@ -269,7 +269,7 @@ class Adhesions extends Component
             'newAdhesion.ville' => ['required'],
             'newAdhesion.pays' => ['required'],
             'newAdhesion.dateNaissance' => ['required'],
-            'newAdhesion.profession' => ['nullable'],
+            'newAdhesion.profession' => ['required'],
             'newAdhesion.email' => ['email'],
             'newAdhesion.telephone1' => ['min:10', 'max:10', 'nullable'],
             'newAdhesion.telephone2' => ['min:10', 'max:10', 'nullable'],
