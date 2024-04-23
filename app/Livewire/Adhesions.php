@@ -45,7 +45,7 @@ class Adhesions extends Component
     public $paiement_id;
 
     public $inscritBible =  false;
-    public $pmb;
+    // public $pmb;
 
     protected $listeners = ["code_barre_update" => 'defineCB'];
 
@@ -72,14 +72,13 @@ class Adhesions extends Component
         $this->categories = Categorie::all();
         $this->prices = Price::all();
 
-        $this->pmb = $this->connectToDb();
-
         // $this->newAdhesion = Adhesion::find(1)->toArray();
     }
 
     public function insertToPmb()
-    {       
-        $req = $this->pmb->prepare("INSERT INTO empr(empr_cb,empr_nom,empr_prenom,empr_sexe,empr_pays,empr_year,empr_ville,empr_prof,empr_mail,empr_tel1,empr_adr1,empr_categ,empr_creation,empr_modif,empr_date_adhesion,empr_date_expiration,empr_codestat,empr_lang,empr_statut) VALUES(:empr_cb,:empr_nom,:empr_prenom,:empr_sexe,:empr_pays,:empr_year,:empr_ville,:empr_prof,:empr_mail,:empr_tel1,:empr_adr1,:empr_categ,:empr_creation,:empr_modif,:empr_date_adhesion,:empr_date_expiration,:empr_codestat,:empr_lang,:empr_statut)");
+    {
+        $pmb = $this->connectToDb();
+        $req = $pmb->prepare("INSERT INTO empr(empr_cb,empr_nom,empr_prenom,empr_sexe,empr_pays,empr_year,empr_ville,empr_prof,empr_mail,empr_tel1,empr_adr1,empr_categ,empr_creation,empr_modif,empr_date_adhesion,empr_date_expiration,empr_codestat,empr_lang,empr_statut) VALUES(:empr_cb,:empr_nom,:empr_prenom,:empr_sexe,:empr_pays,:empr_year,:empr_ville,:empr_prof,:empr_mail,:empr_tel1,:empr_adr1,:empr_categ,:empr_creation,:empr_modif,:empr_date_adhesion,:empr_date_expiration,:empr_codestat,:empr_lang,:empr_statut)");
 
         $req->execute(array(
             'empr_cb' => $this->newAdhesion['numCarte'],
@@ -109,8 +108,8 @@ class Adhesions extends Component
 
     public function updateToPmb()
     {
-        // $pmb = $this->connectToDb();
-        $req = $this->pmb->prepare('UPDATE empr SET empr_nom = :empr_nom,empr_prenom = :empr_prenom, empr_sexe = :empr_sexe,empr_pays = :empr_pays,empr_year = :empr_year,empr_ville = :empr_ville,empr_prof = :empr_prof,empr_mail = :empr_mail,empr_tel1 = :empr_tel1,empr_adr1 = :empr_adr1,empr_categ = :empr_categ,empr_creation = :empr_creation,empr_modif = :empr_modif,empr_date_adhesion = :empr_date_adhesion,empr_date_expiration = :empr_date_expiration,empr_codestat = :empr_codestat,empr_lang = :empr_lang,empr_statut = :empr_statut WHERE empr_cb = :empr_cb');
+        $pmb = $this->connectToDb();
+        $req = $pmb->prepare('UPDATE empr SET empr_nom = :empr_nom,empr_prenom = :empr_prenom, empr_sexe = :empr_sexe,empr_pays = :empr_pays,empr_year = :empr_year,empr_ville = :empr_ville,empr_prof = :empr_prof,empr_mail = :empr_mail,empr_tel1 = :empr_tel1,empr_adr1 = :empr_adr1,empr_categ = :empr_categ,empr_creation = :empr_creation,empr_modif = :empr_modif,empr_date_adhesion = :empr_date_adhesion,empr_date_expiration = :empr_date_expiration,empr_codestat = :empr_codestat,empr_lang = :empr_lang,empr_statut = :empr_statut WHERE empr_cb = :empr_cb');
 
         $req->execute(array(
             'empr_cb' => $this->newAdhesion['CB'],
