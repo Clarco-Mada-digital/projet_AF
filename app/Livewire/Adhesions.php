@@ -398,7 +398,30 @@ class Adhesions extends Component
         {
             if ($this->newAdhesion['CB'] != null)
             {
-                $this->insertToPmb();
+                $pmb = $this->connectToDb();
+                $req = $pmb->prepare('INSERT INTO empr(empr_cb, empr_nom,empr_prenom, empr_sexe,empr_pays,empr_year,empr_ville,empr_prof,empr_mail,empr_tel1,empr_adr1,empr_categ,empr_creation,empr_modif,empr_date_adhesion,empr_date_expiration,empr_codestat,empr_lang,empr_statut) VALUES(:empr_cb,:empr_nom,:empr_prenom,:empr_sexe,:empr_pays,:empr_year,:empr_ville,:empr_prof,:empr_mail,:empr_tel1,:empr_adr1,:empr_categ,:empr_creation,:empr_modif,:empr_date_adhesion,:empr_date_expiration,:empr_codestat,:empr_lang,:empr_statut)');
+        
+                $req->execute(array(
+                    'empr_cb' => $this->newAdhesion['CB'],
+                    'empr_nom' => $this->newAdhesion['nom'],
+                    'empr_prenom' => $this->newAdhesion['prenom'],
+                    'empr_sexe' => $this->newAdhesion['sexe'] == 'M' ? 1 : 2,
+                    'empr_pays' =>  $this->newAdhesion['pays'],
+                    'empr_year' => $this->newAdhesion['dateNaissance'],
+                    'empr_ville' => $this->newAdhesion['ville'],
+                    'empr_prof' => $this->newAdhesion['profession'],
+                    'empr_mail' => $this->newAdhesion['email'],
+                    'empr_tel1' => $this->newAdhesion['telephone1'],
+                    'empr_adr1' => $this->newAdhesion['adresse'],
+                    'empr_categ' => $this->newAdhesion['categorie_id'],
+                    'empr_creation' => $this->newAdhesion['created_at'],
+                    'empr_modif' => $this->newAdhesion['updated_at'],
+                    'empr_date_adhesion' => $this->newAdhesion['created_at'],
+                    'empr_date_expiration' => $this->newAdhesion['finAdhesion'],
+                    'empr_codestat' => 2,
+                    'empr_lang' => 'Fr',
+                    'empr_statut' => 1,
+                    ));    
             }
         }
 
