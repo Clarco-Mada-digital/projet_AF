@@ -45,7 +45,7 @@ class Adhesions extends Component
     public $paiement_id;
 
     public $inscritBible =  false;
-    public  $pmb;
+    public $pmb;
 
     protected $listeners = ["code_barre_update" => 'defineCB'];
 
