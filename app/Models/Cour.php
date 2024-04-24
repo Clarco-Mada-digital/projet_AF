@@ -17,7 +17,7 @@ class Cour extends Model
         'categorie',
         'salle',
         'horaireDuCour',
-        'coment',
+        'comment',
         'professeur_id',
         'categorie_id',
         'session_id',

@@ -119,7 +119,7 @@
                     </div>
                     <div class="col-md-12 form-group">
                         <label class="form-label" for="codeComment">Commentaire</label>
-                        <textarea class="form-control" type="text" name="newCour" id="codeComment" rows="6" wire:model='newCour.coment'></textarea>
+                        <textarea class="form-control" type="text" name="newCour" id="codeComment" rows="6" wire:model='newCour.comment'></textarea>
                     </div>
                     <div class="col-md-12 text-right">
                         <button type="submit" class="btn btn-info btn-md"> <i class="fa fa-paper-plane"></i> <i class="fa fa-spinner fa-spin" wire:loading wire:target='addNewCour'></i> Envoyer</button>
