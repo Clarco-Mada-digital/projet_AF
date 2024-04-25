@@ -143,13 +143,13 @@ class Adhesions extends Component
         $sql = 'SELECT * FROM empr';
         $r = $pmb->query( $sql );
 
-        $adhesion_id = [];
+        $adhesion_cb = [];
         $allAdhesion =  Adhesion::all();
         foreach ($allAdhesion as $adhesion)
         {
             if ($adhesion->CB != null)
             {
-                array_push($adhesion_id, $adhesion->id);
+                array_push($adhesion_cb, $adhesion->CB);
             }
         }
         // On affiche chaque entrée une à une
@@ -173,7 +173,7 @@ class Adhesions extends Component
             $this->newAdhesion['created_at'] = $donnees['empr_date_adhesion'];
             $this->newAdhesion['finAdhesion'] = $donnees['empr_date_expiration'];
 
-            if (!in_array($this->newAdhesion['CB'], $adhesion_id))
+            if (in_array($this->newAdhesion['CB'], $adhesion_id) == False)
             {
                Adhesion::create($this->newAdhesion);
             }            
