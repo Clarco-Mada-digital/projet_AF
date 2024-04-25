@@ -173,7 +173,7 @@ class Adhesions extends Component
             $this->newAdhesion['created_at'] = $donnees['empr_date_adhesion'];
             $this->newAdhesion['finAdhesion'] = $donnees['empr_date_expiration'];
 
-            if (in_array($this->newAdhesion['CB'], $adhesion_id) == False)
+            if (in_array($this->newAdhesion['CB'], $adhesion_cb) == False)
             {
                Adhesion::create($this->newAdhesion);
             }            
