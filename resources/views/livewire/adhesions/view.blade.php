@@ -47,6 +47,7 @@
           <th wire:click="setOrderField('prenom')">Prénom</th>
           <th class="text-center">Téléphone</th>
           <th class="text-center">Catégorie</th>
+          <th class="text-center">Date fin d'adhésion</th>
           {{-- <th class="text-center">Paiement</th> --}}
           <th style="width: 10%;" class="text-center">Action</th>
         </tr>
@@ -71,20 +72,21 @@
           <td>{{ $membre->prenom }}</td>
           <td class="text-center">{{ $membre->telephone1 }} </td>
           <td class="text-center">{{ $membre->categorie->libelle }} </td>
+          <td class="text-center">{{ $membre->finAdhesion->diffForHumans() }} </td>
           <td class="text-center">
             <button class="btn btn-link text-warning @cannot('étudiants.edit') disabled @endcannot"             wire:click="initUpdate({{ $membre->id }}, 'update')" data-dismiss="modal">
               <i class="fa fa-edit text-warning" ></i><br> Éditer
             </button>
             <button class="btn btn-link text-info @cannot('étudiants.new') disabled @endcannot" 
             wire:click="initUpdate({{ $membre->id }}, 'reInscription')" data-dismiss="modal">
-              <i class="fa fa-pen text-info" ></i><br> Réinscription
+              <i class="fa fa-pen text-info" ></i><br> Inscription
             </button>
           </td>
         </tr>
 
         @empty
         <tr>
-          <td class="text-center" colspan="7"> <img src="{{ asset('images/no_data.svg') }}" alt="Data empty"
+          <td class="text-center" colspan="8"> <img src="{{ asset('images/no_data.svg') }}" alt="Data empty"
               width="200px">
           </td>
         </tr>
