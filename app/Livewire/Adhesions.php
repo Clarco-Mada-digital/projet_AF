@@ -158,7 +158,7 @@ class Adhesions extends Component
 
             $this->newAdhesion['numCarte'] = $donnees['empr_cb'];
             $this->newAdhesion['CB'] = $donnees['empr_cb'];
-            $this->newAdhesion['nom'] = $donnees['empr_nom'];
+            $this->newAdhesion['nom'] = $donnees['empr_nom'] == 1 ? "M" : "F";
             $this->newAdhesion['prenom'] = $donnees['empr_prenom'];
             $this->newAdhesion['sexe'] = $donnees['empr_sexe'];
             $this->newAdhesion['nationalite'] = $donnees['empr_pays'];
@@ -168,7 +168,7 @@ class Adhesions extends Component
             $this->newAdhesion['telephone1'] = $donnees['empr_tel1'];
             $this->newAdhesion['telephone2'] = $donnees['empr_tel2'];
             $this->newAdhesion['adresse'] = $donnees['empr_adr1'];
-            $this->newAdhesion['categorie_id'] = 2;
+            $this->newAdhesion['categorie_id'] = $donnees['empr_categ'];
             $this->newAdhesion['user_id'] = 1;
             $this->newAdhesion['created_at'] = $donnees['empr_date_adhesion'];
             $this->newAdhesion['finAdhesion'] = $donnees['empr_date_expiration'];
