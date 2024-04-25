@@ -143,6 +143,15 @@ class Adhesions extends Component
         $sql = 'SELECT * FROM empr';
         $r = $pmb->query( $sql );
 
+        $adhesion_id = [];
+        $allAdhesion =  Adhesion::all();
+        foreach ($allAdhesion as $adhesion)
+        {
+            if ($adhesion->CB != null)
+            {
+                array_push($adhesion_id, $adhesion->id);
+            }
+        }
         // On affiche chaque entrée une à une
         while ($donnees = $r->fetch())
         {
@@ -164,9 +173,10 @@ class Adhesions extends Component
             $this->newAdhesion['created_at'] = $donnees['empr_date_adhesion'];
             $this->newAdhesion['finAdhesion'] = $donnees['empr_date_expiration'];
 
-            $newMember = Adhesion::create($this->newAdhesion);
-            sleep(2);
-            
+            if (!in_array($this->newAdhesion['CB'], $adhesion_id))
+            {
+               Adhesion::create($this->newAdhesion);
+            }            
         }               
         
         $this->dispatch("ShowSuccessMsg", ['message' => 'Synchronisation avec success!', 'type' => 'success']);

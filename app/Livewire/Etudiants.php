@@ -85,7 +85,7 @@ class Etudiants extends Component
             'editEtudiant.adhesion.nom' => ['required'],
             'editEtudiant.adhesion.prenom' => 'required',
             'editEtudiant.adhesion.sexe' => ['required'],
-            'editEtudiant.adhesion.nationalite' => ['required'],
+            'editEtudiant.adhesion.nationalite' => ['nullable'],
             'editEtudiant.adhesion.dateNaissance' => ['required'],
             'editEtudiant.profession' => [''],
             'editEtudiant.adhesion.email' => ['email', 'nullable'],
@@ -194,8 +194,9 @@ class Etudiants extends Component
         // suprimer les cours appartient au utilisateur au paravant
         // DB::table("etudiant_cours")->where("etudiant_id", $this->editEtudiant['id'])->delete();
 
-        Adhesion::find($this->editEtudiant['adhesion']['id'])->update($this->editEtudiant['adhesion']);
+
         Etudiant::find($this->editEtudiant['id'])->update(['level_id'=> $this->editEtudiant['level_id']]);
+        Adhesion::find($this->editEtudiant['adhesion']['id'])->update($this->editEtudiant['adhesion']);
 
         // Ajout des cour au etudiant
         // foreach ($this->nscList['cours'] as $cour) {
