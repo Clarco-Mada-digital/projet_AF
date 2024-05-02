@@ -54,20 +54,19 @@ class Adhesions extends Component
         $serverName = 'localhost:3306';
         $username = "root";
         $password = "";
-        
 
-        try{
-            $bdd = new PDO("mysql:host=$serverName;dbname=pmb", $username, $password);	
+
+        try {
+            $bdd = new PDO("mysql:host=$serverName;dbname=pmb", $username, $password);
             $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $bdd;
-        }
-        catch(PDOException $e){
+        } catch (PDOException $e) {
             echo "Échec de la connexion : " . $e->getMessage();
         }
     }
-    
 
-    function __construct() 
+
+    function __construct()
     {
         $this->categories = Categorie::all();
         $this->prices = Price::all();
@@ -85,7 +84,7 @@ class Adhesions extends Component
             'empr_nom' => $this->newAdhesion['nom'],
             'empr_prenom' => $this->newAdhesion['prenom'],
             'empr_sexe' => $this->newAdhesion['sexe'] == 'M' ? 1 : 2,
-            'empr_pays' =>  isset($this->newAdhesion['pays'])? $this->newAdhesion['pays'] : "",
+            'empr_pays' =>  isset($this->newAdhesion['pays']) ? $this->newAdhesion['pays'] : "",
             'empr_year' => isset($this->newAdhesion['dateNaissance']) ? $this->newAdhesion['dateNaissance'] : "",
             'empr_ville' => isset($this->newAdhesion['ville']) ?  $this->newAdhesion['ville'] : "",
             'empr_prof' => isset($this->newAdhesion['profession']) ? $this->newAdhesion['profession'] : "",
@@ -100,8 +99,8 @@ class Adhesions extends Component
             'empr_codestat' => 2,
             'empr_lang' => 'Fr',
             'empr_statut' => 1,
-            ));              
-        
+        ));
+
         $this->dispatch("ShowSuccessMsg", ['message' => 'Synchronisation avec success!', 'type' => 'success']);
         $req->closeCursor();
     }
@@ -131,8 +130,8 @@ class Adhesions extends Component
             'empr_codestat' => 2,
             'empr_lang' => 'Fr',
             'empr_statut' => 1,
-            ));              
-        
+        ));
+
         $this->dispatch("ShowSuccessMsg", ['message' => 'Synchronisation avec success!', 'type' => 'success']);
         $req->closeCursor();
     }
@@ -141,20 +140,17 @@ class Adhesions extends Component
     {
         $pmb = $this->connectToDb();
         $sql = 'SELECT * FROM empr';
-        $r = $pmb->query( $sql );
+        $r = $pmb->query($sql);
 
         $adhesion_cb = [];
         $allAdhesion =  Adhesion::all();
-        foreach ($allAdhesion as $adhesion)
-        {
-            if ($adhesion->CB != null)
-            {
+        foreach ($allAdhesion as $adhesion) {
+            if ($adhesion->CB != null) {
                 array_push($adhesion_cb, $adhesion->CB);
             }
         }
         // On affiche chaque entrée une à une
-        while ($donnees = $r->fetch())
-        {
+        while ($donnees = $r->fetch()) {
 
             $this->newAdhesion['numCarte'] = $donnees['empr_cb'];
             $this->newAdhesion['CB'] = $donnees['empr_cb'];
@@ -173,12 +169,11 @@ class Adhesions extends Component
             $this->newAdhesion['created_at'] = $donnees['empr_date_adhesion'];
             $this->newAdhesion['finAdhesion'] = $donnees['empr_date_expiration'];
 
-            if (in_array($this->newAdhesion['CB'], $adhesion_cb) == False)
-            {
-               Adhesion::create($this->newAdhesion);
-            }            
-        }               
-        
+            if (in_array($this->newAdhesion['CB'], $adhesion_cb) == False) {
+                Adhesion::create($this->newAdhesion);
+            }
+        }
+
         $this->dispatch("ShowSuccessMsg", ['message' => 'Synchronisation avec success!', 'type' => 'success']);
         $r->closeCursor(); // Termine le traitement de la requête
     }
@@ -241,13 +236,10 @@ class Adhesions extends Component
     {
         $this->montantPayer = 0;
 
-        if($this->newAdhesion['categorie_id'] == 4)
-        {
+        if ($this->newAdhesion['categorie_id'] == 4) {
             $this->montantAdhesion = "+ 20000 ";
-        }
-        else
-        {
-            $price = Price::with("categories")->whereHas("categories", function ($qr) { 
+        } else {
+            $price = Price::with("categories")->whereHas("categories", function ($qr) {
                 $qr->where("id", "LIKE", $this->newAdhesion['categorie_id']);
             })->first();
             $this->montantAdhesion = $price->montant;
@@ -256,7 +248,6 @@ class Adhesions extends Component
             $this->montantPayer = $this->montantAdhesion;
             // dd($this->montantAdhesion);
         }
-        
     }
 
     public function montantPayeChange()
@@ -264,9 +255,7 @@ class Adhesions extends Component
         if ($this->newAdhesion['categorie_id'] == 4 && (int) $this->montantPayer < 20000) {
             $this->dispatch("showModalSimpleMsg", ['message' => "Le montant de la paiement doit être supérieur à 20000", 'type' => 'warning']);
             $this->montantPayer = 0;
-        }
-        else
-        {
+        } else {
             $this->montantAdhesion = (int) $this->montantPayer;
         }
     }
@@ -297,19 +286,21 @@ class Adhesions extends Component
 
     public function generateCB()
     {
-        $this->newAdhesion['CB'] = null;
-        $categorie_indication = [
-            1 => "JN",
-            2 => "PR",
-            3 => "PR",
-            4 => "ME",
-            5 => "ET",
-            6 => "CL",
-            7 => "AD",
-            8 => "VL",
-        ];
+        if ($this->stapes == "new") {
+            $this->newAdhesion['CB'] = null;
+            $categorie_indication = [
+                1 => "JN",
+                2 => "PR",
+                3 => "PR",
+                4 => "ME",
+                5 => "ET",
+                6 => "CL",
+                7 => "AD",
+                8 => "VL",
+            ];
 
-        $this->newAdhesion['numCarte'] = "AF-" .  $categorie_indication[$this->newAdhesion['categorie_id']] . '.' . random_int(100, 9000);
+            $this->newAdhesion['numCarte'] = "AF-" .  $categorie_indication[$this->newAdhesion['categorie_id']] . '.' . random_int(100, 9000);
+        }
     }
 
     public function cancelCB()
@@ -319,12 +310,12 @@ class Adhesions extends Component
 
     // Enregistrement un nouveau membre
     public function submitNewMembre()
-    {        
+    {
         // dd($this->newAdhesion);
-        
+
         $this->newAdhesion['user_id'] = Auth::user()->id;
-        
-        
+
+
         $this->validate([
             "montantPayer" => ['required'],
         ]);
@@ -332,25 +323,23 @@ class Adhesions extends Component
         if ($this->photo != '') {
             $photoName = $this->photo->store('profil', 'public');
             $this->newAdhesion['profil'] = $photoName;
-        }        
+        }
 
         // dd($this->newAdhesion);
-        if ($this->stapes == "new")
-        {
+        if ($this->stapes == "new") {
             $newMember = Adhesion::create($this->newAdhesion);
-        }
-        elseif($this->stapes == "reInscription")
-        {
+        } elseif ($this->stapes == "reInscription") {
             $this->newAdhesion['finAdhesion'] = Carbon::today()->addYear();
             Adhesion::find($this->newAdhesion['id'])->update($this->newAdhesion);
             $newMember = Adhesion::find($this->newAdhesion['id']);
         }
         // $montant = $this->sessionSelected->montant;
 
-        if($this->stapes = "new"){
+        if ($this->stapes = "new") {
             $inscrOuReinscr = "Inscription pour devenier membre";
-
-        }else{$inscrOuReinscr = "Réinscription au membre de l’alliance française";}
+        } else {
+            $inscrOuReinscr = "Réinscription au membre de l’alliance française";
+        }
         // if ($this->newAdhesion['categorie_id'] == 4) {
         //     $this->montantAdhesion = (int) $this->montantPaye;
         // }
@@ -380,8 +369,7 @@ class Adhesions extends Component
         $inscription = Inscription::create($inscriValue);
         $inscription->paiements()->attach($paiement->id);
 
-        if($this->newAdhesion['CB'] != null)
-        {
+        if ($this->newAdhesion['CB'] != null) {
             $this->newAdhesion = $newMember->toArray();
             $this->insertToPmb();
         }
@@ -403,17 +391,13 @@ class Adhesions extends Component
 
         $myNewAdhesion = Adhesion::find($this->newAdhesion['id']);
 
-        if ($myNewAdhesion['CB'] != null)
-        {
+        if ($myNewAdhesion['CB'] != null) {
             $this->updateToPmb();
-        }
-        else
-        {
-            if ($this->newAdhesion['CB'] != null)
-            {
+        } else {
+            if ($this->newAdhesion['CB'] != null) {
                 $pmb = $this->connectToDb();
                 $req = $pmb->prepare('INSERT INTO empr(empr_cb, empr_nom,empr_prenom, empr_sexe,empr_pays,empr_year,empr_ville,empr_prof,empr_mail,empr_tel1,empr_adr1,empr_categ,empr_creation,empr_modif,empr_date_adhesion,empr_date_expiration,empr_codestat,empr_lang,empr_statut) VALUES(:empr_cb,:empr_nom,:empr_prenom,:empr_sexe,:empr_pays,:empr_year,:empr_ville,:empr_prof,:empr_mail,:empr_tel1,:empr_adr1,:empr_categ,:empr_creation,:empr_modif,:empr_date_adhesion,:empr_date_expiration,:empr_codestat,:empr_lang,:empr_statut)');
-        
+
                 $req->execute(array(
                     'empr_cb' => $this->newAdhesion['CB'],
                     'empr_nom' => $this->newAdhesion['nom'],
@@ -434,7 +418,7 @@ class Adhesions extends Component
                     'empr_codestat' => 2,
                     'empr_lang' => 'Fr',
                     'empr_statut' => 1,
-                    ));    
+                ));
             }
         }
 
@@ -443,7 +427,7 @@ class Adhesions extends Component
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Etudiant modifier avec success!', 'type' => 'success']);
         $this->photo = '';
-        
+
         $this->initData();
     }
 
@@ -458,12 +442,12 @@ class Adhesions extends Component
         $this->newAdhesion;
 
         $membres = Adhesion::where("categorie_id", "LIKE", "%{$this->filterByCat}%")
-                            ->where(function ($query) {
-                                $query->where("nom", "LIKE", "%{$this->search_membre}%")
-                                    ->orWhere("prenom", "LIKE", "%{$this->search_membre}%")
-                                    ->orWhere("numCarte", "LIKE", "%{$this->search_membre}%");
-                            })
-                            ->paginate(5);
+            ->where(function ($query) {
+                $query->where("nom", "LIKE", "%{$this->search_membre}%")
+                    ->orWhere("prenom", "LIKE", "%{$this->search_membre}%")
+                    ->orWhere("numCarte", "LIKE", "%{$this->search_membre}%");
+            })
+            ->paginate(5);
 
         $data = [
             'membres' => $membres,
