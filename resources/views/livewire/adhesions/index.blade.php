@@ -111,7 +111,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3 d-flex justify-content-between">
-                                        <div class="form-group">
+                                        <div class="form-group mr-2">
                                             <label for="etudiantPrenom">Sexe</label>
                                             <select class="custom-select 
                                                 @error('newAdhesion.sexe') is-invalid @enderror" spellcheck="false"
@@ -124,7 +124,7 @@
                                             <span class="invalid-feedback"> Ce champ est obligatoire</span>
                                             @enderror
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group ml-2">
                                             <label for="etudiantBirth">Année de naissance</label>
                                             <input type="number" class="form-control 
                                                 @error('newAdhesion.dateNaissance') is-invalid @enderror"
