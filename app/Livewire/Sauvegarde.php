@@ -54,7 +54,7 @@ class Sauvegarde extends Component
         //---------------------------------------------
         // execution de la commande mysql dump
         //---------------------------------------------
-        $commande  = 'C:/xampp/mysql/bin/mysqldump.exe';
+        $commande  = 'C:/wamp64/bin/mysql/mysql5.7.36/bin/mysqldump.exe';
         $commande .= ' --host=' . $this->db_server;
         $commande .= ' --port=' . $this->port;
         $commande .= ' --user=' . $this->db_username;
