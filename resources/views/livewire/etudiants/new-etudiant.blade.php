@@ -403,10 +403,10 @@
                                                     @if ($typeInscription == 'cours')
                                                     <td class="text-end">
                                                         @isset($sessionSelected)
-                                                        <span @if($session->dateFinPromo > Carbon\Carbon::now())
+                                                        <span @if(($sessionSelected->dateFinPromo != null) & ($sessionSelected->dateFinPromo > $now))
                                                             style="text-decoration: line-through; color: #a22;" @endif>
                                                             {{ $sessionSelected->montant }} Ar</span>
-                                                        @if ($session->dateFinPromo > Carbon\Carbon::now())
+                                                        @if (($sessionSelected->dateFinPromo != null) & ($sessionSelected->dateFinPromo > $now))
                                                         {{ $sessionSelected->montantPromo }} Ar
                                                         @endif
                                                         @endisset
