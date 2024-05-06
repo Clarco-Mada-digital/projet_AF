@@ -312,7 +312,6 @@ class Adhesions extends Component
     public function submitNewMembre()
     {
         // dd($this->newAdhesion);
-
         $this->newAdhesion['user_id'] = Auth::user()->id;
 
 
@@ -335,7 +334,7 @@ class Adhesions extends Component
         }
         // $montant = $this->sessionSelected->montant;
 
-        if ($this->stapes = "new") {
+        if ($this->stapes == "new") {
             $inscrOuReinscr = "Inscription pour devenier membre";
         } else {
             $inscrOuReinscr = "Réinscription au membre de l’alliance française";
@@ -372,7 +371,7 @@ class Adhesions extends Component
         if ($this->newAdhesion['CB'] != null) {
             $this->newAdhesion = $newMember->toArray();
             if ($this->stapes == "new")
-            {
+            {                
                 $this->insertToPmb();
             }
             else
