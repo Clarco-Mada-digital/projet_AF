@@ -100,7 +100,8 @@ class Sessions extends Component
             $rule = [
                 'newSession.nom' => ['required', Rule::unique('sessions', 'nom')],
                 'newSession.dateDebut' => ['required'],
-                'newSession.dateFin' => ['required']
+                'newSession.dateFin' => ['required'],
+                'newSession.montant' => ['required'],
             ];
         }
         if ($this->formEditSession) {
@@ -122,7 +123,7 @@ class Sessions extends Component
         }
         $this->examensList = [];
         foreach (Examen::all() as $examen) {
-            array_push($this->examensList, ['id' => $examen->id, 'libelle' => $examen->libelle, 'horaire' => $examen->horaire, 'active' => false]);
+            array_push($this->examensList, ['id' => $examen->id, 'libelle' => $examen->libelle, 'level'=>$examen->level->libelle, 'horaire' => $examen->horaire, 'active' => false]);
         }
     }
 

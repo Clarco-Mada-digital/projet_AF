@@ -371,7 +371,14 @@ class Adhesions extends Component
 
         if ($this->newAdhesion['CB'] != null) {
             $this->newAdhesion = $newMember->toArray();
-            $this->insertToPmb();
+            if ($this->stapes = "new")
+            {
+                $this->insertToPmb();
+            }
+            else
+            {
+                $this->updateToPmb();
+            }
         }
 
 

@@ -53,13 +53,13 @@
                                         wire:model='newSession.nom'>
                                 </td>
                                 <td>
-                                    <input class="form-control" type="date" wire:model='newSession.dateDebut'>
+                                    <input class="form-control @error('newSession.dateDebut') is-invalid @enderror" type="date" wire:model='newSession.dateDebut'>
                                 </td>
                                 <td>
-                                    <input class="form-control" type="date" wire:model='newSession.dateFin'>
+                                    <input class="form-control @error('newSession.dateFin') is-invalid @enderror" type="date" wire:model='newSession.dateFin'>
                                 </td>
                                 <td>
-                                    <input class="form-control" type="number" wire:model='newSession.montant'>
+                                    <input class="form-control @error('newSession.montant') is-invalid @enderror" type="number" wire:model='newSession.montant'>
                                 </td>
                                 <td class="text-center d-flex flex-column">
                                     <div class="chose my-2 d-flex">
@@ -613,16 +613,16 @@
             <div class="card-header py-0" style="position: sticky">
                 <h3 class="card-title">List des {{$newSession['type']}} {{$editSession['type']}}</h3>
                 <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
+                    {{-- <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                         data-source="widgets.html" data-source-selector="#card-refresh-content"
                         data-load-on-init="false" spellcheck="false">
                         <i class="fas fa-sync-alt"></i>
-                    </button>
+                    </button> --}}
                     <button type="button" class="btn btn-tool" data-card-widget="maximize">
                         <i class="fas fa-expand"></i>
                     </button>
-                    <button type="button" class="btn btn-danger btn-sm" wire:click='toogleFormCours'>
-                        <i class="fas fa-times"></i>
+                    <button type="button" class="btn btn-success btn-sm" wire:click='toogleFormCours'>
+                        <i class="fas fa-check"></i>
                     </button>
                 </div>
 
@@ -647,7 +647,7 @@
                         <input class="custom-control-input" type="checkbox" id="cour{{ $examen['id'] }}"
                             wire:model.lazy="examensList.{{ $loop->index }}.active">
                         <label for="cour{{ $examen['id'] }}" class="custom-control-label">{{ $examen['libelle']
-                            }}</label>
+                            }} - {{ $examen['level'] }}</label>
                     </div>
                 </div>
                 @endforeach
