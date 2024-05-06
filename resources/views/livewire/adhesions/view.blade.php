@@ -30,7 +30,7 @@
       </div>
       <div class="input-group w-50 mb-4 pb-2">
         <input type="search" class="form-control" spellcheck="false" name="membre_search"
-          placeholder="Rechercher un membre" wire:model.live.debounce.500ms="search_membre" autocomplete="false">
+          placeholder="Rechercher un membre" wire:model.live.debounce.1000ms="search_membre" autocomplete="false">
         <div class="input-group-append">
           <span class="input-group-text"><i class="fa fa-search"></i></span>
         </div>

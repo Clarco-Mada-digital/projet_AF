@@ -353,7 +353,7 @@ class ParametreGenerale extends Component
             ],
             messages: ['required' => 'Ce champ est obligatoire !']
         );
-        $this->editExamenId->update(["libelle" => $this->editExamen, "price_id" => $this->dataExamens['price_id']]);
+        $this->editExamenId->update(["libelle" => $this->editExamen, "price_id" => $this->dataExamens['price_id'], "level_id" => $this->dataExamens['level_id'], "session_id" => $this->dataExamens['session_id']]);
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Modification avec success!', 'type' => 'success']);
 
