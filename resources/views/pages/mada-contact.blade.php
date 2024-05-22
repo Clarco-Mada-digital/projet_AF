@@ -23,19 +23,19 @@
                     <div class="row">
                         <div class="form-group col-6">
                             <label for="inputName">Nom</label>
-                            <input type="text" id="inputName" class="form-control" wire:model="contact.name">
+                            <input type="text" id="inputName" class="form-control @error('contact.name') is-invalid @enderror" wire:model="contact.name">
                         </div>
                         <div class="form-group col-6">
                             <label for="inputEmail">E-mail</label>
-                            <input type="email" id="inputEmail" class="form-control" wire:model="contact.email">
+                            <input type="email" id="inputEmail" class="form-control @error('contact.email') is-invalid @enderror" wire:model="contact.email">
                         </div>
                         <div class="form-group col-12">
                             <label for="inputSubject">Object</label>
-                            <input type="text" id="inputSubject" class="form-control" wire:model="contact.subject">
+                            <input type="text" id="inputSubject" class="form-control @error('contact.subject') is-invalid @enderror" wire:model="contact.subject">
                         </div>
                         <div class="form-group col-12">
                             <label for="inputMessage">Message</label>
-                            <textarea id="inputMessage" class="form-control" rows="10" wire:model='contact.message'></textarea>
+                            <textarea id="inputMessage" class="form-control @error('contact.message') is-invalid @enderror" rows="10" wire:model='contact.message'></textarea>
                         </div>
                         <div class="form-group">
                             <input type="submit" class="btn btn-primary" value="Envoyer" wire:click='submitContact' />

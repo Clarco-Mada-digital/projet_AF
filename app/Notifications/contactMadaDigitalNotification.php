@@ -36,11 +36,11 @@ class contactMadaDigitalNotification extends Notification
         $contact = $notifiable->routes['contact'];
         // dd($contact);
         return (new MailMessage)
-                    ->subject($contact['subject'])
-                    ->greeting("Bonjour !")
-                    ->line("Message vient de l'alliance française.")
+                    ->subject("[AF-Application] - ". $contact['subject'])
+                    ->greeting("Bonjour administrateur !")
+                    ->line("Vous avez reçu un message de l'Alliance Française.")
                     ->line("De l'appart de : ". $contact['name'])
-                    ->line("Message : ". $contact['message'])
+                    ->line($contact['message'])
                     ->action('Répondre au message', url('mailto:'. $contact['email']));
     }
 
