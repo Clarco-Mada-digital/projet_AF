@@ -3,10 +3,16 @@
 @section('titlePage', 'ADHÉSIONS')
 
 <div class="row mx-4 pt-4">
+    
     <div class="col-md-12 d-flex align-items-center justify-content-between my-3">
-        <h3>Nouvel adhésions: </h3> <button class="btn btn-warning" wire:click='getDataPmb'> <i class="fa fa-spinner fa-spin"
-            wire:loading='getDataPmb' wire:target='getDataPmb'></i> Récupérer la base de donné pmb </button>
-
+        <h3>Nouvel adhésions: </h3> 
+        @hasrole('Super-Admin')
+        <button class="btn btn-warning" wire:click='getDataPmb'>
+            <i class="fa fa-sync mr-2"></i>
+            <i class="fa fa-spinner fa-spin" wire:loading='getDataPmb' wire:target='getDataPmb'></i> 
+            Récupérer la base de donné pmb 
+        </button>
+        @endhasrole
     </div>
     <div class="col-md-12" wire:ignore.self>
         <div class="card card-default m-0  mb-3">

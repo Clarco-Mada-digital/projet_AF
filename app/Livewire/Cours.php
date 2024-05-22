@@ -21,6 +21,7 @@ class Cours extends Component
     protected $listeners = ["deleteConfirmed" => 'deleteCour'];
 
     public string $search = "";
+    public $salles;
     public $state = 'view';
     public $professeurs;
     public $levels;
@@ -42,6 +43,7 @@ class Cours extends Component
         $this->professeurs = Professeur::all()->toArray();
         $this->levels = Level::all()->toArray();
         $this->categories = Categorie::all()->toArray();
+        $this->salles = ['Salle 01', 'Salle 02', 'Salle 03', 'Salle 04','Salle 05','Salle 06','Salle 07','Salle 08','Salle 09','Salle 10', 'Salle de réunion', 'Salle de spectacle', 'Médiathèque', 'Hall'];
     }
 
     public function rules()
@@ -132,6 +134,7 @@ class Cours extends Component
     {
         $this->validate();
 
+        // dd($this->editCour);
         $this->editCour['horaireDuCour'] = $this->dateHeurCour;
         Cour::find($this->editCour['id'])->update($this->editCour);
         $this->dispatch("ShowSuccessMsg", ['message' => 'Cour modifier avec success!', 'type' => 'success']);

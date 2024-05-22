@@ -293,7 +293,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a class="btn btn-primary" wire:click="bsSteepPrevNext('next')">Suivant</a>
+                                <div class="d-flex justify-content-between">
+                                    <a class="btn btn-primary" wire:click="bsSteepPrevNext('next')">Suivant</a>
+                                    <a class="btn btn-danger" wire:click="resetData">Annuler</a>
+                                </div>
                             </div>
                             <div id="cour-part" @if ($bsSteepActive !=2) style="display: none;" @endif>
                                 <div class="row">
@@ -466,18 +469,18 @@
                                         <div class="card-header">
                                             <h3 class="card-title">Paiement par</h3>
                                         </div>
-                                        <div class="card-body row">
-                                            <div class="custom-control custom-radio col-md-3">
+                                        <div class="card-body row w-100">
+                                            <div class="custom-control custom-radio col-md-3 col-sm-12 mr-3">
                                                 <input class="custom-control-input" type="radio" id="espece"
                                                     name="paiementPar" wire:click="defineMoyenPai('Espèce')">
                                                 <label for="espece" class="custom-control-label">Espèce</label>
                                             </div>
-                                            <div class="custom-control custom-radio col-md-3">
+                                            <div class="custom-control custom-radio col-md-3 col-sm-12 mr-3">
                                                 <input class="custom-control-input" type="radio" id="cheque"
                                                     name="paiementPar" wire:click="defineMoyenPai('Chèque')">
                                                 <label for="cheque" class="custom-control-label"> Chèque</label>
                                             </div>
-                                            <div class="custom-control custom-radio col-md-3">
+                                            <div class="custom-control custom-radio col-md-3 col-sm-12">
                                                 <input class="custom-control-input" type="radio" id="carte"
                                                     name="paiementPar" wire:click="defineMoyenPai('Carte bancaire')">
                                                 <label for="carte" class="custom-control-label">Carte
@@ -490,14 +493,14 @@
                                         <div class="card-header">
                                             <h3 class="card-title">Status de paiement</h3>
                                         </div>
-                                        <div class="card-body row">
-                                            <div class="custom-control custom-radio col-md-3">
+                                        <div class="card-body row w-100">
+                                            <div class="custom-control custom-radio col-md-5 col-sm-12 mr-3">
                                                 <input class="custom-control-input" type="radio" id="moitier"
                                                     name="statuePaiement" wire:click="defineStatue('A moitié')">
                                                 <label for="moitier" class="custom-control-label">Partiellement payé
                                                 </label>
                                             </div>
-                                            <div class="custom-control custom-radio col-md-3">
+                                            <div class="custom-control custom-radio col-md-5 col-sm-12">
                                                 <input class="custom-control-input" type="radio" id="totale"
                                                     name="statuePaiement" wire:click="defineStatue('Totalement')">
                                                 <label for="totale" class="custom-control-label">Totalement

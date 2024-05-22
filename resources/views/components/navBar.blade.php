@@ -125,10 +125,10 @@
         @else
             <li class="nav-item dropdown ">
                 <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-bell"></i>
-                    <span class="badge badge-warning navbar-badge">15</span>
+                    <i class="far fa-bell fa-2xl"></i>
+                    {{-- <span class="badge badge-warning navbar-badge">15</span> --}}
                 </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                {{-- <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <span class="dropdown-header">15 Notifications</span>
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item">
@@ -147,7 +147,7 @@
                     </a>
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-                </div>
+                </div> --}}
             </li>
             <li class="nav-item">
                 <a id="navbarDropdown" class="nav-link d-flex text-truncate" href="#" role="button" data-widget="control-sidebar"

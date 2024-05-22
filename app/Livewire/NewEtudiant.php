@@ -48,7 +48,7 @@ class NewEtudiant extends Component
     public string $typeInscription = "cours";
     public $adhesionSelect;
 
-    public bool $noMember = false;
+    public bool $noMember = True;
     public bool $MemberPmb = false;
 
     public function defineStatue($nomStatue)
@@ -86,11 +86,21 @@ class NewEtudiant extends Component
     public function initData(Adhesion $adhesion)
     {
         $this->search = "";        
-        $this->reset("noMember");
+        // $this->reset("noMember");
+        $this->noMember = false;
         $this->MemberPmb = true;
         $this->newEtudiant = $adhesion->toArray();
         $this->adhesionSelect = $adhesion;
         $this->newEtudiant['level_id'] = '1';
+    }
+
+    public function resetData()
+    {
+        $this->search = "";        
+        $this->reset("noMember");
+        $this->reset("MemberPmb");
+        $this->reset("newEtudiant");
+        $this->reset("adhesionSelect");
     }
 
     public function updatedSearch()
@@ -123,8 +133,8 @@ class NewEtudiant extends Component
             }
             elseif ($this->bsSteepActive == 3) 
             {
-                if ($this->statue == "" || $this->moyenPaiement == "") {
-                    $this->dispatch("showModalSimpleMsg", ['message' => "Veuillez sélectionner le statut et le moyen de paiement", 'type' => 'warning']);
+                if ($this->statue == "" || $this->moyenPaiement == "" || $this->montantPaye==0) {
+                    $this->dispatch("showModalSimpleMsg", ['message' => "Quelque chose a mal fonctionné ; veuillez vérifier que tous les champs sont correctement remplis.", 'type' => 'warning']);
                 } else {
                     $this->submitNewEtudiant();
                     $this->bsSteepActive += 1;
@@ -251,10 +261,14 @@ class NewEtudiant extends Component
     public function submitNewEtudiant()
     {
         $categorie_indication = [
-            1 => "AD",
-            2 => "ET",
-            3 => "ENF",
+            1 => "JN",
+            2 => "PR",
+            3 => "PR",
             4 => "ME",
+            5 => "ET",
+            6 => "CL",
+            7 => "AD",
+            8 => "VL",
         ];
         $this->newEtudiant['user_id'] = Auth::user()->id;
         $this->newEtudiant['session_id'] = $this->etudiantSession;
@@ -282,6 +296,7 @@ class NewEtudiant extends Component
         }
         else
         {
+            $this->newEtudiant["numCarte"] = "AF-" .  $categorie_indication[$this->newEtudiant['categorie_id']] . '.' . random_int(100, 9000);
             $newAdhesion = Adhesion::create($this->newEtudiant);
             $newEtud = Etudiant::create(["adhesion_id" => $newAdhesion->id, "user_id" => Auth::user()->id, "session_id" => $this->etudiantSession, "level_id" => $this->newEtudiant['level_id']]);
         }
@@ -320,7 +335,8 @@ class NewEtudiant extends Component
         }
 
         // Pour la base donné de paiement               
-        $paiementData = [
+        $paiementData = 
+        [
             'montant' => $this->montantInscription,
             'montantRestant' => $this->montantRestant != 0 ? $this->montantRestant : 0,
             'statue' => $this->statue,
@@ -334,7 +350,8 @@ class NewEtudiant extends Component
         $this->paiement_id = $paiement->id;
 
         // Pour la base donné de inscription
-        $inscriValue = [
+        $inscriValue = 
+        [
             'adhesion_id' => $newEtud->adhesion_id,
             // 'session_id' => $this->sessionSelected->id,
             'idCourOrExam' => $idCourOrExam,

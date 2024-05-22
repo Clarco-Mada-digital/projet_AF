@@ -49,7 +49,7 @@
                         <select class="form-control @error('newCour.salle') is-invalid @enderror" id="codeSalle" wire:model='newCour.salle'>
                             <option >-- Salle --</option>
                             @foreach ($salles as $salle)
-                                <option value={{$salle}}>{{ $salle }}</option>                                
+                                <option value="{{$salle}}">{{ $salle }}</option>                                
                             @endforeach
                         </select>
                         @error('newCour.salle') <span class="invalid-feedback">Ce champ est obligatoire</span> @enderror

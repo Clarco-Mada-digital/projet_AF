@@ -46,8 +46,12 @@
 
             <div class="col-md-2 form-group">
                 <label class="form-label" for="codeSalle">Salle</label>
-                <input class="form-control @error('editCour.salle') is-invalid @enderror" type="text" name="editCour"
-                    id="codeSalle" wire:model='editCour.salle'>
+                <select class="form-control @error('editCour.salle') is-invalid @enderror" id="codeSalle" wire:model='editCour.salle'>
+                    <option >-- Salle --</option>
+                    @foreach ($salles as $salle)
+                        <option value="{{$salle}}">{{ $salle }}</option>                                
+                    @endforeach
+                </select>
                 @error('editCour.salle')
                 <span class="invalid-feedback">Ce champ est obligatoire</span>
                 @enderror
