@@ -57,7 +57,7 @@
       <tbody>
         @forelse ($membres as $membre)
         <tr class=" @if ($membre->finAdhesion < Carbon\Carbon::today()) text-danger @endif ">
-          <td>
+          <td class="text-center">
             @if ($membre->profil != null)
             <img class=" img-circle" src="{{ asset('storage/' . $membre->profil) }}" width='50' alt="profil etudiant">
             @else
@@ -65,6 +65,8 @@
               src="{{ 'https://eu.ui-avatars.com/api/?name=' . $membre->nom . '&background=random' }}" width='50'
               alt="profil etudiant">
             @endif
+            <br>
+            CB: {{ $membre->CB }}
 
           </td>
           <td class="text-center">{{ $membre->numCarte }} </td>

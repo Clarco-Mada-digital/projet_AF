@@ -56,6 +56,7 @@
                                     <button class="btn btn-link" wire:click.prefetch="restoreDB({{ $loop->index }})">
                                         <i class="fa fa-recycle"></i>
                                     </button>
+                                    <i class="fa fa-spinner fa-spin mx-3" wire:loading='restoreDB({{ $loop->index }})' wire:target='restoreDB({{ $loop->index }})' ></i>
                                 </td>
                             </tr>
                             @empty

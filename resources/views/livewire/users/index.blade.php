@@ -45,7 +45,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($users as $user)
+                                @forelse ($users as $user)                                   
                                 <tr>
                                     <td>
                                         @if ($user->profil != null)

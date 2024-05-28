@@ -38,8 +38,15 @@
                             <textarea id="inputMessage" class="form-control @error('contact.message') is-invalid @enderror" rows="10" wire:model='contact.message'></textarea>
                         </div>
                         <div class="form-group">
-                            <input type="submit" class="btn btn-primary" value="Envoyer" wire:click='submitContact' />
+                            <button class="btn btn-primary" wire:click='submitContact'>
+                                <i class="fa fa-spinner fa-spin mr-2" wire:loading='submitContact' wire:target='submitContact' ></i>
+                                Envoyer
+                                <i class="fa fa-paper-plane ml-2"></i>
+                            </button>
                         </div>
+                        {{-- <div class="form-group">
+                            <input type="submit" class="btn btn-primary" value="Envoyer" wire:click='submitContact' />
+                        </div> --}}
                     </div>
                 </div>
             </div>

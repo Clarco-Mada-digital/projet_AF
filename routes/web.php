@@ -45,7 +45,7 @@ Route::group([
     'middleware' => ['auth'],
     'prefix' => 'etudiants',
     'as' => 'etudiants-',
-    'middleware' => ['role:Manager|Super-Admin|Admin']
+    // 'middleware' => ['role:Manager|Super-Admin|Admin']
 ], function () {
     Route::match(['get', 'post'], '/list', Etudiants::class)->name('list');
     Route::match(['get', 'post'], '/nouveau', [App\Http\Controllers\EtudiantController::class, 'index'])->name('nouveau')->middleware('permission:étudiants.create');
@@ -55,7 +55,7 @@ Route::group([
     'middleware' => ['auth'],
     'prefix' => 'adhesions',
     'as' => 'adhesions-',
-    'middleware' => ['role:Manager|Super-Admin|Admin']
+    // 'middleware' => ['role:Manager|Super-Admin|Admin']
 ], function () {
     Route::match(['get', 'post'], '/nouveau', Adhesions::class)->name('nouveau');
 });
@@ -64,7 +64,7 @@ Route::group([
     'middleware' =>['auth'],
     'prefix' => 'cours',
     'as' => 'cours-',
-    'middleware' => ['role:Manager|Super-Admin|Admin']
+    // 'middleware' => ['role:Manager|Super-Admin|Admin']
 ], function () {
     Route::match(['get', 'post'], '/list', Cours::class)->name('list');
     Route::match(['get', 'post'], '/nouveau', NewCour::class)->name('nouveau')->middleware('permission:cours.create');
@@ -73,7 +73,7 @@ Route::group([
 Route::group([
     'prefix' => 'paiements',
     'as' => 'paiements-',
-    'middleware' => ['role:Manager|Admin|Super-Admin']
+    // 'middleware' => ['role:Manager|Admin|Super-Admin']
 ], function () {
     Route::match(['get', 'post'], '/', Paiements::class)->name('paiement');
 });

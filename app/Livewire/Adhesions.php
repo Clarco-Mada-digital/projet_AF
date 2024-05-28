@@ -65,7 +65,6 @@ class Adhesions extends Component
         }
     }
 
-
     function __construct()
     {
         $this->categories = Categorie::all();
@@ -235,10 +234,12 @@ class Adhesions extends Component
     public function defineMontant()
     {
         $this->montantPayer = 0;
-
+        
         if ($this->newAdhesion['categorie_id'] == 4) {
             $this->montantAdhesion = "+ 20000 ";
-        } else {
+        } 
+        elseif ($this->catPaiement == null)
+        {
             $price = Price::with("categories")->whereHas("categories", function ($qr) {
                 $qr->where("id", "LIKE", $this->newAdhesion['categorie_id']);
             })->first();
@@ -247,6 +248,12 @@ class Adhesions extends Component
 
             $this->montantPayer = $this->montantAdhesion;
             // dd($this->montantAdhesion);
+        }
+        else
+        {
+            $price = Price::find($this->catPaiement);
+            $this->montantAdhesion = $price->montant;
+            $this->montantPayer = $this->montantAdhesion;
         }
     }
 
@@ -265,6 +272,7 @@ class Adhesions extends Component
     {
         $rule = [
             'photo' => ['image', 'max:1024', 'nullable'],
+            'newAdhesion.CB' => ['required'],
             'newAdhesion.nom' => ['required'],
             'newAdhesion.prenom' => 'required',
             'newAdhesion.sexe' => ['required'],

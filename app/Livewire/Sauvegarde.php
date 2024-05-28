@@ -29,7 +29,8 @@ class Sauvegarde extends Component
         $this->db_name='projet_af'; 
         $this->db_username='root'; 
         $this->db_password='';
-        $this->db_charset = 'latin1'; 
+        $this->db_charset = 'latin1';
+        // $this->db_charset = 'utf-8'; 
         $this->fileName = 'Sauvegarde-de-AF_'.date('Y-m-d_H-i-s').'.sql';
         $this->port = '3306';
     }
@@ -88,13 +89,13 @@ class Sauvegarde extends Component
         //---------------------------------------------
         // execution de la commande mysql dump
         //---------------------------------------------
-        $commande  = 'C:/xampp/mysql/bin/mysqldump.exe';
+        $commande  = 'C:/wamp64/bin/mysql/mysql5.7.36/bin/mysqldump.exe';
         $commande .= ' --host=' . $this->db_server;
         $commande .= ' --port=' . $this->port;
         $commande .= ' --user=' . $this->db_username;
         $commande .= ' --password=' . $this->db_password;
         $commande .= ' --default-character-set='.$this->db_charset;
-        $commande .= ' --compatible=mysql40';
+        // $commande .= ' --compatible=mysql40';
         $commande .= ' ' . $this->db_name;
         $commande .= ' < '.$this->repertoire_sauvegardes.$name;
 

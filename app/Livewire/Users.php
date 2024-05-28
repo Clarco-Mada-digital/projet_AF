@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\Permission;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -83,7 +84,25 @@ class Users extends Component
             $this->sectionName = 'list';
         }
         if ($name == 'edit') {
-            if (Auth()->user()->can('utilisateurs.crate'))
+            $user = User::find($idUser);
+            $userInfo = $user->roles->toArray();
+            $userRole = Auth()->user()->roles->toArray();
+            // dd($userRole);
+            $userRoleList = [];
+            $authRoleList = [];
+            foreach ($userInfo as $value) {
+                array_push($userRoleList, $value['name']);
+            }
+            foreach ($userRole as $value) {
+                array_push($authRoleList, $value['name']);
+            }
+
+            if (in_array("Super-Admin", $userRoleList) && !in_array("Super-Admin", $authRoleList))
+            {
+                $this->dispatch("showModalSimpleMsg", ['message' => "Vous ne pouvez pas éditer cette utilisateur !", 'type' => 'error']);
+                return null;
+            }
+            if (Auth()->user()->can('utilisateurs.create'))
             {
                 $this->rolePermissionList['permissions'] = [];
                 $this->photo = "";
@@ -94,7 +113,7 @@ class Users extends Component
             }   
         }
         if ($name == 'new') {
-            if (Auth()->user()->can('utilisateurs.crate'))
+            if (Auth()->user()->can('utilisateurs.create'))
             {
                 foreach (Permission::all() as $permission) {
                     array_push($this->rolePermissionList['permissions'], ['id' => $permission->id, 'nom' => $permission->name, 'active' => false]);
@@ -242,8 +261,26 @@ class Users extends Component
 
     public function deleteConfirmation(User $user)
     {
-        $this->userDelete = $user->id;
-        $this->dispatch("AlertDeleteConfirmModal", ['message' => "êtes-vous sur de suprimer $user->nom $user->prenom ! dans la liste des utilisateurs ?", 'type' => 'warning', 'thinkDelete' => 'User']);
+        $userInfo = $user->roles->toArray();
+        $userRole = Auth()->user()->roles->toArray();
+        $userRoleList = [];
+        $authRoleList = [];
+        foreach ($userInfo as $value) {
+            array_push($userRoleList, $value['name']);
+        }
+        foreach ($userRole as $value) {
+            array_push($authRoleList, $value['name']);
+        }
+
+        if (in_array("Super-Admin", $userRoleList) && !in_array("Super-Admin", $authRoleList)) 
+        {
+            $this->dispatch("showModalSimpleMsg", ['message' => "Vous ne pouvez pas supprimer cette utilisateur !", 'type' => 'error']);
+        }
+        else
+        {
+            $this->userDelete = $user->id;
+            $this->dispatch("AlertDeleteConfirmModal", ['message' => "êtes-vous sur de suprimer $user->nom $user->prenom ! dans la liste des utilisateurs ?", 'type' => 'warning', 'thinkDelete' => 'User']);
+        }
         // $user->delete();
         // dd($user);
         // $this->dispatch("ShowSuccessMsg", ['message' => "L'utilisateur a été supprimé avec succès !", 'type' => 'success']);

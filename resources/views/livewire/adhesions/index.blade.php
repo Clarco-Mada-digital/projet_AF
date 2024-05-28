@@ -142,7 +142,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="etudiantProfession">Profession</label>
+                                            <label for="etudiantProfession">Établissement</label>
                                             <input type="text" class="form-control" id="etudiantProfession"
                                                 wire:model='newAdhesion.profession'>
                                         </div>
@@ -237,12 +237,19 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3 form-group ">
-                                        <label class="form-label">Code Barre </label><span class="text-danger ml-2 fw-light">*Pour ceux qui s’inscrit au bibliothèque*</span>
+                                        <label class="form-label">Code Barre </label>
+                                        {{-- <span class="text-danger ml-2 fw-light">*Pour ceux qui s’inscrit au bibliothèque*</span> --}}
                                         <div class="d-flex justify-content-between">
                                             <a type="button" class="form-control btn btn-info" data-toggle="modal" data-target="#view-scan-code" spellcheck="false" onclick="exemple()"> <i class="fa fa-barcode mr-3"></i>{{ $newAdhesion['CB'] == null ? 'Scanne' : $newAdhesion['CB'] }} </a>
                                             
                                             @if ($newAdhesion['CB'] == null)
-                                            <a type="button" class="form-control btn btn-info mx-2" data-toggle="modal" data-target="#view-new-cb" spellcheck="false" onclick='$("#bcTarget").barcode("{{$newAdhesion["numCarte"]}}", "code128",{barWidth:2, barHeight:100, output:"svg"});'> <i class="fa fa-barcode mr-3"></i>Générer </a>                                                
+                                            <input type="number" placeholder="Code barre"
+                                                class="form-control mx-2 @error('newAdhesion.CB') is-invalid @enderror"
+                                                id="etudiantCb" wire:model='newAdhesion.CB'/>
+                                            @error('newAdhesion.CB')
+                                                <span class="invalid-feedback"> Ce champ est obligatoire</span>
+                                            @enderror
+                                            {{-- <a type="button" class="form-control btn btn-info mx-2" data-toggle="modal" data-target="#view-new-cb" spellcheck="false" onclick='$("#bcTarget").barcode("{{$newAdhesion["numCarte"]}}", "code128",{barWidth:2, barHeight:100, output:"svg"});'> <i class="fa fa-barcode mr-3"></i>Générer </a>                                                 --}}
                                             @endif
                                         </div>
                                     </div>
