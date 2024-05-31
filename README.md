@@ -37,4 +37,4 @@ Document introuvable.
 
 
 NB : Pour la mise à jour des composants sous Wamp, suivez attentivement les instructions de Wamp pour choisir la version compatible avec le reste des composants installés. Assurez-vous de télécharger et d'installer les mises à jour (Update), et non l'installation initiale du composant. Normalement, vous trouverez tout ce dont vous avez besoin sur le site.
-__
+--
