@@ -51,6 +51,8 @@ class Sessions extends Component
     public $heurFinInput;
     public $dateHeurCour;
 
+    public $filteredSession = 'Actif';
+
     public function __construct()
     {
         $this->professeurs = Professeur::all()->toArray();
@@ -323,12 +325,32 @@ class Sessions extends Component
         Carbon::setLocale('fr');
         // $this->coursList = [];
 
-
-        $data = [
-            "sessions" => Session::where("nom", "LIKE", "%{$this->search}%")
-                ->orderBy($this->orderField, $this->orderDirection)
-                ->paginate(5)
-        ];
+        if ($this->filteredSession == 'Actif')
+        {
+            $data = [
+                "sessions" => Session::where("nom", "LIKE", "%{$this->search}%")
+                    ->Where("statue", 'LIKE', '1')
+                    ->orderBy($this->orderField, $this->orderDirection)
+                    ->paginate(5)
+            ];
+        }
+        if ($this->filteredSession == 'Inactif')
+        {
+            $data = [
+                "sessions" => Session::where("nom", "LIKE", "%{$this->search}%")
+                    ->Where("statue", 'LIKE', '0')
+                    ->orderBy($this->orderField, $this->orderDirection)
+                    ->paginate(5)
+            ];
+        }
+        if ($this->filteredSession == 'All')
+        {
+            $data = [
+                "sessions" => Session::where("nom", "LIKE", "%{$this->search}%")
+                    ->orderBy($this->orderField, $this->orderDirection)
+                    ->paginate(5)
+            ];
+        }
 
         return view('livewire.sessions.index', $data);
     }

@@ -18,21 +18,21 @@ class DatabaseSeeder extends Seeder
 
         $this->call(UserTableSeeder::class);
 
-        \App\Models\User::factory(1)->create();
+        // \App\Models\User::factory(1)->create();
         
-        \App\Models\Professeur::factory(3)-> create();
+        // \App\Models\Professeur::factory(3)-> create();
 
         $this->call(LevelsTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         $this->call(PriceTableSeeder::class);
-        $this->call(ExamenTableSeeder::class);
+        // $this->call(ExamenTableSeeder::class);
 
         $user1 = \App\Models\User::find(1);
         $user1->assignRole('Super-Admin');
-        $user2 = \App\Models\User::find(2);
-        $user2->assignRole('Admin');
-        $user3 = \App\Models\User::find(3);
-        $user3->assignRole('Accueil');
+        // $user2 = \App\Models\User::find(2);
+        // $user2->assignRole('Admin');
+        // $user3 = \App\Models\User::find(3);
+        // $user3->assignRole('Accueil');
 
         // \App\Models\Etudiant::factory(10)->create();
         

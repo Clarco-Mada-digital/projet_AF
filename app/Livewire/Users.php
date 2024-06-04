@@ -42,6 +42,9 @@ class Users extends Component
         'search',
     ];
 
+    // 
+    // Function pour la verification des formulaire.
+    // 
     public function rules()
     {
         if ($this->sectionName == 'edit') {
@@ -185,19 +188,35 @@ class Users extends Component
         }
         $validateAtributes = $this->validate();
 
+        // 
+        // Empêcher l'enregistrement d'utilisateur si aucun rôle ne lui soit attribué.
+        // 
         if($this->newUser['role_id'] == null)
         {
             $this->dispatch("showModalSimpleMsg", ['message' => "Veuillez sélectionner un role pour l'utilisateur!", 'type' => 'error']);
             return;
         }
 
+        // 
+        // Empêcher les autres utilisateurs crée un utilisateur avec rôle admin
+        // 
+        if($this->newUser['role_id'] == "Super-Admin" && !in_array("Super-Admin", Auth::user()->roles->toArray()))
+        {
+            $this->dispatch("showModalSimpleMsg", ['message' => "Désolé, seuls les Super Admins peuvent ajouter un autre Super Admin.", 'type' => 'error']);
+            return;
+        }
+
         $user = User::create($validateAtributes['newUser']);
 
+        // 
         // Ajout le Role selection pour l'utilisateur crée.
+        // 
         $user->assignRole($this->newUser['role_id']);
         $rolePermission = True;
 
+        // 
         // Ajout de permission au utilisateur crée.
+        // 
         if (count($this->rolePermissionList['permissions']) > 0) {
             foreach ($this->rolePermissionList['permissions'] as $permission) {
                 if ($permission['active']) {
@@ -262,17 +281,12 @@ class Users extends Component
     public function deleteConfirmation(User $user)
     {
         $userInfo = $user->roles->toArray();
-        $userRole = Auth()->user()->roles->toArray();
         $userRoleList = [];
-        $authRoleList = [];
         foreach ($userInfo as $value) {
             array_push($userRoleList, $value['name']);
         }
-        foreach ($userRole as $value) {
-            array_push($authRoleList, $value['name']);
-        }
 
-        if (in_array("Super-Admin", $userRoleList) && !in_array("Super-Admin", $authRoleList)) 
+        if (in_array("Super-Admin", $userRoleList) && !in_array("Super-Admin", Auth()->user()->roles->toArray())) 
         {
             $this->dispatch("showModalSimpleMsg", ['message' => "Vous ne pouvez pas supprimer cette utilisateur !", 'type' => 'error']);
         }
@@ -281,19 +295,18 @@ class Users extends Component
             $this->userDelete = $user->id;
             $this->dispatch("AlertDeleteConfirmModal", ['message' => "êtes-vous sur de suprimer $user->nom $user->prenom ! dans la liste des utilisateurs ?", 'type' => 'warning', 'thinkDelete' => 'User']);
         }
-        // $user->delete();
-        // dd($user);
-        // $this->dispatch("ShowSuccessMsg", ['message' => "L'utilisateur a été supprimé avec succès !", 'type' => 'success']);
 
     }
     public function deleteUser()
     {
-        // dd($this->userDelete);
         $user = User::where('id', $this->userDelete)->first();
         $user->delete();
         $this->dispatch("ShowSuccessMsg", ['message' => "L'utilisateur a été supprimé avec succès !", 'type' => 'success']);
     }
 
+    // 
+    // function pour le trie du tableau d'affichage.
+    // 
     public function setOrderField(string $name)
     {
         if ($name === $this->orderField) {

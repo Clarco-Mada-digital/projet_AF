@@ -18,20 +18,20 @@ class UserTableSeeder extends Seeder
                 "nom" => 'Bryan',
                 "prenom" => 'Clark',
                 "sexe" => 'M',
-                "telephone1" => '+223566849',
+                "telephone1" => '+261.34.37.395.28',
                 "adresse" => '125 rue de belle imagine',
-                "email" => 'bryan@admin.com',
+                "email" => 'clarco.dev@mada-digital.net',
                 "password" => Hash::make('my angel'),
             ],
-            [
-                "nom" => 'Jhon',
-                "prenom" => 'Doe',
-                "sexe" => 'M',
-                "telephone1" => '+223566849',
-                "adresse" => '125 dream street',
-                "email" => 'jhon@doe.com',
-                "password" => '$2y$12$PT23r3.Fme7vpdQzfElnBOTTZn7eyHsmGXJ7mdrytkOATtc6c/RJC',
-            ],
+            // [
+            //     "nom" => 'Jhon',
+            //     "prenom" => 'Doe',
+            //     "sexe" => 'M',
+            //     "telephone1" => '+223566849',
+            //     "adresse" => '125 dream street',
+            //     "email" => 'jhon@doe.com',
+            //     "password" => '$2y$12$PT23r3.Fme7vpdQzfElnBOTTZn7eyHsmGXJ7mdrytkOATtc6c/RJC',
+            // ],
         ];
         foreach ($USERS as $USER) {
             DB::table('users')->insert($USER);

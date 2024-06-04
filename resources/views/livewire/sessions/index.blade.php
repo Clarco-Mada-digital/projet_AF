@@ -6,6 +6,22 @@
     <h3 class="mb-5 pt-3">Liste des sessions</h3>
     <div class="row mt-4 mx-2">
         <div class="col-12">
+
+            {{-- <h6 class="fw-bold">Filtre :</h6> --}}
+            <div class="d-flex align-items-center">
+                <div class="mb-3 mx-3" style="width: 40vmin;">
+                    <div class="form-group d-flex align-items-center justify-content-between">
+                        <label class="form-label w-50" for="filteredPaiementForm">État de la session :</label>
+                        <select class="form-control" id="filteredPaiementForm" aria-label="Filter form"
+                            wire:model.live="filteredSession">
+                            <option value="All" selected>Tout</option>
+                            <option value="Actif">Actif</option>
+                            <option value="Inactif">Inactif</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <div class="card" style="min-height: 400px;">
 
                 {{-- En tête de la card --}}
