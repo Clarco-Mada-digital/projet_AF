@@ -150,25 +150,26 @@ class Adhesions extends Component
         }
         // On affiche chaque entrée une à une
         while ($donnees = $r->fetch()) {
-
-            $this->newAdhesion['numCarte'] = $donnees['empr_cb'];
-            $this->newAdhesion['CB'] = $donnees['empr_cb'];
-            $this->newAdhesion['nom'] = $donnees['empr_nom'];
-            $this->newAdhesion['prenom'] = $donnees['empr_prenom'];
+			
+            $this->newAdhesion['numCarte'] = mb_convert_encoding($donnees['empr_cb'], "UTF-8", "Windows-1252");
+            $this->newAdhesion['CB'] = mb_convert_encoding($donnees['empr_cb'], "UTF-8", "Windows-1252");
+            $this->newAdhesion['nom'] = mb_convert_encoding($donnees['empr_nom'], "UTF-8", "Windows-1252");
+            $this->newAdhesion['prenom'] = mb_convert_encoding($donnees['empr_prenom'], "UTF-8", "Windows-1252");
             $this->newAdhesion['sexe'] = $donnees['empr_sexe'] == 1 ? "M" : "F";
-            $this->newAdhesion['nationalite'] = $donnees['empr_pays'];
+            $this->newAdhesion['nationalite'] = mb_convert_encoding($donnees['empr_pays'], "UTF-8", "Windows-1252");
             $this->newAdhesion['dateNaissance'] = $donnees['empr_year'];
-            $this->newAdhesion['profession'] = $donnees['empr_prof'];
-            $this->newAdhesion['email'] = $donnees['empr_mail'];
-            $this->newAdhesion['telephone1'] = $donnees['empr_tel1'];
-            $this->newAdhesion['telephone2'] = $donnees['empr_tel2'];
-            $this->newAdhesion['adresse'] = $donnees['empr_adr1'];
-            $this->newAdhesion['categorie_id'] = $donnees['empr_categ'];
+            $this->newAdhesion['profession'] = mb_convert_encoding($donnees['empr_prof'], "UTF-8", "Windows-1252");
+            $this->newAdhesion['email'] = mb_convert_encoding($donnees['empr_mail'], "UTF-8", "Windows-1252");
+            $this->newAdhesion['telephone1'] = mb_convert_encoding($donnees['empr_tel1'], "UTF-8", "Windows-1252");
+            $this->newAdhesion['telephone2'] = mb_convert_encoding($donnees['empr_tel2'], "UTF-8", "Windows-1252");
+            $this->newAdhesion['adresse'] = mb_convert_encoding($donnees['empr_adr1'], "UTF-8", "Windows-1252");
+            $this->newAdhesion['categorie_id'] = mb_convert_encoding($donnees['empr_categ'], "UTF-8", "Windows-1252");
             $this->newAdhesion['user_id'] = 1;
             $this->newAdhesion['created_at'] = $donnees['empr_date_adhesion'];
             $this->newAdhesion['finAdhesion'] = $donnees['empr_date_expiration'];
 
             if (in_array($this->newAdhesion['CB'], $adhesion_cb) == False) {
+				//dd($this->newAdhesion);
                 Adhesion::create($this->newAdhesion);
             }
         }

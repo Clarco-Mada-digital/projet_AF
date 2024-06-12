@@ -50,7 +50,7 @@
                     <label class="form-label text-muted">Identifiant</label>
                     <div class="input-group mb-3">
                         <input type="email" class="form-control" name="email"
-                            value="{{ old('email')? old('email'):'jhon@doe.com' }}" required autocomplete="email"
+                            value="{{ old('email')? old('email'):'' }}" required autocomplete="email"
                             autofocus placeholder="jhon@doe.com">
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -70,7 +70,7 @@
                     <label class="form-label text-muted">Mot de passe</label>
                     <div class="input-group mb-3">
                         <input type="password" class="form-control"
-                            name="password" value="password" required autocomplete="current-password"
+                            name="password" value="" required autocomplete="current-password"
                             placeholder="Mot de passe">
                         <div class="input-group-append">
                             <div class="input-group-text">

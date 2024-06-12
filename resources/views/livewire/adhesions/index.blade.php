@@ -45,7 +45,7 @@
                         <div class="step @if ($bsSteepActive == 2) active @endif" data-target="#paiement-part">
                             <button type="button" class="step-trigger" role="tab" aria-controls="paiement-part"
                                 id="information-part-trigger" @if ($bsSteepActive !=3) disabled="disabled" @endif>
-                                <span class="bs-stepper-circle bg-gradient-warning">3</span>
+                                <span class="bs-stepper-circle bg-gradient-warning">2</span>
                                 <span class="bs-stepper-label text-warning">Paiement</span>
                             </button>
                         </div>
@@ -53,7 +53,7 @@
                         <div class="step @if ($bsSteepActive == 3) active @endif" data-target="#facture-part">
                             <button type="button" class="step-trigger" role="tab" aria-controls="facture-part"
                                 id="information-part-trigger" @if ($bsSteepActive !=4) disabled="disabled" @endif>
-                                <span class="bs-stepper-circle bg-gradient-success">4</span>
+                                <span class="bs-stepper-circle bg-gradient-success">3</span>
                                 <span class="bs-stepper-label text-success">Facture</span>
                             </button>
                         </div>
