@@ -23,14 +23,14 @@
                 <select class="form-control w-100 @error('dataTarifs.categorie_id') is-invalid @enderror"
                   id="codeCategorie" wire:model='dataTarifs.categorie_id'>
                   @foreach ($categories as $categorie)
-                  <option value="{{ $categorie['id'] }}">{{ $categorie['libelle'] }}</option>
+                  <option value="{{ $categorie['id'] }}" {{ $editTarifId->categories->pluck('id')->contains($categorie['id']) ? 'selected' : '' }}>{{ $categorie['libelle'] }}</option>
                   @endforeach
                 </select>
                 @else
                 <select class="form-control w-100 @error('dataTarifs.level_id') is-invalid @enderror" multiple
                   id="codeLevel" wire:model='dataTarifs.level_id'>
                   @foreach ($levels as $level)
-                  <option value="{{ $level['id'] }}">{{ $level['libelle'] }}</option>
+                  <option value="{{ $level['id'] }}" {{ $editTarifId->levels->pluck('id')->contains($level['id']) ? 'selected' : '' }}>{{ $level['libelle'] }}</option>
                   @endforeach
                 </select>
                 @endif
@@ -42,20 +42,20 @@
                 <select class="form-control w-100 mx-2 @error('dataTarifs.level_id') is-invalid @enderror"
                   id="codeExamen" wire:model='dataExamens.level_id'>
                   @foreach ($levels as $level)
-                  <option value="{{ $level['id'] }}">{{ $level['libelle'] }}</option>
+                  <option value="{{ $level['id'] }}" {{ $editTarifId->levels->pluck('id')->contains($level['id']) ? 'selected' : '' }}>{{ $level['libelle'] }}</option>
                   @endforeach
                 </select>
                 <select class="form-control w-100 mx-2 @error('dataTarifs.session_id') is-invalid @enderror"
                   id="codeExamen" wire:model='dataExamens.session_id'>
                   <option> --- Sessions --- </option>
                   @foreach ($sessions as $session)
-                  <option value="{{ $session['id'] }}">{{ $session['nom'] }}</option>
+                  <option value="{{ $session['id'] }}" {{ $editTarifId->sessions->pluck('id')->contains($session['id']) ? 'selected' : '' }}>{{ $session['nom'] }}</option>
                   @endforeach
                 </select>
                 <select class="form-control w-100 mx-2 @error('dataTarifs.price_id') is-invalid @enderror"
                   id="codeExamen" wire:model='dataExamens.price_id'>
                   @foreach ($prices as $price)
-                  <option value="{{ $price['id'] }}">{{ $price['nom'] }} - {{ $price->levels->implode("libelle", " |
+                  <option value="{{ $price['id'] }}" {{ $editTarifId->prices->pluck('id')->contains($price['id']) ? 'selected' : '' }}>{{ $price['nom'] }} - {{ $price->levels->implode("libelle", " |
                     ")}}</option>
                   @endforeach
                 </select>

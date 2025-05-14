@@ -263,12 +263,17 @@ class ParametreGenerale extends Component
 
         $newTarification = Price::create($this->dataTarifs);
 
-        foreach ($this->dataTarifs['level_id'] as $level) {
-            $newTarification->levels()->attach($level);
-        }
-        if ($this->dataTarifs['categorie_id'] != null)
+        if (!$this->typeTarif)
         {
-            $newTarification->categories()->attach($this->dataTarifs['categorie_id']);
+            foreach ($this->dataTarifs['level_id'] as $level) {
+                $newTarification->levels()->attach($level);
+            }
+        }
+        else
+        {
+            foreach ($this->dataTarifs['categorie_id'] as $categorie) {
+                $newTarification->categories()->attach($categorie);
+            }
         }
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Creation de tarif avec success!', 'type' => 'success']);
@@ -289,16 +294,27 @@ class ParametreGenerale extends Component
 
         $this->dataTarifs['montant'] = str_replace(',', '.', $this->dataTarifs['montant']);
         $this->dataTarifs['nom'] = $this->editTarif;
-        $this->dataTarifs['level_id'] = $this->editTarifId->levels;
+        // $this->dataTarifs['level_id'] = $this->editTarifId->levels;
 
         // supprimer les tarif relier enregistre
         DB::table("price_levels")->where("price_id", $this->editTarifId->id)->delete();
 
         $this->editTarifId->update($this->dataTarifs);
 
-        foreach ($this->dataTarifs['level_id'] as $level) {
-            $this->editTarifId->levels()->attach($level);
+        // Vérifier si 'level_id' existe et n'est pas vide
+        if (array_key_exists('level_id', $this->dataTarifs) && !empty($this->dataTarifs['level_id'])) {
+            foreach ($this->dataTarifs['level_id'] as $level) {
+                $this->editTarifId->levels()->attach($level);
+            }
         }
+
+        // Vérifier si 'categorie_id' existe et n'est pas vide
+        if (array_key_exists('categorie_id', $this->dataTarifs) && !empty($this->dataTarifs['categorie_id'])) {
+            // ajouter un code pour supprimer tous les encien valeur
+            $this->editTarifId->categories()->sync($this->dataTarifs['categorie_id']);
+        }
+
+
 
         $this->dispatch("ShowSuccessMsg", ['message' => 'Modification avec success!', 'type' => 'success']);
 

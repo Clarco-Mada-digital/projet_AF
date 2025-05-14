@@ -212,8 +212,11 @@ class Etudiants extends Component
         $this->toogleStateName('view');
     }
 
-    public function toogleFormPayRestant(Paiement $paiement = null, Inscription $inscription = null)
+    public function toogleFormPayRestant($paiementId, $inscriptionId)
     {
+        $paiement = Paiement::find($paiementId);
+        $inscription = Inscription::find($inscriptionId);
+
         if ($this->payRestant)
         {
             $this->payRestant = !$this->payRestant;
@@ -256,7 +259,7 @@ class Etudiants extends Component
             $this->inscriptionSelected->paiements()->attach($myPaiement->id);
             
             $this->dispatch("ShowSuccessMsg", ['message' => 'Paiement effectué avec success!', 'type' => 'success']);
-            $this->toogleFormPayRestant();
+            $this->toogleFormPayRestant($this->paiementSelected->id, $this->inscriptionSelected->id);
             $this->montantPayer = 0;
             $this->montantRestant = 0;
             $this->montantPayer = 0;

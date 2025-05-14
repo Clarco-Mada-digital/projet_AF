@@ -75,7 +75,7 @@
                                     <input class="form-control @error('newSession.dateFin') is-invalid @enderror" type="date" wire:model='newSession.dateFin'>
                                 </td>
                                 <td>
-                                    <input class="form-control @error('newSession.montant') is-invalid @enderror" type="number" wire:model='newSession.montant'>
+                                    <input class="form-control @error('newSession.montant') is-invalid @enderror" type="number" wire:model='newSession.montant' @if ($newSession['type'] == 'examens') disabled @endif>
                                 </td>
                                 <td class="text-center d-flex flex-column">
                                     <div class="chose my-2 d-flex">
@@ -623,7 +623,7 @@
 
     </div>
     {{-- Formulaire d'ajout de cours --}}
-    <div class="row @if (!$showFormCours) d-none @endif " style="position: absolute; top:23rem; right:15px; width:55%;">
+    <div class="row @if (!$showFormCours) d-none @endif " style="position: absolute; top:23rem; right:15px; width:55%; z-index: 1000">
         <div class="card card-outline card-info w-100 my-0"
             style="height: 200px; overflow: hidden; overflow-y: scroll;">
             <div class="card-header py-0" style="position: sticky">
@@ -637,8 +637,8 @@
                     <button type="button" class="btn btn-tool" data-card-widget="maximize">
                         <i class="fas fa-expand"></i>
                     </button>
-                    <button type="button" class="btn btn-success btn-sm" wire:click='toogleFormCours'>
-                        <i class="fas fa-check"></i>
+                    <button type="button" class="btn btn-danger btn-sm" wire:click='toogleFormCours'>
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
 

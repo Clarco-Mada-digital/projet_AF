@@ -42,7 +42,9 @@ class PdfController extends Controller
                 $price = $paiement->montant;
             }
             else{
-                $price = Price::find($categories_id);
+                $price = Price::withWhereHas('categories', function ($query) use ($categories_id) {
+                    $query->where('id', $categories_id);
+                })->first();
             }
 
             $examen = null;

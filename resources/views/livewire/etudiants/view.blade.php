@@ -87,9 +87,9 @@
                         @if ($inscription->type == "cours" && $cours->id == $inscription->idCourOrExam)
                         @foreach ($inscription->paiements as $paiement)
                         @if ( $paiement->montantRestant != 0)
-                        - {{$inscription->paiement->montantRestant}} Ar à payer
+                        - {{$paiement->montantRestant}} Ar à payer
                         <button class='btn btn-sm btn-success'
-                            wire:click.prevent='toogleFormPayRestant({{$paiement->id, $inscription->id}})'>Régler le paiement</button>
+                            wire:click.prevent='toogleFormPayRestant({{$paiement->id}}, {{$inscription->id}})'>Régler le paiement</button>
                         @endif
                         @endforeach
 

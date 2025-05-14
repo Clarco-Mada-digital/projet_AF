@@ -11,6 +11,7 @@ use App\Models\Examen;
 use App\Models\Inscription;
 use App\Models\Level;
 use App\Models\Paiement;
+use App\Models\Price;
 use App\Models\Session;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -125,6 +126,7 @@ class NewEtudiant extends Component
             }
             elseif ($this->bsSteepActive == 2)
             {
+                $this->sessionSelected = Session::find($this->etudiantSession);
                 if($this->sessionSelected == null || $this->sessionSelected == "") {
                     $this->dispatch("showModalSimpleMsg", ['message' => "Veuillez sélectionner une session", 'type' => 'warning']);
                 }else{
@@ -215,8 +217,11 @@ class NewEtudiant extends Component
     }
 
     public function updateMontant()
-    {
-        $this->montantAdhesion = DB::table('prices')->where('id', $this->newEtudiant['categorie_id'])->value('montant');
+    {        
+        $price = Price::withWhereHas('categories', function ($query) {
+            $query->where('id', $this->newEtudiant['categorie_id']);
+        })->first();
+        $this->montantAdhesion = $price->montant;
 
         // pour inscription au cours
         if ($this->sessionSelected != null) {
