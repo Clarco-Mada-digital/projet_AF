@@ -103,11 +103,11 @@
                                             wire:click='toogleFormCours'>
                                             Choisir l'examens
                                         </button>
-                                        <button class="btn btn-primary  @if ($newSession["type"] !='cours' ) d-none
+                                        {{-- <button class="btn btn-primary  @if ($newSession["type"] !='cours' ) d-none
                                             @endif" data-toggle="modal" data-target="#newCours" spellcheck="false"
                                             data-bs-toggle="tooltip" title="Nouveau cour">
                                             <i class="fa fa-plus"></i> <span class="btn-icon-title d-none">Cours</span>
-                                        </button>
+                                        </button> --}}
                                     </div>
                                 </td>
                                 <td x-data="{ showTooltip : {promo:false, save:false, del:false}}" class="text-center">
