@@ -35,7 +35,7 @@ class Professeur extends Component
     protected $queryString = [
         'search',
     ];
-    protected $listeners = [ "deleteConfirmed"=>'deleteProfesseur' ];
+    protected $listeners = [ "deleteConfirmedProf"=>'deleteProfesseur' ];
 
     public function rules()
     {
@@ -124,7 +124,6 @@ class Professeur extends Component
             }
         }
     }
-
     
     public function submitNewProfesseur()
     {
@@ -151,7 +150,7 @@ class Professeur extends Component
         $this->ProfesseurDeleteid = $professeur->id;
 
         // Envoye des notifications pour la confirmation de suppression
-        $this->dispatch("AlertDeleteConfirmModal", ['message' => "êtes-vous sur de suprimer $professeur->nom $professeur->prenom ! dans la liste des professeurs ?", 'type' => 'warning']);
+        $this->dispatch("AlertDeleteConfirmModal", ['message' => "êtes-vous sur de suprimer $professeur->nom $professeur->prenom ! dans la liste des professeurs ?", 'type' => 'warning', 'thinkDelete' => 'Prof']);
     }
     public function deleteProfesseur()
     {
