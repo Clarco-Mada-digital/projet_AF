@@ -27,7 +27,7 @@ class NewEtudiant extends Component
     // ----------- Nos variable --------------    
     public string $search = "";
     public $memberResult = [];
-    public $newEtudiant = ['profil' => '', 'level_id' => '1'];
+    public $newEtudiant = ['profil' => '', 'level_id' => '1', 'ville' => 'Diego', 'pays' => 'Madagascar'];
     public $photo;
     public int $bsSteepActive = 1;
     public $listSession;

@@ -5,12 +5,14 @@
     <div @if ($state !='view' ) style="display: none;" @endif style="font-size: .9rem;">
         <h3 class="mb-2 pt-3">Liste des étudiants</h3>
         <div class="row mt-4 mx-2">
+
+            {{-- filtre --}}
             <div class="col-12">
                 <h6 class="fw-bold">Filtre :</h6>
                 <div class="d-flex align-items-center">
                     <div class="mb-3" style="width: 18vmin;">
                         <div class="form-group">
-                            <label for="filteredLevelForm">Statut/niveaux par :</label>
+                            <label for="filteredLevelForm">Niveaux :</label>
                             <select class="form-control" id="filteredLevelForm" aria-label="Filter form"
                                 wire:model.live="filteredByLevel">
                                 <option value="" selected>Tout</option>
@@ -22,7 +24,7 @@
                     </div>
                     <div class="mb-3 mx-3" style="width: 20vmin;">
                         <div class="form-group">
-                            <label for="filteredPaiementForm">Types d'inscriptions :</label>
+                            <label for="filteredPaiementForm">Inscriptions :</label>
                             <select class="form-control" id="filteredInscriptionForm" aria-label="Filter form"
                                 wire:model.live="filteredByCourExamen">
                                 <option value="" selected>Tout</option>
@@ -45,7 +47,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="mb-3 mx-3" style="width: 20vmin;">
+                    {{-- <div class="mb-3 mx-3" style="width: 20vmin;">
                         <div class="form-group">
                             <label for="filteredPaiementForm">Payé :</label>
                             <select class="form-control" id="filteredPaiementForm" aria-label="Filter form"
@@ -55,7 +57,7 @@
                                 <option value='0'>Partialement</option>
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
 
 
@@ -121,7 +123,9 @@
                                         @if ($etudiant->cours->count() > 0)
                                         {{ Str::words($etudiant->cours->implode('libelle', ' | '), 3, '...') }}
                                         @endif
+                                        @if ($etudiant->examens->count() > 0 && $etudiant->cours->count() > 0)
                                         |
+                                        @endif
                                         @if ($etudiant->examens->count() > 0)
                                         {{ Str::words('Examen '.$etudiant->examens->implode('libelle', ' | '), 3, '...')  }}
                                         @endif

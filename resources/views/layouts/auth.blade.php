@@ -31,7 +31,8 @@
         <title>{{ config('app.name', 'AF') }} - @yield('title')</title>
 
         @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-
+        @livewireStyles
+        @livewireScripts
 
     </head>
 

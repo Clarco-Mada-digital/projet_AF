@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EtudiantController extends Controller
 {
+    #login_required()
     public function index()
     {
         $name = Auth::user()->nom;

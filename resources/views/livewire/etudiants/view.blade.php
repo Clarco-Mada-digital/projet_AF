@@ -79,7 +79,7 @@
                     </button>
                 </div>
                 @if ($etudiant->cours->count() != 0)
-                <strong><i class="fa fa-book mr-1"></i> Cours choisie</strong>
+                <strong><i class="fa fa-book mr-1"></i> Session choisie</strong>
                 <p class="text-muted d-flex justify-content-between align-items-center">
                     @foreach ($etudiant->cours as $cours)
                     <span>{{ $cours->libelle }} - {{ $cours->level->implode('libelle', ' | ') }} ({{ $cours->session->nom }})
@@ -109,7 +109,7 @@
                 @endif
                 @foreach ($etudiant->adhesion->inscriptions as $inscription)
                     @if ($inscription->idCourOrExam == null && $inscription->type == "cours")
-                    <strong><i class="fa fa-book mr-1"></i> Cours choisie</strong>
+                    <strong><i class="fa fa-book mr-1"></i> Session choisie</strong>
                     <p class="text-muted d-flex justify-content-between align-items-center">
                         {{ $inscription->session->implode('nom', ' | ') }}
                         @foreach ($inscription->paiements as $paiement)
@@ -150,6 +150,10 @@
 
                 <strong><i class="fa fa-thermometer mr-1"></i> Niveaux</strong>
                 <p class="text-muted">{{ $etudiant->level->libelle }}</p>
+                <hr>
+
+                <strong><i class="fa fa-user mr-1"></i> Catégorie</strong>
+                <p class="text-muted">{{ $etudiant->adhesion->categorie->libelle }}</p>
                 <hr>
 
                 <strong><i class="fa fa-comments mr-1"></i> Commentaire</strong>

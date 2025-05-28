@@ -137,7 +137,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="etudiantNom">Nom</label>
+                                            <label for="etudiantNom">Nom *</label>
                                             <input type="text" class="form-control 
                                                 @error('newEtudiant.nom') is-invalid @enderror" id="etudiantNom"
                                                 wire:model="newEtudiant.nom">
@@ -148,7 +148,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="etudiantPrenom">Prénom</label>
+                                            <label for="etudiantPrenom">Prénom *</label>
                                             <input type="text" class="form-control 
                                                 @error('newEtudiant.prenom') is-invalid @enderror" id="etudiantPrenom"
                                                 wire:model='newEtudiant.prenom'>
@@ -159,7 +159,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="etudiantPrenom">Sexe</label>
+                                            <label for="etudiantPrenom">Sexe *</label>
                                             <select class="custom-select 
                                                 @error('newEtudiant.sexe') is-invalid @enderror" spellcheck="false"
                                                 id="etudiantSexe" wire:model='newEtudiant.sexe'>
@@ -174,7 +174,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="etudiantBirth">Date de naissance</label>
+                                            <label for="etudiantBirth">Age *</label>
                                             <input type="number" class="form-control 
                                                 @error('newEtudiant.dateNaissance') is-invalid @enderror"
                                                 id="etudiantBirth" wire:model='newEtudiant.dateNaissance'>
@@ -185,7 +185,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="etudiantVille">Ville</label>
+                                            <label for="etudiantVille">Ville *</label>
                                             <input type="text" class="form-control 
                                                 @error('newEtudiant.ville') is-invalid @enderror"
                                                 id="etudiantVille" wire:model='newEtudiant.ville'>
@@ -196,7 +196,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="etudiantProfession">Pays</label>
+                                            <label for="etudiantProfession">Pays *</label>
                                             <input type="text" class="form-control 
                                                 @error('newEtudiant.pays') is-invalid @enderror"
                                                 id="etudiantPays" wire:model='newEtudiant.pays'>
@@ -214,7 +214,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="etudiantAddr">Adresse</label>
+                                            <label for="etudiantAddr">Adresse *</label>
                                             <input type="text" class="form-control 
                                                 @error('newEtudiant.adresse') is-invalid @enderror" id="etudiantAddr"
                                                 wire:model='newEtudiant.adresse'>

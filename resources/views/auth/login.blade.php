@@ -66,15 +66,16 @@
                     </div>
                 </div>
 
-                <div class="form-group text-left">
+                <div x-data="{showPassword: false}" class="form-group text-left">
                     <label class="form-label text-muted">Mot de passe</label>
                     <div class="input-group mb-3">
                         <input type="password" class="form-control"
                             name="password" value="" required autocomplete="current-password"
-                            placeholder="Mot de passe">
+                            placeholder="Mot de passe" :type="showPassword ? 'text' : 'password'">
                         <div class="input-group-append">
                             <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
+                                <span x-show="!showPassword" class="fas fa-eye-slash" @click="showPassword = !showPassword"></span>
+                                <span x-show="showPassword" class="fas fa-eye" @click="showPassword = !showPassword"></span>
                             </div>
                         </div>
 

@@ -82,7 +82,7 @@ Route::group([
 Route::group([
     'prefix' => 'parametres',
     'as' => 'parametres-',
-    'middleware' => ['role:Admin|Super-Admin']
+    'middleware' => ['auth','role:Admin|Super-Admin']
 ], function () {
     Route::match(['get', 'post'], '/general', ParametreGenerale::class)->name('param-general');
     Route::match(['get', 'post'], '/session', Sessions::class)->name('session');
@@ -94,34 +94,37 @@ Route::group([
 Route::group([
     'prefix' => 'save',
     'as' => 'save-',
-    'middleware' => ['role:Super-Admin']
+    'middleware' => ['auth','role:Super-Admin']
     ], function () {
     Route::match(['get', 'post'], '/', Sauvegarde::class)->name('save');
 });
 
 // Route::get('/list-etudiant', [App\Http\Controllers\HomeController::class, 'listEtudiant'])->name('list-etudiant');
 
-
-Route::get('/generate-pdf/{paiement}', [PdfController::class, 'generatePDF']);
-
-// Route test pour les datas
-
-Route::get('/users', function () {
-    return User::with(['role', 'etudiants'])->get();
+Route::group([
+    'middleware' => ['auth'],
+], function () {
+    Route::get('/generate-pdf/{paiement}', [PdfController::class, 'generatePDF']);
+    
+    Route::get('/users', function () {
+        return User::with(['role', 'etudiants'])->get();
+    });
+    
+    Route::get('/roles', function () {
+        return Role::with('users')->get();
+    });
+    
+    Route::get('/etudiants', function () {
+        return Etudiant::with(['user', 'cours', 'level', 'session'])->get();
+    });
+    
+    Route::get('/cours', function () {
+        return Cour::with(['level', 'etudiants', 'professeur'])->get();
+    });
+    
+    Route::get('/niveaux', function () {
+        return Level::with(['etudiants'])->get();
+    });
 });
 
-Route::get('/roles', function () {
-    return Role::with('users')->get();
-});
 
-Route::get('/etudiants', function () {
-    return Etudiant::with(['user', 'cours', 'level', 'session'])->get();
-});
-
-Route::get('/cours', function () {
-    return Cour::with(['level', 'etudiants', 'professeur'])->get();
-});
-
-Route::get('/niveaux', function () {
-    return Level::with(['etudiants'])->get();
-});

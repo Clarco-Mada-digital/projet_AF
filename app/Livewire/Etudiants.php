@@ -62,6 +62,7 @@ class Etudiants extends Component
     protected $queryString = [
         'search' => ['except' => '']
     ];
+    
     // Supprimer les anciens doc dans le ficher temp
     protected function cleanupOldUploads()
     {
