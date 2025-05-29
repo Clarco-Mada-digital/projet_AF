@@ -22,7 +22,7 @@
                   <div class="text-center">
                       <img class="profile-user-img img-fluid img-circle"
                           src="{{ $professeur->profil != '' ? asset('storage/'.$professeur->profil) : 'https://eu.ui-avatars.com/api/?name=' . $professeur->nom . '&background=random' }}"
-                          alt="Etudiant profile picture">
+                          width="70" height="70" alt="Etudiant profile picture">
                   </div>
                   <h3 class="profile-username text-center">{{ $professeur->sexe == 'F' ? 'Mme/Mlle' : 'Mr' }} {{ $professeur->nom }} {{ $professeur->prenom }}</h3>
                   

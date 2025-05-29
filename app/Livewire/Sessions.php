@@ -103,7 +103,6 @@ class Sessions extends Component
                 'newSession.nom' => ['required', Rule::unique('sessions', 'nom')],
                 'newSession.dateDebut' => ['required'],
                 'newSession.dateFin' => ['required'],
-                'newSession.montant' => ['required'],
             ];
         }
         if ($this->formEditSession) {

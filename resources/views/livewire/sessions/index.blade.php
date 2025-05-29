@@ -11,7 +11,7 @@
             <div class="d-flex align-items-center">
                 <div class="mb-3 mx-3" style="width: 40vmin;">
                     <div class="form-group d-flex align-items-center justify-content-between">
-                        <label class="form-label w-50" for="filteredPaiementForm">État de la session :</label>
+                        <label class="form-label w-50" for="filteredPaiementForm">Session :</label>
                         <select class="form-control" id="filteredPaiementForm" aria-label="Filter form"
                             wire:model.live="filteredSession">
                             <option value="All" selected>Tout</option>
@@ -75,7 +75,7 @@
                                     <input class="form-control @error('newSession.dateFin') is-invalid @enderror" type="date" wire:model='newSession.dateFin'>
                                 </td>
                                 <td>
-                                    <input class="form-control @error('newSession.montant') is-invalid @enderror" type="number" wire:model='newSession.montant' @if ($newSession['type'] == 'examens') disabled @endif>
+                                    <input class="form-control @error('newSession.montant') is-invalid @enderror" type="number" wire:model='newSession.montant' @if ($newSession['type'] == 'examens') disabled @else required @endif>
                                 </td>
                                 <td class="text-center d-flex flex-column">
                                     <div class="chose my-2 d-flex">

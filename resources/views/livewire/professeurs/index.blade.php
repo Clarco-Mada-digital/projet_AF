@@ -46,7 +46,7 @@
                                         <td>
                                             @if ($professeur->profil != null)
                                                 <img class="img-circle"
-                                                    src="{{ asset('storage/' . $professeur->profil) }}" width='50'
+                                                    src="{{ asset('storage/' . $professeur->profil) }}" width='50' height="50"
                                                     alt="profil professeur">
                                             @else
                                                 <img class="img-circle"

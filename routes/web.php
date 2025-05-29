@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\BackupController;
 use App\Livewire\Adhesions;
 use App\Livewire\ContactMadaDigital;
 use App\Livewire\Cours;
@@ -96,7 +97,16 @@ Route::group([
     'as' => 'save-',
     'middleware' => ['auth','role:Super-Admin']
     ], function () {
-    Route::match(['get', 'post'], '/', Sauvegarde::class)->name('save');
+    // Route::match(['get', 'post'], '/', Sauvegarde::class)->name('save');
+    Route::get('/backup-manager', function () {
+        return view('backup-manager');
+    })->name('backup.manager');
+
+    Route::get('/backup/download/{filename}', [Sauvegarde::class, 'downloadBackup'])
+         ->name('backup.download');
+    
+    Route::post('/backup/create', [BackupController::class, 'create'])
+         ->name('backup.create');
 });
 
 // Route::get('/list-etudiant', [App\Http\Controllers\HomeController::class, 'listEtudiant'])->name('list-etudiant');

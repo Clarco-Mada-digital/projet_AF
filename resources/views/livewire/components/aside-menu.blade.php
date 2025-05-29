@@ -195,7 +195,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="{{route('save-save')}}" @class(['nav-link d-flex align-items-center','active'=>
+                    <a href="{{route('save-backup.manager')}}" @class(['nav-link d-flex align-items-center','active'=>
                         Str::contains(request()->route()->getName(),'save')])>
                         <i class="nav-icon fa fa-cloud"></i>
                         <p>Sauvegarde&Restauration</p>

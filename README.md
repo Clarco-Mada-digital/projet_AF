@@ -37,3 +37,12 @@ Document introuvable.
 
 
 **NB** : *Pour la mise à jour des composants sous Wamp, suivez attentivement les instructions de Wamp pour choisir la version compatible avec le reste des composants installés. Assurez-vous de télécharger et d'installer les mises à jour (Update), et non l'installation initiale du composant. Normalement, vous trouverez tout ce dont vous avez besoin sur le site.*
+
+
+Astuce pour créer un secret key:
+php artisan key:generate
+ou
+php artisan tinker
+>>> $password = bcrypt('MonMotDePasse');
+>>> echo $password;
+$2y$10$92IXUNpkjO0rS5tb0/Jgde/2.OG906.1/thJhvxMCQ.Kv09TWSFW

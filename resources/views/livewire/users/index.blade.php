@@ -49,7 +49,7 @@
                                 <tr>
                                     <td>
                                         @if ($user->profil != null)
-                                        <img class="img-circle" src="{{ asset('storage/' . $user->profil) }}" width='50'
+                                        <img class="img-circle" src="{{ asset('storage/' . $user->profil) }}" width='50' height="50"
                                             alt="profil utilisateur">
                                         @else
                                         <img class="img-circle"

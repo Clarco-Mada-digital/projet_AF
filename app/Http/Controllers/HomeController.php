@@ -47,10 +47,24 @@ class HomeController extends Controller
         ];
         $myRecord = [];
         $studentRecord = [];
-        $record = Paiement::select(DB::raw("COUNT(*) as count"), DB::raw("DAYNAME(updated_at) as day_name"), DB::raw("DAY(updated_at) as day"))->where('updated_at', '>', Carbon::today()->subDay(6))
-            ->groupBy('day_name', 'day')
-            ->orderBy('day', 'DESC')
-            ->get();
+        $record = Paiement::where('updated_at', '>', Carbon::today()->subDay(6))
+            ->get()
+            ->groupBy(function($item) {
+                return [
+                    'day' => Carbon::parse($item->updated_at)->day,
+                    'day_name' => Carbon::parse($item->updated_at)->format('l') // 'l' donne le nom complet du jour
+                ];
+            })
+            ->map(function($group) {
+                $firstItem = $group->first();
+                return [
+                    'count' => $group->count(),
+                    'day_name' => Carbon::parse($firstItem->updated_at)->format('l'),
+                    'day' => Carbon::parse($firstItem->updated_at)->day
+                ];
+            })
+            ->sortByDesc('day')
+            ->values();
         $etudiants = Etudiant::all();
         $moisActuel = Carbon::now()->month;
         $newStudent = Etudiant::whereMonth('created_at', $moisActuel)->count();
