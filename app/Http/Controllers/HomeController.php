@@ -49,31 +49,39 @@ class HomeController extends Controller
         $studentRecord = [];
         $record = Paiement::where('updated_at', '>', Carbon::today()->subDay(6))
             ->get()
-            ->groupBy(function($item) {
+            ->map(function($item) {
+                // Préparer les données directement
+                $date = Carbon::parse($item->updated_at);
                 return [
-                    'day' => Carbon::parse($item->updated_at)->day,
-                    'day_name' => Carbon::parse($item->updated_at)->format('l') // 'l' donne le nom complet du jour
+                    'date' => $date->format('Y-m-d'),
+                    'day' => $date->day,
+                    'day_name' => $date->format('l'),
+                    'item' => $item
                 ];
             })
+            ->groupBy('date') // Grouper par date
             ->map(function($group) {
-                $firstItem = $group->first();
+                $first = $group->first();
                 return [
                     'count' => $group->count(),
-                    'day_name' => Carbon::parse($firstItem->updated_at)->format('l'),
-                    'day' => Carbon::parse($firstItem->updated_at)->day
+                    'day_name' => $first['day_name'],
+                    'day' => $first['day'],
+                    'date' => $first['date']
                 ];
             })
             ->sortByDesc('day')
             ->values();
+
         $etudiants = Etudiant::all();
         $moisActuel = Carbon::now()->month;
         $newStudent = Etudiant::whereMonth('created_at', $moisActuel)->count();
-             
+                
         $studentRecord['label'] = ['Anciens', 'Nouveaux'];
         $studentRecord['data'] = [$etudiants->count() - $newStudent, $newStudent];
+
         foreach ($record as $row) {
-            $myRecord['label'][] = $correspondanceJours[$row->day_name];
-            $myRecord['data'][] = (int) $row->count;
+            $myRecord['label'][] = $correspondanceJours[$row['day_name']];
+            $myRecord['data'][] = (int) $row['count'];
         }
 
         
