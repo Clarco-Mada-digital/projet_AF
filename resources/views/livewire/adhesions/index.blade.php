@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="adhesionNom">Nom</label>
+                                            <label for="adhesionNom">Nom *</label>
                                             <input type="text" class="form-control 
                                                 @error('newAdhesion.nom') is-invalid @enderror" id="adhesionNom"
                                                 wire:model="newAdhesion.nom">
@@ -107,7 +107,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="etudiantPrenom">Prénom</label>
+                                            <label for="etudiantPrenom">Prénom *</label>
                                             <input type="text" class="form-control 
                                                 @error('newAdhesion.prenom') is-invalid @enderror" id="etudiantPrenom"
                                                 wire:model='newAdhesion.prenom'>
@@ -118,7 +118,7 @@
                                     </div>
                                     <div class="col-md-3 d-flex justify-content-between">
                                         <div class="form-group mr-2">
-                                            <label for="etudiantPrenom">Sexe</label>
+                                            <label for="etudiantPrenom">Sexe *</label>
                                             <select class="custom-select 
                                                 @error('newAdhesion.sexe') is-invalid @enderror" spellcheck="false"
                                                 id="etudiantSexe" wire:model='newAdhesion.sexe'>
@@ -131,7 +131,7 @@
                                             @enderror
                                         </div>
                                         <div class="form-group ml-2">
-                                            <label for="etudiantBirth">Année de naissance</label>
+                                            <label for="etudiantBirth">Age *</label>
                                             <input type="number" class="form-control 
                                                 @error('newAdhesion.dateNaissance') is-invalid @enderror"
                                                 id="etudiantBirth" wire:model='newAdhesion.dateNaissance'>
@@ -149,7 +149,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="etudiantAddr">Adresse</label>
+                                            <label for="etudiantAddr">Adresse *</label>
                                             <input type="text" class="form-control 
                                                 @error('newAdhesion.adresse') is-invalid @enderror" id="etudiantAddr"
                                                 wire:model='newAdhesion.adresse'>
@@ -193,7 +193,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="etudiantNiveau">Catégorie</label>
+                                            <label for="etudiantNiveau">Catégorie *</label>
                                             <select
                                                 class="custom-select  @error('newAdhesion.categorie_id') is-invalid @enderror"
                                                 spellcheck="false" id="etudiantNiveau"
@@ -237,7 +237,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3 form-group ">
-                                        <label class="form-label">Code Barre </label>
+                                        <label class="form-label">Code Barre *</label>
                                         {{-- <span class="text-danger ml-2 fw-light">*Pour ceux qui s’inscrit au bibliothèque*</span> --}}
                                         <div class="d-flex justify-content-between">
                                             <a type="button" class="form-control btn btn-info" data-toggle="modal" data-target="#view-scan-code" spellcheck="false" onclick="exemple()"> <i class="fa fa-barcode mr-3"></i>{{ $newAdhesion['CB'] == null ? 'Scanne' : $newAdhesion['CB'] }} </a>

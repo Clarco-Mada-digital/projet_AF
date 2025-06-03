@@ -7,6 +7,7 @@ use App\Models\Cour;
 use App\Models\Etudiant;
 use App\Models\Level;
 use App\Models\Professeur;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -36,6 +37,7 @@ class Cours extends Component
     public $studentListAdd = False;
     public $studentList = [];
     public $eutdiantCours;
+    public $exportType;
 
     // Fonction constructeur
     public function __construct()
@@ -175,6 +177,120 @@ class Cours extends Component
         // Envoyé des notifications pour la confirmation de suppression
         $this->dispatch("AlertDeleteConfirmModal", ['message' => "êtes-vous sur de supprimer $courDeleted->nom ! dans la liste des niveau ?", 'type' => 'warning']);
     }
+
+    // Fonction pour exporter la liste des étudiants
+    public function exportStudentList($courId)
+    {
+        $cour = Cour::findOrFail($courId);
+        $students = $cour->etudiants;
+        
+        $data = [];
+        foreach ($students as $student) {
+            $data[] = [
+                'id' => $student->id,
+                'nom' => $student->adhesion->nom,
+                'prenom' => $student->adhesion->prenom,
+                'niveau' => $student->level->libelle
+            ];
+        }
+
+        switch ($this->exportType) {
+            case 'csv':
+                return $this->exportAsCsv($data, $cour);
+                break;
+            case 'text':
+                return $this->exportAsText($data, $cour);
+                break;
+            case 'pdf':
+                return $this->exportAsPdf($data, $cour);
+                break;
+            case 'md':
+                return $this->exportAsMarkdown($data, $cour);
+                break;
+            default:
+                return $this->exportAsCsv($data, $cour);
+        }
+    }
+
+    private function exportAsCsv($data, $cour)
+    {
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="students_' . $cour->id . '_' . $cour->libelle . '_' . now()->format('Y-m-d') . '.csv"',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0'
+        ];
+
+        $callback = function() use ($data) {
+            $file = fopen('php://output', 'w');
+            
+            // Headers
+            fputcsv($file, ['ID', 'Nom', 'Prénom', 'Niveau']);
+            
+            // Data
+            foreach ($data as $row) {
+                fputcsv($file, [
+                    $row['id'],
+                    $row['nom'],
+                    $row['prenom'],
+                    $row['niveau']
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    private function exportAsText($data, $cour)
+    {
+        $content = "Liste des étudiants - Cours ID: {$cour->id}({$cour->libelle})\n\n";
+        $content .= "ID\tNom\tPrénom\tNiveau\n";
+        $content .= str_repeat("-", 50) . "\n";
+        foreach ($data as $row) {
+            $content .= "{$row['id']}\t{$row['nom']}\t{$row['prenom']}\t{$row['niveau']}\n";
+        }
+        
+        $filename = "students_{$cour->id}_{$cour->libelle}".now()->format('Y-m-d').".txt";
+
+         // Créer le fichier temporairement
+         Storage::put("temp/{$filename}", $content);
+        
+         // Télécharger et supprimer
+         return Storage::download("temp/{$filename}", $filename, [
+             'Content-Type' => 'text/plain',
+         ]);
+    }
+
+    private function exportAsMarkdown($data, $cour)
+    {
+        $content = "# Liste des étudiants - Cours ID: {$cour->id}({$cour->libelle})\n\n";
+        $content .= "| ID | Nom | Prénom | Niveau |\n";
+        $content .= "| --- | --- | --- | --- |\n";
+        foreach ($data as $row) {
+            $content .= "| {$row['id']} | {$row['nom']} | {$row['prenom']} | {$row['niveau']} |\n";
+        }
+        
+        $filename = "students_{$cour->id}_{$cour->libelle}".now()->format('Y-m-d').".md";
+        
+        // Créer le fichier temporairement
+        Storage::put("temp/{$filename}", $content);
+        
+        // Télécharger et supprimer
+        return Storage::download("temp/{$filename}", $filename, [
+            'Content-Type' => 'text/markdown',
+        ]);
+    }
+
+    private function exportAsPdf($data, $cour)
+    {
+        // La génération PDF nécessite l'installation de mPDF ou DomPDF
+        // Pour l'instant, on redirige vers le format CSV par défaut
+        return $this->exportAsCsv($data, $cour);
+    }
+    
     // Fonction pour supprimer le niveau
     public function deleteCour()
     {

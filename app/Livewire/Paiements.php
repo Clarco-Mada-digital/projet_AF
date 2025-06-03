@@ -21,6 +21,7 @@ class Paiements extends Component
     public string $search = "";
     public $filteredByDatePaiement = '';
     public $filteredBySessions = '';
+    public $filteredByMoyenPaiement = '';
     public $sessions = ""; 
     public $showUser ;
 
@@ -75,7 +76,15 @@ class Paiements extends Component
                     else{
                         return $qr;
                     }
-                })        
+                })
+                ->where(function($qr){
+                    if($this->filteredByMoyenPaiement != ''){
+                        $qr->where("moyenPaiement", "LIKE", "%{$this->filteredByMoyenPaiement}%");
+                    }
+                    else{
+                        return $qr;
+                    }
+                })       
                 ->orderBy($this->orderField, $this->orderDirection)
                 ->paginate(5);
         }
@@ -99,7 +108,15 @@ class Paiements extends Component
                     else{
                         return $qr;
                     }
-                })        
+                })
+                ->where(function($qr){
+                    if($this->filteredByMoyenPaiement != ''){
+                        $qr->where("moyenPaiement", "LIKE", "%{$this->filteredByMoyenPaiement}%");
+                    }
+                    else{
+                        return $qr;
+                    }
+                })      
                 ->orderBy($this->orderField, $this->orderDirection)
                 ->paginate(5);
         }

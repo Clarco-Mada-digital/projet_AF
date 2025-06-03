@@ -348,7 +348,7 @@ class NewEtudiant extends Component
             'motif' => $inscrOuReinscr . " du " . $this->newEtudiant['nom'],
             'moyenPaiement' => $this->moyenPaiement,
             'type' => $inscrOuReinscr . ' a un ' . $this->typeInscription,
-            'numRecue' => "AFPN°" . random_int(50, 9000),
+            'numRecue' => "AFD" . date('y') . "N°" . str_pad(Paiement::latest('id')->first()->id + 1, 4, "0", STR_PAD_LEFT),
             'user_id' => Auth::user()->id
         ];
         $paiement = Paiement::create($paiementData);

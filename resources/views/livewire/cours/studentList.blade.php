@@ -3,18 +3,33 @@
   {{-- Card header --}}
   <div class="card-header">
     <h3 class="card-title">Liste des étudiants ayant suivi le cours</h3>
-    <div class="card-tools">
-      <button type="button" class="btn btn-tool" data-card-widget="maximize" spellcheck="false">
+    <div class="card-tools d-flex justify-content-center align-items-center">
+      {{-- <button type="button" class="btn btn-tool" data-card-widget="maximize" spellcheck="false">
         <i class="fas fa-expand"></i>
-      </button>
+      </button> --}}
       <button type="button" class="btn btn-warning" wire:click='toogleStudentListAdd'>
-        <i class="fa fa-plus"></i> Ajouter des étudiants</button>
-      <button type="button" class="btn btn-danger" data-dismiss="modal">
+        <i class="fa fa-plus"></i>
+      </button>
+      <div class="input-group ml-2">
+        <select class="custom-select" wire:model='exportType'>
+          <option value="csv">CSV</option>
+          <option value="text">Texte</option>
+          {{-- <option value="pdf">PDF</option> --}}
+          <option value="md">Markdown (md)</option>
+        </select>
+        <div class="input-group-append">
+          <button type="button" class="btn btn-info" wire:click='exportStudentList({{ $cour->id }})'>
+            Exporter
+          </button>
+        </div>
+      </div>
+      <button type="button" class="btn btn-danger ml-2" data-dismiss="modal">
         <i class="fa fa-times"></i>
       </button>
     </div>
 
   </div>
+
 
   {{-- Card body --}}
   <div class="card-body">
@@ -54,4 +69,5 @@
       </span>
     </p>
   </div>
+  
 </div>

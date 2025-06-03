@@ -27,7 +27,7 @@ class Adhesions extends Component
     public string $search_membre = "";
     public $filterByCat = "";
     public $memberResult = [];
-    public $newAdhesion = ['profil' => '', 'categorie_id' => "", 'CB' => null, "numCarte" => null];
+    public $newAdhesion = ['profil' => '', 'categorie_id' => "", 'CB' => null, "numCarte" => null, 'ville' => 'Diego', 'pays' => 'Madagascar'];
     public $photo;
     public int $bsSteepActive = 1;
     public $montantAdhesion;
@@ -360,7 +360,7 @@ class Adhesions extends Component
             'motif' => "Adhésion au membre de l’alliance française",
             'moyenPaiement' => $this->moyenPaiement,
             'type' => 'Inscription pour devenir membre',
-            'numRecue' => "AFPN°" . random_int(50, 9000),
+            'numRecue' => "AFD" . date('y') . "N°" . str_pad(Paiement::latest('id')->first()->id + 1, 4, "0", STR_PAD_LEFT),
             'user_id' => Auth::user()->id
         ];
         $paiement = Paiement::create($paiementData);

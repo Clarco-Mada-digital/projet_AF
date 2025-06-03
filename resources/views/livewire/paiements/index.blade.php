@@ -33,6 +33,18 @@
                         </select>
                     </div>
                 </div>
+                <div class="mb-3 mx-3" style="width: 20vmin;">
+                    <div class="form-group">
+                        <label for="filteredPaiementForm">Moyen de paiement :</label>
+                        <select class="form-control" id="filteredSessionForm" aria-label="Filter form"
+                            wire:model.live="filteredByMoyenPaiement">
+                            <option value="" selected>Tout</option>
+                            <option value="CB">CB</option>
+                            <option value="espece">Espèce</option>
+                            <option value="virement">Virement</option>
+                        </select>
+                    </div>
+                </div>
 
                 <div class="resumPaiement ml-auto w-25">
                     <div class="form-group">
