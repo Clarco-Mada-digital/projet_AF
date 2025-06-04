@@ -284,7 +284,7 @@
 
                             {{-- Partie Modal view --}}
                             <div class="modal fade" id="view-cours{{ $session->id }}" style="display: none; "
-                                aria-hidden="true">
+                                aria-hidden="true" wire:ignore.self>
                                 <div class="modal-dialog modal-xl modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-body p-0 ">

@@ -52,6 +52,7 @@ class Sessions extends Component
     public $dateHeurCour;
 
     public $filteredSession = 'Actif';
+    public $exportType = 'csv';
 
     public function __construct()
     {
@@ -243,6 +244,129 @@ class Sessions extends Component
         $this->dateHeurCour = "";
         $this->formNewSession = False;
         $this->showFormCours = False;
+    }
+
+    public function exportEtudiants($sessionId)
+    {
+        $session = Session::find($sessionId);
+        $students = $session->etudiants;
+        
+        $data = [];
+        foreach ($students as $student) {
+            $data[] = [
+                'id' => $student->id,
+                'nom' => $student->adhesion->nom,
+                'prenom' => $student->adhesion->prenom,
+                'niveau' => $student->level->libelle
+            ];
+        }
+
+        switch ($this->exportType) {
+            case 'csv':
+                return $this->exportAsCsv($data, $session);
+                break;
+            case 'text':
+                return $this->exportAsText($data, $session);
+                break;
+            case 'pdf':
+                return $this->exportAsPdf($data, $session);
+                break;
+            case 'md':
+                return $this->exportAsMarkdown($data, $session);
+                break;
+            default:
+                return $this->exportAsCsv($data, $session);
+        }
+    }
+
+    private function exportAsCsv($data, $session)
+    {
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="students_' . $session->id . '_' . $session->nom . '_' . now()->format('Y-m-d') . '.csv"',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0'
+        ];
+
+        $callback = function() use ($data, $session) {
+            $file = fopen('php://output', 'w');
+            
+            // Headers
+            fwrite($file, "Liste des étudiants inscrits au session : " . $session->nom . "\n");
+            fputcsv($file, ['ID', 'Nom', 'Prénom', 'Niveau']);
+            
+            // Data
+            foreach ($data as $row) {
+                fputcsv($file, [
+                    $row['id'],
+                    $row['nom'],
+                    $row['prenom'],
+                    $row['niveau']
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    private function exportAsText($data, $session)
+    {
+        $headers = [
+            'Content-Type' => 'text/plain',
+            'Content-Disposition' => 'attachment; filename="students_' . $session->id . '_' . $session->nom . '_' . now()->format('Y-m-d') . '.txt"',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0'
+        ];
+
+        $callback = function() use ($data, $session) {
+            $file = fopen('php://output', 'w');
+            
+            // Headers
+            fwrite($file, "Liste des étudiants inscrits au session : " . $session->nom . "\n");
+            fwrite($file, "ID\tNom\tPrénom\tNiveau\n");
+            
+            // Data
+            foreach ($data as $row) {
+                fwrite($file, $row['id'] . "\t" . $row['nom'] . "\t" . $row['prenom'] . "\t" . $row['niveau'] . "\n");
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    private function exportAsMarkdown($data, $session)
+    {
+        $headers = [
+            'Content-Type' => 'text/markdown',
+            'Content-Disposition' => 'attachment; filename="students_' . $session->id . '_' . $session->nom . '_' . now()->format('Y-m-d') . '.md"',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0'
+        ];
+
+        $callback = function() use ($data, $session) {
+            $file = fopen('php://output', 'w');
+            
+            // Headers
+            fwrite($file, "# Liste des étudiants inscrits au session : " . $session->nom . "\n");
+            fwrite($file, "| ID | Nom | Prénom | Niveau |\n");
+            fwrite($file, "| --- | --- | --- | --- |\n");
+            
+            // Data
+            foreach ($data as $row) {
+                fwrite($file, "| {$row['id']} | {$row['nom']} | {$row['prenom']} | {$row['niveau']} |\n");
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
     public function initUpdateSession(Session $session, $cancel = False)

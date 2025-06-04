@@ -35,4 +35,8 @@ class Session extends Model
     public function inscriptions(){
         return $this->belongsToMany(Inscription::class, 'inscription_sessions', 'session_id', 'inscription_id');
     }
+
+    public function etudiants(){
+        return $this->belongsToMany(Etudiant::class, 'inscription_sessions', 'session_id', 'inscription_id');
+    }
 }

@@ -61,5 +61,41 @@
         </p>
         @endif
 
+        {{-- Liste des étudiants inscrit dans ce session --}}
+        @if ($session->etudiants->count() > 0)
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <strong><i class="fa fa-book mr-1"></i> List des étudiants inscrits  </strong>
+            </div>
+            <div>
+                <select class="custom-select" style="width: 150px;" wire:model='exportType'>
+                    <option value="csv">CSV</option>
+                    <option value="text">Texte</option>
+                    <option value="md">Markdown (md)</option>
+                </select>
+                <button type="button" class="btn btn-info" wire:click='exportEtudiants({{ $session->id }})'>
+                    Exporter
+                </button>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <ul class="text-muted list-group">
+                    @foreach ($session->etudiants->take(ceil($session->etudiants->count()/2)) as $etudiant)
+                        <li class="list-group-item">{{ $etudiant->adhesion->nom }} {{ $etudiant->adhesion->prenom }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <ul class="text-muted list-group">
+                    @foreach ($session->etudiants->skip(ceil($session->etudiants->count()/2))->take(ceil($session->etudiants->count()/2)) as $etudiant)
+                        <li class="list-group-item">{{ $etudiant->adhesion->nom }} {{ $etudiant->adhesion->prenom }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        @endif
+
     </div>
 </div>

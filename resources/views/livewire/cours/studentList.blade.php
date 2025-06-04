@@ -30,7 +30,6 @@
 
   </div>
 
-
   {{-- Card body --}}
   <div class="card-body">
     <div x-show="$wire.studentListAdd" class="row border border-info p-2" style="max-height: 300px;overflow-y: scroll;">
@@ -54,19 +53,26 @@
 
     <strong><i class="fa fa-user mr-1 mt-4" aria-hidden="true"></i> Étudiants</strong>
     <p class="text-muted">
-      <span class="tag tag-danger">
-        <ul class="row">
-          @forelse ($cour->etudiants as $etudiant)
-          <li class="col-md-6 my-2">
-            {{ $etudiant->adhesion->nom }} {{ $etudiant->adhesion->prenom }} <button class="btn btn-danger btn-sm" wire:click='removeToCours({{$cour->id}}, {{ $etudiant->id }})'>Retirer</button>
-          </li>
-          @empty
-          <p>Aucun étudiant suivie ce cours</p>
-          @endforelse
-        </ul>
-
-
-      </span>
+      <div class="row mt-2">
+            <div class="col-md-6">
+                <ul class="text-muted list-group">
+                    @foreach ($cour->etudiants->take(ceil($cour->etudiants->count()/2)) as $etudiant)
+                        <li class="list-group-item">{{ $etudiant->adhesion->nom }} {{ $etudiant->adhesion->prenom }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <ul class="text-muted list-group">
+                    @foreach ($cour->etudiants->skip(ceil($cour->etudiants->count()/2))->take(ceil($cour->etudiants->count()/2)) as $etudiant)
+                        <li class="list-group-item">{{ $etudiant->adhesion->nom }} {{ $etudiant->adhesion->prenom }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            {{-- si aucun resultat est trouvé --}}
+            @if ($cour->etudiants->count() == 0)
+            <p>Aucun étudiant suivie ce cours</p>
+            @endif
+        </div>
     </p>
   </div>
   
