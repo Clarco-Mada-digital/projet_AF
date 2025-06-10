@@ -37,20 +37,26 @@ class NewEtudiant extends Component
     public $now;
     public $toDay;
     public $etudiantSession;
-    public $sessionSelected;
+    public $sessionSelected = null;
     public $moyenPaiement;
     public $paiement_id = 0;
-    public $statue;
+    public $statue = "Totalement";
     public float $montantInscription = 0;
     public float $montantAdhesion;
     public float $montantExam = 0;
     public float $montantPaye = 0;
-    public float $montantRestant;
+    public float $montantRestant = 0;
     public string $typeInscription = "cours";
     public $adhesionSelect;
+    public bool $promotionActive = false;
 
     public bool $noMember = True;
     public bool $MemberPmb = false;
+
+    protected $listeners = [
+        'updateMontant' => 'updateMontant',
+        'montantUpdated' => '$refresh' // Rafraîchir la vue quand le montant est mis à jour
+    ];
 
     public function defineStatue($nomStatue)
     {
@@ -108,9 +114,8 @@ class NewEtudiant extends Component
     {
         // $this->reset($this->memberResult);
 
-        $this->memberResult = Adhesion::where("nom", "LIKE", "%{$this->search}%")
-            ->orWhere("prenom", "LIKE", "%{$this->search}%")
-            ->orWhere("numCarte", "LIKE", "%{$this->search}%")
+        $this->memberResult = Adhesion::whereRaw("CONCAT(TRIM(BOTH ' ' FROM nom), ' ', TRIM(BOTH ' ' FROM prenom)) LIKE ?", ["%{$this->search}%"])
+            ->orWhereRaw("TRIM(BOTH ' ' FROM numCarte) LIKE ?", ["%{$this->search}%"])
             ->get();
     }
 
@@ -129,14 +134,15 @@ class NewEtudiant extends Component
                 $this->sessionSelected = Session::find($this->etudiantSession);
                 if($this->sessionSelected == null || $this->sessionSelected == "") {
                     $this->dispatch("showModalSimpleMsg", ['message' => "Veuillez sélectionner une session", 'type' => 'warning']);
-                }else{
+                } else {
+                    $this->updateMontant(); // Mettre à jour le montant après avoir sélectionné une session
                     $this->bsSteepActive += 1;
                 }
             }
             elseif ($this->bsSteepActive == 3) 
             {
-                if ($this->statue == "" || $this->moyenPaiement == "" || $this->montantPaye==0) {
-                    $this->dispatch("showModalSimpleMsg", ['message' => "Quelque chose a mal fonctionné ; veuillez vérifier que tous les champs sont correctement remplis.", 'type' => 'warning']);
+                if ($this->moyenPaiement == "") {
+                    $this->dispatch("showModalSimpleMsg", ['message' => "Veuillez sélectionner un moyen de paiement", 'type' => 'warning']);
                 } else {
                     $this->submitNewEtudiant();
                     $this->bsSteepActive += 1;
@@ -202,7 +208,13 @@ class NewEtudiant extends Component
             }
         }
 
-        $this->updateMontant();
+        if ($this->sessionSelected->montantPromo != null && $this->sessionSelected->dateFinPromo > $this->now) {
+            $this->promotionActive = true;
+        }else{
+            $this->promotionActive = false;
+        }
+
+        $this->dispatch("updateMontant");
         // Définir le montant d'inscription
         // if ($this->newEtudiant['categorie_id'] == '1') {
         //     $montantAdhesion = DB::table('prices')->where('id', 1)->value('montant');
@@ -215,24 +227,29 @@ class NewEtudiant extends Component
         // }
 
     }
+    
+    public function togglePromotionActive()
+    {
+        $this->promotionActive = !$this->promotionActive;
+        $this->updateMontant();
+        $this->dispatch('montantUpdated'); // Émettre un événement pour forcer le rafraîchissement
+    }
 
     public function updateMontant()
-    {        
+    {
+        // Mettre à jour le montant d'adhésion
         $price = Price::withWhereHas('categories', function ($query) {
             $query->where('id', $this->newEtudiant['categorie_id']);
         })->first();
         $this->montantAdhesion = $price->montant;
 
-        // pour inscription au cours
-        if ($this->sessionSelected != null) {
-            if ($this->sessionSelected->montantPromo != null && $this->sessionSelected->dateFinPromo > $this->now) {
-                $this->montantInscription = $this->sessionSelected->montantPromo;
-            } else {
-                $this->montantInscription = $this->sessionSelected->montant;
-            }
-            
-            $this->noMember ? $this->montantInscription = ($this->montantInscription + $this->montantAdhesion) : "";
+        // Mettre à jour le montant d'inscription en fonction de la promotion
+        if ($this->typeInscription == 'cours' && $this->sessionSelected) {
+            $this->montantInscription = $this->promotionActive 
+                ? $this->sessionSelected->montantPromo 
+                : $this->sessionSelected->montant;
         }
+
         // pour l'inscription au examen
         if ($this->typeInscription == 'examens') {
             $this->montantInscription = 0;
@@ -246,21 +263,29 @@ class NewEtudiant extends Component
                     }
                 }
             }
-            $this->noMember ? $this->montantInscription = ($this->montantInscription + $this->montantAdhesion) : "";
+           
+        }else{
+            if ($this->promotionActive == true) {
+                $this->montantInscription = $this->sessionSelected->montantPromo;
+            }else{
+                $this->montantInscription = $this->sessionSelected->montant;
+            }
         }
 
-        $this->updateMontantRestant();
+        $this->noMember ? $this->montantInscription = ($this->montantInscription + $this->montantAdhesion) : "";
+        
+        // dd($this->promotionActive, $this->montantInscription);
     }
 
-    public function updateMontantRestant()
-    {
-        if ($this->montantPaye > $this->montantInscription) {
-            $this->dispatch("showModalSimpleMsg", ['message' => "Montant payé supérieur au montant de l'inscription", 'type' => 'warning']);
-            $this->montantPaye = 0;
-        }
-        $this->montantRestant = 0;
-        $this->montantRestant = $this->montantInscription - $this->montantPaye;
-    }
+    // public function updateMontantRestant()
+    // {
+    //     if ($this->montantPaye > $this->montantInscription) {
+    //         $this->dispatch("showModalSimpleMsg", ['message' => "Montant payé supérieur au montant de l'inscription", 'type' => 'warning']);
+    //         $this->montantPaye = 0;
+    //     }
+    //     $this->montantRestant = 0;
+    //     $this->montantRestant = $this->montantInscription - $this->montantPaye;
+    // }
 
     // Enregistrement un nouveau étudiant
     public function submitNewEtudiant()
@@ -275,6 +300,7 @@ class NewEtudiant extends Component
             7 => "AD",
             8 => "VL",
         ];
+
         $this->newEtudiant['user_id'] = Auth::user()->id;
         $this->newEtudiant['session_id'] = $this->etudiantSession;
          

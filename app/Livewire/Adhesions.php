@@ -458,9 +458,8 @@ class Adhesions extends Component
 
         $membres = Adhesion::where("categorie_id", "LIKE", "%{$this->filterByCat}%")
             ->where(function ($query) {
-                $query->where("nom", "LIKE", "%{$this->search_membre}%")
-                    ->orWhere("prenom", "LIKE", "%{$this->search_membre}%")
-                    ->orWhere("numCarte", "LIKE", "%{$this->search_membre}%");
+                $query->whereRaw("CONCAT(TRIM(BOTH ' ' FROM nom), ' ', TRIM(BOTH ' ' FROM prenom)) LIKE ?", ["%{$this->search_membre}%"])
+                ->orWhereRaw("TRIM(BOTH ' ' FROM numCarte) LIKE ?", ["%{$this->search_membre}%"]);
             })
             ->paginate(5);
 

@@ -322,7 +322,7 @@
                                         <div class="form-group">
                                             <label for="Sessions">Session</label>
                                             <select class="custom-select" spellcheck="false" id="Sessions"
-                                                wire:model='etudiantSession' wire:click.live='updateCoursList'>
+                                                wire:model.live='etudiantSession' wire:change.live='updateCoursList'>
                                                 <option value='null'> --- Session --- </option>
                                                 @foreach ($listSession as $session)
                                                 @if ($session->dateFin > $now && $session->type == $typeInscription)
@@ -404,16 +404,22 @@
                                                     <th scope="row">1</th>
                                                     <td>Inscription au {{ Str::plural($typeInscription) }}</td>
                                                     @if ($typeInscription == 'cours')
+                                                    @isset($sessionSelected)
                                                     <td class="text-end">
-                                                        @isset($sessionSelected)
-                                                        <span @if(($sessionSelected->dateFinPromo != null) & ($sessionSelected->dateFinPromo > $now))
+                                                        <span @if($promotionActive)
                                                             style="text-decoration: line-through; color: #a22;" @endif>
                                                             {{ $sessionSelected->montant }} Ar</span>
-                                                        @if (($sessionSelected->dateFinPromo != null) & ($sessionSelected->dateFinPromo > $now))
+                                                        @if ($promotionActive)
                                                         {{ $sessionSelected->montantPromo }} Ar
                                                         @endif
-                                                        @endisset
                                                     </td>
+                                                    <td>
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" role="switch" @if($promotionActive) checked @endif wire:change="togglePromotionActive" id="promotionActive">
+                                                            <label class="form-check-label" for="promotionActive">Appliquer promotion</label>
+                                                        </div>
+                                                    </td>
+                                                    @endisset
                                                     @endif
                                                     @if ($typeInscription == 'examens')
                                                     <td class="text-end">
@@ -441,7 +447,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    {{-- <div class="col-md-6">
                                         <div class="for-group">
                                             <label for="montantPaye">Montant payé en Ar</label>
                                             <input type="number" class="form-control" id="montantPaye"
@@ -452,7 +458,7 @@
                                                 @enderror
                                             </small>
                                         </div>
-                                    </div>
+                                    </div> 
 
                                     <div class="info-box col-md-3 mb-3 mx-3 bg-success">
                                         <span class="info-box-icon"><i class="fas fa-coins"></i></span>
@@ -464,12 +470,13 @@
                                             <span class="info-box-number" style="font-size: 1.5rem;">
                                                 {{ $montantRestant }} Ar</span>
                                         </div>
-                                    </div>
-                                    <div class="col-md-5 card card-warning">
+                                    </div> --}}
+
+                                    <div class="col-md-12 card card-warning">
                                         <div class="card-header">
                                             <h3 class="card-title">Paiement par</h3>
                                         </div>
-                                        <div class="card-body row w-100">
+                                        <div class="card-body row justify-content-center w-100">
                                             <div class="custom-control custom-radio col-md-3 col-sm-12 mr-3">
                                                 <input class="custom-control-input" type="radio" id="espece"
                                                     name="paiementPar" wire:click="defineMoyenPai('Espèce')">
@@ -489,7 +496,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-6 ml-2 card card-warning">
+                                    {{-- <div class="col-md-6 ml-2 card card-warning">
                                         <div class="card-header">
                                             <h3 class="card-title">Status de paiement</h3>
                                         </div>
@@ -507,7 +514,7 @@
                                                     payé</label>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <a class="btn btn-primary" wire:click="bsSteepPrevNext('prev')">Précédent</a>
                                 <a class="btn btn-primary" wire:click="bsSteepPrevNext('next')"> <i
