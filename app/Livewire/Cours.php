@@ -7,6 +7,7 @@ use App\Models\Cour;
 use App\Models\Etudiant;
 use App\Models\Level;
 use App\Models\Professeur;
+use App\Models\Salle;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -38,6 +39,8 @@ class Cours extends Component
     public $studentList = [];
     public $eutdiantCours;
     public $exportType;
+    public $newSalleName;
+    public $newSalleDescription;
 
     // Fonction constructeur
     public function __construct()
@@ -45,7 +48,7 @@ class Cours extends Component
         $this->professeurs = Professeur::all()->toArray();
         $this->levels = Level::all()->toArray();
         $this->categories = Categorie::all()->toArray();
-        $this->salles = ['Salle 01', 'Salle 02', 'Salle 03', 'Salle 04','Salle 05','Salle 06','Salle 07','Salle 08','Salle 09','Salle 10', 'Salle de réunion', 'Salle de spectacle', 'Médiathèque', 'Hall'];
+        $this->salles = Salle::all()->toArray();
     }
 
     public function rules()
@@ -54,7 +57,7 @@ class Cours extends Component
             'editCour.code' => ['required'],
             'editCour.libelle' => ['required'],
             'editCour.categorie_id' => ['required'],
-            'editCour.salle' => ['string'],
+            'editCour.salle_id' => ['required'],
             'editCour.horaire' => ['string'],
             'editCour.professeur_id' => ['required'],
 
@@ -129,6 +132,37 @@ class Cours extends Component
     public function resetDateHourCour()
     {
         $this->dateHeurCour = "";
+    }
+
+    /**
+     * Ajoute une nouvelle salle depuis le modal
+     */
+    public function addNewSalle()
+    {
+        $this->validate([
+            'newSalleName' => 'required|string|max:255|unique:salles,nom',
+            'newSalleDescription' => 'nullable|string',
+        ]);
+
+        $salle = Salle::create([
+            'nom' => $this->newSalleName,
+            'description' => $this->newSalleDescription,
+        ]);
+
+        // Mettre à jour la liste des salles
+        $this->salles = Salle::orderBy('id')->get()->toArray();
+        
+        // Sélectionner automatiquement la nouvelle salle
+        $this->editCour['salle_id'] = $salle->id;
+
+        // Émettre un événement pour fermer le modal
+        $this->dispatch('salleAdded');
+
+        // Reset la valeur des inputs
+        $this->newSalleName = '';
+        $this->newSalleDescription = '';
+        
+        $this->dispatch("ShowSuccessMsg", ['message' => 'La salle a été ajoutée avec succès!', 'type' => 'success']);
     }
 
     // Fonction pour mise a jour du cours

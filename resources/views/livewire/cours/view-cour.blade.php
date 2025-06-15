@@ -8,7 +8,7 @@
                 <i class="fas fa-expand"></i>
             </button>
             <button type="button" class="btn btn-warning" data-toggle="modal" spellcheck="false" data-dismiss="modal"
-                wire:click='initEditCour({{ $cour[' id'] }})'>
+                wire:click="initEditCour({{ $cour['id'] }})">
                 <i class="fa fa-pen"></i> Mettre à jour le cours</button>
             <button type="button" class="btn btn-danger" data-dismiss="modal">
                 <i class="fa fa-times"></i>
@@ -32,7 +32,7 @@
         <p class="text-muted"> {{ $cour->horaireDuCour }} </p>
         <hr>
         <strong><i class="fa fa-thermometer mr-1"></i> Salle du cours</strong>
-        <p class="text-muted"> {{ $cour->salle }} </p>
+        <p class="text-muted"> {{ $cour->salle->nom }} </p>
         <hr>
         <strong><i class="fa fa-user mr-1" aria-hidden="true"></i> Professeur</strong>
         <p class="text-muted">

@@ -74,7 +74,13 @@
           <td>{{ $membre->prenom }}</td>
           <td class="text-center">{{ $membre->telephone1 }} </td>
           <td class="text-center">{{ $membre->categorie->libelle }} </td>
-          <td class="text-center">{{ Carbon\Carbon::createFromFormat('Y-m-d', $membre->finAdhesion)->diffForHumans() }} </td>
+          <td class="text-center">
+              @if($membre->finAdhesion)
+                  {{ \Carbon\Carbon::parse($membre->finAdhesion)->diffForHumans() }}
+              @else
+                  - 
+              @endif
+          </td>
           <td class="text-center">
             <button class="btn btn-link text-warning @cannot('étudiants.edit') disabled @endcannot"             wire:click="initUpdate({{ $membre->id }}, 'update')" data-dismiss="modal">
               <i class="fa fa-edit text-warning" ></i><br> Éditer

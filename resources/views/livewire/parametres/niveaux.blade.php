@@ -42,6 +42,9 @@
                         @if ($key == 'Tarifs' || $key == 'Examens')
                         <th class="text-center" wire:click="setOrderField('montant')">Montant en Ar</th>
                         @endif
+                        @if ($key == 'Salles')
+                        <th class="text-start" wire:click="setOrderField('description')">Description</th>
+                        @endif
                         <th class="text-center" style="width: 10%">Action</th>
                     </tr>
                 </thead>
@@ -56,6 +59,8 @@
                             {{ $niveau->nom }} - {{ $niveau->categories != '[]' ? $niveau->categories->implode("libelle", " | ") : $niveau->levels->implode("libelle", " | ") }}                         
                             @elseif ($key == 'Examens')
                             {{ $niveau->libelle }} - {{ $niveau->level->libelle }} 
+                            @elseif ($key == 'Salles')
+                            {{ $niveau->nom }}
                             @else
                             {{ $niveau->libelle }}
                             @endif
@@ -65,6 +70,9 @@
                         @endif
                         @if ($key == 'Examens')
                         <td class="text-center"> {{ $niveau->price->montant }} </td>
+                        @endif
+                        @if ($key == 'Salles')
+                        <td class="text-start"> {{ $niveau->description }} </td>
                         @endif
                         <td class="text-center">
                             <button class="btn btn-link" data-toggle="modal" data-target="#view-params"

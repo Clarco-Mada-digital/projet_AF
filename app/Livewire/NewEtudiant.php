@@ -365,6 +365,8 @@ class NewEtudiant extends Component
             $inscrOuReinscr = "Inscription";
         }
 
+        $numRecue = Paiement::latest('id')->first() != null ? "AFD" . date('y') . "N°" . str_pad(Paiement::latest('id')->first()->id + 1, 4, "0", STR_PAD_LEFT) : "AFD" . date('y') . "N°" . str_pad(1, 4, "0", STR_PAD_LEFT);
+
         // Pour la base donné de paiement               
         $paiementData = 
         [
@@ -374,7 +376,7 @@ class NewEtudiant extends Component
             'motif' => $inscrOuReinscr . " du " . $this->newEtudiant['nom'],
             'moyenPaiement' => $this->moyenPaiement,
             'type' => $inscrOuReinscr . ' a un ' . $this->typeInscription,
-            'numRecue' => "AFD" . date('y') . "N°" . str_pad(Paiement::latest('id')->first()->id + 1, 4, "0", STR_PAD_LEFT),
+            'numRecue' => $numRecue,
             'user_id' => Auth::user()->id
         ];
         $paiement = Paiement::create($paiementData);

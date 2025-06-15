@@ -456,10 +456,21 @@ class Adhesions extends Component
         Carbon::setLocale('fr');
         $this->newAdhesion;
 
+        $searchTerm = "%{$this->search_membre}%";
         $membres = Adhesion::where("categorie_id", "LIKE", "%{$this->filterByCat}%")
-            ->where(function ($query) {
-                $query->whereRaw("CONCAT(TRIM(BOTH ' ' FROM nom), ' ', TRIM(BOTH ' ' FROM prenom)) LIKE ?", ["%{$this->search_membre}%"])
-                ->orWhereRaw("TRIM(BOTH ' ' FROM numCarte) LIKE ?", ["%{$this->search_membre}%"]);
+            ->where(function ($query) use ($searchTerm) {
+                $connection = config('database.default');
+                $driver = config("database.connections.{$connection}.driver");
+                
+                if ($driver === 'sqlite') {
+                    // Pour SQLite
+                    $query->whereRaw("LTRIM(RTRIM(nom)) || ' ' || LTRIM(RTRIM(prenom)) LIKE ?", [$searchTerm])
+                        ->orWhereRaw("LTRIM(RTRIM(numCarte)) LIKE ?", [$searchTerm]);
+                } else {
+                    // Pour MySQL/MariaDB
+                    $query->whereRaw("CONCAT(TRIM(nom), ' ', TRIM(prenom)) LIKE ?", [$searchTerm])
+                        ->orWhereRaw("TRIM(numCarte) LIKE ?", [$searchTerm]);
+                }
             })
             ->paginate(5);
 

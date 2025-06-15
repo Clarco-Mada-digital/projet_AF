@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LevelsTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         $this->call(PriceTableSeeder::class);
+        $this->call(SalleSeeder::class);
         // $this->call(ExamenTableSeeder::class);
 
         $user1 = \App\Models\User::find(1);

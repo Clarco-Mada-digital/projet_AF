@@ -7,6 +7,7 @@ use App\Models\Examen;
 use App\Models\Level;
 use App\Models\Price;
 use App\Models\Session;
+use App\Models\Salle;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -26,20 +27,26 @@ class ParametreGenerale extends Component
     public string $searchCategories = "";
     public string $searchTarifs = "";
     public string $searchExamens = "";
+    public string $searchSalles = "";
     public string $newLevel;
     public string $newCategorie;
     public string $newExamen;
     public string $newTarifs;
+    public string $newSalles;
+    public string $descSalle;
     public $dataTarifs = ["level_id" => []];
     public $dataExamens = ["price_id" => ""];
     public $editLevel;
     public $editCategorie;
     public $editTarif;
     public $editExamen;
+    public $editSalle;
     public $editLevelId;
     public $editCategorieId;
     public $editTarifId;
     public $editExamenId;
+    public $editSalleId;
+    public string $editDescSalle;
     public string $titleModal = "";
     public string $submitFunction = "";
     public string $champ = "";
@@ -54,9 +61,10 @@ class ParametreGenerale extends Component
     public $categorieDelete;
     public $tarifDelete;
     public $examenDelete;
+    public $salleDelete;
 
     // Emit du js
-    protected $listeners = ["deleteConfirmedLevel" => 'deleteLevel', "deleteConfirmedCategorie" => 'deleteCategorie', "deleteConfirmedTarifs" => "deleteTarif", "deleteConfirmedExamens" => "deleteExamen"];
+    protected $listeners = ["deleteConfirmedLevel" => 'deleteLevel', "deleteConfirmedCategorie" => 'deleteCategorie', "deleteConfirmedTarifs" => "deleteTarif", "deleteConfirmedExamens" => "deleteExamen", "deleteConfirmedSalles" => "deleteSalle"];
 
     public $levels;
     public $sessions;
@@ -93,6 +101,10 @@ class ParametreGenerale extends Component
             $this->newExamen = "";
             $this->champ = 'newExamen';
             $this->submitFunction = "addNewExamen";
+        } elseif ($key == "Salles") {
+            $this->newSalle = "";
+            $this->champ = 'newSalles';
+            $this->submitFunction = "addNewSalle";
         }
     }
 
@@ -130,6 +142,13 @@ class ParametreGenerale extends Component
             $this->champ = 'editExamen';
             $this->dataExamens = $this->editExamenId->toArray();
             $this->submitFunction = "updateExamen";
+        }
+        if ($key == "Salles") {
+            $this->editSalleId = Salle::find($id);
+            $this->editSalle = $this->editSalleId->nom;
+            $this->champ = 'editSalle';
+            $this->editDescSalle = $this->editSalleId->description;
+            $this->submitFunction = "updateSalle";
         }
     }
 
@@ -205,6 +224,23 @@ class ParametreGenerale extends Component
             $this->examenDelete = Examen::find($thinkDeleted);
             // dd($this->levelDelete);
             $this->dispatch("AlertDeleteConfirmModal", ['message' => "êtes-vous sur de supprimer " . $this->examenDelete->libelle . " ! dans la liste des examens ?", 'type' => 'warning', 'thinkDelete' => 'Examens']);
+        }
+        if ($typeThinkDeleted == "Salles") { 
+            $this->salleDelete = Salle::withCount('cours')->find($thinkDeleted);
+            
+            if ($this->salleDelete->cours_count > 0) {
+                $this->dispatch("showModalSimpleMsg", [
+                    'message' => "Impossible de supprimer cette salle car elle est utilisée dans " . $this->salleDelete->cours_count . " cours.", 
+                    'type' => 'error'
+                ]);
+                return;
+            }
+            
+            $this->dispatch("AlertDeleteConfirmModal", [
+                'message' => "Êtes-vous sûr de vouloir supprimer la salle " . $this->salleDelete->nom . " ?", 
+                'type' => 'warning', 
+                'thinkDelete' => 'Salles'
+            ]);
         }
     }
     public function deleteLevel()
@@ -385,6 +421,38 @@ class ParametreGenerale extends Component
 
     }
 
+    //section salle
+    public function addNewSalle()
+    {
+        $this->validate(['newSalles' => ['required']], messages: ['required' => 'Ce champ est obligatoire !']);
+
+        Salle::create(["nom" => $this->newSalles, "description" => $this->descSalle]);
+
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Creation de salle avec success!', 'type' => 'success']);
+
+        $this->newSalles = "";
+        $this->descSalle = "";
+    }
+
+    public function updateSalle()
+    {
+        $this->validate(['editSalle' => ['required']], messages: ['required' => 'Ce champ est obligatoire !']);
+
+        $this->editSalleId->update(['nom' => $this->editSalle, "description" => $this->editDescSalle]);
+
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Modification avec success!', 'type' => 'success']);
+
+        $this->editSalle = "";
+    }
+
+    public function deleteSalle()
+    {
+        $this->salleDelete->delete();
+
+        // Envoyé des notifications que toute est effectué avec success
+        $this->dispatch("ShowSuccessMsg", ['message' => 'Salle supprimer avec success!', 'type' => 'success']);
+    }
+
     // function sortField
     public function setOrderField(string $name)
     {
@@ -409,6 +477,8 @@ class ParametreGenerale extends Component
                 ->orderBy($this->orderField, $this->orderDirection)
                 ->paginate(5),
             "Examens" => Examen::where('libelle', 'LIKE', "%{$this->searchExamens}%")
+                ->paginate(5),
+            "Salles" => Salle::where('nom', 'LIKE', "%{$this->searchSalles}%")
                 ->paginate(5),
         ];
         $datas = [

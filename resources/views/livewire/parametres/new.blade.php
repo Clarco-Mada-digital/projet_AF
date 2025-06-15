@@ -68,6 +68,11 @@
                 </select>
                 @endif
 
+                @if ($titleModal == 'nouveau salles')
+                <input class="form-control mx-2 @error('descSalle') border-danger @enderror" type="text"
+                  placeholder="Description" wire:model='descSalle'>
+                @endif
+
               </div>
               <button class="btn btn-success ml-3" wire:click='{{$submitFunction}}' style="height: 40px;">
                 <i class="fa fa-spinner fa-spin" wire:loading wire:target='{{$submitFunction}}'></i>

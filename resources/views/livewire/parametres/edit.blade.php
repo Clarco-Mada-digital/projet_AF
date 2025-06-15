@@ -13,7 +13,7 @@
                 <input class="form-control @error('newLevel') border-danger @enderror" type="text"
                   wire:model='{{$champ}}' wire:keydown.enter="{{$submitFunction}}">
                 @error('editLevel') <span class="text-danger fs-3"> {{ $message }} </span> @enderror
-
+                
                 {{-- section pour tarifs --}}
                 @if ($titleModal == 'edit tarifs')
                 <input class="form-control mx-2 @error('dataTarifs.montant') border-danger @enderror" type="text"
@@ -59,6 +59,12 @@
                     ")}}</option>
                   @endforeach
                 </select>
+                @endif    
+                
+                {{-- section pour salles --}}
+                @if ($titleModal == 'edit salles')
+                <input class="form-control mx-2 @error('editDescSalle') is-invalid @enderror" type="text"
+                  placeholder="Description" type="text" wire:model='editDescSalle'>
                 @endif
 
               </div>

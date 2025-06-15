@@ -54,7 +54,7 @@
                                     <td class="text-center">
                                         {{ $cour->professeur->sexe == 'F' ? 'Mme/Mlle' : 'Mr' }}
                                         {{ $cour->professeur->nom }} </td>
-                                    <td> {{ $cour->salle }} </td>
+                                    <td> {{ $cour->salle->nom }} </td>
                                     <td x-data="{ showTooltip : {list:false, view:false, edit:false, delete:false}}"
                                         class="text-center">
                                         <button class="btn btn-link" data-toggle="modal"

@@ -6,6 +6,7 @@ use App\Models\Categorie;
 use App\Models\Cour;
 use App\Models\Level;
 use App\Models\Professeur;
+use App\Models\Salle;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -25,6 +26,8 @@ class NewCour extends Component
     public $heurDebInput;
     public $heurFinInput;
     public $newLevels = [];
+    public $newSalleName;
+    public $newSalleDescription;
 
     // Fonction constructeur
     public function __construct()
@@ -33,7 +36,7 @@ class NewCour extends Component
         $this->levels = Level::all()->toArray();
         $this->categories = Categorie::all()->toArray();
         $this->sessions = DB::table('sessions')->where('statue', '=', true)->get();
-        $this->salles = ['Salle 01', 'Salle 02', 'Salle 03', 'Salle 04','Salle 05','Salle 06','Salle 07','Salle 08','Salle 09','Salle 10', 'Salle de réunion', 'Salle de spectacle', 'Médiathèque', 'Hall'];
+        $this->salles = Salle::orderBy('id')->get()->toArray();
     }
 
     public function rules()
@@ -43,8 +46,8 @@ class NewCour extends Component
             'newCour.libelle' => ['required'],
             'newCour.categorie_id' => ['required'],
             'newCour.session_id' => ['required'],
-            'newCour.salle' => ['string'],
-            'newCour.professeur_id' => ['string'],
+            'newCour.salle_id' => ['required'],
+            'newCour.professeur_id' => ['required'],
         ];
 
         return $rule;
@@ -99,6 +102,37 @@ class NewCour extends Component
     }
 
     // Fonction render de view
+    /**
+     * Ajoute une nouvelle salle depuis le modal
+     */
+    public function addNewSalle()
+    {
+        $this->validate([
+            'newSalleName' => 'required|string|max:255|unique:salles,nom',
+            'newSalleDescription' => 'nullable|string',
+        ]);
+
+        $salle = Salle::create([
+            'nom' => $this->newSalleName,
+            'description' => $this->newSalleDescription,
+        ]);
+
+        // Mettre à jour la liste des salles
+        $this->salles = Salle::orderBy('id')->get()->toArray();
+        
+        // Sélectionner automatiquement la nouvelle salle
+        $this->newCour['salle_id'] = $salle->id;
+
+        // Émettre un événement pour fermer le modal
+        $this->dispatch('salleAdded');
+
+        // Reset la valeur des inputs
+        $this->newSalleName = '';
+        $this->newSalleDescription = '';
+        
+        $this->dispatch("ShowSuccessMsg", ['message' => 'La salle a été ajoutée avec succès!', 'type' => 'success']);
+    }
+
     public function render()
     {
         return view('livewire.cours.new-cour');

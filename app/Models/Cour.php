@@ -15,7 +15,7 @@ class Cour extends Model
         'code',
         'libelle',
         'categorie',
-        'salle',
+        'salle_id',
         'horaireDuCour',
         'comment',
         'professeur_id',
@@ -32,6 +32,11 @@ class Cour extends Model
     // {
     //     return $this->belongsTo(Level::class);
     // }
+
+    public function salle()
+    {
+        return $this->belongsTo(Salle::class);
+    }
 
     public function etudiants()
     {
